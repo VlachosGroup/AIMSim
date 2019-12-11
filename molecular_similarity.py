@@ -38,15 +38,6 @@ class Molecule:
         self.name_ = name_
         self.mol_property = mol_property_val
     
-    @property
-    def mol_property(self):
-        return self._mol_property
-    
-    @mol_property.setter
-    def mol_property(self, mol_property_val):
-        self._mol_property = mol_property_val
-
-    
     def get_morgan_fingerprint(self, radius=3, n_bits=None):
         """
         generate a morgan fingerprint
