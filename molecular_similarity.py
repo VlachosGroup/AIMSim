@@ -265,6 +265,25 @@ def main():
             if mol_object is None:
                 print(f'{molfile} could not be imported. Skipping')
                 continue
+            rdmolops.Kekulize(mol_object)
+            mol_list.append(Molecule(mol_object, mol_name))
+    elif os.path.isfile(mol_location):
+        print(f'Reading SMILES strings from {mol_location}')
+        mol_list = []
+        with open(mol_location, "r") as fp:
+            smiles_data = fp.readlines()
+        for count, line in enumerate(smiles_data):
+            # Assumes that the first column contains the smiles string
+            smile = line.split()[0]
+            print(f'Processing {smile} ({count + 1}/{len(smiles_data)})'
+            mol_object = Chem.MolFromSmiles(smile)
+            if mol_object is None:
+                print(f'{smile} could not be loaded')
+                load_fail_idx.append(count)
+                continue
+            # sanitize
+            rdmolops.Kekulize(mol_object)
+            mol_name = smile
             mol_list.append(Molecule(mol_object, mol_name))
     else:
         raise FileNotFoundError(f'{mol_location} could not be found.' \
