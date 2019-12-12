@@ -95,7 +95,8 @@ def generate_distance_matrix(mols, **kwargs):
     distance_matrix = np.zeros(shape=(n_mols, n_mols))
     for id, mol in enumerate(mols):
         for target_id in range(id, n_mols):
-            distance_matrix[id, target_id] = mol.get_similarity_to_molecule(mols[target_id])
+            distance_matrix[id, target_id] = mol.get_similarity_to_molecule(
+                mols[target_id])
             # symmetric matrix entry
             distance_matrix[target_id, id] = distance_matrix[id, target_id]
     return distance_matrix
@@ -152,7 +153,81 @@ def draw_similarity_distr(distance_matrix, **kwargs):
     similarity_vector = distance_matrix[lower_diag_indices]
     plot_density(similarity_vector, **kwargs)
 
+def plot_variation_mol_property(mol_list, mol_prop_file, \
+    distance_matrix=None, **kwargs):
+    """Plot the variation of molecular property with molecular fingerprint.
 
+    Parameters
+    ----------
+    mol_list: List(Molecules)
+        list of objects of Molecule.
+    mol_prop_file: str
+        Complete filepath of molecular property in format 
+        << mol_name: property_val>>.
+    distance_matrix: (n x n) numpy ndarray
+        Distance matrix encoding similarity of all the Molecules in mol_list
+        with consistent indexing. If None, generate_distance_matrix() is used
+        to generate this.     
+    **kwargs
+        Optional keyword arguments passed to distance_matrix().
+    
+    """
+    if distance_matrix is None:
+        distance_matrix = generate_distance_matrix(mol_list, **kwargs)
+    
+    def get_min_distance_pairs():
+        """Get pairs of samples which are closest i.e. have minimum distance
+
+        Returns
+        -------
+        List(Tuple(int, int))
+            List of pairs of indexs closest to one another.
+
+        """"
+        n_samples = distance_matrix.shape[0]
+        found_samples = [0] * n_samples
+        out_list = list()
+        for index, row in enumerate(distance_matrix):
+            if found_samples[index]:
+                # if  species has been identified before
+                continue
+            post_diag_closest_index = np.argmin(row[(index +1):]) + index + 1 \
+                if index < n_samples-1 else -1
+            pre_diag_closest_index = np.argmin(row[:index]) if index >0 else -1
+            # if either (pre_) post_diag_closest_index not set, the 
+            # closest_index_index is set to the (post_) pre_diag_closest_index
+            if pre_diag_closest_index == -1:
+                closest_index_index = post_diag_closest_index
+            if post_diag_closest_index == -1:
+                closest_index_index = pre_diag_closest_index
+            # if both pre and post index set, closest_index_index set to index
+            # with min distance. In case of tie, post_diag_closest_index set
+            else:
+                # choose the index which has max correlation
+                closest_index_index = post_diag_closest_index if \
+                    row[post_diag_closest_index] <= row[pre_diag_closest_index] \
+                    else pre_diag_closest_index
+            out_list.append((index, closest_index_index))
+            # update list
+            found_samples[closest_index_index] = 1
+            found_samples[index] = 1
+        return out_list
+    
+    min_distance_pairs = get_min_distance_pairs()  # [(mol_1_id, mol_2_id)]
+    property_mols1, property_mols2 = [], []
+    for min_distance_pair in min_distance_pairs:
+        # property of first molecule in pair. Discard if property not set.
+        property_mol1 = mol_list[min_distance_pair[0]].mol_property
+        if property_mol1 is None:
+            continue
+        # property of second molecules in pair. Discard if property not set.
+        property_mol2 = mol_list[min_distance_pair[1]].mol_property
+        if property_mol2 is None:
+            continue
+        property_mols1.append(property_mol1)
+        property_mols2.append(property_mol2)
+    # plot
+    plt.plot(property_mols1, prop_mols2)
 
 
 
@@ -169,9 +244,18 @@ def main():
         help='Filepath of target molecule. If set, similarity scores of ' \
             'target molecule with all molecules in the <<mol_location>> '\
                 'folder  is calculated and displayed')
+    parser.add_argument('-mpf', '--mol_prop_file', required=False, \
+        default=None, help='filepath of .txt file containing molecular ' \
+            'propert in format << mol_name: property_val>>. '\
+            'For reading from .pdb files, the name must correspond to the '\
+                'filename before the pdb. E.g. water.pdb has filename water. '\
+                    'This argument is only used to see variation of some '\
+                        'molecular property with fingerprints. '\
+                            'Default is None')
     args = parser.parse_args()
     mol_location = args.mol_location
     target_file = args.target_file
+    mol_prop_file = args.mol_prop_file
     if os.path.isdir(mol_location):
         print(f'Searching for *.pdb files in {mol_location}')
         mol_list = []
@@ -196,6 +280,9 @@ def main():
             mask_upper=False, annotate=True)
         # plot distribution of similarities
         draw_similarity_distr(distance_matrix, shade=True, color='red', bw=0.01)
+        if mol_prop_file is not None:
+            # look at how molecular property varies with fingerprint
+            plot_variation_mol_property(mol_list, mol_prop_file, distance_matrix)
     else:
         # vector of similarity of target molecule to all other molecules needed
         target_mol_object = Chem.MolFromPDBFile(target_file)
@@ -217,28 +304,5 @@ def main():
 
     
 
-
 if __name__ == '__main__':
     main()
-    
-    
-    
-
-
-
-
-
-    
-
-
-
-
-
-    
-
-        
-        
-        
-
-    
-
