@@ -10,6 +10,7 @@ from glob import glob
 import matplotlib.pyplot as plt
 import numpy as np
 from rdkit import Chem
+from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
 from seaborn import heatmap, kdeplot
@@ -26,7 +27,7 @@ class Molecule:
         ----------
         mol: RDkit mol object
             molecule to be abstracted in the Molecule class.
-        name: str
+        name_: str
             Name of the molecule. Default is None.
         mol_property_val: float
             Some property associated with the molecule. This is typically the
@@ -183,7 +184,7 @@ def plot_variation_mol_property(mol_list, mol_prop_file, \
         List(Tuple(int, int))
             List of pairs of indexs closest to one another.
 
-        """"
+        """
         n_samples = distance_matrix.shape[0]
         found_samples = [0] * n_samples
         out_list = list()
@@ -227,8 +228,8 @@ def plot_variation_mol_property(mol_list, mol_prop_file, \
         property_mols1.append(property_mol1)
         property_mols2.append(property_mol2)
     # plot
-    plt.plot(property_mols1, prop_mols2)
-
+    plt.scatter(property_mols1, property_mols2)
+    plt.show()
 
 
 def main():
@@ -275,11 +276,10 @@ def main():
         for count, line in enumerate(smiles_data):
             # Assumes that the first column contains the smiles string
             smile = line.split()[0]
-            print(f'Processing {smile} ({count + 1}/{len(smiles_data)})'
+            print(f'Processing {smile} ({count + 1}/{len(smiles_data)}')
             mol_object = Chem.MolFromSmiles(smile)
             if mol_object is None:
                 print(f'{smile} could not be loaded')
-                load_fail_idx.append(count)
                 continue
             # sanitize
             rdmolops.Kekulize(mol_object)
@@ -292,6 +292,21 @@ def main():
     if len(mol_list) == 0:
         print('No molecular files found in the location!')
         exit()
+    if mol_prop_file is not None:
+        # load molecular properties
+        with open(mol_prop_file, "r") as fp:
+            mol_prop_data = fp.readlines()
+        names_of_mols = [molecule.name_ for molecule in mol_list]
+        for entry in mol_prop_data:
+            mol_name, mol_prop = entry.split()
+            try:
+                # if molecule name corresponds to a name in names of molecules
+                    # already added, ad its property
+                mol_list[names_of_mols.index(mol_name)].mol_property = mol_prop
+            except ValueError as e:
+                # molecule does not correspond to a mol in mol_list
+                continue
+        
     if target_file is None:
         # heatmap of data required
         distance_matrix = generate_distance_matrix(mol_list)
