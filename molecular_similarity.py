@@ -446,7 +446,7 @@ def visualize_dataset(config, db_molecules):
         mask = None
         if mask_upper is True:
             mask = np.triu(np.ones(
-                shape=(db_molecules.similarity_matrix.shape)), k=0)
+                shape=db_molecules.similarity_matrix.shape), k=0)
         heatmap_obj = heatmap(
             db_molecules.similarity_matrix, xticklabels=xticklabels,
             yticklabels=yticklabels, cmap=cmap, mask=mask, annot=annotate)
