@@ -461,8 +461,8 @@ def visualize_dataset(config, db_molecules):
             db_molecules.generate_similarity_matrix()
         lower_diag_indices = np.tril_indices(
             db_molecules.similarity_matrix.shape[0], -1)
-        similarity_vector = similarity_matrix[lower_diag_indices]
-        
+        similarity_vector = db_molecules.similarity_matrix[lower_diag_indices]
+
         def plot_density():
             plt.rcParams['svg.fonttype'] = 'none'
             kdeplot(similarity_vector, shade=True, color='violet', bw=0.01)
