@@ -213,7 +213,8 @@ class Molecules:
                 continue
             post_diag_closest_index = np.argmax(row[(index +1):]) \
                 + index + 1 if index < n_samples-1 else -1
-            pre_diag_closest_index = np.argmax(row[:index]) if index > 0 else -1
+            pre_diag_closest_index = np.argmax(row[:index]) if index > 0 \
+                else -1
             # if either (pre_) post_diag_closest_index not set, the 
             # closest_index_index is set to the (post_) pre_diag_closest_index
             if pre_diag_closest_index == -1:
@@ -461,6 +462,7 @@ def visualize_dataset(config, db_molecules):
         lower_diag_indices = np.tril_indices(
             db_molecules.similarity_matrix.shape[0], -1)
         similarity_vector = similarity_matrix[lower_diag_indices]
+        
         def plot_density():
             plt.rcParams['svg.fonttype'] = 'none'
             kdeplot(similarity_vector, shade=True, color='violet', bw=0.01)
@@ -479,7 +481,7 @@ def sort_tasks(configs):
     Parameters
     ----------
     configs : dict
-        Loaded configuration settting from yaml file.
+        Loaded configuration setting from yaml file.
 
     """
     # load common parameters
@@ -494,7 +496,7 @@ def sort_tasks(configs):
     similarity_measure = configs.get(
         'similarity_measure', 'tanimoto_similarity')
     molecular_descriptor = configs.get(
-        'molecular_descriptor', 'morgan_fingerpint')
+        'molecular_descriptor', 'morgan_fingerprint')
     molecules = Molecules(
         mols_src=molecule_database, 
         similarity_measure=similarity_measure, 
