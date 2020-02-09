@@ -434,14 +434,16 @@ def visualize_dataset(config, db_molecules):
         """Plot a heatmap of the distance matrix.
 
         """
-        if db_molecules.similarity_matrix is None:
-            db_molecules.generate_similarity_matrix()
-        # plot    
+        # load sub-tasks
         xticklabels = kwargs.get('xticklabels', False)
         yticklabels = kwargs.get('yticklabels', False)
         cmap = kwargs.get('cmap', 'autumn')
         mask_upper = kwargs.get('mask_upper', True)
-        annotate = kwargs.get('annotate', True)
+        annotate = kwargs.get('annotate', False)
+
+        if db_molecules.similarity_matrix is None:
+            db_molecules.generate_similarity_matrix()
+        # plot
         plt.rcParams['svg.fonttype'] = 'none'
         mask = None
         if mask_upper is True:
@@ -469,12 +471,14 @@ def visualize_dataset(config, db_molecules):
             kdeplot(similarity_vector, shade=True, color=pdf_color, bw=0.01)
             plt.show()
         plot_density()
+
     show_pdf_configs = config.get('show_pdf', False)
     if show_pdf_configs:
         show_db_pdf(**show_pdf_configs)
-    if config.get('show_heatmap', False):
-        draw_similarity_heatmap(
-            show_labels=config['show_heatmap'].get('annotate', False))
+
+    show_heatmap_configs = config.get('show_heatmap', False)
+    if show_heatmap_configs:
+        draw_similarity_heatmap(**show_heatmap_configs)
 
 
 def sort_tasks(configs):
