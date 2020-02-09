@@ -452,11 +452,12 @@ def visualize_dataset(config, db_molecules):
             yticklabels=yticklabels, cmap=cmap, mask=mask, annot=annotate)
         plt.show()
     
-    def show_db_pdf():
+    def show_db_pdf(**kwargs):
         """Show the probability density distribution of the
         molecular database
 
         """
+        pdf_color = kwargs.get('pdf_color', 'violet')
         if db_molecules.similarity_matrix is None:
             db_molecules.generate_similarity_matrix()
         lower_diag_indices = np.tril_indices(
@@ -465,11 +466,12 @@ def visualize_dataset(config, db_molecules):
 
         def plot_density():
             plt.rcParams['svg.fonttype'] = 'none'
-            kdeplot(similarity_vector, shade=True, color='violet', bw=0.01)
+            kdeplot(similarity_vector, shade=True, color=pdf_color, bw=0.01)
             plt.show()
         plot_density()
-    if config.get('show_pdf', False):
-        show_db_pdf()
+    show_pdf_configs = config.get('show_pdf', False)
+    if show_pdf_configs:
+        show_db_pdf(**show_pdf_configs)
     if config.get('show_heatmap', False):
         draw_similarity_heatmap(
             show_labels=config['show_heatmap'].get('annotate', False))
