@@ -4,7 +4,6 @@
 """
 from argparse import ArgumentParser
 from glob import glob
-import json
 import os.path
 
 import matplotlib.pyplot as plt
@@ -198,7 +197,7 @@ class Molecules:
         Returns
         -------
         List(Tuple(int, int))
-            List of pairs of indexs closest to one another.
+            List of pairs of indices closest to one another.
 
         """
         # If not set, set similarity_matrix.
@@ -240,7 +239,7 @@ class Molecules:
         Returns
         -------
         List(Tuple(int, int))
-            List of pairs of indexs closest to one another.
+            List of pairs of indices closest to one another.
 
         """
         # If not set, set similarity_matrix.
@@ -308,7 +307,7 @@ def show_property_variation_w_similarity(config, molecules):
             continue
         property_mols1.append(property_mol1)
         property_mols2.append(property_mol2)
-    # plot
+
     def plot_parity(x, y, **kwargs):
         """
         Plot parity plot of x vs y
@@ -361,6 +360,8 @@ def show_property_variation_w_similarity(config, molecules):
     plot_parity(
         property_mols1, property_mols2, xlabel='Response Molecule 1', 
         ylabel='Response Molecule 2')
+
+
 def compare_target_molecule(config, db_molecules):
     """Compare a target molecule with molecular database in terms
     of similarity.
@@ -370,7 +371,7 @@ def compare_target_molecule(config, db_molecules):
     config : dict
         Configurations as key value pairs.
     db_molecules : Molecules
-        Moleculese object representing the database.
+        Molecules object representing the database.
     
     """
     try:
@@ -425,6 +426,7 @@ def compare_target_molecule(config, db_molecules):
     if identify_closest_furthest:
         show_max_min_similarity()
 
+
 def visualize_dataset(config, db_molecules):
     
     def draw_similarity_heatmap(**kwargs):
@@ -470,6 +472,7 @@ def visualize_dataset(config, db_molecules):
         draw_similarity_heatmap(
             show_labels=config['show_heatmap'].get('annotate', False))
 
+
 def sort_tasks(configs):
     """Activate various functionalities based on the 'tasks' field of configs.
 
@@ -506,12 +509,13 @@ def sort_tasks(configs):
             show_property_variation_w_similarity(task_configs, molecules)
         else:
             raise NotImplementedError(
-            f'{task} enetered in the <<task>> field is not implemented')
+            f'{task} entered in the <<task>> field is not implemented')
+
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('config', help='Path to config yaml file.')
     args = parser.parse_args()
     # load configs
-    configs= yaml.load(open(args.config, "r"), Loader=yaml.FullLoader)
+    configs = yaml.load(open(args.config, "r"), Loader=yaml.FullLoader)
     sort_tasks(configs)
