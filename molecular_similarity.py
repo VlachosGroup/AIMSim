@@ -456,10 +456,11 @@ def visualize_dataset(config, db_molecules):
     
     def show_db_pdf(**kwargs):
         """Show the probability density distribution of the
-        molecular database
+        molecular database.
 
         """
         pdf_color = kwargs.get('pdf_color', 'violet')
+        pdf_shade = kwargs.get('pdf_shade', True)
         if db_molecules.similarity_matrix is None:
             db_molecules.generate_similarity_matrix()
         lower_diag_indices = np.tril_indices(
@@ -469,6 +470,8 @@ def visualize_dataset(config, db_molecules):
         def plot_density():
             plt.rcParams['svg.fonttype'] = 'none'
             kdeplot(similarity_vector, shade=True, color=pdf_color, bw=0.01)
+            plt.xlabel('Samples', fontsize=20)
+            plt.ylabel('Similarity Density', fontsize=20)
             plt.show()
         plot_density()
 
