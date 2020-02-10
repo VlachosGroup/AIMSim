@@ -338,7 +338,7 @@ def show_property_variation_w_similarity(config, molecules):
         mol.mol_property = float(properties[mol_id])
     if config.get('most_dissimilar', False):
         mol_pairs = molecules.get_most_dissimilar_pairs()  # (mol1, mol2)
-    else:
+    else: 
         mol_pairs = molecules.get_most_similar_pairs()  # (mol1, mol2)
     property_mols1, property_mols2 = [], []
     for mol_pair in mol_pairs:
