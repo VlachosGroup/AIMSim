@@ -133,7 +133,7 @@ class Molecules:
     similarity_measure : str
         Similarity measure used.
     molecular_descriptor : str
-        Moleculear descriptor used. Currently implements
+        Molecular descriptor used. Currently implements
             - 'morgan_fingerprint'
             - 'rdkit_topological'
     similarity_matrix: numpy ndarray
