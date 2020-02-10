@@ -1,0 +1,36 @@
+---
+molecule_database: "smiles_responses.txt"
+similarity_measure: 'tanimoto_similarity' # only one available now
+# currently implements: 'rdkit topological' / 'morgan_fingerprint' (DEFAULT)
+molecular_descriptor: 'rdkit_topological'
+
+# The task field decides what you want to do
+# Each task field contains a sub-task field which further modifies the task.
+# The task fields are arranged as:
+  # tasks:
+     # task 1:
+        # sub-tasks of task 1
+# The lines beginning with '#!' can be directly uncommented to implement them.
+
+tasks:
+  #! compare_target_molecule:
+      #! target_molecule: # put in SMILE string or .pdb file path
+      #! show_pdf: # put in true or false. Default is false.
+      #! identify_closest_furthest: # put in true or false. Default is false.
+  visualize_dataset:
+      show_pdf: # turn on in case a pdf of similarity score is desired
+          pdf_color: 'green' # Set a color recognized by matplotlib.
+                             # Default is 'red'.
+      show_heatmap: # turn on to see pairwise similarity heatmap
+          annotate: False # put in True or False. Default is False.
+          #!xticklabels: # set labels for x-axis ticks
+          #!yticklabels: # set labels for y-axis ticks
+          cmap: 'viridis' # Matplotlib recognized cmap (color map) used for heatmap.
+                  # Default is 'autumn'
+  show_property_variation_w_similarity:
+    # file w/ rows of molecule name and property separated by single space
+    # row format --> "molecule-name(or smile string)" "property"
+    # e.g. --> water 100
+    property_file: "smiles_responses.txt"
+    show_labels: False  # Default is False.
+    most_dissimilar: False  # compares the property for most dissimilar mols
