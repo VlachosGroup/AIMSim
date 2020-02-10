@@ -138,28 +138,28 @@ class Molecules:
             - 'rdkit_topological'
     similarity_matrix: numpy ndarray
         n_mols X n_mols numpy matrix of pairwise similarity scores.
-    
+
     Methods
     -------
     generate_similarity_matrix()
         Set the similarity_matrix attribute.
     get_most_similar_pairs()
         Get the indexes of the most similar molecules as tuples.
-    
+
     """
     def __init__(self, mols_src, similarity_measure, molecular_descriptor):
         self.similarity_measure = similarity_measure
         self.molecular_descriptor = molecular_descriptor
         self.mols = self._set_mols(mols_src)
         self.similarity_matrix = None
-    
+
     def _set_mols(self, mols_src):
         """Return list of Molecule objects from mols_src.
 
         """
         mol_list = []
         if os.path.isdir(mols_src):
-            print(f'Searching for *.pdb files in {mols_src}')     
+            print(f'Searching for *.pdb files in {mols_src}')
             for molfile in glob(os.path.join(mols_src, '*.pdb')):
                 mol_object = Chem.MolFromPDBFile(molfile)
                 mol_name = os.path.basename(molfile).replace('.pdb', '')
@@ -191,7 +191,7 @@ class Molecules:
         if len(mol_list) == 0:
             raise UserWarning('No molecular files found in the location!')
         return mol_list
-   
+
     def generate_similarity_matrix(self):
         n_mols = len(self.mols)
         self.similarity_matrix = np.zeros(shape=(n_mols, n_mols))
@@ -200,13 +200,13 @@ class Molecules:
                 print(f'checking molecules num {target_id+1} against {id+1}')
                 self.similarity_matrix[id, target_id] = \
                     mol.get_similarity_to_molecule(
-                        self.mols[target_id], 
+                        self.mols[target_id],
                         similarity_measure=self.similarity_measure,
                         molecular_descriptor=self.molecular_descriptor)
                 # symmetric matrix entry
                 self.similarity_matrix[target_id, id] = \
                     self.similarity_matrix[id, target_id]
-    
+
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
 
@@ -219,7 +219,7 @@ class Molecules:
         # If not set, set similarity_matrix.
         if self.similarity_matrix is None:
             self.generate_similarity_matrix()
-    
+
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
         out_list = []
@@ -231,7 +231,7 @@ class Molecules:
                 + index + 1 if index < n_samples-1 else -1
             pre_diag_closest_index = np.argmax(row[:index]) if index > 0 \
                 else -1
-            # if either (pre_) post_diag_closest_index not set, the 
+            # if either (pre_) post_diag_closest_index not set, the
             # closest_index_index is set to the (post_) pre_diag_closest_index
             if pre_diag_closest_index == -1:
                 closest_index_index = post_diag_closest_index
@@ -249,7 +249,7 @@ class Molecules:
             found_samples[closest_index_index] = 1
             found_samples[index] = 1
         return out_list
-    
+
     def get_most_dissimilar_pairs(self):
         """Get pairs of samples which are least similar.
 
@@ -262,7 +262,7 @@ class Molecules:
         # If not set, set similarity_matrix.
         if self.similarity_matrix is None:
             self.generate_similarity_matrix()
-    
+
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
         out_list = []
@@ -278,6 +278,36 @@ class Molecules:
         return out_list
 
 
+# Some plotting methods
+def plot_density(similarity_vector, title, color, shade, **kwargs):
+    """Plot the similarity density
+
+    Attributes
+    ----------
+    similarity_vector : list or numpy ndarray
+        Vector of similarity scores to be plotted.
+    title : str
+        Plot title
+    color : str
+        Color of the plot.
+    shade : bool
+        To shade the plot or not.
+    kwargs : dict
+        Keyword arguments to modify plot. Some common ones:
+        bw : Thickness. Default 0.01.
+
+    """
+    # get params
+    bw = float(kwargs.get('bw', 0.01))
+    plt.rcParams['svg.fonttype'] = 'none'
+    kdeplot(similarity_vector, shade=shade, color=color, bw=bw)
+    plt.xlabel('Samples', fontsize=20)
+    plt.ylabel('Similarity Density', fontsize=20)
+    if title is not None:
+        plt.title(title, fontsize=20)
+    plt.show()
+
+
 def show_property_variation_w_similarity(config, molecules):
     """Plot the variation of molecular property with molecular fingerprint.
 
@@ -286,8 +316,8 @@ def show_property_variation_w_similarity(config, molecules):
     config : dict
         Configuration file.
     molecules : Molecules object
-        Molecules object of the molecule database.   
-    
+        Molecules object of the molecule database.
+
     """
     # load properties
     try:
@@ -347,7 +377,7 @@ def show_property_variation_w_similarity(config, molecules):
             plot_params.update(kwargs)
         plt.rcParams['svg.fonttype'] = 'none'
         plt.scatter(
-            x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'], 
+            x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'],
             c=plot_params['c'])
         max_entry = max(max(x), max(y)) + plot_params.get('offset', 5.0)
         min_entry = min(min(x), min(y))  - plot_params.get('offset', 5.0)
@@ -357,7 +387,7 @@ def show_property_variation_w_similarity(config, molecules):
         plt.plot([min_entry, max_entry], [min_entry, max_entry],
                 color=plot_params.get('linecolor', 'black'))
         plt.title(
-            plot_params.get('title', ''), 
+            plot_params.get('title', ''),
             fontsize=plot_params.get('title_fontsize', 24))
         plt.xlabel(plot_params.get('xlabel', ''),
                     fontsize=plot_params.get('xlabel_fontsize', 20))
@@ -375,9 +405,9 @@ def show_property_variation_w_similarity(config, molecules):
         axes.yaxis.set_ticks(np.arange(start, end, stepsize))
         axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
         plt.show()
-    
+
     plot_parity(
-        property_mols1, property_mols2, xlabel='Response Molecule 1', 
+        property_mols1, property_mols2, xlabel='Response Molecule 1',
         ylabel='Response Molecule 2')
 
 
@@ -391,14 +421,14 @@ def compare_target_molecule(config, db_molecules):
         Configurations as key value pairs.
     db_molecules : Molecules
         Molecules object representing the database.
-    
+
     """
     try:
         target_mol_config = config['target_molecule']
     except KeyError as e:
         raise e('No target molecule specified')
-    show_pdf = config.get('show_pdf', False)
-    identify_closest_furthest = config.get('identify_closest_furthest', False) 
+    show_pdf_configs = config.get('show_pdf', False)
+    identify_closest_furthest = config.get('identify_closest_furthest', False)
     if os.path.isfile(target_mol_config):
         target_fname, target_ext = \
             os.path.basename(target_mol_config).split('.')
@@ -424,14 +454,7 @@ def compare_target_molecule(config, db_molecules):
             ref_mol, similarity_measure=db_molecules.similarity_measure,
             molecular_descriptor=db_molecules.molecular_descriptor)
         for ref_mol in db_molecules.mols]
-    
-    def plot_density():
-        plt.rcParams['svg.fonttype'] = 'none'
-        kdeplot(target_similarity, shade=True, color='violet', bw=0.01)
-        plt.xlabel('Samples', fontsize=20)
-        plt.ylabel('Similarity Density', fontsize=20)
-        plt.show()
-    
+
     def show_max_min_similarity():
         print(f'*****FOR MOLECULE {target_molecule.name_}*****')
         print('****Maximum Similarity Molecule ****')
@@ -442,15 +465,20 @@ def compare_target_molecule(config, db_molecules):
         print(
             db_molecules.mols[np.argmin(target_similarity)].name_,
             target_similarity[np.argmin(target_similarity)])
-    
-    if show_pdf:
-        plot_density()
+
+    if show_pdf_configs is not None:
+        pdf_color = show_pdf_configs.get('pdf_color', 'violet')
+        pdf_shade = show_pdf_configs.get('pdf_shade', True)
+        pdf_title = show_pdf_configs.get('pdf_title', None)
+        plot_density(
+            target_similarity, title=pdf_title,
+            color=pdf_color, shade=pdf_shade)
     if identify_closest_furthest:
         show_max_min_similarity()
 
 
 def visualize_dataset(config, db_molecules):
-    
+
     def draw_similarity_heatmap(**kwargs):
         """Plot a heatmap of the distance matrix.
 
@@ -474,7 +502,7 @@ def visualize_dataset(config, db_molecules):
             db_molecules.similarity_matrix, xticklabels=xticklabels,
             yticklabels=yticklabels, cmap=cmap, mask=mask, annot=annotate)
         plt.show()
-    
+
     def show_db_pdf(**kwargs):
         """Show the probability density distribution of the
         molecular database.
@@ -482,19 +510,15 @@ def visualize_dataset(config, db_molecules):
         """
         pdf_color = kwargs.get('pdf_color', 'violet')
         pdf_shade = kwargs.get('pdf_shade', True)
+        pdf_title = kwargs.get('pdf_title', None)
         if db_molecules.similarity_matrix is None:
             db_molecules.generate_similarity_matrix()
         lower_diag_indices = np.tril_indices(
             db_molecules.similarity_matrix.shape[0], -1)
         similarity_vector = db_molecules.similarity_matrix[lower_diag_indices]
-
-        def plot_density():
-            plt.rcParams['svg.fonttype'] = 'none'
-            kdeplot(similarity_vector, shade=True, color=pdf_color, bw=0.01)
-            plt.xlabel('Samples', fontsize=20)
-            plt.ylabel('Similarity Density', fontsize=20)
-            plt.show()
-        plot_density()
+        plot_density(
+            similarity_vector, color=pdf_color, shade=pdf_shade,
+            title=pdf_title)
 
     show_pdf_configs = config.get('show_pdf', False)
     if show_pdf_configs:
