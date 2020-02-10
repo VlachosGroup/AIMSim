@@ -133,7 +133,7 @@ class Molecules:
     similarity_measure : str
         Similarity measure used.
     molecular_descriptor : str
-        Moleculear descriptor used. Currently implements
+        Molecular descriptor used. Currently implements
             - 'morgan_fingerprint'
             - 'rdkit_topological'
     similarity_matrix: numpy ndarray
@@ -307,9 +307,9 @@ def show_property_variation_w_similarity(config, molecules):
         mol_id = names.index(mol.name_)
         mol.mol_property = float(properties[mol_id])
     if config.get('most_dissimilar', False):
-        mol_pairs = molecules.get_most_dissimilar_pairs()  #(mol1, mol2)
+        mol_pairs = molecules.get_most_dissimilar_pairs()  # (mol1, mol2)
     else: 
-        mol_pairs = molecules.get_most_similar_pairs()  #(mol1, mol2)
+        mol_pairs = molecules.get_most_similar_pairs()  # (mol1, mol2)
     property_mols1, property_mols2 = [], []
     for mol_pair in mol_pairs:
         if mol_pair[0] == mol_pair[1]:
@@ -428,6 +428,8 @@ def compare_target_molecule(config, db_molecules):
     def plot_density():
         plt.rcParams['svg.fonttype'] = 'none'
         kdeplot(target_similarity, shade=True, color='violet', bw=0.01)
+        plt.xlabel('Samples', fontsize=20)
+        plt.ylabel('Similarity Density', fontsize=20)
         plt.show()
     
     def show_max_min_similarity():
