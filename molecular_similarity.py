@@ -1,5 +1,13 @@
-"""Get similarity
-@uthor: Himaghna, 22nd October 2019
+"""Visualize similarity and diversity in chemical structure.
+@author: Himaghna Bhattacharjee, Vlachos Research Lab.
+
+Notes
+-----
+This script can be run as:
+>> python molecular_similarity.py config.yaml
+
+config.yaml is the configuration file that is needed to choose tasks and
+their settings.
 
 """
 from argparse import ArgumentParser
