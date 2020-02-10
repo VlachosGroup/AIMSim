@@ -42,28 +42,35 @@ class Molecule:
         self.mol_property = mol_property_val
     
     def get_molecular_descriptor(self, molecular_descriptor):
-        """Expose a suitable method based on molecular_descriptor"""
+        """Expose a suitable method based on molecular_descriptor
+
+        """
         if molecular_descriptor == 'morgan_fingerprint':
             return self._get_morgan_fingerprint()
         elif molecular_descriptor == 'rdkit_topological':
             return self._get_rdkit_topological_fingerprint()
     
     def get_similarity(self, similarity_measure, mol1_descrptr, mol2_descrptr):
-        """Expose a suitable method based on similarity_measure"""
+        """Expose a suitable method based on similarity_measure
+
+        """
         if similarity_measure == 'tanimoto_similarity':
             return DataStructs.TanimotoSimilarity(mol1_descrptr, mol2_descrptr)
     
     def _get_morgan_fingerprint(self, radius=3, n_bits=None):
-        """
-        generate a morgan fingerprint
-        Params ::
+        """Generate a morgan fingerprint.
+
+        Parameters
+        ----------
         radius: int: radius of fingerprint, 3 corresponds to diameter 6.
                     Default 3.
-        n_bits: int: Number of bits to use if Morgan Fingerprint wanted as a bit
-            vector. If set to None, Morgan fingerprint returned as count.
-            Default is None
-        Returns ::
-        morgan_fingerprint
+        n_bits: int: Number of bits to use if Morgan Fingerprint wanted as
+            a bit vector. If set to None, Morgan fingerprint returned
+            as count. Default is None.
+
+        Returns
+        -------
+        morgan_fingerprint: int
         """
         if n_bits is None:
             return AllChem.GetMorganFingerprint(self.mol, radius)
@@ -140,7 +147,9 @@ class Molecules:
         self.similarity_matrix = None
     
     def _set_mols(self, mols_src):
-        """Return list of Molecule objects from mols_src. """
+        """Return list of Molecule objects from mols_src.
+
+        """
         mol_list = []
         if os.path.isdir(mols_src):
             print(f'Searching for *.pdb files in {mols_src}')     
@@ -310,15 +319,17 @@ def show_property_variation_w_similarity(config, molecules):
         property_mols2.append(property_mol2)
 
     def plot_parity(x, y, **kwargs):
-        """
-        Plot parity plot of x vs y
+        """Plot parity plot of x vs y.
 
-        Params ::
+        Parameters
+        ----------
         x: n x 1 numpy array: values plotted along x axis
         y: n x 1 numpy array: values plotted along y axis
 
-        Returns ::
+        Returns
+        -------
         if kwargs.show_plot set to False, returns pyplot axis.
+
         """
         plot_params = {
             'alpha': 0.7,
