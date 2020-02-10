@@ -455,16 +455,26 @@ def compare_target_molecule(config, db_molecules):
             molecular_descriptor=db_molecules.molecular_descriptor)
         for ref_mol in db_molecules.mols]
 
-    def show_max_min_similarity():
-        print(f'*****FOR MOLECULE {target_molecule.name_}*****')
-        print('****Maximum Similarity Molecule ****')
-        print(
-            db_molecules.mols[np.argmax(target_similarity)].name_,
-            target_similarity[np.argmax(target_similarity)])
-        print('****Minimum Similarity Molecule ****')
-        print(
-            db_molecules.mols[np.argmin(target_similarity)].name_,
-            target_similarity[np.argmin(target_similarity)])
+    def output_max_min_similarity():
+        with open('min_max_similar_molecules.txt', "w") as fp:
+            fp.write(f'*****FOR MOLECULE {target_molecule.name_}*****\n\n')
+            fp.write('****Maximum Similarity Molecule ****\n')
+            fp.write('Molecule: ')
+            fp.write(
+                str(db_molecules.mols[np.argmax(target_similarity)].name_))
+            fp.write('\n')
+            fp.write('Similarity: ')
+            fp.write(
+                str(target_similarity[np.argmax(target_similarity)]))
+            fp.write('\n')
+            fp.write('****Minimum Similarity Molecule ****\n')
+            fp.write('Molecule: ')
+            fp.write(
+                str(db_molecules.mols[np.argmin(target_similarity)].name_))
+            fp.write('\n')
+            fp.write('Similarity: ')
+            fp.write(
+                str(target_similarity[np.argmin(target_similarity)]))
 
     if show_pdf_configs is not None:
         pdf_color = show_pdf_configs.get('pdf_color', 'violet')
@@ -474,7 +484,7 @@ def compare_target_molecule(config, db_molecules):
             target_similarity, title=pdf_title,
             color=pdf_color, shade=pdf_shade)
     if identify_closest_furthest:
-        show_max_min_similarity()
+        output_max_min_similarity()
 
 
 def visualize_dataset(config, db_molecules):
