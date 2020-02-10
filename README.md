@@ -60,6 +60,6 @@ for a property of interest. If they do a good job for the particular property th
 
 <b> Credits and Licensing</b>
 
-Developer: Himaghna Bhattacharjee, Vlachos Research Lab.
+Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
 
 License: MIT Open
