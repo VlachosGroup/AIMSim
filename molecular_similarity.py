@@ -22,7 +22,6 @@ from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
 from seaborn import heatmap, kdeplot
-
 import yaml
  
 
@@ -83,7 +82,7 @@ class Molecule:
         if n_bits is None:
             return AllChem.GetMorganFingerprint(self.mol, radius)
         else:
-            return AllChem.GetMorganFingerprintAsBitVect(self.mol, radius, \
+            return AllChem.GetMorganFingerprintAsBitVect(self.mol, radius,
                 nBits=n_bits)
     
     def _get_rdkit_topological_fingerprint(self, min_path=1, max_path=7):
@@ -401,7 +400,8 @@ def compare_target_molecule(config, db_molecules):
     show_pdf = config.get('show_pdf', False)
     identify_closest_furthest = config.get('identify_closest_furthest', False) 
     if os.path.isfile(target_mol_config):
-        target_fname, target_ext = os.path.basename(target_mol_config).split('.')
+        target_fname, target_ext = \
+            os.path.basename(target_mol_config).split('.')
         if target_ext == 'pdb':
             # read pdb file
             target_mol_object = Chem.MolFromPDBFile(target_mol_config)
