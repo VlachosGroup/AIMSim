@@ -1,0 +1,8 @@
+***** FOR MOLECULE FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F *****
+
+****Maximum Similarity Molecule ****
+Molecule: ClC(Cl)(CC(Cl)Cl)Cl
+Similarity: 0.3023255813953488
+****Minimum Similarity Molecule ****
+Molecule: FC(=C)F
+Similarity: 0.010752688172043012
