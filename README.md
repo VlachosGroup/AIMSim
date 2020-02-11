@@ -54,7 +54,7 @@ and/ or the least similar and most similar molecules in the database (to the pro
 2. visualize_dataset: Visualize the diversity of molecules in existing database. The outputs are a heatmap of similarity scores and/or
 a density plot of similarity scores and /or a parity plot showing some molecular property (e.g. boiling point) between 
 pairs of most similar molecules. The last output requires the input of the molecular property for each molecule.
-This can be inputted as a .txt file containing rows of name property pairs. An example of such a file with ficitonal properties is
+This can be inputted as a .txt file containing rows of name property pairs. An example of such a file with fictitious properties is
 provided in the file smiles_responses.txt. This option is typically used to check the suitability of the fingerprint / similarity measure
 for a property of interest. If they do a good job for the particular property then the parity plot should be scattered around the diagonal.
 
