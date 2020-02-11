@@ -16,10 +16,11 @@ tasks:
   compare_target_molecule:
       target_molecule: 'FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F' # put in SMILE string or .pdb file path
       show_pdf: # turn on in case a pdf of similarity score is desired
-        pdf_color: 'orange' # Set a color recognized by matplotlib.
-        # Default is 'red'.
-        pdf_title: 'Compared to Target Molecule'
-      identify_closest_furthest: True # put in true or false. Default is false.
+          pdf_color: 'orange' # Set a color recognized by matplotlib.
+          # Default is 'red'.
+          pdf_title: 'Compared to Target Molecule'
+      identify_closest_furthest: # turn on to id most and least similar mols.
+          out_file_path: 'output_jazz.txt'  # complete path of output file
   visualize_dataset:
       show_pdf: # turn on in case a pdf of similarity score is desired
           pdf_color: 'green' # Set a color recognized by matplotlib.
