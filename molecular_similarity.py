@@ -460,7 +460,7 @@ def compare_target_molecule(config, db_molecules):
         target_molecule.get_similarity_to_molecule(
             ref_mol, similarity_measure=db_molecules.similarity_measure,
             molecular_descriptor=db_molecules.molecular_descriptor)
-        for ref_mol in db_molecules.mols]
+        for ref_mol in db_molecules.mols if ref_mol.name_ != target_name]
 
     def output_max_min_similarity():
         with open('min_max_similar_molecules.txt', "w") as fp:
