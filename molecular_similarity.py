@@ -423,6 +423,7 @@ def compare_target_molecule(config, db_molecules):
         Molecules object representing the database.
 
     """
+    # get sub-tasks
     try:
         target_mol_config = config['target_molecule']
     except KeyError as e:
@@ -462,8 +463,17 @@ def compare_target_molecule(config, db_molecules):
             molecular_descriptor=db_molecules.molecular_descriptor)
         for ref_mol in db_molecules.mols if ref_mol.name_ != target_name]
 
-    def output_max_min_similarity():
-        with open('min_max_similar_molecules.txt', "w") as fp:
+    def output_max_min_similarity(out_fpath):
+        """Finds the most and least similar molecule to the target molecule
+        and outputs their name and similarity score to an output file.
+
+        Parameters
+        ----------
+        out_fpath : str
+            Complete filepath of the output file to be generated.
+
+        """
+        with open(out_fpath, "w") as fp:
             fp.write(f'***** FOR MOLECULE {target_molecule.name_} *****\n\n')
             fp.write('****Maximum Similarity Molecule ****\n')
             fp.write('Molecule: ')
@@ -491,7 +501,8 @@ def compare_target_molecule(config, db_molecules):
             target_similarity, title=pdf_title,
             color=pdf_color, shade=pdf_shade)
     if identify_closest_furthest:
-        output_max_min_similarity()
+        output_max_min_similarity(
+            out_fpath=identify_closest_furthest['out_file_path'])
 
 
 def visualize_dataset(config, db_molecules):
