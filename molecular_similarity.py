@@ -429,26 +429,33 @@ def compare_target_molecule(config, db_molecules):
         raise e('No target molecule specified')
     show_pdf_configs = config.get('show_pdf', False)
     identify_closest_furthest = config.get('identify_closest_furthest', False)
+
     if os.path.isfile(target_mol_config):
         target_fname, target_ext = \
             os.path.basename(target_mol_config).split('.')
         if target_ext == 'pdb':
             # read pdb file
             target_mol_object = Chem.MolFromPDBFile(target_mol_config)
+            # for a pdb file, name is the filename
+            target_name = target_fname
         elif target_ext == 'txt':
             # read smile from txt file
             with open(target_mol_config, "r") as fp:
                 data = fp.readline()
             smile = data.split[0]  # assume first word is smile
             target_mol_object = Chem.MolFromSmiles(smile)
+            # for a smile string, name is the smile string
+            target_name = smile
     else:
         # assume target_mol is a smile string
         target_mol_object = Chem.MolFromSmiles(target_mol_config)
+        # supplied smile string is also target name
+        target_name = target_mol_config
     if target_mol_object is None:
         raise IOError('Target Molecules could not be loaded')
     # sanitize
     rdmolops.Kekulize(target_mol_object)
-    target_molecule = Molecule(target_mol_object)
+    target_molecule = Molecule(target_mol_object, name_=target_name)
     target_similarity = [
         target_molecule.get_similarity_to_molecule(
             ref_mol, similarity_measure=db_molecules.similarity_measure,
@@ -457,7 +464,7 @@ def compare_target_molecule(config, db_molecules):
 
     def output_max_min_similarity():
         with open('min_max_similar_molecules.txt', "w") as fp:
-            fp.write(f'*****FOR MOLECULE {target_molecule.name_}*****\n\n')
+            fp.write(f'***** FOR MOLECULE {target_molecule.name_} *****\n\n')
             fp.write('****Maximum Similarity Molecule ****\n')
             fp.write('Molecule: ')
             fp.write(
