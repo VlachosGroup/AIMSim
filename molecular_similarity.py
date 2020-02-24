@@ -23,7 +23,7 @@ from rdkit import DataStructs
 from rdkit.Chem import AllChem
 from seaborn import heatmap, kdeplot
 import yaml
- 
+
 
 class Molecule:
     """Molecular object defined from rdkit mol object.
@@ -42,12 +42,12 @@ class Molecule:
             Some property associated with the molecule. This is typically the
             response being studied. E.g. Boiling point, Selectivity etc.
             Default is None.
-        
+
         """
         self.mol = mol
         self.name_ = name_
         self.mol_property = mol_property_val
-    
+
     def get_molecular_descriptor(self, molecular_descriptor):
         """Expose a suitable method based on molecular_descriptor
 
@@ -56,14 +56,17 @@ class Molecule:
             return self._get_morgan_fingerprint()
         elif molecular_descriptor == 'rdkit_topological':
             return self._get_rdkit_topological_fingerprint()
-    
+
     def get_similarity(self, similarity_measure, mol1_descrptr, mol2_descrptr):
         """Expose a suitable method based on similarity_measure
 
         """
         if similarity_measure == 'tanimoto_similarity':
             return DataStructs.TanimotoSimilarity(mol1_descrptr, mol2_descrptr)
-    
+        elif similarity_measure == 'neg_l1':
+            return -np.linalg.norm(np.asarray(mol1_descrptr)
+                - np.asarray(mol2_descrptr), ord=1)
+
     def _get_morgan_fingerprint(self, radius=3, n_bits=None):
         """Generate a morgan fingerprint.
 
@@ -84,45 +87,46 @@ class Molecule:
         else:
             return AllChem.GetMorganFingerprintAsBitVect(self.mol, radius,
                 nBits=n_bits)
-    
+
     def _get_rdkit_topological_fingerprint(self, min_path=1, max_path=7):
         return rdmolops.RDKFingerprint(
             self.mol, minPath=min_path, maxPath=max_path)
-    
+
     def get_similarity_to_molecule(
-            self, target_mol, similarity_measure='tanimoto', 
+            self, target_mol, similarity_measure='tanimoto',
             molecular_descriptor='morgan_fingerprint'):
         """Get a similarity metric to a target molecule
-        
+
         Parameters
         ----------
-        target_mol: Molecule object: Target molecule. 
+        target_mol: Molecule object: Target molecule.
             Similarity score is with respect to this molecule
         similarity_measure: str
             The similarity metric used.
             *** Supported Metrics ***
-            'tanimoto': Jaccard Coefficient/ Tanimoto Similarity 
+            'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
                     0 (not similar at all) to 1 (identical)
+            'neg_l1': Negative L1 norm of |x1 - x2|
         molecular_descriptor : str
             The molecular descriptor used to encode molecules.
             *** Supported Descriptors ***
             'morgan_fingerprint'
-        
+
         Returns
         -------
         similarity_score: float
             Similarity coefficient by the chosen method.
-        
+
         """
-        
+
         similarity_score = self.get_similarity(
             similarity_measure,
             self.get_molecular_descriptor(molecular_descriptor),
                 target_mol.get_molecular_descriptor(molecular_descriptor))
-        
+
         return similarity_score
-    
-    
+
+
 class Molecules:
     """Collection of Molecule objects.
 
@@ -338,7 +342,7 @@ def show_property_variation_w_similarity(config, molecules):
         mol.mol_property = float(properties[mol_id])
     if config.get('most_dissimilar', False):
         mol_pairs = molecules.get_most_dissimilar_pairs()  # (mol1, mol2)
-    else: 
+    else:
         mol_pairs = molecules.get_most_similar_pairs()  # (mol1, mol2)
     property_mols1, property_mols2 = [], []
     for mol_pair in mol_pairs:
@@ -580,8 +584,8 @@ def sort_tasks(configs):
     molecular_descriptor = configs.get(
         'molecular_descriptor', 'morgan_fingerprint')
     molecules = Molecules(
-        mols_src=molecule_database, 
-        similarity_measure=similarity_measure, 
+        mols_src=molecule_database,
+        similarity_measure=similarity_measure,
         molecular_descriptor=molecular_descriptor)
 
     for task, task_configs in tasks.items():
