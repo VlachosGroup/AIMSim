@@ -66,6 +66,9 @@ class Molecule:
         elif similarity_measure == 'neg_l1':
             return -np.linalg.norm(np.asarray(mol1_descrptr)
                 - np.asarray(mol2_descrptr), ord=1)
+        elif similarity_measure == 'neg_l2':
+            return -np.linalg.norm(np.asarray(mol1_descrptr)
+                - np.asarray(mol2_descrptr), ord=2)
 
     def _get_morgan_fingerprint(self, radius=3, n_bits=None):
         """Generate a morgan fingerprint.
@@ -107,6 +110,7 @@ class Molecule:
             'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
                     0 (not similar at all) to 1 (identical)
             'neg_l1': Negative L1 norm of |x1 - x2|
+            'neg_l2': Negative L2 norm of |x1 - x2|
         molecular_descriptor : str
             The molecular descriptor used to encode molecules.
             *** Supported Descriptors ***
