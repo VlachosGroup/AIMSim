@@ -63,6 +63,9 @@ class Molecule:
         """
         if similarity_measure == 'tanimoto_similarity':
             return DataStructs.TanimotoSimilarity(mol1_descrptr, mol2_descrptr)
+        elif similarity_measure == 'neg_l0':
+            return -np.linalg.norm(np.asarray(mol1_descrptr)
+                - np.asarray(mol2_descrptr), ord=0)
         elif similarity_measure == 'neg_l1':
             return -np.linalg.norm(np.asarray(mol1_descrptr)
                 - np.asarray(mol2_descrptr), ord=1)
@@ -109,6 +112,7 @@ class Molecule:
             *** Supported Metrics ***
             'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
                     0 (not similar at all) to 1 (identical)
+            'neg_l0': Negative L0 norm of |x1 - x2|
             'neg_l1': Negative L1 norm of |x1 - x2|
             'neg_l2': Negative L2 norm of |x1 - x2|
         molecular_descriptor : str
