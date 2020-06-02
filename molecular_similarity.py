@@ -13,6 +13,7 @@ their settings.
 from argparse import ArgumentParser
 from glob import glob
 import os.path
+import sys, os
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -159,9 +160,10 @@ class Molecules:
         Get the indexes of the most similar molecules as tuples.
 
     """
-    def __init__(self, mols_src, similarity_measure, molecular_descriptor):
+    def __init__(self, mols_src, similarity_measure, molecular_descriptor,isVerbose):
         self.similarity_measure = similarity_measure
         self.molecular_descriptor = molecular_descriptor
+        self.isVerbose = isVerbose
         self.mols = self._set_mols(mols_src)
         self.similarity_matrix = None
 
@@ -171,7 +173,7 @@ class Molecules:
         """
         mol_list = []
         if os.path.isdir(mols_src):
-            print(f'Searching for *.pdb files in {mols_src}')
+            if self.isVerbose: print(f'Searching for *.pdb files in {mols_src}')
             for molfile in glob(os.path.join(mols_src, '*.pdb')):
                 mol_object = Chem.MolFromPDBFile(molfile)
                 mol_name = os.path.basename(molfile).replace('.pdb', '')
@@ -181,13 +183,13 @@ class Molecules:
                 rdmolops.Kekulize(mol_object)
                 mol_list.append(Molecule(mol_object, mol_name))
         elif os.path.isfile(mols_src):
-            print(f'Reading SMILES strings from {mols_src}')
+            if self.isVerbose: print(f'Reading SMILES strings from {mols_src}')
             with open(mols_src, "r") as fp:
                 smiles_data = fp.readlines()
             for count, line in enumerate(smiles_data):
                 # Assumes that the first column contains the smiles string
                 smile = line.split()[0]
-                print(f'Processing {smile} ({count + 1}/{len(smiles_data)})')
+                if self.isVerbose: print(f'Processing {smile} ({count + 1}/{len(smiles_data)})')
                 mol_object = Chem.MolFromSmiles(smile)
                 if mol_object is None:
                     print(f'{smile} could not be loaded')
@@ -209,7 +211,7 @@ class Molecules:
         self.similarity_matrix = np.zeros(shape=(n_mols, n_mols))
         for id, mol in enumerate(self.mols):
             for target_id in range(id, n_mols):
-                print(f'checking molecules num {target_id+1} against {id+1}')
+                if self.isVerbose: print(f'checking molecules num {target_id+1} against {id+1}')
                 self.similarity_matrix[id, target_id] = \
                     mol.get_similarity_to_molecule(
                         self.mols[target_id],
@@ -311,16 +313,17 @@ def plot_density(similarity_vector, title, color, shade, **kwargs):
     """
     # get params
     bw = float(kwargs.get('bw', 0.01))
+    plt.figure()
     plt.rcParams['svg.fonttype'] = 'none'
     kdeplot(similarity_vector, shade=shade, color=color, bw=bw)
     plt.xlabel('Samples', fontsize=20)
     plt.ylabel('Similarity Density', fontsize=20)
     if title is not None:
         plt.title(title, fontsize=20)
-    plt.show()
+    plt.show(block=False)
 
 
-def show_property_variation_w_similarity(config, molecules):
+def show_property_variation_w_similarity(config, molecules, isVerbose):
     """Plot the variation of molecular property with molecular fingerprint.
 
     Parameters
@@ -345,7 +348,7 @@ def show_property_variation_w_similarity(config, molecules):
         properties.append(prop)
     for mol in molecules.mols:
         # find corresponding molecule in the property file, assign property
-        print(f'Assigning property of {mol.name_}')
+        if isVerbose: print(f'Assigning property of {mol.name_}')
         mol_id = names.index(mol.name_)
         mol.mol_property = float(properties[mol_id])
     if config.get('most_dissimilar', False):
@@ -355,7 +358,7 @@ def show_property_variation_w_similarity(config, molecules):
     property_mols1, property_mols2 = [], []
     for mol_pair in mol_pairs:
         if mol_pair[0] == mol_pair[1]:
-            print(mol_pair)
+            if isVerbose: print(mol_pair)
         # property of first molecule in pair. Discard if property not set.
         property_mol1 = molecules.mols[mol_pair[0]].mol_property
         if property_mol1 is None:
@@ -387,6 +390,7 @@ def show_property_variation_w_similarity(config, molecules):
         }
         if kwargs is not None:
             plot_params.update(kwargs)
+            plt.figure()
         plt.rcParams['svg.fonttype'] = 'none'
         plt.scatter(
             x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'],
@@ -416,7 +420,7 @@ def show_property_variation_w_similarity(config, molecules):
         stepsize = (end - start) / 5
         axes.yaxis.set_ticks(np.arange(start, end, stepsize))
         axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
-        plt.show()
+        plt.show(block=False)
 
     plot_parity(
         property_mols1, property_mols2, xlabel='Response Molecule 1',
@@ -533,6 +537,7 @@ def visualize_dataset(config, db_molecules):
         if db_molecules.similarity_matrix is None:
             db_molecules.generate_similarity_matrix()
         # plot
+        plt.figure()
         plt.rcParams['svg.fonttype'] = 'none'
         mask = None
         if mask_upper is True:
@@ -541,7 +546,7 @@ def visualize_dataset(config, db_molecules):
         heatmap_obj = heatmap(
             db_molecules.similarity_matrix, xticklabels=xticklabels,
             yticklabels=yticklabels, cmap=cmap, mask=mask, annot=annotate)
-        plt.show()
+        plt.show(block=False)
 
     def show_db_pdf(**kwargs):
         """Show the probability density distribution of the
@@ -578,6 +583,7 @@ def sort_tasks(configs):
         Loaded configuration setting from yaml file.
 
     """
+    verbose = configs.get('verbose')
     # load common parameters
     try:
         tasks = configs['tasks']
@@ -594,7 +600,8 @@ def sort_tasks(configs):
     molecules = Molecules(
         mols_src=molecule_database,
         similarity_measure=similarity_measure,
-        molecular_descriptor=molecular_descriptor)
+        molecular_descriptor=molecular_descriptor,
+        isVerbose=verbose)
 
     for task, task_configs in tasks.items():
         if task == 'compare_target_molecule':
@@ -602,10 +609,12 @@ def sort_tasks(configs):
         elif task == 'visualize_dataset':
             visualize_dataset(task_configs, molecules)
         elif task == 'show_property_variation_w_similarity':
-            show_property_variation_w_similarity(task_configs, molecules)
+            show_property_variation_w_similarity(task_configs, molecules, verbose)
         else:
             raise NotImplementedError(
             f'{task} entered in the <<task>> field is not implemented')
+        
+    input("Press enter to terminate (plots will be closed).")
 
 
 if __name__ == '__main__':
