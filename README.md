@@ -20,6 +20,10 @@ A more diverse training data-set yields a more robust model, which generalizes w
 identify "clusters of similarity" indicating the need for separately trained models for each cluster.
 
 <b> Dependencies </b>
+
+Use the following command with conda to create an environment:
+> conda create --name <env> --file spec-file.txt
+
 1. Python 3+
 2. Matplotlib
 3. Numpy

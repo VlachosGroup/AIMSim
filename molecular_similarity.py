@@ -65,14 +65,14 @@ class Molecule:
         if similarity_measure == 'tanimoto_similarity':
             return DataStructs.TanimotoSimilarity(mol1_descrptr, mol2_descrptr)
         elif similarity_measure == 'neg_l0':
-            return -np.linalg.norm(np.asarray(mol1_descrptr)
-                - np.asarray(mol2_descrptr), ord=0)
+            return -np.linalg.norm(np.asarray(mol1_descrptr) - np.asarray(
+                mol2_descrptr), ord=0)
         elif similarity_measure == 'neg_l1':
-            return -np.linalg.norm(np.asarray(mol1_descrptr)
-                - np.asarray(mol2_descrptr), ord=1)
+            return -np.linalg.norm(np.asarray(mol1_descrptr) - np.asarray(
+                mol2_descrptr), ord=1)
         elif similarity_measure == 'neg_l2':
-            return -np.linalg.norm(np.asarray(mol1_descrptr)
-                - np.asarray(mol2_descrptr), ord=2)
+            return -np.linalg.norm(np.asarray(mol1_descrptr) - np.asarray(
+                mol2_descrptr), ord=2)
 
     def _get_morgan_fingerprint(self, radius=3, n_bits=None):
         """Generate a morgan fingerprint.
@@ -92,8 +92,8 @@ class Molecule:
         if n_bits is None:
             return AllChem.GetMorganFingerprint(self.mol, radius)
         else:
-            return AllChem.GetMorganFingerprintAsBitVect(self.mol, radius,
-                nBits=n_bits)
+            return AllChem.GetMorganFingerprintAsBitVect(
+                self.mol, radius, nBits=n_bits)
 
     def _get_rdkit_topological_fingerprint(self, min_path=1, max_path=7):
         return rdmolops.RDKFingerprint(
@@ -131,7 +131,7 @@ class Molecule:
         similarity_score = self.get_similarity(
             similarity_measure,
             self.get_molecular_descriptor(molecular_descriptor),
-                target_mol.get_molecular_descriptor(molecular_descriptor))
+            target_mol.get_molecular_descriptor(molecular_descriptor))
 
         return similarity_score
 
@@ -160,7 +160,9 @@ class Molecules:
         Get the indexes of the most similar molecules as tuples.
 
     """
-    def __init__(self, mols_src, similarity_measure, molecular_descriptor,isVerbose):
+    def __init__(
+            self, mols_src, similarity_measure,
+            molecular_descriptor, isVerbose):
         self.similarity_measure = similarity_measure
         self.molecular_descriptor = molecular_descriptor
         self.isVerbose = isVerbose
@@ -173,7 +175,8 @@ class Molecules:
         """
         mol_list = []
         if os.path.isdir(mols_src):
-            if self.isVerbose: print(f'Searching for *.pdb files in {mols_src}')
+            if self.isVerbose:
+                print(f'Searching for *.pdb files in {mols_src}')
             for molfile in glob(os.path.join(mols_src, '*.pdb')):
                 mol_object = Chem.MolFromPDBFile(molfile)
                 mol_name = os.path.basename(molfile).replace('.pdb', '')
@@ -183,13 +186,17 @@ class Molecules:
                 rdmolops.Kekulize(mol_object)
                 mol_list.append(Molecule(mol_object, mol_name))
         elif os.path.isfile(mols_src):
-            if self.isVerbose: print(f'Reading SMILES strings from {mols_src}')
+            if self.isVerbose:
+                print(f'Reading SMILES strings from {mols_src}')
             with open(mols_src, "r") as fp:
                 smiles_data = fp.readlines()
             for count, line in enumerate(smiles_data):
                 # Assumes that the first column contains the smiles string
                 smile = line.split()[0]
-                if self.isVerbose: print(f'Processing {smile} ({count + 1}/{len(smiles_data)})')
+                if self.isVerbose:
+                    print(
+                        f'Processing {smile} '
+                        f'({count + 1}/{len(smiles_data)})')
                 mol_object = Chem.MolFromSmiles(smile)
                 if mol_object is None:
                     print(f'{smile} could not be loaded')
@@ -200,7 +207,7 @@ class Molecules:
                 mol_list.append(Molecule(mol_object, mol_name))
         else:
             raise FileNotFoundError(
-            f'{mols_src} could not be found.Please enter valid ' \
+                f'{mols_src} could not be found.Please enter valid '
                 'foldername or path of a text file w/ SMILES strings')
         if len(mol_list) == 0:
             raise UserWarning('No molecular files found in the location!')
@@ -211,7 +218,10 @@ class Molecules:
         self.similarity_matrix = np.zeros(shape=(n_mols, n_mols))
         for id, mol in enumerate(self.mols):
             for target_id in range(id, n_mols):
-                if self.isVerbose: print(f'checking molecules num {target_id+1} against {id+1}')
+                if self.isVerbose:
+                    print(
+                        'checking molecules num '
+                        f'{target_id+1} against {id+1}')
                 self.similarity_matrix[id, target_id] = \
                     mol.get_similarity_to_molecule(
                         self.mols[target_id],
@@ -241,7 +251,7 @@ class Molecules:
             if found_samples[index]:
                 # if  species has been identified before
                 continue
-            post_diag_closest_index = np.argmax(row[(index +1):]) \
+            post_diag_closest_index = np.argmax(row[(index + 1):]) \
                 + index + 1 if index < n_samples-1 else -1
             pre_diag_closest_index = np.argmax(row[:index]) if index > 0 \
                 else -1
@@ -255,9 +265,10 @@ class Molecules:
             # with min distance. In case of tie, post_diag_closest_index set
             else:
                 # choose the index which has max correlation
-                closest_index_index = ( post_diag_closest_index if
+                closest_index_index = (
+                    post_diag_closest_index if
                     row[post_diag_closest_index] >= row[pre_diag_closest_index]
-                        else pre_diag_closest_index )
+                    else pre_diag_closest_index)
             out_list.append((index, closest_index_index))
             # update list
             found_samples[closest_index_index] = 1
@@ -348,7 +359,8 @@ def show_property_variation_w_similarity(config, molecules, isVerbose):
         properties.append(prop)
     for mol in molecules.mols:
         # find corresponding molecule in the property file, assign property
-        if isVerbose: print(f'Assigning property of {mol.name_}')
+        if isVerbose:
+            print(f'Assigning property of {mol.name_}')
         mol_id = names.index(mol.name_)
         mol.mol_property = float(properties[mol_id])
     if config.get('most_dissimilar', False):
@@ -358,7 +370,8 @@ def show_property_variation_w_similarity(config, molecules, isVerbose):
     property_mols1, property_mols2 = [], []
     for mol_pair in mol_pairs:
         if mol_pair[0] == mol_pair[1]:
-            if isVerbose: print(mol_pair)
+            if isVerbose:
+                print(mol_pair)
         # property of first molecule in pair. Discard if property not set.
         property_mol1 = molecules.mols[mol_pair[0]].mol_property
         if property_mol1 is None:
@@ -396,21 +409,25 @@ def show_property_variation_w_similarity(config, molecules, isVerbose):
             x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'],
             c=plot_params['c'])
         max_entry = max(max(x), max(y)) + plot_params.get('offset', 5.0)
-        min_entry = min(min(x), min(y))  - plot_params.get('offset', 5.0)
+        min_entry = min(min(x), min(y)) - plot_params.get('offset', 5.0)
         axes = plt.gca()
         axes.set_xlim([min_entry, max_entry])
         axes.set_ylim([min_entry, max_entry])
-        plt.plot([min_entry, max_entry], [min_entry, max_entry],
-                color=plot_params.get('linecolor', 'black'))
+        plt.plot(
+            [min_entry, max_entry],
+            [min_entry, max_entry],
+            color=plot_params.get('linecolor', 'black'))
         plt.title(
             plot_params.get('title', ''),
             fontsize=plot_params.get('title_fontsize', 24))
-        plt.xlabel(plot_params.get('xlabel', ''),
-                    fontsize=plot_params.get('xlabel_fontsize', 20))
-        plt.ylabel(plot_params.get('ylabel', ''),
-                    fontsize=plot_params.get('ylabel_fontsize', 20))
-        plt.xticks(fontsize=plot_params.get('xticksize',24))
-        plt.yticks(fontsize=plot_params.get('yticksize',24))
+        plt.xlabel(
+            plot_params.get('xlabel', ''),
+            fontsize=plot_params.get('xlabel_fontsize', 20))
+        plt.ylabel(
+            plot_params.get('ylabel', ''),
+            fontsize=plot_params.get('ylabel_fontsize', 20))
+        plt.xticks(fontsize=plot_params.get('xticksize', 24))
+        plt.yticks(fontsize=plot_params.get('yticksize', 24))
         start, end = axes.get_xlim()
         stepsize = (end - start) / 5
         axes.xaxis.set_ticks(np.arange(start, end, stepsize))
@@ -583,7 +600,6 @@ def sort_tasks(configs):
         Loaded configuration setting from yaml file.
 
     """
-    verbose = configs.get('verbose')
     # load common parameters
     try:
         tasks = configs['tasks']
@@ -593,6 +609,8 @@ def sort_tasks(configs):
         molecule_database = configs['molecule_database']
     except KeyError:
         raise IOError('<< molecule_database >> field not set in config file')
+    verbose = configs.get(
+        'verbose')
     similarity_measure = configs.get(
         'similarity_measure', 'tanimoto_similarity')
     molecular_descriptor = configs.get(
@@ -609,11 +627,12 @@ def sort_tasks(configs):
         elif task == 'visualize_dataset':
             visualize_dataset(task_configs, molecules)
         elif task == 'show_property_variation_w_similarity':
-            show_property_variation_w_similarity(task_configs, molecules, verbose)
+            show_property_variation_w_similarity(
+                task_configs, molecules, verbose)
         else:
             raise NotImplementedError(
-            f'{task} entered in the <<task>> field is not implemented')
-        
+                f'{task} entered in the <<task>> field is not implemented')
+
     input("Press enter to terminate (plots will be closed).")
 
 
