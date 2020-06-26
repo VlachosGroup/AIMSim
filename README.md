@@ -64,6 +64,8 @@ for a property of interest. If they do a good job for the particular property th
 
 <b> Credits and Licensing</b>
 
-Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+
+Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
 License: MIT Open

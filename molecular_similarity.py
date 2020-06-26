@@ -13,7 +13,7 @@ their settings.
 from argparse import ArgumentParser
 from glob import glob
 import os.path
-import sys, os
+import os
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -564,6 +564,7 @@ def visualize_dataset(config, db_molecules):
             db_molecules.similarity_matrix, xticklabels=xticklabels,
             yticklabels=yticklabels, cmap=cmap, mask=mask, annot=annotate)
         plt.show(block=False)
+        return heatmap_obj
 
     def show_db_pdf(**kwargs):
         """Show the probability density distribution of the
