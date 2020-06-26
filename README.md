@@ -33,6 +33,8 @@ Use the following command with conda to create an environment:
 
 <b> Example Run </b>
 >> python molecular_similarity.py config.yaml
+Tests:
+>> python test_molecular_similarity.py
 
 <b> Notes </b>
 
