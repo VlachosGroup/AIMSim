@@ -59,7 +59,32 @@ class Molecule:
             return self._get_rdkit_topological_fingerprint()
 
     def get_similarity(self, similarity_measure, mol1_descrptr, mol2_descrptr):
-        """Expose a suitable method based on similarity_measure
+        """Expose a suitable method based on similarity_measure.
+
+        Parameters
+        ---------
+        similarity_measure: str
+            Similarity measure to use.
+        mol1_descrptr: int
+            Descriptor Representation for molecule 1.
+        mol2_descrptr: int
+            Descriptor Representation for molecule 2.
+
+        Returns
+        ------
+        float
+            Similarity between the two molecules.
+
+        Similarity Measures Implemented
+        -------------------------------
+        1. tanimoto_similarity:
+            Jaccard coefficient between molecular descriptors.
+        2. neg_l0:
+            Negative L0 norm between molecular descriptors.
+        3. neg_l1:
+            Negative L1 norm between molecular descriptors.
+        4. neg_l2:
+            Negative L2 norm between molecular descriptors.
 
         """
         if similarity_measure == 'tanimoto_similarity':
