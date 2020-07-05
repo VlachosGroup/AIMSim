@@ -20,6 +20,10 @@ A more diverse training data-set yields a more robust model, which generalizes w
 identify "clusters of similarity" indicating the need for separately trained models for each cluster.
 
 <b> Dependencies </b>
+
+Use the following command with conda to create an environment:
+> conda create --name <env> --file spec-file.txt
+
 1. Python 3+
 2. Matplotlib
 3. Numpy
@@ -29,6 +33,8 @@ identify "clusters of similarity" indicating the need for separately trained mod
 
 <b> Example Run </b>
 >> python molecular_similarity.py config.yaml
+Tests:
+>> python test_molecular_similarity.py
 
 <b> Notes </b>
 
@@ -60,6 +66,8 @@ for a property of interest. If they do a good job for the particular property th
 
 <b> Credits and Licensing</b>
 
-Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+
+Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
 License: MIT Open
