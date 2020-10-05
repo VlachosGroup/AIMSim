@@ -65,3 +65,15 @@ def get_tanimoto_similarity(mol1_descriptor, mol2_descriptor, descriptor_dtype):
               'Returning None')
         return None
 
+
+def get_supported_measures():
+    """Returns a list of labels for the similarity_measures
+    that are supported currently
+
+    Returns
+    ------
+    list(str)
+        Supported similarity measures.
+    """
+    return ['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2']
+

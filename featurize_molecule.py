@@ -15,10 +15,10 @@ from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
 
-from chemical_datatypes import Molecule
+from chemical_datastructures import Molecule
 
 
-def get_morgan_fingerprint(molecule, required_output_dtype,
+def get_morgan_fingerprint(molecule, output_datatype,
                            radius=3, n_bits=1024):
     """Generate a morgan fingerprint.
 
@@ -26,7 +26,7 @@ def get_morgan_fingerprint(molecule, required_output_dtype,
     ----------
     molecule: Molecule
         Molecule object to be featurized.
-    required_output_dtype: str
+    output_datatype: str
         Label indicating output type for the fingerprint.
         Check file docstring for list of available types.
     radius: int
@@ -38,7 +38,7 @@ def get_morgan_fingerprint(molecule, required_output_dtype,
 
     Returns
     -------
-    np.array
+    np.array or rdkit.DataStructs.cDataStructs.ExplicitBitVect
 
     """
 
@@ -46,10 +46,10 @@ def get_morgan_fingerprint(molecule, required_output_dtype,
         molecule, radius, nBits=n_bits)
 
     return _manage_output_datatype(fingerprint_bits,
-                                   required_output_dtype=required_output_dtype)
+                                   output_datatype=output_datatype)
 
 
-def get_rdkit_topological_fingerprint(molecule, required_output_dtype,
+def get_rdkit_topological_fingerprint(molecule, output_datatype,
                                       min_path=1, max_path=7):
     """Generate a topological fingerprint.
 
@@ -57,7 +57,7 @@ def get_rdkit_topological_fingerprint(molecule, required_output_dtype,
     ----------
     molecule: Molecule
         Molecule object to be featurized.
-    required_output_dtype: str
+    output_datatype: str
         Label indicating output type for the fingerprint.
         Check file docstring for list of available types.
     min_path: int
@@ -69,13 +69,13 @@ def get_rdkit_topological_fingerprint(molecule, required_output_dtype,
 
     Returns
     -------
-    np.array
+    np.array or rdkit.DataStructs.cDataStructs.ExplicitBitVect
     """
     fingerprint_bits = rdmolops.RDKFingerprint(
         molecule, minPath=min_path, maxPath=max_path)
 
     return _manage_output_datatype(fingerprint_bits,
-                                   required_output_dtype=required_output_dtype)
+                                   output_datatype=output_datatype)
 
 
 def _convert_to_numpy(fingerprint_object, in_dtype):
@@ -102,7 +102,7 @@ def _convert_to_numpy(fingerprint_object, in_dtype):
         return np_fingerprint
 
 
-def _manage_output_datatype(fingerprint, required_output_dtype):
+def _manage_output_datatype(fingerprint, output_datatype):
     """
     Manage the output datatype of the fingerprint by ensuring that it is of
     the desired type.
@@ -110,7 +110,7 @@ def _manage_output_datatype(fingerprint, required_output_dtype):
     ----------
     fingerprint: Object
         Arbitrary
-    required_output_dtype: str
+    output_datatype: str
         Required output datatype of the fingerprint class.
         Current accepted formats:
         'rdkit': rdkit.DataStructs.cDataStructs.UIntSparseIntVec
@@ -125,14 +125,14 @@ def _manage_output_datatype(fingerprint, required_output_dtype):
         'numpy': np.ndarray
     }
 
-    if required_output_dtype == 'rdkit':
+    if output_datatype == 'rdkit':
         if isinstance(fingerprint,
                       implemented_classes['rdkit']):
             return fingerprint
         elif isinstance(fingerprint, implemented_classes['numpy']):
             pass # IMPLEMENT
 
-    elif required_output_dtype == 'numpy':
+    elif output_datatype == 'numpy':
         if isinstance(fingerprint,
                       implemented_classes['rdkit']):
             return _convert_to_numpy(fingerprint, in_dtype='rdkit')
