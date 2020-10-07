@@ -1,4 +1,4 @@
-"""This module contains methods to find similarities between .
+"""This module contains methods to find similarities between molecules.
 Notes
 -----
 Input to all methods is an rdkit fingerprint or numpy array.
@@ -7,6 +7,14 @@ Supported descriptor datatypes
 ------------------------------
 'numpy': np.array
 'rdkit': rdkit.DataStructs.cDataStructs.ExplicitBitVect
+
+Supported Metrics
+----------------
+'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
+        0 (not similar at all) to 1 (identical)
+'neg_l0': Negative L0 norm of |x1 - x2|
+'neg_l1': Negative L1 norm of |x1 - x2|
+'neg_l2': Negative L2 norm of |x1 - x2|
 
 """
 import numpy as np
@@ -76,4 +84,5 @@ def get_supported_measures():
         Supported similarity measures.
     """
     return ['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2']
+
 
