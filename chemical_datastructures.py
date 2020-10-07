@@ -12,7 +12,8 @@ import os.path
 import numpy as np
 from rdkit import DataStructs, Chem
 
-import featurize_molecule
+from helper_methods import get_feature_datatype
+from featurize_molecule import Descriptor
 from similarity_measures import get_supported_measures
 
 
@@ -20,14 +21,18 @@ class Molecule:
     """Molecular object defined from RDKIT mol object.
 
     """
-    def __init__(self, mol_graph, mol_text=None, mol_property_val=None):
+    def __init__(self,
+                 mol_graph=None,
+                 mol_text=None,
+                 mol_property_val=None,
+                 mol_descriptor_val=None):
         """Constructor
 
         Parameters
         ----------
         mol_graph: RDKIT mol object
             Graph-level information of molecule.
-            Implemented as an RDKIT mol object.
+            Implemented as an RDKIT mol object. Default is None.
         mol_text: str
             Text identifier of the molecule. Default is None.
             Identifiers can be:
@@ -43,82 +48,12 @@ class Molecule:
         self.mol_graph = mol_graph
         self.mol_text = mol_text
         self.mol_property_val = mol_property_val
-        self.descriptor = None
+        self.descriptor = Descriptor(value=mol_descriptor_val)
 
-    def _set_descriptor_value(self, molecular_descriptor, output_datatype):
-        """Set a descriptor value for the molecule.
-
-        Parameters
-        ----------
-        molecular_descriptor: str
-            String label specifying which descriptor to use for featurization.
-            See docstring for implemented descriptors and labels.
-        output_datatype: str
-            String label specifying the datatype of the descriptor value.
-            Datatypes currently supported are:
-            'numpy': np.array
-            'rdkit': rdkit.DataStructs.cDataStructs.ExplicitBitVect
-
-        """
-        if molecular_descriptor == 'morgan_fingerprint':
-            descriptor_val = featurize_molecule.get_morgan_fingerprint(
-                                               self.mol_graph,
-                                               output_datatype=output_datatype)
-        elif molecular_descriptor == 'rdkit_topological':
-            descriptor_val = featurize_molecule.get_rdkit_topological_fingerprint(
-                                            self.mol_graph,
-                                            output_datatype=output_datatype)
-        else:
-            raise NotImplementedError(f'{molecular_descriptor} not recognized')
-        self.descriptor = {
-            'value': descriptor_val,
-            'molecular_descriptor': molecular_descriptor
-        }
-
-    def get_similarity(self, similarity_measure, mol1_descrptr, mol2_descrptr):
-        """Expose a suitable method based on similarity_measure.
-
-        Parameters
-        ---------
-        similarity_measure: str
-            Similarity measure to use.
-        mol1_descrptr: int
-            Descriptor Representation for molecule 1.
-        mol2_descrptr: int
-            Descriptor Representation for molecule 2.
-
-        Returns
-        ------
-        float
-            Similarity between the two molecules.
-
-        Similarity Measures Implemented
-        -------------------------------
-        1. tanimoto_similarity:
-            Jaccard coefficient between molecular descriptors.
-        2. neg_l0:
-            Negative L0 norm between molecular descriptors.
-        3. neg_l1:
-            Negative L1 norm between molecular descriptors.
-        4. neg_l2:
-            Negative L2 norm between molecular descriptors.
-
-        """
-        if similarity_measure == 'tanimoto_similarity':
-            return DataStructs.TanimotoSimilarity(mol1_descrptr, mol2_descrptr)
-        elif similarity_measure == 'neg_l0':
-            return -np.linalg.norm(np.asarray(mol1_descrptr) - np.asarray(
-                mol2_descrptr), ord=0)
-        elif similarity_measure == 'neg_l1':
-            return -np.linalg.norm(np.asarray(mol1_descrptr) - np.asarray(
-                mol2_descrptr), ord=1)
-        elif similarity_measure == 'neg_l2':
-            return -np.linalg.norm(np.asarray(mol1_descrptr) - np.asarray(
-                mol2_descrptr), ord=2)
-
-    def get_similarity_to_molecule(
-            self, target_mol, similarity_measure='tanimoto',
-            molecular_descriptor='morgan_fingerprint'):
+    def get_similarity_to_molecule(self,
+                                   target_mol,
+                                   similarity_measure,
+                                   molecular_descriptor):
         """Get a similarity metric to a target molecule
 
         Parameters
@@ -127,12 +62,6 @@ class Molecule:
             Similarity score is with respect to this molecule
         similarity_measure: str
             The similarity metric used.
-            *** Supported Metrics ***
-            'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
-                    0 (not similar at all) to 1 (identical)
-            'neg_l0': Negative L0 norm of |x1 - x2|
-            'neg_l1': Negative L1 norm of |x1 - x2|
-            'neg_l2': Negative L2 norm of |x1 - x2|
         molecular_descriptor : str
             The molecular descriptor used to encode molecules.
             *** Supported Descriptors ***
@@ -144,13 +73,31 @@ class Molecule:
             Similarity coefficient by the chosen method.
 
         """
-
-        similarity_score = self.get_similarity(
-            similarity_measure,
-            self.get_molecular_descriptor(molecular_descriptor),
-            target_mol.get_molecular_descriptor(molecular_descriptor))
-
-        return similarity_score
+        feature_datatype = get_feature_datatype(
+                                     similarity_measure=similarity_measure,
+                                     molecular_descriptor=molecular_descriptor)
+        self.descriptor.make_fingerprint(molecule_graph=self.mol_graph,
+                                         fingerprint_type=molecular_descriptor,
+                                         fingerprint_datatype=feature_datatype)
+        target_mol.descriptor.make_fingerprint(
+                                         molecule_graph=target_mol.mol_graph,
+                                         fingerprint_type=molecular_descriptor,
+                                         fingerprint_datatype=feature_datatype)
+        if similarity_measure == 'tanimoto_similarity':
+            return DataStructs.TanimotoSimilarity(self.descriptor.value,
+                                                  target_mol.descriptor.value)
+        elif similarity_measure == 'neg_l0':
+            return -np.linalg.norm(
+                           self.descriptor.value - target_mol.descriptor.value,
+                           ord=0)
+        elif similarity_measure == 'neg_l1':
+            return -np.linalg.norm(
+                           self.descriptor.value - target_mol.descriptor.value,
+                           ord=1)
+        elif similarity_measure == 'neg_l2':
+            return -np.linalg.norm(
+                           self.descriptor.value - target_mol.descriptor.value,
+                           ord=2)
 
 
 class MoleculeSet:
@@ -160,9 +107,6 @@ class MoleculeSet:
     ----------
     molecule_database: List
         List of Molecule objects.
-    feature_datatype: str
-        Label deciding format for storing descriptor values. See docstring
-        for supported formats.
     similarity_measure : str
         Similarity measure used.
     similarity_matrix: numpy ndarray
@@ -183,17 +127,12 @@ class MoleculeSet:
                  is_verbose,
                  similarity_measure=None,
                  molecular_descriptor=None):
-        self.molecule_database = None
         self._set_molecule_database(molecule_database_src)
         self.is_verbose = is_verbose
-        self.similarity_measure = None
         self._set_similarity_measure(similarity_measure=similarity_measure)
-        self.feature_datatype = None
-        if molecular_descriptor is not None:
-            self._set_feature_datatype(molecular_descriptor)
-            if similarity_measure is not None:
-                self._set_similarity_matrix(molecular_descriptor,
-                                            similarity_measure)
+        self._set_molecular_descriptor(molecular_descriptor)
+        if self.molecular_descriptor and self.similarity_measure is not None:
+            self._set_similarity_matrix()
 
     def _set_molecule_database(self, molecule_database_src):
         """Load molecular database and set as attribute.
@@ -251,9 +190,8 @@ class MoleculeSet:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
 
-    def _set_feature_datatype(self, molecular_descriptor):
-        """Set the attribute self.feature_datatype based on rules
-        conditional on similarity measure and molecular_descriptor
+    def _set_molecular_descriptor(self, molecular_descriptor):
+        """Sets molecular descriptor attribute.
 
         Parameters
         ----------
@@ -262,50 +200,32 @@ class MoleculeSet:
             See docstring for implemented descriptors and labels.
 
         """
-        if self.similarity_measure == 'tanimoto':
-            if molecular_descriptor in ['topological_fingerprint',
-                                         'morgan_fingerprint',
-                                         ]:
-                self.feature_datatype = 'rdkit'
-        elif self.similarity_measure in ['-l0', '-l1', '-l2']:
-            if molecular_descriptor in ['topological_fingerprint',
-                                         'morgan_fingerprint',
-                                         ]:
-                self.feature_datatype = 'numpy'
-        else:
-            raise NotImplementedError(f'{self.similarity_measure} similarity'
-                                      'does not work with '
-                                      f'{molecular_descriptor}')
+        if molecular_descriptor not in Descriptor.get_supported_descriptors():
+            raise NotImplementedError(f'{molecular_descriptor} '
+                                      'is currently not supported')
+        self.molecular_descriptor = molecular_descriptor
 
-    def _set_similarity_matrix(self, molecular_descriptor, similarity_measure):
+    def _set_similarity_matrix(self):
         """Calculate the similarity metric using a molecular descriptor
         and a similarity measure. Set this attribute.
 
-        Parameters
-        ----------
-        molecular_descriptor: str
-            String label specifying which descriptor used for featurization.
-            See docstring for implemented descriptors and labels.
-        similarity_measure: str
-            The similarity metric used. See docstring for list
-            of supported similarity metrics.
-
         """
         n_mols = len(self.molecule_database)
-        self.similarity_matrix = np.zeros(shape=(n_mols, n_mols))
+        similarity_matrix = np.zeros(shape=(n_mols, n_mols))
         for source_mol_id, molecule in enumerate(self.molecule_database):
             for target_mol_id in range(source_mol_id, n_mols):
                 if self.is_verbose:
                     print('Computing similarity of molecule num '
                           f'{target_mol_id+1} against {source_mol_id+1}')
-                self.similarity_matrix[source_mol_id, target_mol_id] = \
+                similarity_matrix[source_mol_id, target_mol_id] = \
                     molecule.get_similarity_to_molecule(
-                                     self.molecule_database[target_mol_id],
-                                     similarity_measure=similarity_measure,
-                                     molecular_descriptor=molecular_descriptor)
+                                self.molecule_database[target_mol_id],
+                                similarity_measure=self.similarity_measure,
+                                molecular_descriptor=self.molecular_descriptor)
                 # symmetric matrix entry
-                self.similarity_matrix[target_mol_id, source_mol_id] = \
-                    self.similarity_matrix[source_mol_id, target_mol_id]
+                similarity_matrix[target_mol_id, source_mol_id] = \
+                    similarity_matrix[source_mol_id, target_mol_id]
+        self.similarity_matrix = similarity_matrix
 
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
@@ -322,19 +242,20 @@ class MoleculeSet:
                                       'is currently not supported')
         self.similarity_measure = similarity_measure
 
-    def get_most_similar_pairs(self, **kwargs):
+    def get_most_similar_pairs(self,
+                               molecular_descriptor=None,
+                               similarity_measure=None):
         """Get pairs of samples which are most similar.
 
         Parameters
         ----------
-        kwargs: dict
-            Important keyword arguments:
-            'similarity_measure': str
-                If similarity_measure was not defined for this data set,
-                must be defined now.
-            'molecular_descriptor': str
-                If descriptor was not defined for this data set,
-                must be defined now.
+        molecular_descriptor: str
+            If descriptor was not defined for this data set,
+            must be defined now. Default is None.
+        similarity_measure: str
+            If similarity_measure was not defined for this data set,
+            must be defined now. Default is None.
+
         Returns
         -------
         List(Tuple(Molecule, Molecule))
@@ -343,6 +264,16 @@ class MoleculeSet:
             i.e. (A, B) =/=> (B, A)
 
         """
+        if molecular_descriptor is not None:
+            self._set_feature_datatype(molecular_descriptor)
+            if similarity_measure is not None:
+                self._set_similarity_measure(similarity_measure)
+                self._set_similarity_matrix()
+        if self.feature_datatype is None:
+            raise ValueError('Feature datatype could not be set, probably'
+                             'due to bad molecular_descriptor argument')
+        if self.similarity_measure is None:
+            raise ValueError('Similarity measure not set')
 
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
@@ -401,3 +332,4 @@ class MoleculeSet:
             found_samples[furthest_index] = 1
             found_samples[index] = 1
         return out_list
+
