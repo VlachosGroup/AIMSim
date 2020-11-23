@@ -45,7 +45,7 @@ def get_molecule_database(database_configs):
 
 def compare_target_molecule(target_molecule_src,
                             molecule_set,
-                            out_fpath=None,
+                            out_fpath,
                             **pdf_plot_kwargs):
     """
     Compare a target molecule with molecular database in terms
@@ -109,14 +109,12 @@ def launch_tasks(molecule_database, tasks):
     for task, task_configs in tasks.items():
         if task == 'compare_target_molecule':
             target_molecule_src = task_configs.get('target_molecule_src')
-            pdf_color = task_configs.get('pdf_color', 'violet')
-            pdf_shade = task_configs.get('pdf_shade', True)
-            pdf_title = task_configs.get('pdf_title', None)
+            save_to_file = task_configs.get('save_to_file', None)
+            pdf_plot_kwargs = task_configs.get('plot_settings')
             compare_target_molecule(target_molecule_src,
                                     molecule_database,
-                                    pdf_color=pdf_color,
-                                    pdf_shade=pdf_shade,
-                                    pdf_title=pdf_title)
+                                    out_fpath=save_to_file,
+                                    pdf_plot_kwargs=pdf_plot_kwargs)
         elif task == 'visualize_dataset':
             visualize_dataset(task_configs, molecule_database)
         elif task == 'show_property_variation_w_similarity':
