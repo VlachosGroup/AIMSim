@@ -433,19 +433,8 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_similarity_matrix(self,
-                              molecular_descriptor=None,
-                              similarity_measure=None):
-        """Get the similarity matrix for the data set
-
-        Parameters
-        ----------
-        molecular_descriptor: str
-            If descriptor was not defined for this data set,
-            must be defined now. Default is None.
-        similarity_measure: str
-            If similarity_measure was not defined for this data set,
-            must be defined now. Default is None.
+    def get_similarity_matrix(self):
+        """Get the similarity matrix for the data set.
 
         Returns
         -------
@@ -454,9 +443,14 @@ class MoleculeSet:
 
         Note
         ----
-        If un-set, sets the self.similarity_matrix attribute
+        If un-set, sets the self.similarity_matrix attribute.
 
         """
+        if self.similarity_matrix is None:
+            self._set_similarity_matrix()
+        return self.similarity_matrix
+
+
 
 
 
