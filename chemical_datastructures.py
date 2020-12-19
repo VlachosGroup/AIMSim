@@ -25,7 +25,9 @@ class Molecule:
                  mol_graph=None,
                  mol_text=None,
                  mol_property_val=None,
-                 mol_descriptor_val=None):
+                 mol_descriptor_val=None,
+                 mol_src=None,
+                 mol_smiles=None):
         """Constructor
 
         Parameters
@@ -43,12 +45,67 @@ class Molecule:
             Some property associated with the molecule. This is typically the
             response being studied. E.g. Boiling point, Selectivity etc.
             Default is None.
+        mol_src: str
+            Source file or SMILES string to load molecule. Acceptable files are
+              -> .pdb file
+              -> .txt file with SMILE string in first column, first row and
+                      (optionally) property in second column, first row.
+            Default is None.
+            If provided mol_graph is attempted to be loaded from it.
+        mol_smiles: str
+            SMILES string for molecule. If provided, mol_graph is loaded from
+            it. If mol_text not set in keyword argument, this string is used
+            to set it.
 
         """
         self.mol_graph = mol_graph
         self.mol_text = mol_text
         self.mol_property_val = mol_property_val
         self.descriptor = Descriptor(value=mol_descriptor_val)
+        if mol_src is not None:
+            self._set_molecule_from_file(mol_src)
+        if mol_smiles is not None:
+            self._set_molecule_from_smiles(mol_smiles)
+
+    def _set_molecule_from_smiles(self, mol_smiles):
+        """
+        Set the mol_graph attribute from smiles string.
+        If self.mol_text is not set, it is set to the smiles string.
+
+        Parameters
+        ----------
+        mol_smiles: str
+        SMILES string for molecule. If provided, mol_graph is loaded from
+            it. If mol_text not set in keyword argument, this string is used
+            to set it.
+
+        """
+        self.mol_graph = Chem.MolFromSmiles(mol_smiles)
+        if self.mol_text is None:
+            self.mol_text = mol_smiles
+
+    def _set_molecule_from_file(self, mol_src):
+        """Load molecule graph from file
+
+        Parameters
+        mol_src: str
+            Source file or SMILES string to load molecule.
+            Acceptable files are
+              -> .pdb file
+              -> .txt file with SMILE string in first column, first row.
+
+        """
+        if os.path.isfile(mol_src):
+            mol_fname, extension = os.path.basename(mol_src).split('.')
+            if extension == 'pdb':
+                # read pdb file
+                self.mol_graph = Chem.MolFromPDBFile(mol_src)
+                if self.mol_text is None:
+                    self.mol_text = mol_fname
+            elif extension == 'txt':
+                with open(mol_src, "r") as fp:
+                    mol_smiles = fp.readline().split()[0]
+                self._set_molecule_from_smiles(mol_smiles)
 
     def get_similarity_to_molecule(self,
                                    target_mol,
@@ -99,6 +156,35 @@ class Molecule:
                            self.descriptor.value - target_mol.descriptor.value,
                            ord=2)
 
+    def compare_to_molecule_set(self, molecule_set):
+        """Compare the molecule to a database contained in
+        a MoleculeSet object.
+
+        Parameters
+        ----------
+        molecule_set: MoleculeSet object
+            Database of molecules to compare against.
+
+        Returns
+        -------
+        target_similarity: list
+           List of similarity scores of molecules of the database when
+           compared to the self molecule.
+
+        Note
+        ----
+        Excludes the self molecule if it is part of the same database.
+        Uses mol_text attribute to achieve this.
+
+        """
+        target_similarity = [
+            self.get_similarity_to_molecule(
+                ref_mol, similarity_measure=molecule_set.similarity_measure,
+                molecular_descriptor=molecule_set.molecular_descriptor)
+            for ref_mol in molecule_set.molecule_database
+            if ref_mol.mol_text != self.mol_text]
+        return target_similarity
+
 
 class MoleculeSet:
     """Collection of Molecule objects.
@@ -127,11 +213,12 @@ class MoleculeSet:
                  is_verbose,
                  similarity_measure=None,
                  molecular_descriptor=None):
-        self._set_molecule_database(molecule_database_src)
         self.is_verbose = is_verbose
+        self.similarity_matrix = None
+        self._set_molecule_database(molecule_database_src)
         self._set_similarity_measure(similarity_measure=similarity_measure)
         self._set_molecular_descriptor(molecular_descriptor)
-        if self.molecular_descriptor and self.similarity_measure is not None:
+        if self.molecular_descriptor and self.similarity_measure:
             self._set_similarity_matrix()
 
     def _set_molecule_database(self, molecule_database_src):
@@ -265,11 +352,11 @@ class MoleculeSet:
 
         """
         if molecular_descriptor is not None:
-            self._set_feature_datatype(molecular_descriptor)
+            self._set_molecular_descriptor(molecular_descriptor)
             if similarity_measure is not None:
                 self._set_similarity_measure(similarity_measure)
                 self._set_similarity_matrix()
-        if self.feature_datatype is None:
+        if self.molecular_descriptor is None:
             raise ValueError('Feature datatype could not be set, probably'
                              'due to bad molecular_descriptor argument')
         if self.similarity_measure is None:
@@ -306,8 +393,19 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_most_dissimilar_pairs(self):
+    def get_most_dissimilar_pairs(self,
+                                  molecular_descriptor=None,
+                                  similarity_measure=None):
         """Get pairs of samples which are least similar.
+
+        Parameters
+        ----------
+        molecular_descriptor: str
+            If descriptor was not defined for this data set,
+            must be defined now. Default is None.
+        similarity_measure: str
+            If similarity_measure was not defined for this data set,
+            must be defined now. Default is None.
 
         Returns
         -------
@@ -315,9 +413,11 @@ class MoleculeSet:
             List of pairs of indices closest to one another.
 
         """
-        # If not set, set similarity_matrix.
-        if self.similarity_matrix is None:
-            self.generate_similarity_matrix()
+        if molecular_descriptor is not None:
+            self._set_molecular_descriptor(molecular_descriptor)
+            if similarity_measure is not None:
+                self._set_similarity_measure(similarity_measure)
+                self._set_similarity_matrix()
 
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
@@ -332,4 +432,31 @@ class MoleculeSet:
             found_samples[furthest_index] = 1
             found_samples[index] = 1
         return out_list
+
+    def get_similarity_matrix(self,
+                              molecular_descriptor=None,
+                              similarity_measure=None):
+        """Get the similarity matrix for the data set
+
+        Parameters
+        ----------
+        molecular_descriptor: str
+            If descriptor was not defined for this data set,
+            must be defined now. Default is None.
+        similarity_measure: str
+            If similarity_measure was not defined for this data set,
+            must be defined now. Default is None.
+
+        Returns
+        -------
+        np.ndarray
+            Similarity matrix of the dataset.
+
+        Note
+        ----
+        If un-set, sets the self.similarity_matrix attribute
+
+        """
+
+
 
