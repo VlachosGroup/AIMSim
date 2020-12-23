@@ -185,6 +185,9 @@ class Molecule:
             if ref_mol.mol_text != self.mol_text]
         return target_similarity
 
+    def get_mol_property_val(self):
+        return self.mol_property_val
+
 
 class MoleculeSet:
     """Collection of Molecule objects.
@@ -257,7 +260,11 @@ class MoleculeSet:
                 smiles_data = fp.readlines()
             for count, line in enumerate(smiles_data):
                 # Assumes that the first column contains the smiles string
-                smile = line.split()[0]
+                line_fields = line.split()
+                smile = line_fields[0]
+                mol_property_val = None
+                if len(line_fields) > 0:
+                    mol_property_val = line_fields[1]
                 if self.is_verbose:
                     print(
                         f'Processing {smile} '
@@ -267,7 +274,10 @@ class MoleculeSet:
                     print(f'{smile} could not be loaded')
                     continue
                 mol_text = smile
-                molecule_database.append(Molecule(mol_graph, mol_text))
+                molecule_database.append(Molecule(
+                                         mol_graph=mol_graph,
+                                         mol_text=mol_text,
+                                         mol_property_val=mol_property_val))
         else:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
@@ -346,7 +356,7 @@ class MoleculeSet:
         Returns
         -------
         List(Tuple(Molecule, Molecule))
-            List of pairs of indices closest to one another.
+            List of pairs of Molecules closest to one another.
             Since ties are broken randomly, this may be non-transitive
             i.e. (A, B) =/=> (B, A)
 
@@ -374,22 +384,23 @@ class MoleculeSet:
             pre_diag_closest_index = np.argmax(row[:index]) if index > 0 \
                 else -1
             # if either (pre_) post_diag_closest_index not set, the
-            # closest_index_index is set to the (post_) pre_diag_closest_index
+            # closest_index is set to the (post_) pre_diag_closest_index
             if pre_diag_closest_index == -1:
-                closest_index_index = post_diag_closest_index
+                closest_index = post_diag_closest_index
             if post_diag_closest_index == -1:
-                closest_index_index = pre_diag_closest_index
+                closest_index = pre_diag_closest_index
             # if both pre and post index set, closest_index_index set to index
             # with min distance. In case of tie, post_diag_closest_index set
             else:
                 # choose the index which has max correlation
-                closest_index_index = (
+                closest_index = (
                     post_diag_closest_index if
                     row[post_diag_closest_index] >= row[pre_diag_closest_index]
                     else pre_diag_closest_index)
-            out_list.append((index, closest_index_index))
+            out_list.append((self.molecule_database[index],
+                             self.molecule_database[closest_index]))
             # update list
-            found_samples[closest_index_index] = 1
+            found_samples[closest_index] = 1
             found_samples[index] = 1
         return out_list
 
@@ -409,7 +420,7 @@ class MoleculeSet:
 
         Returns
         -------
-        List(Tuple(int, int))
+        List(Tuple(Molecule, Molecule))
             List of pairs of indices closest to one another.
 
         """
@@ -427,7 +438,8 @@ class MoleculeSet:
                 # if  species has been identified before
                 continue
             furthest_index = np.argmin(row)
-            out_list.append((index, furthest_index))
+            out_list.append((self.molecule_database[index],
+                             self.molecule_database[furthest_index]))
             # update list
             found_samples[furthest_index] = 1
             found_samples[index] = 1
