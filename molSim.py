@@ -4,10 +4,11 @@
 from argparse import ArgumentParser
 
 import numpy as np
+from scipy.stats import pearsonr
 import yaml
 
 from chemical_datastructures import MoleculeSet, Molecule
-from plotting_scripts import plot_density
+from plotting_scripts import plot_density, plot_heatmap, plot_parity
 
 
 def get_molecule_database(database_configs):
@@ -58,10 +59,8 @@ def compare_target_molecule(target_molecule_src,
         Database of molecules to compare against.
     out_fpath: str
         Filepath to output results. If None, results are not saved and
-        simply displated to IO.
+        simply displayed to IO.
 
-    Returns
-    -------
 
     """
     target_molecule = Molecule(mol_src=target_molecule_src)
@@ -94,6 +93,111 @@ def compare_target_molecule(target_molecule_src,
     plot_density(target_similarity, **pdf_plot_kwargs)
 
 
+def visualize_dataset(molecule_database, task_configs):
+    """ Visualize essential properties of the dataset.
+
+    Parameters
+    ----------
+    molecule_database: MoleculeSet object
+        Molecular database initialized with the parameters.
+    task_configs : dict
+        The parameters needed for the visualizations.
+
+    Plots Generated
+    ---------------
+    1. Heatmap of Molecular Similarity.
+    2. PDF of the similarity distribution of the molecules in the database.
+
+    """
+    similarity_matrix = molecule_database.get_similarity_matrix()
+    if molecule_database.is_verbose:
+        print('Plotting similarity heatmap')
+    plot_heatmap(similarity_matrix, **task_configs.get(
+                                            'heatmap plot parameters', None))
+    if task_configs.get('pairwise similarity', None):
+        if molecule_database.is_verbose:
+            print('Generating pairwise similarities')
+        pairwise_similarity_vector = np.array([similarity_matrix[row, col]
+                                               for row, col
+                                               in zip(
+                                                 range(
+                                                   similarity_matrix.shape[0]),
+                                                 range(
+                                                   similarity_matrix.shape[1]))
+                                               if row < col])
+        if molecule_database.is_verbose:
+            print('Plotting density of pairwise similarities')
+        plot_density(pairwise_similarity_vector,
+                     **task_configs.get('pairwise similarity'))
+
+
+def show_property_variation_w_similarity(molecule_database, task_configs):
+    """Plot the variation of molecular property with molecular fingerprint.
+
+    Parameters
+    ----------
+    molecule_database : Molecules object
+        Molecules object of the molecule database.
+    task_configs : dict
+        The parameters needed for the visualizations.
+
+    """
+    similar_mol_pairs = molecule_database.get_most_similar_pairs()
+    similarity_plot_params = {
+                                'xlabel': 'Reference Molecule Property',
+                                'ylabel': 'Most Similar Molecule Property'
+                              }
+
+    similarity_plot_params.update(**task_configs.get(
+                                        'similarity plot parameters', None))
+    reference_mol_properties, similar_mol_properties = [], []
+    for mol_pair in similar_mol_pairs:
+        mol1_property = mol_pair[0].get_mol_property_val()
+        mol2_property = mol_pair[1].get_mol_property_val()
+        if mol1_property and mol2_property:
+            reference_mol_properties.append(mol1_property)
+            similar_mol_properties.append(mol2_property)
+    if molecule_database.is_verbose:
+        print('Plotting Responses of Similar Molecules')
+    plot_parity(reference_mol_properties,
+                similar_mol_properties,
+                **similarity_plot_params)
+    pearson_coff_of_responses = pearsonr(reference_mol_properties,
+                                         similar_mol_properties)
+    print(f'Pearson Correlation in the properties of the '
+          f'most similar molecules is: {pearson_coff_of_responses[0]}   '
+          f'2 tailed p-value: {pearson_coff_of_responses[1]}')
+
+    if task_configs.pop('get most dissimilar', False):
+        dissimilar_mol_pairs = molecule_database.get_most_dissimilar_pairs()
+        dissimilarity_plot_params = {
+            'xlabel': 'Reference Molecule Property',
+            'ylabel': 'Most Dissimilar Molecule Property'
+        }
+        dissimilarity_plot_params.update(**task_configs.get(
+            'dissimilarity plot parameters', None))
+        reference_mol_properties, dissimilar_mol_properties = [], []
+        for mol_pair in dissimilar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                dissimilar_mol_pairs.append(mol2_property)
+        if molecule_database.is_verbose:
+            print('Plotting Responses of Dissimilar Molecules')
+        plot_parity(reference_mol_properties,
+                    dissimilar_mol_properties,
+                    **dissimilarity_plot_params)
+        pearson_coff_of_dissimilar_responses = pearsonr(reference_mol_properties,
+                                             dissimilar_mol_properties)
+        print(f'Pearson Correlation in the properties of the '
+              f'most dissimilar molecules is: '
+              f'{pearson_coff_of_dissimilar_responses[0]}   '
+              f'2 tailed p-value: {pearson_coff_of_dissimilar_responses[1]}')
+
+
+
+
 def launch_tasks(molecule_database, tasks):
     """Sequentially launches all the tasks from the configuration file.
 
@@ -116,10 +220,10 @@ def launch_tasks(molecule_database, tasks):
                                     out_fpath=save_to_file,
                                     pdf_plot_kwargs=pdf_plot_kwargs)
         elif task == 'visualize_dataset':
-            visualize_dataset(task_configs, molecule_database)
+            visualize_dataset(molecule_database, task_configs)
         elif task == 'show_property_variation_w_similarity':
-            show_property_variation_w_similarity(
-                task_configs, molecule_database, verbose)
+            show_property_variation_w_similarity(molecule_database,
+                                                 task_configs)
         else:
             raise NotImplementedError(
                 f'{task} entered in the <<task>> field is not implemented')
