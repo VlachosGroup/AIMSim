@@ -10,7 +10,6 @@ Supported output type
 'rdkit': rdkit.DataStructs.cDataStructs.ExplicitBitVect
 """
 import numpy as np
-from rdkit import Chem
 from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
@@ -138,7 +137,7 @@ class Descriptor:
         self.value = rdmolops.RDKFingerprint(molecule_graph,  # rdkit bitvector
                                              minPath=min_path,
                                              maxPath=max_path)
-        self.label = 'topological_fingerprint'
+        self.label = 'topological fingerprint'
         self.datatype = 'rdkit'
         self._coerce_output_datatype(output_datatype=output_datatype)
 
