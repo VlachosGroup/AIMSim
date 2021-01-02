@@ -15,8 +15,6 @@ from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
 
-from chemical_datastructures import Molecule
-
 
 def get_supported_datatypes():
     """Returns a list of labels for supported datatypes.
@@ -166,7 +164,9 @@ class Descriptor:
             List of labels for descriptors currently supported.
         """
         supported_descriptors = []
-        supported_descriptors.extend(self._get_supported_fingerprints())
+        supported_descriptors.extend(Descriptor().
+                                     _get_supported_fingerprints())
+        return supported_descriptors
 
     def make_fingerprint(self,
                          molecule_graph,
