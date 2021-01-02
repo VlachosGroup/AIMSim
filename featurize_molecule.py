@@ -152,7 +152,7 @@ class Descriptor:
             List of labels for fingerprints currently supported.
 
         """
-        return ['topological_fingerprint', 'morgan_fingerprint']
+        return ['topological fingerprint', 'morgan fingerprint']
 
     @staticmethod
     def get_supported_descriptors():
