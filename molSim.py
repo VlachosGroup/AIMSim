@@ -44,7 +44,7 @@ def get_molecule_database(database_configs):
 """ Tasks"""
 
 
-def compare_target_molecule(target_molecule_src,
+def compare_target_molecule(target_molecule,
                             molecule_set,
                             out_fpath,
                             **pdf_plot_kwargs):
@@ -53,8 +53,8 @@ def compare_target_molecule(target_molecule_src,
     of similarity.
     Parameters
     ----------
-    target_molecule_src: str
-        Filepath for loading target molecule.
+    target_molecule: Molecule object
+        Target molecule.
     molecule_set: MoleculeSet object
         Database of molecules to compare against.
     out_fpath: str
@@ -63,7 +63,6 @@ def compare_target_molecule(target_molecule_src,
 
 
     """
-    target_molecule = Molecule(mol_src=target_molecule_src)
     target_similarity = target_molecule.compare_to_molecule_set(molecule_set)
     most_similar_mol = molecule_set.molecule_database[
         np.argmax(target_similarity)]
@@ -210,11 +209,19 @@ def launch_tasks(molecule_database, tasks):
     """
     for task, task_configs in tasks.items():
         if task == 'compare_target_molecule':
+            target_molecule_smiles = task_configs.get('target_molecule_smiles')
             target_molecule_src = task_configs.get('target_molecule_src')
+            if target_molecule_smiles:
+                target_molecule = Molecule(mol_smiles=target_molecule_smiles)
+            elif target_molecule_src:
+                target_molecule = Molecule(mol_src=target_molecule_src)
+            else:
+                raise IOError('Target molecule source is not specified '
+                              f'for task {task}')
             save_to_file = task_configs.get('save_to_file', None)
             pdf_plot_kwargs = task_configs.get('plot_settings')
-            compare_target_molecule(target_molecule_src,
-                                    molecule_database,
+            compare_target_molecule(target_molecule=target_molecule,
+                                    molecule_set=molecule_database,
                                     out_fpath=save_to_file,
                                     pdf_plot_kwargs=pdf_plot_kwargs)
         elif task == 'visualize_dataset':
