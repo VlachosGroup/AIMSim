@@ -1,9 +1,9 @@
 ---
 verbose: True
-molecule_database: "smiles_responses.txt"
-similarity_measure: 'tanimoto_similarity' # only one available now
+molecule_database: 'smiles_responses.txt'
+similarity_measure: 'tanimoto'
 # currently implements: 'rdkit topological' / 'morgan_fingerprint' (DEFAULT)
-molecular_descriptor: 'rdkit_topological'
+molecular_descriptor: 'topological fingerprint'
 
 # The task field decides what you want to do
 # Each task field contains a sub-task field which further modifies the task.
@@ -15,7 +15,7 @@ molecular_descriptor: 'rdkit_topological'
 
 tasks:
   compare_target_molecule:
-      target_molecule: 'FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F' # put in SMILE string or .pdb file path
+      target_molecule_smiles: 'FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F' # put in SMILES string
       show_pdf: # turn on in case a pdf of similarity score is desired
           pdf_color: 'orange' # Set a color recognized by matplotlib.
           # Default is 'red'.
