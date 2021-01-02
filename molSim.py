@@ -25,7 +25,7 @@ def get_molecule_database(database_configs):
         Molecular database initialized with the parameters.
 
     """
-    molecule_database_src = database_configs.get('molecule_database_src', None)
+    molecule_database_src = database_configs.get('molecule_database', None)
     if molecule_database_src is None:
         raise IOError('<< molecule_database >> field not set in config file')
     is_verbose = database_configs.get('is_verbose', True)
@@ -194,8 +194,6 @@ def show_property_variation_w_similarity(molecule_database, task_configs):
               f'most dissimilar molecules is: '
               f'{pearson_coff_of_dissimilar_responses[0]}   '
               f'2 tailed p-value: {pearson_coff_of_dissimilar_responses[1]}')
-
-
 
 
 def launch_tasks(molecule_database, tasks):
