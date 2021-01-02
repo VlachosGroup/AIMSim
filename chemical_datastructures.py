@@ -251,8 +251,8 @@ class MoleculeSet:
                 mol_text = os.path.basename(molfile).replace('.pdb', '')
                 if mol_graph is None:
                     print(f'{molfile} could not be imported. Skipping')
-                    continue
-                molecule_database.append(Molecule(mol_graph, mol_text))
+                else:
+                    molecule_database.append(Molecule(mol_graph, mol_text))
         elif os.path.isfile(molecule_database_src):
             if self.is_verbose:
                 print(f'Reading SMILES strings from {molecule_database_src}')
@@ -272,12 +272,12 @@ class MoleculeSet:
                 mol_graph = Chem.MolFromSmiles(smile)
                 if mol_graph is None:
                     print(f'{smile} could not be loaded')
-                    continue
-                mol_text = smile
-                molecule_database.append(Molecule(
-                                         mol_graph=mol_graph,
-                                         mol_text=mol_text,
-                                         mol_property_val=mol_property_val))
+                else:
+                    mol_text = smile
+                    molecule_database.append(
+                        Molecule(mol_graph=mol_graph,
+                                 mol_text=mol_text,
+                                 mol_property_val=float(mol_property_val)))
         else:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
