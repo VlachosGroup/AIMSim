@@ -191,16 +191,6 @@ class Molecule:
                 molecular_descriptor=molecule_set.molecular_descriptor)
             for ref_mol in molecule_set.molecule_database
             if ref_mol.mol_text != self.mol_text]
-        ###########
-        print('ho')
-        for ref_mol in molecule_set.molecule_database:
-            if ref_mol.mol_text != self.mol_text:
-                print('hi')
-                print(self.get_similarity_to_molecule(
-                ref_mol, similarity_measure=molecule_set.similarity_measure,
-                molecular_descriptor=molecule_set.molecular_descriptor))
-        exit()
-        ############
         return target_similarity
 
     def get_mol_property_val(self):
