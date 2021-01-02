@@ -146,7 +146,7 @@ class Molecule:
                                          molecule_graph=target_mol.mol_graph,
                                          fingerprint_type=molecular_descriptor,
                                          fingerprint_datatype=feature_datatype)
-        if similarity_measure == 'tanimoto_similarity':
+        if similarity_measure == 'tanimoto':
             return DataStructs.TanimotoSimilarity(self.descriptor.value,
                                                   target_mol.descriptor.value)
         elif similarity_measure == 'neg_l0':
@@ -161,6 +161,8 @@ class Molecule:
             return -np.linalg.norm(
                            self.descriptor.value - target_mol.descriptor.value,
                            ord=2)
+        else:
+            raise ValueError('Similarity measure note specified correctly')
 
     def compare_to_molecule_set(self, molecule_set):
         """Compare the molecule to a database contained in
@@ -189,6 +191,16 @@ class Molecule:
                 molecular_descriptor=molecule_set.molecular_descriptor)
             for ref_mol in molecule_set.molecule_database
             if ref_mol.mol_text != self.mol_text]
+        ###########
+        print('ho')
+        for ref_mol in molecule_set.molecule_database:
+            if ref_mol.mol_text != self.mol_text:
+                print('hi')
+                print(self.get_similarity_to_molecule(
+                ref_mol, similarity_measure=molecule_set.similarity_measure,
+                molecular_descriptor=molecule_set.molecular_descriptor))
+        exit()
+        ############
         return target_similarity
 
     def get_mol_property_val(self):
