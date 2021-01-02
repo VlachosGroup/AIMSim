@@ -191,11 +191,11 @@ class Descriptor:
 
         """
 
-        if fingerprint_type == 'morgan_fingerprint':
+        if fingerprint_type == 'morgan fingerprint':
             self._set_morgan_fingerprint(molecule_graph=molecule_graph,
                                          output_datatype=fingerprint_datatype,
                                          **kwargs)
-        elif fingerprint_type == 'topological':
+        elif fingerprint_type == 'topological fingerprint':
             self._set_rdkit_topological_fingerprint(
                                         molecule_graph=molecule_graph,
                                         output_datatype=fingerprint_datatype,
