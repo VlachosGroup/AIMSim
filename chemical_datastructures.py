@@ -64,8 +64,14 @@ class Molecule:
         self.descriptor = Descriptor(value=mol_descriptor_val)
         if mol_src is not None:
             self._set_molecule_from_file(mol_src)
+            if self.mol_graph is None:
+                raise ValueError('Could not load molecule from file source',
+                                 mol_src)
         if mol_smiles is not None:
             self._set_molecule_from_smiles(mol_smiles)
+            if self.mol_graph is None:
+                raise ValueError('Could not load molecule from SMILES string',
+                                 mol_smiles)
 
     def _set_molecule_from_smiles(self, mol_smiles):
         """
