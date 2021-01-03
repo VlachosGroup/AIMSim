@@ -64,7 +64,8 @@ class Molecule:
         self.mol_graph = mol_graph
         self.mol_text = mol_text
         self.mol_property_val = mol_property_val
-        self.descriptor = Descriptor(value=np.array(mol_descriptor_val))
+        self.descriptor = Descriptor() if mol_descriptor_val is None \
+            else Descriptor(value=np.array(mol_descriptor_val))
         if mol_src is not None:
             self._set_molecule_from_file(mol_src)
             if self.mol_graph is None:
