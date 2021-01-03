@@ -38,5 +38,6 @@ tasks:
     # row format --> "molecule-name(or smile string)" "property"
     # e.g. --> water 100
     property_file: "smiles_responses.txt"
-    show_labels: False  # Default is False.
     most_dissimilar: False  # compares the property for most dissimilar mols
+    similarity_plot_settings:
+      color: red  # Default is False.
