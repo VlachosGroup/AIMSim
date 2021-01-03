@@ -8,6 +8,7 @@ Supported output type
 --------------------
 'numpy': np.array
 'rdkit': rdkit.DataStructs.cDataStructs.ExplicitBitVect
+
 """
 import numpy as np
 from rdkit.Chem import rdmolops
