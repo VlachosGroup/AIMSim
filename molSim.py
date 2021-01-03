@@ -222,7 +222,7 @@ def launch_tasks(molecule_database, tasks):
             compare_target_molecule(target_molecule=target_molecule,
                                     molecule_set=molecule_database,
                                     out_fpath=save_to_file,
-                                    pdf_plot_kwargs=pdf_plot_kwargs)
+                                    **pdf_plot_kwargs)
         elif task == 'visualize_dataset':
             visualize_dataset(molecule_database, task_configs)
         elif task == 'show_property_variation_w_similarity':
