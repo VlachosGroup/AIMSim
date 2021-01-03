@@ -111,7 +111,7 @@ def visualize_dataset(molecule_database, task_configs):
     if molecule_database.is_verbose:
         print('Plotting similarity heatmap')
     plot_heatmap(similarity_matrix, **task_configs.get(
-                                            'heatmap plot parameters', None))
+                                            'pairwise_heatmap_settings', {}))
     if task_configs.get('pairwise similarity', None):
         if molecule_database.is_verbose:
             print('Generating pairwise similarities')
