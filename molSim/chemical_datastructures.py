@@ -12,9 +12,9 @@ import os.path
 import numpy as np
 from rdkit import DataStructs, Chem
 
-from helper_methods import get_feature_datatype
-from featurize_molecule import Descriptor
-from similarity_measures import get_supported_measures
+from molSim.helper_methods import get_feature_datatype
+from molSim.featurize_molecule import Descriptor
+from molSim.similarity_measures import get_supported_measures
 
 
 class Molecule:
