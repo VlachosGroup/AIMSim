@@ -117,8 +117,8 @@ def plot_parity(x, y, **kwargs):
     """
     plot_params = {
         'alpha': 0.7,
-        's': 10,
-        'color': 'green',
+        's': 100,
+        'plot_color': 'green',
     }
     if kwargs is not None:
         plot_params.update(kwargs)
@@ -126,7 +126,7 @@ def plot_parity(x, y, **kwargs):
     plt.rcParams['svg.fonttype'] = 'none'
     plt.scatter(
         x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'],
-        c=plot_params['color'])
+        c=plot_params['plot_color'])
     max_entry = max(max(x), max(y)) + plot_params.get('offset', 5.0)
     min_entry = min(min(x), min(y)) - plot_params.get('offset', 5.0)
     axes = plt.gca()
