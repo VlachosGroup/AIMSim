@@ -16,18 +16,18 @@ molecular_descriptor: 'topological fingerprint'
 tasks:
   compare_target_molecule:
       target_molecule_smiles: 'FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F' # put in SMILES string
-      show_pdf: # turn on in case a pdf of similarity score is desired
-          pdf_color: 'orange' # Set a color recognized by matplotlib.
+      plot_settings: # turn on in case a plot of similarity score is desired
+          plot_color: 'orange' # Set a color recognized by matplotlib.
           # Default is 'red'.
-          pdf_title: 'Compared to Target Molecule'
+          plot_title: 'Compared to Target Molecule'
       identify_closest_furthest: # turn on to id most and least similar mols.
           out_file_path: 'output_jazz.txt'  # complete path of output file
   visualize_dataset:
-      show_pdf: # turn on in case a pdf of similarity score is desired
-          pdf_color: 'green' # Set a color recognized by matplotlib.
+      plot_settings: # turn on in case a pdf of similarity score is desired
+          plot_color: 'green' # Set a color recognized by matplotlib.
                              # Default is 'red'.
-          pdf_title: 'Entire Dataset'  # Set a title for plot if needed.
-      show_heatmap: # turn on to see pairwise similarity heatmap
+          plot_title: 'Entire Dataset'  # Set a title for plot if needed.
+      pairwise_heatmap_settings: # turn on to see pairwise similarity heatmap
           annotate: False # put in True or False. Default is False.
           #!xticklabels: # set labels for x-axis ticks
           #!yticklabels: # set labels for y-axis ticks
