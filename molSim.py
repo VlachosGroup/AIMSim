@@ -77,7 +77,7 @@ def compare_target_molecule(target_molecule,
     text_prompt += str(max(target_similarity))
     text_prompt += '\n'
     text_prompt += '****Minimum Similarity Molecule ****\n'
-    text_prompt += f'Molecule: {least_similar_mol}\n'
+    text_prompt += f'Molecule: {least_similar_mol.mol_text}\n'
     text_prompt += 'Similarity: '
     text_prompt += str(min(target_similarity))
     if out_fpath is None:
@@ -88,7 +88,6 @@ def compare_target_molecule(target_molecule,
         print('Writing to file ', out_fpath)
         with open(out_fpath, "w") as fp:
             fp.write(text_prompt)
-
     plot_density(target_similarity, **pdf_plot_kwargs)
 
 
