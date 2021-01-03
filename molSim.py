@@ -147,7 +147,7 @@ def show_property_variation_w_similarity(molecule_database, task_configs):
                               }
 
     similarity_plot_params.update(**task_configs.get(
-                                        'similarity plot parameters', None))
+                                        'similarity_plot_settings', {}))
     reference_mol_properties, similar_mol_properties = [], []
     for mol_pair in similar_mol_pairs:
         mol1_property = mol_pair[0].get_mol_property_val()
