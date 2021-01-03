@@ -27,7 +27,7 @@ def plot_density(similarity_vector, **kwargs):
             Plot title. Default is None.
         plot_title_fontsize: int
             Fontsize of the title. Default is 24.
-        color: str
+        plot_color: str
             Color of the plot.
         shade: bool
             To shade the plot or not.
@@ -39,10 +39,11 @@ def plot_density(similarity_vector, **kwargs):
     plot_title_fontsize = kwargs.pop('plot_title_fontsize', 24)
     xlabel_fontsize = int(kwargs.pop('xlabel_fontsize', 20))
     ylabel_fontsize = int(kwargs.pop('ylabel_fontsize', 20))
+    plot_color = kwargs.pop('plot_color', None)
 
     plt.figure()
     plt.rcParams['svg.fonttype'] = 'none'
-    kdeplot(similarity_vector, **kwargs)
+    kdeplot(similarity_vector, color=plot_color,**kwargs)
     plt.xlabel(xlabel, fontsize=xlabel_fontsize)
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
     if plot_title is not None:
