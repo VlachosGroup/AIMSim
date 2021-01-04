@@ -12,9 +12,9 @@ import os.path
 import numpy as np
 from rdkit import DataStructs, Chem
 
-from helper_methods import get_feature_datatype
-from featurize_molecule import Descriptor
-from similarity_measures import get_supported_measures
+from molSim.helper_methods import get_feature_datatype
+from molSim.featurize_molecule import Descriptor
+from molSim.similarity_measures import get_supported_measures
 
 
 class Molecule:
@@ -45,6 +45,9 @@ class Molecule:
             Some property associated with the molecule. This is typically the
             response being studied. E.g. Boiling point, Selectivity etc.
             Default is None.
+        mol_descriptor_val: numpy ndarray
+            Decriptor value for the molecule. Must be numpy array or list.
+            Default is None.
         mol_src: str
             Source file or SMILES string to load molecule. Acceptable files are
               -> .pdb file
@@ -61,7 +64,8 @@ class Molecule:
         self.mol_graph = mol_graph
         self.mol_text = mol_text
         self.mol_property_val = mol_property_val
-        self.descriptor = Descriptor(value=mol_descriptor_val)
+        self.descriptor = Descriptor() if mol_descriptor_val is None \
+            else Descriptor(value=np.array(mol_descriptor_val))
         if mol_src is not None:
             self._set_molecule_from_file(mol_src)
             if self.mol_graph is None:

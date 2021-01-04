@@ -7,8 +7,8 @@ import numpy as np
 from scipy.stats import pearsonr
 import yaml
 
-from chemical_datastructures import MoleculeSet, Molecule
-from plotting_scripts import plot_density, plot_heatmap, plot_parity
+from molSim.chemical_datastructures import MoleculeSet, Molecule
+from molSim.plotting_scripts import plot_density, plot_heatmap, plot_parity
 
 
 def get_molecule_database(database_configs):
