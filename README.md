@@ -32,9 +32,9 @@ Use the following command with conda to create an environment:
 6. PyYAML
 
 <b> Example Run </b>
->> python molecular_similarity.py config.yaml
+>> python -m molSim config.yaml
 Tests:
->> python test_molecular_similarity.py
+>> python -m unittest discover
 
 <b> Notes </b>
 
