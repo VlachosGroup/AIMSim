@@ -30,6 +30,8 @@ Use the following command with conda to create an environment:
 4. RDKIT
 5. SEABORN
 6. PyYAML
+7. Pandas 1.0.1+
+8. openpyxl
 
 <b> Example Run </b>
 >> python -m molSim config.yaml
