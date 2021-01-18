@@ -24,6 +24,8 @@ def get_molecule_database(database_configs):
 
     """
     molecule_database_src = database_configs.get('molecule_database', None)
+    database_src_type = database_configs.get('molecule_database_source_type',
+                                             None)
     if molecule_database_src is None:
         raise IOError('<< molecule_database >> field not set in config file')
     is_verbose = database_configs.get('is_verbose', True)
@@ -32,10 +34,11 @@ def get_molecule_database(database_configs):
     molecular_descriptor = database_configs.get('molecular_descriptor',
                                                 'morgan_fingerprint')
     molecule_database = MoleculeSet(
-                                   molecule_database_src=molecule_database_src,
-                                   similarity_measure=similarity_measure,
-                                   molecular_descriptor=molecular_descriptor,
-                                   is_verbose=is_verbose)
+                                molecule_database_src=molecule_database_src,
+                                molecule_database_src_type=database_src_type,
+                                similarity_measure=similarity_measure,
+                                molecular_descriptor=molecular_descriptor,
+                                is_verbose=is_verbose)
     return molecule_database
 
 
