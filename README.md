@@ -52,7 +52,7 @@ Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate 
 
 <i> Currently Implemented Similarity Scores </i>
 
-1. Tanomito Similarity (0 for completely dissimilaar and 1 for identical molecules)
+1. Tanomito Similarity (0 for completely dissimilar and 1 for identical molecules)
 2. Negative L0, L1 and L2 norms
 3. Cosine Similarity
 
