@@ -10,6 +10,7 @@ from glob import glob
 import os.path
 
 import numpy as np
+import pandas as pd
 from rdkit import DataStructs, Chem
 
 from molSim.helper_methods import get_feature_datatype
@@ -225,18 +226,22 @@ class MoleculeSet:
     """
     def __init__(self,
                  molecule_database_src,
+                 molecule_database_src_type,
                  is_verbose,
                  similarity_measure=None,
                  molecular_descriptor=None):
         self.is_verbose = is_verbose
         self.similarity_matrix = None
-        self._set_molecule_database(molecule_database_src)
+        self._set_molecule_database(molecule_database_src,
+                                    molecule_database_src_type)
         self._set_similarity_measure(similarity_measure=similarity_measure)
         self._set_molecular_descriptor(molecular_descriptor)
         if self.molecular_descriptor and self.similarity_measure:
             self._set_similarity_matrix()
 
-    def _set_molecule_database(self, molecule_database_src):
+    def _set_molecule_database(self,
+                               molecule_database_src,
+                               molecule_database_src_type):
         """Load molecular database and set as attribute.
 
         Parameters
@@ -247,6 +252,8 @@ class MoleculeSet:
             are sequentially read.
             If a file path, it is assumed that the file is a .txt file with
             layout: SMILES string (column1) property (column2, optional).
+        molecule_database_src_type: str
+            Type of source. Can be ['folder', 'text', 'excel', 'csv']
 
         Returns
         -------
@@ -255,7 +262,7 @@ class MoleculeSet:
 
         """
         molecule_database = []
-        if os.path.isdir(molecule_database_src):
+        if molecule_database_src_type.lower() == 'folder':
             if self.is_verbose:
                 print(f'Searching for *.pdb files in {molecule_database_src}')
             for molfile in glob(os.path.join(molecule_database_src, '*.pdb')):
@@ -265,7 +272,7 @@ class MoleculeSet:
                     print(f'{molfile} could not be imported. Skipping')
                 else:
                     molecule_database.append(Molecule(mol_graph, mol_text))
-        elif os.path.isfile(molecule_database_src):
+        elif molecule_database_src_type.lower() == 'text':
             if self.is_verbose:
                 print(f'Reading SMILES strings from {molecule_database_src}')
             with open(molecule_database_src, "r") as fp:
@@ -290,11 +297,54 @@ class MoleculeSet:
                         Molecule(mol_graph=mol_graph,
                                  mol_text=mol_text,
                                  mol_property_val=float(mol_property_val)))
+        elif molecule_database_src_type.lower() in ['excel', 'csv']:
+            if self.is_verbose:
+                print(f'Reading molecules from {molecule_database_src}')
+            database_df = pd.read_excel(molecule_database_src,
+                                        engine='openpyxl') \
+                if molecule_database_src_type.lower() == 'excel'\
+                else pd.read_csv(molecule_database_src, engine='openpyxl')
+            # expects feature columns to be prefixed with feature_
+            # e.g. feature_smiles
+            feature_cols = [column for column in database_df.columns
+                            if column.split('_')[0] == 'feature']
+            database_feature_df = database_df[feature_cols]
+            mol_names, mol_smiles, responses = None, None, None
+            if 'feature_name' in feature_cols:
+                mol_names = database_feature_df['feature_name'].values\
+                                                               .flatten()
+            response_col = [column for column in database_df.columns
+                            if column.split('_')[0] == 'response']
+            if len(response_col) > 0:
+                responses = database_df[response_col].values.flatten()
+            if 'feature_smiles' in feature_cols:
+                for mol_id, smile in enumerate(database_df['feature_smiles']
+                                               .values.flatten()):
+                    if self.is_verbose:
+                        print(
+                         f"Processing {smile} "
+                         f"({mol_id + 1}/"
+                         f"{database_df['feature_smiles'].values.size})")
+                    mol_graph = Chem.MolFromSmiles(smile)
+                    if mol_graph is None:
+                        print(f'{smile} could not be loaded')
+                    else:
+                        mol_text = smile
+                        mol_property_val = None
+                        if mol_names is not None:
+                            mol_text = mol_names[mol_id]
+                        if responses is not None:
+                            mol_property_val = responses[mol_id]
+                        molecule_database.append(
+                            Molecule(mol_graph=mol_graph,
+                                     mol_text=mol_text,
+                                     mol_property_val=mol_property_val))
+
         else:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
                 f'Please enter valid foldername or path of a '
-                f'text file with SMILES strings')
+                f'text/excel/csv file')
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
