@@ -166,6 +166,9 @@ class Molecule:
             return -np.linalg.norm(
                            self.descriptor.value - target_mol.descriptor.value,
                            ord=2)
+        elif similarity_measure == 'dice':
+            return DataStructs.DiceSimilarity(self.descriptor.value,
+                                                  target_mol.descriptor.value)
         else:
             raise ValueError('Similarity measure note specified correctly')
 

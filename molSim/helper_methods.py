@@ -19,6 +19,11 @@ def get_feature_datatype(similarity_measure, molecular_descriptor):
                                     'morgan_fingerprint',
                                     ]:
             return 'rdkit'
+    elif similarity_measure == 'dice':
+        if molecular_descriptor in ['topological_fingerprint',
+                                    'morgan_fingerprint',
+                                    ]:
+            return 'rdkit'
     elif similarity_measure in ['-l0', '-l1', '-l2']:
         if molecular_descriptor in ['topological_fingerprint',
                                     'morgan_fingerprint',
