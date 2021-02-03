@@ -108,6 +108,55 @@ class TestMolecule(unittest.TestCase):
         print(f'Test complete. Deleting file {test_pdb_filename}...')
         remove(test_pdb_filename)
 
+    def test_molecule_graph_similar_to_itself_morgan_tanimoto(self):
+        test_smiles = 'CC'
+        test_molecule = Molecule()
+        test_molecule._set_molecule_from_smiles(test_smiles)
+        test_molecule_duplicate = Molecule()
+        test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
+        tanimoto_similarity = test_molecule.get_similarity_to_molecule(
+                                     test_molecule_duplicate,
+                                     similarity_measure='tanimoto',
+                                     molecular_descriptor='morgan fingerprint')
+        self.assertEqual(tanimoto_similarity, 1.,
+                         "Expected tanimoto similarity to be 1 when comparing "
+                         "molecule graph to itself")
+
+    # def test_molecule_graph_similar_to_itself_morgan_negl0(self):
+    #     test_smiles = 'CC'
+    #     test_molecule = Molecule()
+    #     test_molecule._set_molecule_from_smiles(test_smiles)
+    #     test_molecule_duplicate = Molecule()
+    #     test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
+    #     negl0_similarity = test_molecule.get_similarity_to_molecule(
+    #                                  test_molecule_duplicate,
+    #                                  similarity_measure='neg_l0',
+    #                                  molecular_descriptor='morgan fingerprint')
+    #     self.assertEqual(negl0_similarity, 0.,
+    #                      "Expected negative L0 norm to be 0 when comparing "
+    #                      "molecule graph to itself")
+
+    def test_molecule_created_with_constructor(self):
+        # Molecule created by passing SMILES to constructor
+        test_smiles = 'CC'
+        test_molecule_from_construct = Molecule(mol_smiles=test_smiles)
+        test_molecule_empty = Molecule()
+        test_molecule_empty._set_molecule_from_smiles(test_smiles)
+
+    def test_molecule_graph_similar_to_itself_morgan_dice(self):
+        test_smiles = 'CC'
+        test_molecule = Molecule()
+        test_molecule._set_molecule_from_smiles(test_smiles)
+        test_molecule_duplicate = Molecule()
+        test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
+        tanimoto_similarity = test_molecule.get_similarity_to_molecule(
+                                     test_molecule_duplicate,
+                                     similarity_measure='dice',
+                                     molecular_descriptor='morgan fingerprint')
+        self.assertEqual(tanimoto_similarity, 1.,
+                         "Expected dice similarity to be 1 when comparing "
+                         "molecule graph to itself")
+
     if __name__ == '__main__':
         unittest.main()
 
