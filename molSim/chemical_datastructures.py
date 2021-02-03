@@ -15,7 +15,7 @@ from rdkit import DataStructs, Chem
 
 from molSim.helper_methods import get_feature_datatype
 from molSim.featurize_molecule import Descriptor
-from molSim.similarity_measures import get_supported_measures
+import molSim.similarity_measures as similarity_measures
 
 
 class Molecule:
@@ -152,23 +152,25 @@ class Molecule:
                                          fingerprint_type=molecular_descriptor,
                                          fingerprint_datatype=feature_datatype)
         if similarity_measure == 'tanimoto':
-            return DataStructs.TanimotoSimilarity(self.descriptor.value,
-                                                  target_mol.descriptor.value)
+            return similarity_measures.get_tanimoto_similarity(
+                                                         self.descriptor,
+                                                         target_mol.descriptor)
         elif similarity_measure == 'neg_l0':
-            return -np.linalg.norm(
-                           self.descriptor.value - target_mol.descriptor.value,
-                           ord=0)
+            return similarity_measures.get_l_similarity(self.descriptor,
+                                                        target_mol.descriptor,
+                                                        order=0)
         elif similarity_measure == 'neg_l1':
-            return -np.linalg.norm(
-                           self.descriptor.value - target_mol.descriptor.value,
-                           ord=1)
+            return similarity_measures.get_l_similarity(self.descriptor,
+                                                        target_mol.descriptor,
+                                                        order=1)
         elif similarity_measure == 'neg_l2':
-            return -np.linalg.norm(
-                           self.descriptor.value - target_mol.descriptor.value,
-                           ord=2)
+            return similarity_measures.get_l_similarity(self.descriptor,
+                                                        target_mol.descriptor,
+                                                        order=2)
         elif similarity_measure == 'dice':
-            return DataStructs.DiceSimilarity(self.descriptor.value,
-                                                  target_mol.descriptor.value)
+            return similarity_measures.get_dice_similarity(
+                                                        self.descriptor,
+                                                        target_mol.descriptor)
         else:
             raise ValueError('Similarity measure note specified correctly')
 

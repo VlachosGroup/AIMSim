@@ -27,9 +27,9 @@ def get_l_similarity(mol1_descriptor, mol2_descriptor, order):
 
     Parameters
     ---------
-    mol1_descriptor: np.ndarray
+    mol1_descriptor: Descriptor object
         Descriptor Representation for molecule 1.
-    mol2_descriptor: np.ndarray
+    mol2_descriptor: Descriptor object
         Descriptor Representation for molecule 2.
     order: int
         Order of the norm used to calculate similarity.
@@ -42,36 +42,63 @@ def get_l_similarity(mol1_descriptor, mol2_descriptor, order):
 
     Notes
     -----
-    Ensure that all molecular descriptors are numpy.
+    All molecular descriptors need to be of datatype numpy.
 
     """
-    return -np.linalg.norm(mol1_descriptor - mol2_descriptor, ord=order)
+    if (mol1_descriptor.datatype == 'numpy'
+            and mol2_descriptor.datatype == 'numpy'):
+        return -np.linalg.norm(mol1_descriptor.value - mol2_descriptor.value,
+                               ord=order)
 
 
-def get_tanimoto_similarity(mol1_descriptor, mol2_descriptor, descriptor_dtype):
+def get_tanimoto_similarity(mol1_descriptor, mol2_descriptor):
     """Get tanimoto similarity between two molecular descriptors.
 
     Parameters
     ----------
-    mol1_descriptor: np.ndarray
+    mol1_descriptor: Descriptor object
         Descriptor Representation for molecule 1.
-    mol2_descriptor: np.ndarray
+    mol2_descriptor: Descriptor object
         Descriptor Representation for molecule 2.
-    descriptor_dtype: str
-        Label indicating data type for the fingerprint.
-        Check file docstring for list of available types.
 
     Returns
     -------
     float
+
     """
-    if descriptor_dtype == 'rdkit':
-        return DataStructs.TanimotoSimilarity(mol1_descriptor, mol2_descriptor)
-    elif descriptor_dtype == 'numpy':
-        print('Tanimoto similarity is only useful for bitstrings.'
-              'Consider using the rdkit bitstring data structure.'
-              'Returning None')
-        return None
+    if (mol1_descriptor.datatype == 'rdkit'
+            and mol2_descriptor.datatype == 'rdkit'):
+        return DataStructs.TanimotoSimilarity(mol1_descriptor.value,
+                                              mol2_descriptor.value)
+    elif (mol1_descriptor.datatype == 'numpy'
+          or mol2_descriptor.datatype == 'numpy'):
+        raise ValueError('Tanimoto similarity is only useful for bitstrings.'
+                         'Consider using the rdkit bitstring data structure')
+
+
+def get_dice_similarity(mol1_descriptor, mol2_descriptor):
+    """Get dice similarity between two molecular descriptors.
+
+    Parameters
+    ----------
+    mol1_descriptor: Descriptor object
+        Descriptor Representation for molecule 1.
+    mol2_descriptor: Descriptor object
+        Descriptor Representation for molecule 2.
+
+    Returns
+    -------
+    float
+
+    """
+    if (mol1_descriptor.datatype == 'rdkit'
+            and mol2_descriptor.datatype == 'rdkit'):
+        return DataStructs.DiceSimilarity(mol1_descriptor.value,
+                                          mol2_descriptor.value)
+    elif (mol1_descriptor.datatype == 'numpy'
+          or mol2_descriptor.datatype == 'numpy'):
+        raise ValueError('Dice similarity is only useful for bitstrings.'
+                         'Consider using the rdkit bitstring data structure.')
 
 
 def get_supported_measures():
