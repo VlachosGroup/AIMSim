@@ -110,6 +110,6 @@ def get_supported_measures():
     list(str)
         Supported similarity measures.
     """
-    return ['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2']
+    return ['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2', 'dice']
 
 
