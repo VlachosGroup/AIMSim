@@ -118,6 +118,26 @@ class Molecule:
                     mol_smiles = fp.readline().split()[0]
                 self._set_molecule_from_smiles(mol_smiles)
 
+    @staticmethod
+    def get_supported_measures():
+        """Returns a list of labels for the similarity_measures
+        that are supported currently
+
+        Returns
+        ------
+        list(str)
+            Supported similarity measures.
+        
+        """
+        return ['tanimoto',
+                'neg_l0',
+                'neg_l1',
+                'neg_l2',
+                'dice',
+                'neg_manhattan',
+                'neg_hamming',
+                'neg_euclidean']
+
     def get_similarity_to_molecule(self,
                                    target_mol,
                                    similarity_measure,
@@ -173,6 +193,7 @@ class Molecule:
                                                         target_mol.descriptor)
         else:
             raise ValueError('Similarity measure note specified correctly')
+
 
     def compare_to_molecule_set(self, molecule_set):
         """Compare the molecule to a database contained in
