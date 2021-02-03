@@ -155,15 +155,15 @@ class Molecule:
             return similarity_measures.get_tanimoto_similarity(
                                                          self.descriptor,
                                                          target_mol.descriptor)
-        elif similarity_measure == 'neg_l0':
+        elif similarity_measure in ['neg_l0', 'neg_hamming']:
             return similarity_measures.get_l_similarity(self.descriptor,
                                                         target_mol.descriptor,
                                                         order=0)
-        elif similarity_measure == 'neg_l1':
+        elif similarity_measure in ['neg_l1', 'neg_manhattan']:
             return similarity_measures.get_l_similarity(self.descriptor,
                                                         target_mol.descriptor,
                                                         order=1)
-        elif similarity_measure == 'neg_l2':
+        elif similarity_measure == ['neg_l2', 'neg_euclidean']:
             return similarity_measures.get_l_similarity(self.descriptor,
                                                         target_mol.descriptor,
                                                         order=2)
