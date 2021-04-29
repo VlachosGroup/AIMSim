@@ -68,6 +68,7 @@ parser = ArgumentParser()
 parser.add_argument('config', help='Path to config yaml file.')
 args = parser.parse_args()
 configs = yaml.load(open(args.config, "r"), Loader=yaml.FullLoader)
+print(configs)
 
 tasks = configs.pop('tasks', None)
 if tasks is None:

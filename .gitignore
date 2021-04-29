@@ -2,3 +2,4 @@
 *.json
 
 *.pyc
+molSim.egg-info/*

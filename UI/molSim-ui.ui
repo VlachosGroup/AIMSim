@@ -1,8 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <interface version="1.1">
   <object class="tk.Toplevel" id="window">
-    <property name="height">200</property>
-    <property name="width">200</property>
+    <property name="cursor">arrow</property>
+    <property name="height">400</property>
+    <property name="relief">flat</property>
+    <property name="takefocus">false</property>
+    <property name="width">400</property>
     <child>
       <object class="ttk.Label" id="titleLabel">
         <property name="font">TkDefaultFont</property>
@@ -14,6 +17,196 @@
           <property name="x">0</property>
           <property name="y">0</property>
         </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Frame" id="mainframe">
+        <property name="height">400</property>
+        <property name="width">400</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="relheight">0.9</property>
+          <property name="rely">0.1</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+        <child>
+          <object class="ttk.Checkbutton" id="verboseCheckbutton">
+            <property name="compound">top</property>
+            <property name="cursor">arrow</property>
+            <property name="offvalue">False</property>
+            <property name="onvalue">True</property>
+            <property name="state">normal</property>
+            <property name="text" translatable="yes">Verbose</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.1</property>
+              <property name="rely">0.95</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="databaseFileEntry">
+            <property name="text" translatable="yes">smiles_responses.txt</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.05</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="databaseFileLabel">
+            <property name="text" translatable="yes">Database File:</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">.25</property>
+              <property name="rely">0.05</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="targetMoleculeEntry">
+            <property name="text" translatable="yes">FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.3</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="targetMoleculeLabel">
+            <property name="text" translatable="yes">Target Molecule:</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.23</property>
+              <property name="rely">0.3</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Checkbutton" id="similarityPDFCheckbutton">
+            <property name="text" translatable="yes">Similarity PDF</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.1</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Checkbutton" id="similarityHeatmapCheckbutton">
+            <property name="text" translatable="yes">Similarity Heatmap</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.15</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Checkbutton" id="propertySimilarityCheckbutton">
+            <property name="text" translatable="yes">Property Similarity Plot</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.2</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Checkbutton" id="similarityPlotCheckbutton">
+            <property name="text" translatable="yes">Similarity Plot</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.35</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Combobox" id="similarityMeasureCombobox">
+            <property name="takefocus">false</property>
+            <property name="values">tanimoto default</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.45</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="similarityMeasureLabel">
+            <property name="text" translatable="yes">Similarity Measure:</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.2</property>
+              <property name="rely">0.45</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="molecularDescriptorLabel">
+            <property name="text" translatable="yes">Molecular Descriptor:</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.18</property>
+              <property name="rely">0.5</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Combobox" id="molecularDescriptorCombobox">
+            <property name="cursor">arrow</property>
+            <property name="justify">left</property>
+            <property name="takefocus">false</property>
+            <property name="values">morgan rdkit default</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.5</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Button" id="runButton">
+            <property name="text" translatable="yes">Run</property>
+            <layout manager="place">
+              <property name="anchor">center</property>
+              <property name="relx">0.5</property>
+              <property name="rely">0.75</property>
+              <property name="x">0</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
       </object>
     </child>
   </object>
