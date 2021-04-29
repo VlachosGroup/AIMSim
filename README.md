@@ -20,15 +20,23 @@ A more diverse training data-set yields a more robust model, which generalizes w
 identify "clusters of similarity" indicating the need for separately trained models for each cluster.
 
 <b> Dependencies </b>
+
+Use the following command with conda to create an environment:
+> conda create --name <env> --file spec-file.txt
+
 1. Python 3+
 2. Matplotlib
 3. Numpy
 4. RDKIT
 5. SEABORN
 6. PyYAML
+7. Pandas 1.0.1+
+8. openpyxl
 
 <b> Example Run </b>
->> python molecular_similarity.py config.yaml
+>> python -m molSim config.yaml
+Tests:
+>> python -m unittest discover
 
 <b> Notes </b>
 
@@ -44,7 +52,9 @@ Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate 
 
 <i> Currently Implemented Similarity Scores </i>
 
-1. Tanomito Similarity (0 for completely dissimilaar and 1 for identical molecules)
+1. Tanomito Similarity (0 for completely dissimilar and 1 for identical molecules)
+2. Negative L0, L1 and L2 norms
+3. Cosine Similarity
 
 <i> Currently Implemented Functionalities </i>
 
@@ -60,6 +70,8 @@ for a property of interest. If they do a good job for the particular property th
 
 <b> Credits and Licensing</b>
 
-Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+
+Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
 License: MIT Open
