@@ -53,7 +53,7 @@
             <layout manager="place">
               <property name="anchor">center</property>
               <property name="relx">0.5</property>
-              <property name="rely">0.05</property>
+              <property name="rely">0.03</property>
               <property name="x">0</property>
               <property name="y">0</property>
             </layout>
@@ -64,8 +64,8 @@
             <property name="text" translatable="yes">Database File:</property>
             <layout manager="place">
               <property name="anchor">center</property>
-              <property name="relx">.25</property>
-              <property name="rely">0.05</property>
+              <property name="relx">.24</property>
+              <property name="rely">0.03</property>
               <property name="x">0</property>
               <property name="y">0</property>
             </layout>
@@ -77,7 +77,7 @@
             <layout manager="place">
               <property name="anchor">center</property>
               <property name="relx">0.5</property>
-              <property name="rely">0.3</property>
+              <property name="rely">0.27</property>
               <property name="x">0</property>
               <property name="y">0</property>
             </layout>
@@ -88,8 +88,8 @@
             <property name="text" translatable="yes">Target Molecule:</property>
             <layout manager="place">
               <property name="anchor">center</property>
-              <property name="relx">0.23</property>
-              <property name="rely">0.3</property>
+              <property name="relx">0.22</property>
+              <property name="rely">0.27</property>
               <property name="x">0</property>
               <property name="y">0</property>
             </layout>
@@ -161,7 +161,7 @@
             <property name="text" translatable="yes">Similarity Measure:</property>
             <layout manager="place">
               <property name="anchor">center</property>
-              <property name="relx">0.2</property>
+              <property name="relx">0.19</property>
               <property name="rely">0.45</property>
               <property name="x">0</property>
               <property name="y">0</property>
@@ -173,7 +173,7 @@
             <property name="text" translatable="yes">Molecular Descriptor:</property>
             <layout manager="place">
               <property name="anchor">center</property>
-              <property name="relx">0.18</property>
+              <property name="relx">0.17</property>
               <property name="rely">0.5</property>
               <property name="x">0</property>
               <property name="y">0</property>
@@ -197,6 +197,7 @@
         </child>
         <child>
           <object class="ttk.Button" id="runButton">
+            <property name="command" type="command" cbtype="simple">runCallback</property>
             <property name="text" translatable="yes">Run</property>
             <layout manager="place">
               <property name="anchor">center</property>
