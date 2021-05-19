@@ -67,7 +67,7 @@ class Descriptor:
             self.value = np_fingerprint
         self.datatype = 'numpy'
 
-    def _coerce_output_datatype(self, output_datatype):
+    def coerce_output_datatype(self, output_datatype):
         """
         Manage the output datatype of the fingerprint by ensuring that it is of
         the desired type.
@@ -78,6 +78,7 @@ class Descriptor:
             Required output datatype of the fingerprint class.
             Current accepted formats:
             'rdkit': rdkit.DataStructs.cDataStructs.UIntSparseIntVec
+            'numpy': Numpy
 
         """
         if output_datatype == self.datatype:
