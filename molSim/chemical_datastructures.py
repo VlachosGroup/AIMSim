@@ -127,7 +127,7 @@ class Molecule:
         ------
         list(str)
             Supported similarity measures.
-        
+
         """
         return ['tanimoto',
                 'neg_l0',
