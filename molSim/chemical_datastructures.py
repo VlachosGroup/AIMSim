@@ -373,6 +373,21 @@ class MoleculeSet:
                                       'is currently not supported')
         self.molecular_descriptor = molecular_descriptor
 
+    def _set_similarity_measure(self, similarity_measure):
+        """Set the similarity measure attribute.
+
+        Parameters
+        ----------
+        similarity_measure: str
+            The similarity metric used. See docstring for list
+            of supported similarity metrics.
+
+        """
+        if similarity_measure not in get_supported_measures():
+            raise NotImplementedError(f'{similarity_measure} '
+                                      'is currently not supported')
+        self.similarity_measure = similarity_measure
+    
     def _set_similarity_matrix(self):
         """Calculate the similarity metric using a molecular descriptor
         and a similarity measure. Set this attribute.
@@ -395,20 +410,6 @@ class MoleculeSet:
                     similarity_matrix[source_mol_id, target_mol_id]
         self.similarity_matrix = similarity_matrix
 
-    def _set_similarity_measure(self, similarity_measure):
-        """Set the similarity measure attribute.
-
-        Parameters
-        ----------
-        similarity_measure: str
-            The similarity metric used. See docstring for list
-            of supported similarity metrics.
-
-        """
-        if similarity_measure not in get_supported_measures():
-            raise NotImplementedError(f'{similarity_measure} '
-                                      'is currently not supported')
-        self.similarity_measure = similarity_measure
 
     def get_most_similar_pairs(self,
                                molecular_descriptor=None,
