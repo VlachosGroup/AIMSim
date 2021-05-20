@@ -291,7 +291,7 @@ class MoleculeSet:
                 line_fields = line.split()
                 smile = line_fields[0]
                 mol_property_val = None
-                if len(line_fields) > 0:
+                if len(line_fields) > 1:
                     mol_property_val = line_fields[1]
                 if self.is_verbose:
                     print(
