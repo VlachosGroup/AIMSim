@@ -45,10 +45,13 @@ def get_l_similarity(mol1_descriptor, mol2_descriptor, order):
     All molecular descriptors need to be of datatype numpy.
 
     """
-    if (mol1_descriptor.datatype == 'numpy'
-            and mol2_descriptor.datatype == 'numpy'):
-        return -np.linalg.norm(mol1_descriptor.value - mol2_descriptor.value,
+    if (mol1_descriptor.datatype != 'numpy'
+            or mol2_descriptor.datatype != 'numpy'):
+        mol1_descriptor.coerce_output_datatype(output_datatype='numpy')
+        mol1_descriptor.coerce_output_datatype(output_datatype='numpy')
+    return -np.linalg.norm(mol1_descriptor.value - mol2_descriptor.value,
                                ord=order)
+        
 
 
 def get_tanimoto_similarity(mol1_descriptor, mol2_descriptor):

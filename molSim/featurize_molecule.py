@@ -113,7 +113,7 @@ class Descriptor:
             molecule_graph, radius, nBits=n_bits)
         self.label = 'morgan_fingerprint'
         self.datatype = 'rdkit'
-        self._coerce_output_datatype(output_datatype=output_datatype)
+        self.coerce_output_datatype(output_datatype=output_datatype)
 
     def _set_rdkit_topological_fingerprint(self,
                                            molecule_graph,
@@ -137,9 +137,9 @@ class Descriptor:
 
         """
         self.value = rdmolops.RDKFingerprint(molecule_graph, minPath=min_path, maxPath=max_path)
-        self.label = 'topological fingerprint'
+        self.label = 'topological_fingerprint'
         self.datatype = 'rdkit'
-        self._coerce_output_datatype(output_datatype=output_datatype)
+        self.coerce_output_datatype(output_datatype=output_datatype)
 
     def _get_supported_fingerprints(self):
         """Returns a list of labels for the molecular_fingerprints
@@ -190,11 +190,11 @@ class Descriptor:
 
         """
 
-        if fingerprint_type == 'morgan fingerprint':
+        if fingerprint_type == 'morgan_fingerprint':
             self._set_morgan_fingerprint(molecule_graph=molecule_graph,
                                          output_datatype=fingerprint_datatype,
                                          **kwargs)
-        elif fingerprint_type == 'topological fingerprint':
+        elif fingerprint_type == 'topological_fingerprint':
             self._set_rdkit_topological_fingerprint(
                                         molecule_graph=molecule_graph,
                                         output_datatype=fingerprint_datatype,

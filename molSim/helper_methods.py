@@ -24,12 +24,12 @@ def get_feature_datatype(similarity_measure, molecular_descriptor):
                                     'morgan_fingerprint',
                                     ]:
             return 'rdkit'
-    elif similarity_measure in ['-l0', '-l1', '-l2']:
+    elif similarity_measure in ['neg_l0', 'neg_l1', 'neg_l2']:
         if molecular_descriptor in ['topological_fingerprint',
                                     'morgan_fingerprint',
                                     ]:
             return 'numpy'
     else:
-        raise NotImplementedError(f'{similarity_measure} similarity'
+        raise NotImplementedError(f'{similarity_measure} similarity '
                                   'does not work with '
                                   f'{molecular_descriptor} featurization')
