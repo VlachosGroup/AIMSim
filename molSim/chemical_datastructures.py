@@ -236,7 +236,11 @@ class MoleculeSet:
                  similarity_measure=None,
                  molecular_descriptor=None):
         self.is_verbose = is_verbose
+        self.molecule_database = None
+        self.molecular_descriptor = None
+        self.similarity_measure = None
         self.similarity_matrix = None
+        
         self._set_molecule_database(molecule_database_src,
                                     molecule_database_src_type)
         self._set_similarity_measure(similarity_measure=similarity_measure)
@@ -256,7 +260,7 @@ class MoleculeSet:
             In case a folder is specified, all .pdb files in the folder
             are sequentially read.
             If a file path, it is assumed that the file is a .txt file with
-            layout: SMILES string (column1) property (column2, optional).
+            layout: SMILES string (column1) '\b' property (column2, optional).
         molecule_database_src_type: str
             Type of source. Can be ['folder', 'text', 'excel', 'csv']
 
