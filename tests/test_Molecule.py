@@ -8,7 +8,7 @@ import rdkit
 from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 
-from molSim.chemical_datastructures import Molecule
+from molSim.chemical_datastructures import Molecule, MoleculeSet
 from molSim.featurize_molecule import Descriptor
 
 
@@ -67,11 +67,11 @@ class TestMolecule(unittest.TestCase):
         test_smiles = 'CC'
         # Case 1: text file
         test_text_molecule = Molecule()
-        test_text_filename = 'test_mol_src.txt'
-        print(f'Creating file {test_text_filename}...')
-        with open(test_text_filename, "w") as fp:
+        text_fpath = 'test_mol_src.txt'
+        print(f'Creating file {text_fpath}...')
+        with open(text_fpath, "w") as fp:
             fp.write(test_smiles+' garbage vals')
-        test_text_molecule._set_molecule_from_file(test_text_filename)
+        test_text_molecule._set_molecule_from_file(text_fpath)
         self.assertEqual(test_text_molecule.mol_text, test_smiles,
                          "Expected mol_text attribute to be set "
                          "to smiles string when loading from txt file")
@@ -83,8 +83,8 @@ class TestMolecule(unittest.TestCase):
                               "Expected initialized mol_graph to "
                               "be rdkit.Chem.rdchem.Mol object "
                               "when loading from txt file")
-        print(f'Test complete. Deleting file {test_text_filename}...')
-        remove(test_text_filename)
+        print(f'Test complete. Deleting file {text_fpath}...')
+        remove(text_fpath)
 
         # Case 2: pdb file
         test_pdb_molecule = Molecule()
@@ -117,24 +117,24 @@ class TestMolecule(unittest.TestCase):
         tanimoto_similarity = test_molecule.get_similarity_to_molecule(
                                      test_molecule_duplicate,
                                      similarity_measure='tanimoto',
-                                     molecular_descriptor='morgan fingerprint')
+                                     molecular_descriptor='morgan_fingerprint')
         self.assertEqual(tanimoto_similarity, 1.,
                          "Expected tanimoto similarity to be 1 when comparing "
                          "molecule graph to itself")
 
-    # def test_molecule_graph_similar_to_itself_morgan_negl0(self):
-    #     test_smiles = 'CC'
-    #     test_molecule = Molecule()
-    #     test_molecule._set_molecule_from_smiles(test_smiles)
-    #     test_molecule_duplicate = Molecule()
-    #     test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
-    #     negl0_similarity = test_molecule.get_similarity_to_molecule(
-    #                                  test_molecule_duplicate,
-    #                                  similarity_measure='neg_l0',
-    #                                  molecular_descriptor='morgan fingerprint')
-    #     self.assertEqual(negl0_similarity, 0.,
-    #                      "Expected negative L0 norm to be 0 when comparing "
-    #                      "molecule graph to itself")
+    def test_molecule_graph_similar_to_itself_morgan_negl0(self):
+        test_smiles = 'CC'
+        test_molecule = Molecule()
+        test_molecule._set_molecule_from_smiles(test_smiles)
+        test_molecule_duplicate = Molecule()
+        test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
+        negl0_similarity = test_molecule.get_similarity_to_molecule(
+                                     test_molecule_duplicate,
+                                     similarity_measure='neg_l0',
+                                     molecular_descriptor='morgan_fingerprint')
+        self.assertEqual(negl0_similarity, 0.,
+                         "Expected negative L0 norm to be 0 when comparing "
+                         "molecule graph to itself")
 
     def test_molecule_created_with_constructor(self):
         # Molecule created by passing SMILES to constructor
@@ -152,12 +152,57 @@ class TestMolecule(unittest.TestCase):
         tanimoto_similarity = test_molecule.get_similarity_to_molecule(
                                      test_molecule_duplicate,
                                      similarity_measure='dice',
-                                     molecular_descriptor='morgan fingerprint')
+                                     molecular_descriptor='morgan_fingerprint')
         self.assertEqual(tanimoto_similarity, 1.,
                          "Expected dice similarity to be 1 when comparing "
                          "molecule graph to itself")
 
-    if __name__ == '__main__':
+
+class TestMoleculeSet(unittest.TestCase):
+    test_smiles = ['C', 'CC', 'CCC', 'O']
+    
+    def smiles_seq_to_textfile(self, smiles_seq, property_seq=None):
+        text_fpath = 'temp_smiles_seq.txt'
+        print(f'Creating text file {text_fpath}')
+        with open(text_fpath, "w") as fp:
+            for id, smiles in enumerate(smiles_seq):
+                write_txt = smiles
+                if property_seq is not None:
+                    write_txt += ' ' + property_seq[id]
+                if id < len(smiles_seq) - 1:
+                    write_txt += '\n'
+
+                fp.write(write_txt)
+        return text_fpath
+                
+    def test_set_molecule_database_from_textfile(self):
+        text_fpath = self.smiles_seq_to_textfile(self.test_smiles)
+        molecule_set = MoleculeSet(molecule_database_src=text_fpath,
+                                   molecule_database_src_type='text',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose, 
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from text')
+        self.assertIsNone(molecule_set.molecular_descriptor,
+                          'Expected molecular_descriptor to be unset')
+        self.assertIsNone(molecule_set.similarity_measure,
+                          'Expected similarity_measure to be unset')
+        self.assertIsNone(molecule_set.similarity_matrix,
+                          'Expected similarity_matrix to be unset')
+        self.assertEqual(len(molecule_set.molecule_database), 
+                         len(self.test_smiles),
+                         'Expected the size of database to be equal to number '
+                         'of smiles in text file')
+        print(f'Test complete. Deleting file {text_fpath}...')
+        remove(text_fpath)
+        
+    
+
+
+
+
+if __name__ == '__main__':
         unittest.main()
 
 
