@@ -241,10 +241,14 @@ class MoleculeSet:
         self.similarity_measure = None
         self.similarity_matrix = None
         
-        self._set_molecule_database(molecule_database_src,
-                                    molecule_database_src_type)
-        self._set_similarity_measure(similarity_measure=similarity_measure)
-        self._set_molecular_descriptor(molecular_descriptor)
+        if molecule_database_src is not None \
+            and molecule_database_src_type is not None:
+            self._set_molecule_database(molecule_database_src,
+                                        molecule_database_src_type)
+        if similarity_measure is not None:
+            self._set_similarity_measure(similarity_measure)
+        if molecular_descriptor is not None:
+            self._set_molecular_descriptor(molecular_descriptor)
         if self.molecular_descriptor and self.similarity_measure:
             self._set_similarity_matrix()
 
