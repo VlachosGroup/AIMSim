@@ -292,7 +292,7 @@ class MoleculeSet:
                 smile = line_fields[0]
                 mol_property_val = None
                 if len(line_fields) > 1:
-                    mol_property_val = line_fields[1]
+                    mol_property_val = float(line_fields[1])
                 if self.is_verbose:
                     print(
                         f'Processing {smile} '
@@ -305,7 +305,7 @@ class MoleculeSet:
                     molecule_database.append(
                         Molecule(mol_graph=mol_graph,
                                  mol_text=mol_text,
-                                 mol_property_val=float(mol_property_val)))
+                                 mol_property_val=mol_property_val))
         elif molecule_database_src_type.lower() in ['excel', 'csv']:
             if self.is_verbose:
                 print(f'Reading molecules from {molecule_database_src}')
