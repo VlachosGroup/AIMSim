@@ -168,7 +168,7 @@ class TestMoleculeSet(unittest.TestCase):
             for id, smiles in enumerate(smiles_seq):
                 write_txt = smiles
                 if property_seq is not None:
-                    write_txt += ' ' + property_seq[id]
+                    write_txt += ' ' + str(property_seq[id])
                 if id < len(smiles_seq) - 1:
                     write_txt += '\n'
 
@@ -194,13 +194,42 @@ class TestMoleculeSet(unittest.TestCase):
                          len(self.test_smiles),
                          'Expected the size of database to be equal to number '
                          'of smiles in text file')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                             'Expected mol_text attribute of Molecule object '
+                             'to be smiles')
+            self.assertIsNone(molecule.mol_property_val,
+                              'Expected mol_property_val of Molecule object'
+                              'initialized without property to be None')
+
+
+        print(f'Test complete. Deleting file {text_fpath}...')
+        remove(text_fpath)
+    
+    def test_set_molecule_database_w_prepoerty_from_textfile(self):
+        properties = np.random.normal(size=len(self.test_smiles))
+        text_fpath = self.smiles_seq_to_textfile(self.test_smiles, 
+                                                 property_seq=properties)
+        molecule_set = MoleculeSet(molecule_database_src=text_fpath,
+                                   molecule_database_src_type='text',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose, 
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from text')
+        self.assertIsNone(molecule_set.molecular_descriptor,
+                          'Expected molecular_descriptor to be unset')
+        self.assertIsNone(molecule_set.similarity_measure,
+                          'Expected similarity_measure to be unset')
+        self.assertIsNone(molecule_set.similarity_matrix,
+                          'Expected similarity_matrix to be unset')
+        self.assertEqual(len(molecule_set.molecule_database), 
+                         len(self.test_smiles),
+                         'Expected the size of database to be equal to number '
+                         'of smiles in text file')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
         
-    
-
-
-
 
 if __name__ == '__main__':
         unittest.main()
