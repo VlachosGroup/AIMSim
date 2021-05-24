@@ -1,6 +1,7 @@
 """ Test the methods of the Molecule class """
-from os import remove
+from os import remove, mkdir
 import os.path
+from  shutil import rmtree
 import unittest
 
 import numpy as np
@@ -29,8 +30,7 @@ class TestMolecule(unittest.TestCase):
                           "for uninitialized Molecule")
 
     def test_molecule_created_w_attributes(self):
-        test_molecule = Molecule(
-                                 mol_text='test_molecule',
+        test_molecule = Molecule(mol_text='test_molecule',
                                  mol_property_val=42,
                                  mol_descriptor_val=[1, 2, 3])
         self.assertEqual(test_molecule.mol_text, 'test_molecule',
@@ -161,22 +161,35 @@ class TestMolecule(unittest.TestCase):
 class TestMoleculeSet(unittest.TestCase):
     test_smiles = ['C', 'CC', 'CCC', 'O']
     
-    def smiles_seq_to_textfile(self, smiles_seq, property_seq=None):
+    def smiles_seq_to_textfile(self, property_seq=None):
         text_fpath = 'temp_smiles_seq.txt'
         print(f'Creating text file {text_fpath}')
         with open(text_fpath, "w") as fp:
-            for id, smiles in enumerate(smiles_seq):
+            for id, smiles in enumerate(self.test_smiles):
                 write_txt = smiles
                 if property_seq is not None:
                     write_txt += ' ' + str(property_seq[id])
-                if id < len(smiles_seq) - 1:
+                if id < len(self.test_smiles) - 1:
                     write_txt += '\n'
 
                 fp.write(write_txt)
         return text_fpath
+    
+    def smiles_seq_to_pdb_dir(self, property_seq=None):
+        dir_path = 'test_dir'
+        if not os.path.isdir(dir_path):
+            print(f'Creating directory {dir_path}')
+            mkdir(dir_path)
+        for smiles_str in self.test_smiles:
+            mol_graph = MolFromSmiles(smiles_str)
+            assert mol_graph is not None
+            pdb_fpath = os.path.join(dir_path, smiles_str + '.pdb')
+            print(f'Creating file {pdb_fpath}')
+            MolToPDBFile(mol_graph, pdb_fpath)
+        return dir_path
                 
     def test_set_molecule_database_from_textfile(self):
-        text_fpath = self.smiles_seq_to_textfile(self.test_smiles)
+        text_fpath = self.smiles_seq_to_textfile()
         molecule_set = MoleculeSet(molecule_database_src=text_fpath,
                                    molecule_database_src_type='text',
                                    is_verbose=True)
@@ -206,8 +219,7 @@ class TestMoleculeSet(unittest.TestCase):
     
     def test_set_molecule_database_w_property_from_textfile(self):
         properties = np.random.normal(size=len(self.test_smiles))
-        text_fpath = self.smiles_seq_to_textfile(self.test_smiles, 
-                                                 property_seq=properties)
+        text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
         molecule_set = MoleculeSet(molecule_database_src=text_fpath,
                                    molecule_database_src_type='text',
                                    is_verbose=True)
@@ -234,6 +246,42 @@ class TestMoleculeSet(unittest.TestCase):
                               'to be set to value in text file')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
+    
+    #CHECK PDB
+    def test_set_molecule_database_from_pdb_dir(self):
+        dir_path = self.smiles_seq_to_pdb_dir(self.test_smiles)
+        molecule_set = MoleculeSet(molecule_database_src=dir_path,
+                                   molecule_database_src_type='directory',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose, 
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from dir')
+        self.assertIsNone(molecule_set.molecular_descriptor,
+                          'Expected molecular_descriptor to be unset')
+        self.assertIsNone(molecule_set.similarity_measure,
+                          'Expected similarity_measure to be unset')
+        self.assertIsNone(molecule_set.similarity_matrix,
+                          'Expected similarity_matrix to be unset')
+        self.assertEqual(len(molecule_set.molecule_database), 
+                         len(self.test_smiles),
+                         'Expected the size of database to be equal to number '
+                         'of files in dir')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                             'Expected mol_text attribute of Molecule object '
+                             'to be smiles')
+            self.assertIsNone(molecule.mol_property_val,
+                              'Expected mol_property_val of Molecule object'
+                              'initialized without property to be None')
+        print(f'Test complete. Deleting directory {dir_path}...')
+        rmtree(dir_path)
+    #CHECK EXCEL
+    #CHECK CSV
+
+    #WITH SIMILARITY  MEASURE
+    # MOL DESCRIPTOR
+    #CHECK SIMILARITY MATRIX
         
 
 if __name__ == '__main__':
