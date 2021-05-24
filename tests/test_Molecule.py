@@ -5,6 +5,7 @@ from  shutil import rmtree
 import unittest
 
 import numpy as np
+import pandas as pd
 import rdkit
 from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
@@ -187,6 +188,26 @@ class TestMoleculeSet(unittest.TestCase):
             print(f'Creating file {pdb_fpath}')
             MolToPDBFile(mol_graph, pdb_fpath)
         return dir_path
+    
+    def smiles_seq_to_xl_or_csv(self, ftype, property_seq=None, name_seq=None):        
+        data = {'feature_smiles': self.test_smiles}
+        if property_seq is not None:
+            data.update({'reponse_random': property_seq})
+        if name_seq is not None:
+            data.update({'feature_name': name_seq})
+        data_df = pd.DataFrame(data)
+        fpath = 'temp_mol_file'        
+        if ftype == 'excel':
+            fpath += '.xlsx'
+            print(f'Creating {ftype} file {fpath}')
+            data_df.to_excel(fpath)
+        elif ftype == 'csv':
+            fpath += '.csv'
+            print(f'Creating {ftype} file {fpath}')
+            data_df.to_csv(fpath)
+        else:
+            raise NotImplementedError(f'{ftype} not supported')  
+        return fpath
                 
     def test_set_molecule_database_from_textfile(self):
         text_fpath = self.smiles_seq_to_textfile()
@@ -247,7 +268,6 @@ class TestMoleculeSet(unittest.TestCase):
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
     
-    #CHECK PDB
     def test_set_molecule_database_from_pdb_dir(self):
         dir_path = self.smiles_seq_to_pdb_dir(self.test_smiles)
         molecule_set = MoleculeSet(molecule_database_src=dir_path,
@@ -276,7 +296,10 @@ class TestMoleculeSet(unittest.TestCase):
                               'initialized without property to be None')
         print(f'Test complete. Deleting directory {dir_path}...')
         rmtree(dir_path)
+    
     #CHECK EXCEL
+    def test_set_molecule_database_from_excel(self):
+
     #CHECK CSV
 
     #WITH SIMILARITY  MEASURE
