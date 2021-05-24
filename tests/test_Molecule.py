@@ -262,9 +262,12 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(molecule.mol_text, self.test_smiles[id],
                              'Expected mol_text attribute of Molecule object '
                              'to be smiles')
-            self.assertEqual(molecule.mol_property_val, properties[id],
-                              'Expected mol_property_val of Molecule object'
-                              'to be set to value in text file')
+            self.assertAlmostEqual(molecule.mol_property_val, 
+                                   properties[id],
+                                   places=7,
+                                   msg='Expected mol_property_val of' 
+                                        'Molecule object '
+                                        'to be set to value in text file')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
     
@@ -354,9 +357,12 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(molecule.mol_text, self.test_smiles[id],
                              'Expected mol_text attribute of Molecule object '
                              'to be smiles when names not present in excel')
-            self.assertEqual(molecule.mol_property_val, properties[id],
-                              'Expected mol_property_val of Molecule object '
-                              'to be set to value in excel file')
+            self.assertAlmostEqual(molecule.mol_property_val, 
+                                   properties[id],
+                                   places=7,
+                                   msg='Expected mol_property_val of' 
+                                        'Molecule object '
+                                        'to be set to value in excel file')
         print(f'Test complete. Deleting file {xl_fpath}...')
         remove(xl_fpath)
 
