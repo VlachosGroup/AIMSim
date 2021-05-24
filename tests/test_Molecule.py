@@ -192,7 +192,7 @@ class TestMoleculeSet(unittest.TestCase):
     def smiles_seq_to_xl_or_csv(self, ftype, property_seq=None, name_seq=None):        
         data = {'feature_smiles': self.test_smiles}
         if property_seq is not None:
-            data.update({'reponse_random': property_seq})
+            data.update({'response_random': property_seq})
         if name_seq is not None:
             data.update({'feature_name': name_seq})
         data_df = pd.DataFrame(data)
@@ -321,10 +321,42 @@ class TestMoleculeSet(unittest.TestCase):
         for id, molecule in enumerate(molecule_set.molecule_database):
             self.assertEqual(molecule.mol_text, self.test_smiles[id],
                              'Expected mol_text attribute of Molecule object '
-                             'to be smiles')
+                             'to be smiles when names not present in excel')
             self.assertIsNone(molecule.mol_property_val,
                               'Expected mol_property_val of Molecule object'
                               'initialized without property to be None')
+        print(f'Test complete. Deleting file {xl_fpath}...')
+        remove(xl_fpath)
+    
+    def test_set_molecule_database_w_property_from_excel(self):
+        properties = np.random.normal(size=len(self.test_smiles))
+        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype='excel', 
+                                                property_seq=properties)
+        molecule_set = MoleculeSet(molecule_database_src=xl_fpath,
+                                   molecule_database_src_type='excel',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose, 
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from '
+                             'excel file')
+        self.assertIsNone(molecule_set.molecular_descriptor,
+                          'Expected molecular_descriptor to be unset')
+        self.assertIsNone(molecule_set.similarity_measure,
+                          'Expected similarity_measure to be unset')
+        self.assertIsNone(molecule_set.similarity_matrix,
+                          'Expected similarity_matrix to be unset')
+        self.assertEqual(len(molecule_set.molecule_database), 
+                         len(self.test_smiles),
+                         'Expected the size of database to be equal to number '
+                         'of smiles in excel file')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                             'Expected mol_text attribute of Molecule object '
+                             'to be smiles when names not present in excel')
+            self.assertEqual(molecule.mol_property_val, properties[id],
+                              'Expected mol_property_val of Molecule object '
+                              'to be set to value in excel file')
         print(f'Test complete. Deleting file {xl_fpath}...')
         remove(xl_fpath)
 
