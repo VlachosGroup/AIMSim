@@ -299,6 +299,35 @@ class TestMoleculeSet(unittest.TestCase):
     
     #CHECK EXCEL
     def test_set_molecule_database_from_excel(self):
+        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype='excel')
+        molecule_set = MoleculeSet(molecule_database_src=xl_fpath,
+                                   molecule_database_src_type='excel',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose, 
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from '
+                             'excel file')
+        self.assertIsNone(molecule_set.molecular_descriptor,
+                          'Expected molecular_descriptor to be unset')
+        self.assertIsNone(molecule_set.similarity_measure,
+                          'Expected similarity_measure to be unset')
+        self.assertIsNone(molecule_set.similarity_matrix,
+                          'Expected similarity_matrix to be unset')
+        self.assertEqual(len(molecule_set.molecule_database), 
+                         len(self.test_smiles),
+                         'Expected the size of database to be equal to number '
+                         'of smiles')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                             'Expected mol_text attribute of Molecule object '
+                             'to be smiles')
+            self.assertIsNone(molecule.mol_property_val,
+                              'Expected mol_property_val of Molecule object'
+                              'initialized without property to be None')
+        print(f'Test complete. Deleting file {xl_fpath}...')
+        remove(xl_fpath)
+
 
     #CHECK CSV
 
