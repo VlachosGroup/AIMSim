@@ -275,7 +275,7 @@ class MoleculeSet:
 
         """
         molecule_database = []
-        if molecule_database_src_type.lower() == 'folder':
+        if molecule_database_src_type.lower() in ['folder', 'directory']:
             if self.is_verbose:
                 print(f'Searching for *.pdb files in {molecule_database_src}')
             for molfile in glob(os.path.join(molecule_database_src, '*.pdb')):
@@ -298,9 +298,8 @@ class MoleculeSet:
                 if len(line_fields) > 1:
                     mol_property_val = float(line_fields[1])
                 if self.is_verbose:
-                    print(
-                        f'Processing {smile} '
-                        f'({count + 1}/{len(smiles_data)})')
+                    print(f'Processing {smile} '
+                          f'({count + 1}/{len(smiles_data)})')
                 mol_graph = Chem.MolFromSmiles(smile)
                 if mol_graph is None:
                     print(f'{smile} could not be loaded')
@@ -316,7 +315,7 @@ class MoleculeSet:
             database_df = pd.read_excel(molecule_database_src,
                                         engine='openpyxl') \
                 if molecule_database_src_type.lower() == 'excel'\
-                else pd.read_csv(molecule_database_src, engine='openpyxl')
+                else pd.read_csv(molecule_database_src)
             # expects feature columns to be prefixed with feature_
             # e.g. feature_smiles
             feature_cols = [column for column in database_df.columns
@@ -324,34 +323,34 @@ class MoleculeSet:
             database_feature_df = database_df[feature_cols]
             mol_names, mol_smiles, responses = None, None, None
             if 'feature_name' in feature_cols:
-                mol_names = database_feature_df['feature_name'].values\
-                                                               .flatten()
+                mol_names = database_feature_df['feature_name'].values.flatten()
+            if 'feature_smiles' in feature_cols:
+                mol_smiles = database_df['feature_smiles'].values.flatten()
+
             response_col = [column for column in database_df.columns
                             if column.split('_')[0] == 'response']
             if len(response_col) > 0:
+                # currently only handles one response
                 responses = database_df[response_col].values.flatten()
-            if 'feature_smiles' in feature_cols:
-                for mol_id, smile in enumerate(database_df['feature_smiles']
-                                               .values.flatten()):
-                    if self.is_verbose:
-                        print(
-                         f"Processing {smile} "
-                         f"({mol_id + 1}/"
-                         f"{database_df['feature_smiles'].values.size})")
-                    mol_graph = Chem.MolFromSmiles(smile)
-                    if mol_graph is None:
-                        print(f'{smile} could not be loaded')
-                    else:
-                        mol_text = smile
-                        mol_property_val = None
-                        if mol_names is not None:
-                            mol_text = mol_names[mol_id]
-                        if responses is not None:
-                            mol_property_val = responses[mol_id]
-                        molecule_database.append(
-                            Molecule(mol_graph=mol_graph,
-                                     mol_text=mol_text,
-                                     mol_property_val=mol_property_val))
+            for mol_id, smile in enumerate(mol_smiles):
+                if self.is_verbose:
+                    print(f"Processing {smile} "
+                          f"({mol_id + 1}/"
+                          f"{database_df['feature_smiles'].values.size})")
+                mol_graph = Chem.MolFromSmiles(smile)
+                if mol_graph is None:
+                    print(f'{smile} could not be loaded')
+                else:
+                    mol_text = smile
+                    mol_property_val = None
+                    if mol_names is not None:
+                        mol_text = mol_names[mol_id]
+                    if responses is not None:
+                        mol_property_val = responses[mol_id]
+                    molecule_database.append(
+                        Molecule(mol_graph=mol_graph,
+                                 mol_text=mol_text,
+                                 mol_property_val=mol_property_val))
 
         else:
             raise FileNotFoundError(
