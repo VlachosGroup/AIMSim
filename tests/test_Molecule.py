@@ -447,7 +447,6 @@ class TestMoleculeSet(unittest.TestCase):
                                 'csvfile')
             self.assertIsNone(molecule_set.molecular_descriptor,
                             'Expected molecular_descriptor to be unset')
-
             self.assertEqual(molecule_set.similarity_measure, 
                              similarity_measure,
                             'Expected similarity measure attribute of '
@@ -470,7 +469,30 @@ class TestMoleculeSet(unittest.TestCase):
                                             'to be set to value in csv file')
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
-    # MOL DESCRIPTOR
+    
+    def test_set_molecule_database_w_property_descriptor_from_csv(self):
+        properties = np.random.normal(size=len(self.test_smiles))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
+                                                property_seq=properties)
+        for descriptor in Descriptor().get_supported_descriptors():
+            molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                                    molecule_database_src_type='csv',
+                                    molecular_descriptor=descriptor,
+                                    is_verbose=True)
+            self.assertTrue(molecule_set.is_verbose, 
+                            'Expected is_verbose to be True')
+            self.assertIsNotNone(molecule_set.molecule_database,
+                                'Expected molecule_database to be set from '
+                                'csvfile')
+            self.assertIsNone(molecule_set.similarity_measure,
+                             'Expected similarity_measure to be unset')
+            self.assertEqual(molecule_set.molecular_descriptor, 
+                             descriptor,
+                            'Expected molecular_descriptor attribute of '
+                            'molecule_set to be the same as the initial value')
+            self.assertIsNone(molecule_set.similarity_matrix,
+                            'Expected similarity_matrix to be unset')
+        print(f'Test complete. Deleting file {csv_fpath}...')
     #CHECK SIMILARITY MATRIX
         
 
