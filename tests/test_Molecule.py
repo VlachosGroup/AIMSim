@@ -475,7 +475,30 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsNone(molecule_set.similarity_matrix,
                             'Expected similarity_matrix to be unset')
         print(f'Test complete. Deleting file {csv_fpath}...')
-    #CHECK SIMILARITY MATRIX
+        remove(csv_fpath)
+    
+    def test_set_molecule_database_w_descriptor_similarity_from_csv(self):
+        properties = np.random.normal(size=len(self.test_smiles))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
+                                                property_seq=properties)
+        for descriptor in Descriptor().get_supported_descriptors():
+            for similarity_measure in get_supported_measures():
+                molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                                        molecule_database_src_type='csv',
+                                        molecular_descriptor=descriptor,
+                                        similarity_measure=similarity_measure,
+                                        is_verbose=True)
+                self.assertTrue(molecule_set.is_verbose, 
+                                'Expected is_verbose to be True')
+                self.assertIsNotNone(molecule_set.molecule_database,
+                                    'Expected molecule_database to be set from '
+                                    'csvfile')
+                self.assertIsNotNone(molecule_set.similarity_measure,
+                                     'Expected similarity_measure to be set')
+                self.assertIsNotNone(molecule_set.similarity_matrix,
+                                     'Expected similarity_matrix to be set')
+        print(f'Test complete. Deleting file {csv_fpath}...')
+        remove(csv_fpath)
         
 
 if __name__ == '__main__':
