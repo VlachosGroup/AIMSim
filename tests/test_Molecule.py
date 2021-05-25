@@ -12,6 +12,7 @@ from rdkit.Chem.rdmolfiles import MolToPDBFile
 
 from molSim.chemical_datastructures import Molecule, MoleculeSet
 from molSim.featurize_molecule import Descriptor
+from molSim.similarity_measures import get_supported_measures
 
 
 class TestMolecule(unittest.TestCase):
@@ -430,7 +431,45 @@ class TestMoleculeSet(unittest.TestCase):
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
 
-    #WITH SIMILARITY  MEASURE
+    def test_set_molecule_database_w_property_similarity_measure_from_csv(self):
+        properties = np.random.normal(size=len(self.test_smiles))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
+                                                property_seq=properties)
+        for similarity_measure in get_supported_measures():
+            molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                                    molecule_database_src_type='csv',
+                                    similarity_measure=similarity_measure,
+                                    is_verbose=True)
+            self.assertTrue(molecule_set.is_verbose, 
+                            'Expected is_verbose to be True')
+            self.assertIsNotNone(molecule_set.molecule_database,
+                                'Expected molecule_database to be set from '
+                                'csvfile')
+            self.assertIsNone(molecule_set.molecular_descriptor,
+                            'Expected molecular_descriptor to be unset')
+
+            self.assertEqual(molecule_set.similarity_measure, 
+                             similarity_measure,
+                            'Expected similarity measure attribute of '
+                            'molecule_set to be the same as the initial value')
+            self.assertIsNone(molecule_set.similarity_matrix,
+                            'Expected similarity_matrix to be unset')
+            self.assertEqual(len(molecule_set.molecule_database), 
+                            len(self.test_smiles),
+                            'Expected the size of database to be equal ' 
+                            'to number of smiles in csv file')
+            for id, molecule in enumerate(molecule_set.molecule_database):
+                self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                                'Expected mol_text attribute of Molecule object'
+                                ' to be smiles when names not present in csv')
+                self.assertAlmostEqual(molecule.mol_property_val, 
+                                    properties[id],
+                                    places=7,
+                                    msg='Expected mol_property_val of' 
+                                            'Molecule object '
+                                            'to be set to value in csv file')
+        print(f'Test complete. Deleting file {csv_fpath}...')
+        remove(csv_fpath)
     # MOL DESCRIPTOR
     #CHECK SIMILARITY MATRIX
         
