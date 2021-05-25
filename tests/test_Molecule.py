@@ -427,7 +427,7 @@ class TestMoleculeSet(unittest.TestCase):
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
 
-    def test_set_molecule_database_w_property_similarity_measure_from_csv(self):
+    def test_set_molecule_database_w_similarity_from_csv(self):
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
                                                 property_seq=properties)
