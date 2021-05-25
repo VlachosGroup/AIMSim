@@ -414,10 +414,6 @@ class TestMoleculeSet(unittest.TestCase):
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
                           'Expected similarity_matrix to be unset')
-        self.assertEqual(len(molecule_set.molecule_database), 
-                         len(self.test_smiles),
-                         'Expected the size of database to be equal to number '
-                         'of smiles in csv file')
         for id, molecule in enumerate(molecule_set.molecule_database):
             self.assertEqual(molecule.mol_text, self.test_smiles[id],
                              'Expected mol_text attribute of Molecule object '
