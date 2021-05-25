@@ -330,7 +330,7 @@ class MoleculeSet:
             response_col = [column for column in database_df.columns
                             if column.split('_')[0] == 'response']
             if len(response_col) > 0:
-                # currently only handles one response
+                # currently handles one response
                 responses = database_df[response_col].values.flatten()
             for mol_id, smile in enumerate(mol_smiles):
                 if self.is_verbose:
