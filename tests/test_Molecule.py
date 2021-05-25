@@ -453,20 +453,6 @@ class TestMoleculeSet(unittest.TestCase):
                             'molecule_set to be the same as the initial value')
             self.assertIsNone(molecule_set.similarity_matrix,
                             'Expected similarity_matrix to be unset')
-            self.assertEqual(len(molecule_set.molecule_database), 
-                            len(self.test_smiles),
-                            'Expected the size of database to be equal ' 
-                            'to number of smiles in csv file')
-            for id, molecule in enumerate(molecule_set.molecule_database):
-                self.assertEqual(molecule.mol_text, self.test_smiles[id],
-                                'Expected mol_text attribute of Molecule object'
-                                ' to be smiles when names not present in csv')
-                self.assertAlmostEqual(molecule.mol_property_val, 
-                                    properties[id],
-                                    places=7,
-                                    msg='Expected mol_property_val of' 
-                                            'Molecule object '
-                                            'to be set to value in csv file')
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
     
