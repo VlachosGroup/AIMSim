@@ -517,6 +517,25 @@ class TestMoleculeSet(unittest.TestCase):
                     self.assertIsInstance(pair, tuple, 
                                       'Expected elements of list returned by' 
                                       ' get_most_similar_pairs() to be tuples')
+    
+    def test_get_most_dissimilar_pairs(self):
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
+        for descriptor in Descriptor().get_supported_descriptors():
+            for similarity_measure in get_supported_measures():
+                molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                                        molecule_database_src_type='csv',
+                                        molecular_descriptor=descriptor,
+                                        similarity_measure=similarity_measure,
+                                        is_verbose=True)
+                molecule_pairs = molecule_set.get_most_dissimilar_pairs()
+                self.assertIsInstance(molecule_pairs, list, 
+                                      'Expected get_most_dissimilar_pairs() '
+                                      'to return list')
+                for pair in molecule_pairs:
+                    self.assertIsInstance(pair, tuple, 
+                                          'Expected elements of list returned'
+                                          ' by get_most_dissimilar_pairs() '
+                                          'to be tuples')
 
 if __name__ == '__main__':
         unittest.main()
