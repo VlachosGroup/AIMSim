@@ -1,10 +1,13 @@
+# molSim README
 molSim is a tool for visualizing diversity in your molecular data-set using graph theory. 
 
-<b>Why Do We Need To Visualize Molecular Similarity / Diversity?</b>
+## Purpose
+
+__Why Do We Need To Visualize Molecular Similarity / Diversity?__
 
 There are two broad contexts where it is helpful to visualize the diversity of a molecular dataset:
 
-<i> Experimental Synthesis </i>
+_Experimental Synthesis_
 
 For a chemist, synthesizing new molecules with targeted properties is often a laborious and time consuming task.
 In such a case, it becomes useful to check the similarity of a newly proposed (un-synthesized) molecule to the ones already synthesized.
@@ -13,16 +16,16 @@ property and thus need not be synthesized. On the other hand, if the aim is to r
 it is useful to ensure that each new proposed molecule is similar to the high performing one. In both cases, a chemist can avoid spending
 time and effort synthesizing molecules not useful for the project.
 
-<i> Machine Learning Molecular Properties </i>
+_Machine Learning Molecular Properties_
 
 In the context of machine learning, visualizing the diversity of the training set gives a good idea about its information quality.
 A more diverse training data-set yields a more robust model, which generalizes well to unseen data. Additionally, such a visualization can 
 identify "clusters of similarity" indicating the need for separately trained models for each cluster.
 
-<b> Dependencies </b>
-
+## Installing molSim
+### Conda
 Use the following command with conda to create an environment:
-> conda create --name <env> --file spec-file.txt
+`conda create --name your-env-name --file spec-file.txt`
 
 1. Python 3+
 2. Matplotlib
@@ -33,30 +36,37 @@ Use the following command with conda to create an environment:
 7. Pandas 1.0.1+
 8. openpyxl
 
-<b> Example Run </b>
->> python -m molSim config.yaml
+### Pip
+_coming soon_
+~~To install molSim using pip, run the following command: `pip install molSim`~~
+
+## Running molSim
+Example Run:
+`python -m molSim config.yaml`
 Tests:
->> python -m unittest discover
+`python -m unittest discover`
+User interface:
+`pythong -m molSim-ui-main`
 
-<b> Notes </b>
+## Notes
 
-<i> General Workflow </i>
+### General Workflow
 
 Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate a Molecular Graph / Environment Fingerprint
 --> Calculate a "similarity score" between moelcules based on some distance between their fingerprints.
 
-<i> Currently Implemented Fingerprints </i>
+### Currently Implemented Fingerprints
 
 1. Morgan Fingerprint (Equivalent to the ECFP-6)
 2. RDKIT Topological Fingerprint
 
-<i> Currently Implemented Similarity Scores </i>
+### Currently Implemented Similarity Scores
 
 1. Tanomito Similarity (0 for completely dissimilar and 1 for identical molecules)
 2. Negative L0, L1 and L2 norms
 3. Cosine Similarity
 
-<i> Currently Implemented Functionalities </i>
+### Currently Implemented Functionalities
 
 1. compare_target_molecule: Compare a proposed molecules to existing molecular database. The outputs are a similarity density plot
 and/ or the least similar and most similar molecules in the database (to the proposed molecule)
@@ -68,10 +78,11 @@ This can be inputted as a .txt file containing rows of name property pairs. An e
 provided in the file smiles_responses.txt. This option is typically used to check the suitability of the fingerprint / similarity measure
 for a property of interest. If they do a good job for the particular property then the parity plot should be scattered around the diagonal.
 
-<b> Credits and Licensing</b>
+## Credits and Licensing
 
 Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
 
 Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
-License: MIT Open
+## License
+MIT Open
