@@ -1,7 +1,7 @@
 from molSim.task_manager import launch_tasks
 
 import yaml
-
+import os
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -82,7 +82,7 @@ class MolsimUiApp:
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly")
         self.molecularDescriptorCombobox.configure(
-            cursor='arrow', justify='left', takefocus=False, values=['morgan', 'rdkit', 'default'])
+            cursor='arrow', justify='left', takefocus=False, values=['topological fingerprint', 'morgan fingerprint', 'default'])
         self.molecularDescriptorCombobox.place(
             anchor='center', relx='0.5', rely='0.5', x='0', y='0')
         self.runButton = ttk.Button(self.mainframe)
@@ -117,13 +117,24 @@ class MolsimUiApp:
             tasks_dict['visualize_dataset'] = inner_dict
         if('selected' in self.similarityPlotCheckbutton.state()):
             tasks_dict['compare_target_molecule'] = {'target_molecule_smiles': self.targetMolecule.get(), 'plot_settings': {'plot_color': 'orange', 'plot_title': 'Compared to Target Molecule'}, 'identify_closest_furthest': {'out_file_path': 'molSim-ui_output.txt'}}
-        print(self.propertySimilarityCheckbutton.state())
         if('selected' in self.propertySimilarityCheckbutton.state()):
             tasks_dict['show_property_variation_w_similarity'] = {'property_file': self.databaseFile.get(),
                       'most_dissimilar': True, 'similarity_plot_settings': {'plot_color': 'red'}}
         
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
-        yamlOut = {'verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'similarity_measure': self.similarityMeasure.get(),
+
+        _, file_extension = os.path.splitext(self.databaseFile.get())
+        ['folder', 'text', 'excel', 'csv']
+        if(file_extension == '.txt'):
+            molecule_database_source_type = 'text'
+        elif(file_extension == ''):
+            molecule_database_source_type = 'folder'
+        elif(file_extension == '.xlsx'):
+            molecule_database_source_type = 'excel'
+        else:
+            molecule_database_source_type = file_extension.replace('.','')
+
+        yamlOut = {'verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
                    'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
         with open('molSim-ui-config.yaml', 'w') as outfile:
