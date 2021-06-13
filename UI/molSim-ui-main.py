@@ -68,7 +68,8 @@ class MolsimUiApp:
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly")
         self.similarityMeasureCombobox.configure(
-            takefocus=False, values=['tanimoto', 'default'])
+            takefocus=False, values=['tanimoto'])
+        self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
             anchor='center', relx='0.5', rely='0.45', x='0', y='0')
         self.similarityMeasureLabel = ttk.Label(self.mainframe)
@@ -82,9 +83,10 @@ class MolsimUiApp:
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly")
         self.molecularDescriptorCombobox.configure(
-            cursor='arrow', justify='left', takefocus=False, values=['topological fingerprint', 'morgan fingerprint', 'default'])
+            cursor='arrow', justify='left', takefocus=False, values=['topological fingerprint', 'morgan fingerprint'])
         self.molecularDescriptorCombobox.place(
             anchor='center', relx='0.5', rely='0.5', x='0', y='0')
+        self.molecularDescriptorCombobox.current(0)
         self.runButton = ttk.Button(self.mainframe)
         self.runButton.configure(text='Run')
         self.runButton.place(anchor='center', relx='0.5',
@@ -124,7 +126,6 @@ class MolsimUiApp:
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
 
         _, file_extension = os.path.splitext(self.databaseFile.get())
-        ['folder', 'text', 'excel', 'csv']
         if(file_extension == '.txt'):
             molecule_database_source_type = 'text'
         elif(file_extension == ''):
@@ -134,7 +135,7 @@ class MolsimUiApp:
         else:
             molecule_database_source_type = file_extension.replace('.','')
 
-        yamlOut = {'verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
+        yamlOut = {'is_verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
                    'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
         with open('molSim-ui-config.yaml', 'w') as outfile:

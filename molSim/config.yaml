@@ -1,5 +1,5 @@
 ---
-verbose: True
+is_verbose: True
 molecule_database: 'smiles_responses.txt'
 similarity_measure: 'tanimoto'
 # currently implements: 'rdkit topological' / 'morgan_fingerprint' (DEFAULT)
