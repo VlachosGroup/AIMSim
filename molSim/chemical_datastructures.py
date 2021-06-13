@@ -289,6 +289,8 @@ class MoleculeSet:
                 mol_property_val = None
                 if len(line_fields) > 1:
                     mol_property_val = line_fields[1]
+                else:
+                    mol_property_val = 0
                 if self.is_verbose:
                     print(
                         f'Processing {smile} '
