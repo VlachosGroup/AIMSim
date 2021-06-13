@@ -109,19 +109,20 @@ class MolsimUiApp:
         tasks_dict = {}
 
         inner_dict = {}
-        if(self.similarityPDFCheckbutton.state()[0] == 'selected'):
+        if('selected' in self.similarityPDFCheckbutton.state()):
             inner_dict['plot_settings'] = {'plot_color': 'green', 'plot_title': 'Entire Dataset'}
-        if(self.similarityHeatmapCheckbutton.state()[0] == 'selected'):
+        if('selected' in self.similarityHeatmapCheckbutton.state()):
             inner_dict['pairwise_heatmap_settings'] = {'annotate': False, 'cmap': 'viridis'}
         if(len(inner_dict)>0):
             tasks_dict['visualize_dataset'] = inner_dict
-        if(self.similarityPlotCheckbutton.state()[0] == 'selected'):
+        if('selected' in self.similarityPlotCheckbutton.state()):
             tasks_dict['compare_target_molecule'] = {'target_molecule_smiles': self.targetMolecule.get(), 'plot_settings': {'plot_color': 'orange', 'plot_title': 'Compared to Target Molecule'}, 'identify_closest_furthest': {'out_file_path': 'molSim-ui_output.txt'}}
-        if(self.propertySimilarityCheckbutton.state()[0] == 'selected'):
+        print(self.propertySimilarityCheckbutton.state())
+        if('selected' in self.propertySimilarityCheckbutton.state()):
             tasks_dict['show_property_variation_w_similarity'] = {'property_file': self.databaseFile.get(),
                       'most_dissimilar': True, 'similarity_plot_settings': {'plot_color': 'red'}}
         
-        verboseChecked = self.verboseCheckbutton.state()[0] == 'selected'
+        verboseChecked = 'selected' in self.verboseCheckbutton.state()
         yamlOut = {'verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'similarity_measure': self.similarityMeasure.get(),
                    'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
