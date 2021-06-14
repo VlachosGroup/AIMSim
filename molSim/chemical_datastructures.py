@@ -287,8 +287,10 @@ class MoleculeSet:
                 line_fields = line.split()
                 smile = line_fields[0]
                 mol_property_val = None
-                if len(line_fields) > 0:
+                if len(line_fields) > 1:
                     mol_property_val = line_fields[1]
+                else:
+                    mol_property_val = 0
                 if self.is_verbose:
                     print(
                         f'Processing {smile} '
@@ -401,7 +403,7 @@ class MoleculeSet:
             of supported similarity metrics.
 
         """
-        if similarity_measure not in get_supported_measures():
+        if similarity_measure not in similarity_measures.get_supported_measures():
             raise NotImplementedError(f'{similarity_measure} '
                                       'is currently not supported')
         self.similarity_measure = similarity_measure

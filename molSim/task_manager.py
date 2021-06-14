@@ -28,7 +28,7 @@ def get_molecule_database(database_configs):
                                              None)
     if molecule_database_src is None:
         raise IOError('<< molecule_database >> field not set in config file')
-    is_verbose = database_configs.get('is_verbose', True)
+    is_verbose = database_configs.get('is_verbose', False)
     similarity_measure = database_configs.get('similarity_measure',
                                               'tanimoto_similarity')
     molecular_descriptor = database_configs.get('molecular_descriptor',
