@@ -109,6 +109,19 @@ class TestMolecule(unittest.TestCase):
                               "when loading from pdb file")
         print(f'Test complete. Deleting file {test_pdb_filename}...')
         remove(test_pdb_filename)
+    
+    def test_molecule_draw(self):
+        test_smiles = 'CC'
+        test_molecule = Molecule()
+        test_molecule._set_molecule_from_smiles(test_smiles)
+        test_image_fpath = test_smiles + '.png'
+        test_molecule.draw(fpath=test_image_fpath)
+        self.assertTrue(os.path.isfile(test_image_fpath))
+        try:
+            print(f'Deleting {test_image_fpath}')
+            remove(test_image_fpath)
+        except FileNotFoundError:
+            print(f'Could not find {test_image_fpath}')
 
     def test_molecule_graph_similar_to_itself_morgan_tanimoto(self):
         test_smiles = 'CC'
@@ -146,7 +159,7 @@ class TestMolecule(unittest.TestCase):
         test_molecule_empty._set_molecule_from_smiles(test_smiles)
 
     def test_molecule_graph_similar_to_itself_morgan_dice(self):
-        test_smiles = 'CC'
+        test_smiles = 'CCO'
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
         test_molecule_duplicate = Molecule()
@@ -234,7 +247,7 @@ class TestMoleculeSet(unittest.TestCase):
                              'Expected mol_text attribute of Molecule object '
                              'to be smiles')
             self.assertIsNone(molecule.mol_property_val,
-                              'Expected mol_property_val of Molecule object'
+                              'Expected mol_property_val of Molecule object '
                               'initialized without property to be None')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
