@@ -296,7 +296,7 @@ class MoleculeSet:
                 smile = line_fields[0]
                 mol_property_val = None
                 if len(line_fields) > 1:
-                    mol_property_val = line_fields[1]
+                    mol_property_val = float(line_fields[1])
                 if self.is_verbose:
                     print(f'Processing {smile} '
                           f'({count + 1}/{len(smiles_data)})')
