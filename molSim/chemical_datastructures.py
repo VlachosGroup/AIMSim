@@ -9,9 +9,11 @@ Data Structures Implemented
 from glob import glob
 import os.path
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from rdkit import DataStructs, Chem
+from rdkit.Chem import Draw
 
 from molSim.helper_methods import get_feature_datatype
 from molSim.featurize_molecule import Descriptor
@@ -205,7 +207,24 @@ class Molecule:
 
     def get_mol_property_val(self):
         return self.mol_property_val
+    
+    def draw(self, fpath=None, **kwargs):
+        """Draw or molecule graph.
 
+        Parameters
+        ----------
+        fpath: str
+            Path of file to store image. If None, image is displayed in io.
+            Default is None.
+        kwargs: keyword arguments
+            Arguments to modify plot properties.
+
+        """
+        if fpath is None:
+            Draw.MolToImage(self.mol_graph, **kwargs).show()
+        else:
+            Draw.MolToFile(self.mol_graph, fpath, **kwargs)
+        
 
 class MoleculeSet:
     """Collection of Molecule objects.
