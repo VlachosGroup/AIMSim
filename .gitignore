@@ -3,3 +3,4 @@
 
 *.pyc
 molSim.egg-info/*
+UI/molSim-ui-config.yaml

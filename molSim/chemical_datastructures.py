@@ -296,7 +296,9 @@ class MoleculeSet:
                 smile = line_fields[0]
                 mol_property_val = None
                 if len(line_fields) > 1:
-                    mol_property_val = float(line_fields[1])
+                    mol_property_val = line_fields[1]
+                else:
+                    mol_property_val = 0
                 if self.is_verbose:
                     print(f'Processing {smile} '
                           f'({count + 1}/{len(smiles_data)})')
@@ -413,6 +415,20 @@ class MoleculeSet:
                     similarity_matrix[source_mol_id, target_mol_id]
         self.similarity_matrix = similarity_matrix
 
+    def _set_similarity_measure(self, similarity_measure):
+        """Set the similarity measure attribute.
+
+        Parameters
+        ----------
+        similarity_measure: str
+            The similarity metric used. See docstring for list
+            of supported similarity metrics.
+
+        """
+        if similarity_measure not in similarity_measures.get_supported_measures():
+            raise NotImplementedError(f'{similarity_measure} '
+                                      'is currently not supported')
+        self.similarity_measure = similarity_measure
 
     def get_most_similar_pairs(self,
                                molecular_descriptor=None,
