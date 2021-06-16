@@ -312,7 +312,7 @@ class CompareTaregetMolecule(Task):
         super().__init__(configs)
         self.target_molecule = None
         self.log_fpath = None
-        self.plot_Settings = None
+        self.plot_settings = None
         self._verify_and_extract_configs()
             
     def _extract_configs(self):
@@ -330,7 +330,7 @@ class CompareTaregetMolecule(Task):
             log_dir = basename(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
         
-        self.plot_settings = self.configs.get('plot_settings', None)
+        self.plot_settings = self.configs.get('similarity_plot_settings', None)
     
     def __call__(self, molecule_set):
         """
@@ -350,10 +350,12 @@ class CompareTaregetMolecule(Task):
         """
         target_similarity = self.target_molecule.compare_to_molecule_set(
                                                                    molecule_set)
+        ### shift to MoleculeSet
         most_similar_mol = molecule_set.molecule_database[
                                                 np.argmax(target_similarity)]
         least_similar_mol = molecule_set.molecule_database[
                                                 np.argmin(target_similarity)]
+        ###############
 
         text_prompt = '***** '
         text_prompt += f'FOR MOLECULE {self.target_molecule.mol_text} *****'
@@ -376,6 +378,60 @@ class CompareTaregetMolecule(Task):
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
         plot_density(target_similarity, **self.plot_settings)
+
+
+class VisualizeDataset(Task):
+    def __init__(self, configs):
+        super().__init__(configs)
+        self.plot_settings = {}
+        self._verify_and_extract_configs()
+    
+    def _extract_configs(self):
+        self.plot_settings['heatmap_plot'] = self.configs.get(
+                                            'heatmap_plot_settings', 
+                                            None)
+        self.plot_settings['pairwise_plot'] = self.configs.get(
+                                            'pairwise_similarity_plot_settings',
+                                            None)
+        
+    
+    def __call__(self, molecule_set):
+        """ Visualize essential properties of the dataset.
+
+        Parameters
+        ----------
+        molecule_set: MoleculeSet object
+            Molecular database initialized with the parameters.
+
+        Plots Generated
+        ---------------
+        1. Heatmap of Molecular Similarity.
+        2. PDF of the similarity distribution of the molecules in the database.
+
+        """
+        similarity_matrix = molecule_set.get_similarity_matrix()
+        if molecule_set.is_verbose:
+            print('Plotting similarity heatmap')
+        plot_heatmap(similarity_matrix, **task_configs.get(
+                                                '', {}))
+        if molecule_sete.is_verbose:
+            print('Generating pairwise similarities')
+        pairwise_similarity_vector = np.array([similarity_matrix[row, col]
+                                            for row, col
+                                            in zip(
+                                                range(
+                                                similarity_matrix.shape[0]),
+                                                range(
+                                                similarity_matrix.shape[1]))
+                                            if row < col])
+        if molecule_set.is_verbose:
+            print('Plotting density of pairwise similarities')
+        plot_density(pairwise_similarity_vector,
+                    **task_configs.get('pairwise similarity'))
+
+        
+
+
 
             
 
