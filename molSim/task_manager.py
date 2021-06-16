@@ -379,6 +379,9 @@ class CompareTaregetMolecule(Task):
                 fp.write(text_prompt)
         plot_density(target_similarity, **self.plot_settings)
 
+    def __str__(self):
+        return 'Task: Compare to a target molecule'
+
 
 class VisualizeDataset(Task):
     def __init__(self, configs):
