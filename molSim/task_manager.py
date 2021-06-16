@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from os import makedirs
-from os.path import basename, isfile, isdir
+from os.path import basename
 
 import numpy as np
 from scipy.stats import pearsonr
