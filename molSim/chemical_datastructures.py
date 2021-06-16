@@ -375,7 +375,7 @@ class MoleculeSet:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
                 f'Please enter valid foldername or path of a '
-                f'text/excel/csv file')
+                f'text/excel/csv')
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
