@@ -1,12 +1,14 @@
-"""
-
-"""
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from os import makedirs
+from os.path import basename, isfile, isdir
 
 import numpy as np
 from scipy.stats import pearsonr
 
 from molSim.chemical_datastructures import MoleculeSet, Molecule
 from molSim.plotting_scripts import plot_density, plot_heatmap, plot_parity
+
 
 
 def get_molecule_database(database_configs):
@@ -235,4 +237,148 @@ def launch_tasks(molecule_database_configs, tasks):
                 f'{task} entered in the <<task>> field is not implemented')
 
     input("Press enter to terminate (plots will be closed).")
+
+#===========================================
+
+class TaskManager:
+    def __init__(self, molecule_database_configs, tasks):
+        """Sequentially launches all the tasks from the configuration file.
+
+        Parameters
+        ----------
+        molecule_database_configs: dict
+            Configuration of molecule database  to generate MoleculeSet object.
+        tasks: dict
+            The tasks field of the config yaml containing various tasks
+            and their parameters.
+
+        """
+        molecule_database = get_molecule_database(molecule_database_configs)
+        for task, task_configs in tasks.items():
+            if task == 'compare_target_molecule':
+                target_molecule_smiles = task_configs.get('target_molecule_smiles')
+                target_molecule_src = task_configs.get('target_molecule_src')
+                if target_molecule_smiles:
+                    target_molecule = Molecule(mol_smiles=target_molecule_smiles)
+                elif target_molecule_src:
+                    target_molecule = Molecule(mol_src=target_molecule_src)
+                else:
+                    raise IOError('Target molecule source is not specified '
+                                f'for task {task}')
+                save_to_file = task_configs.get('save_to_file', None)
+                pdf_plot_kwargs = task_configs.get('plot_settings')
+                compare_target_molecule(target_molecule=target_molecule,
+                                        molecule_set=molecule_database,
+                                        out_fpath=save_to_file,
+                                        **pdf_plot_kwargs)
+            elif task == 'visualize_dataset':
+                visualize_dataset(molecule_database, task_configs)
+            elif task == 'show_property_variation_w_similarity':
+                show_property_variation_w_similarity(molecule_database,
+                                                    task_configs)
+            else:
+                raise NotImplementedError(
+                    f'{task} entered in the <<task>> field is not implemented')
+
+        input("Press enter to terminate (plots will be closed).")
+
+ 
+class Task(ABC):
+    def __init__(self, configs):
+        """
+        Parameters
+        ----------
+        configs: dict
+            parameters of the task
+        
+        """
+        self.configs = deepcopy(configs)
+    
+    @abstractmethod
+    def _extract_configs(self):
+        pass
+
+    @abstractmethod
+    def __call__(self, molecule_set):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+
+class CompareTaregetMolecule(Task):
+    def __init__(self, configs):
+        super().__init__(configs)
+        self.target_molecule = None
+        self.log_fpath = None
+        self.plot_Settings = None
+        self._verify_and_extract_configs()
+            
+    def _extract_configs(self):
+        target_molecule_smiles = self.configs.get('target_molecule_smiles')
+        target_molecule_src = self.configs.get('target_molecule_src')
+        if target_molecule_smiles:
+            self.target_molecule = Molecule(mol_smiles=target_molecule_smiles)
+        elif target_molecule_src:
+            self.target_molecule = Molecule(mol_src=target_molecule_src)
+        else:
+            raise IOError('Target molecule source is not specified')
+        
+        self.log_fpath = self.configs.get('save_to_file', None)
+        if self.log_fpath is not None:
+            log_dir = basename(self.log_fpath)
+            makedirs(log_dir, exist_ok=True)
+        
+        self.plot_settings = self.configs.get('plot_settings', None)
+    
+    def __call__(self, molecule_set):
+        """
+        Compare a target molecule with molecular database in terms
+        of similarity.
+        Parameters
+        ----------
+        target_molecule: Molecule object
+            Target molecule.
+        molecule_set: MoleculeSet object
+            Database of molecules to compare against.
+        out_fpath: str
+            Filepath to output results. If None, results are not saved and
+            simply displayed to IO.
+
+
+        """
+        target_similarity = self.target_molecule.compare_to_molecule_set(
+                                                                   molecule_set)
+        most_similar_mol = molecule_set.molecule_database[
+                                                np.argmax(target_similarity)]
+        least_similar_mol = molecule_set.molecule_database[
+                                                np.argmin(target_similarity)]
+
+        text_prompt = '***** '
+        text_prompt += f'FOR MOLECULE {self.target_molecule.mol_text} *****'
+        text_prompt += '\n\n'
+        text_prompt += '****Maximum Similarity Molecule ****\n'
+        text_prompt += f'Molecule: {most_similar_mol.mol_text}\n'
+        text_prompt += 'Similarity: '
+        text_prompt += str(max(target_similarity))
+        text_prompt += '\n'
+        text_prompt += '****Minimum Similarity Molecule ****\n'
+        text_prompt += f'Molecule: {least_similar_mol.mol_text}\n'
+        text_prompt += 'Similarity: '
+        text_prompt += str(min(target_similarity))
+        if self.log_fpath is None:
+            print(text_prompt)
+        else:
+            if molecule_set.is_verbose:
+                print(text_prompt)
+            print('Writing to file ', self.log_fpath)
+            with open(self.log_fpath, "w") as fp:
+                fp.write(text_prompt)
+        plot_density(target_similarity, **self.plot_settings)
+
+            
+
+
+
 
