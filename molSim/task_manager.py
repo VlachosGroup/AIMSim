@@ -183,7 +183,7 @@ def show_property_variation_w_similarity(molecule_database, task_configs):
             mol2_property = mol_pair[1].get_mol_property_val()
             if mol1_property and mol2_property:
                 reference_mol_properties.append(mol1_property)
-                dissimilar_mol_pairs.append(mol2_property)
+                dissimilar_mol_properties.append(mol2_property)
         if molecule_database.is_verbose:
             print('Plotting Responses of Dissimilar Molecules')
         plot_parity(reference_mol_properties,
@@ -465,6 +465,7 @@ class ShowPropertyVariationWithSimilarity(Task):
 
         """
         similar_mol_pairs = molecule_set.get_most_similar_pairs()
+        dissimilar_mol_pairs = molecule_set.get_most_dissimilar_pairs()
         
         reference_mol_properties, similar_mol_properties = [], []
         for mol_pair in similar_mol_pairs:
@@ -473,22 +474,48 @@ class ShowPropertyVariationWithSimilarity(Task):
             if mol1_property and mol2_property:
                 reference_mol_properties.append(mol1_property)
                 similar_mol_properties.append(mol2_property)
+        reference_mol_properties, dissimilar_mol_properties = [], []
+        for mol_pair in dissimilar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                dissimilar_mol_properties.append(mol2_property)
+      
         if molecule_set.is_verbose:
             print('Plotting Responses of Similar Molecules')
         plot_parity(reference_mol_properties,
                     similar_mol_properties,
                     self.plot_settings)
+        if molecule_set.is_verbose:
+            print('Plotting Responses of Dissimilar Molecules')
+        plot_parity(reference_mol_properties,
+                    dissimilar_mol_properties,
+                    self.plot_settings)
+
         #### Put in Molecule #####
         pearson_coff_of_responses = pearsonr(reference_mol_properties,
                                              similar_mol_properties)
+        pearson_coff_of_dissimilar_responses = pearsonr(
+                                                       reference_mol_properties,
+                                                      dissimilar_mol_properties)
         ##############################
         text_prompt = 'Pearson Correlation in the properties of the ' \
                       'most similar molecules\n'
-        text_prompt += '*' *  len(text_prompt) 
+        text_prompt += '-' *  60
         text_prompt += '\n\n'
         text_prompt += f'{pearson_coff_of_responses[0]}'
         text_prompt += '\n'
         text_prompt += f'2 tailed p-value: {pearson_coff_of_responses[1]}'
+        text_prompt += '\n\n\n\n'
+        text_prompt = 'Pearson Correlation in the properties of the ' \
+                      'most dissimilar molecules\n'
+        text_prompt += '-' *  60
+        text_prompt += '\n\n'
+        text_prompt += f'{pearson_coff_of_dissimilar_responses[0]}'
+        text_prompt += '\n'
+        text_prompt += '2 tailed p-value: ' \
+                       f'{pearson_coff_of_dissimilar_responses[1]}'
         if self.log_fpath is None:
             print(text_prompt)
         else:
