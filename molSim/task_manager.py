@@ -114,7 +114,7 @@ class VisualizeDataset(Task):
     def __init__(self, configs):
         super().__init__(configs)
         self.plot_settings = {}
-        self._verify_and_extract_configs()
+        self._extract_configs()
     
     def _extract_configs(self):
         self.plot_settings['heatmap_plot'] = self.configs.get(
