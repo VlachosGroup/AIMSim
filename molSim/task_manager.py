@@ -412,9 +412,8 @@ class VisualizeDataset(Task):
         similarity_matrix = molecule_set.get_similarity_matrix()
         if molecule_set.is_verbose:
             print('Plotting similarity heatmap')
-        plot_heatmap(similarity_matrix, **task_configs.get(
-                                                '', {}))
-        if molecule_sete.is_verbose:
+        plot_heatmap(similarity_matrix, self.plot_settings['heatmap_plot'])
+        if molecule_set.is_verbose:
             print('Generating pairwise similarities')
         pairwise_similarity_vector = np.array([similarity_matrix[row, col]
                                             for row, col
@@ -426,8 +425,8 @@ class VisualizeDataset(Task):
                                             if row < col])
         if molecule_set.is_verbose:
             print('Plotting density of pairwise similarities')
-        plot_density(pairwise_similarity_vector,
-                    **task_configs.get('pairwise similarity'))
+        plot_density(pairwise_similarity_vector, 
+                     self.plot_settings['pairwise_plot'])
 
         
 
