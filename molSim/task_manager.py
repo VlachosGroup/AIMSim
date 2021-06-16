@@ -166,7 +166,7 @@ class ShowPropertyVariationWithSimilarity(Task):
         super().__init__(configs)
         self.plot_settings = None
         self.log_fpath = None
-        self._verify_and_extract_configs()
+        self._extract_configs()
 
     def _extract_configs(self):
         self.plot_settings = {'xlabel': 'Reference Molecule Property',
