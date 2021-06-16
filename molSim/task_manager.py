@@ -296,7 +296,7 @@ class TaskManager:
                 exit(1)
             self.to_do.append(loaded_task)
 
-        if len(self.to_do):
+        if len(self.to_do) == 0:
             print('No tasks were read. Exiting')
             exit(1)
     
