@@ -40,7 +40,7 @@ class CompareTargetMolecule(Task):
         self.target_molecule = None
         self.log_fpath = None
         self.plot_settings = None
-        self._verify_and_extract_configs()
+        self._extract_configs()
             
     def _extract_configs(self):
         target_molecule_smiles = self.configs.get('target_molecule_smiles')
