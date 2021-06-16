@@ -250,8 +250,8 @@ class ShowPropertyVariationWithSimilarity(Task):
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
         
-        def __str__(self):
-            return 'Task: show variation of molecule property with similarity'
+    def __str__(self):
+        return 'Task: show variation of molecule property with similarity'
 
 
 class TaskManager:
