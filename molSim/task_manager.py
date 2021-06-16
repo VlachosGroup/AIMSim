@@ -52,7 +52,7 @@ class CompareTargetMolecule(Task):
         else:
             raise IOError('Target molecule source is not specified')
         
-        self.log_fpath = self.configs.get('save_to_file', None)
+        self.log_fpath = self.configs.get('log_file_path', None)
         if self.log_fpath is not None:
             log_dir = basename(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
