@@ -310,11 +310,15 @@ class TaskManager:
             Configurations for initializing the MoleculeSet object.
 
         """
-        molecule_database_src = molecule_set_configs.get('molecule_database', None)
-        database_src_type = molecule_set_configs.get('molecule_database_source_type',
+        molecule_database_src = molecule_set_configs.get('molecule_database',
+                                                         None)
+        database_src_type = molecule_set_configs.get(
+                                                'molecule_database_source_type',
                                                 None)
-        if molecule_database_src is None:
-            print('molecule_database field not set in config file')
+        if molecule_database_src is None or database_src_type is None:
+            print('molecule_database fields not set in config file')
+            print(f'molecule_database: {molecule_database_src}')
+            print(f'molecule_database_source_type: {database_src_type}')
             exit(1)
         is_verbose = molecule_set_configs.get('is_verbose', False)
         similarity_measure = molecule_set_configs.get('similarity_measure',
