@@ -397,7 +397,6 @@ class VisualizeDataset(Task):
                                             'pairwise_similarity_plot_settings',
                                             None)
         
-    
     def __call__(self, molecule_set):
         """ Visualize essential properties of the dataset.
 
@@ -430,6 +429,9 @@ class VisualizeDataset(Task):
             print('Plotting density of pairwise similarities')
         plot_density(pairwise_similarity_vector, 
                      self.plot_settings['pairwise_plot'])
+    
+    def __str__(self):
+        return 'Task: Visualize a dataset'
 
         
 
