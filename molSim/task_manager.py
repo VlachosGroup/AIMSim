@@ -140,7 +140,7 @@ class VisualizeDataset(Task):
         similarity_matrix = molecule_set.get_similarity_matrix()
         if molecule_set.is_verbose:
             print('Plotting similarity heatmap')
-        plot_heatmap(similarity_matrix, self.plot_settings['heatmap_plot'])
+        plot_heatmap(similarity_matrix, **self.plot_settings['heatmap_plot'])
         if molecule_set.is_verbose:
             print('Generating pairwise similarities')
         pairwise_similarity_vector = np.array([similarity_matrix[row, col]
@@ -154,7 +154,7 @@ class VisualizeDataset(Task):
         if molecule_set.is_verbose:
             print('Plotting density of pairwise similarities')
         plot_density(pairwise_similarity_vector, 
-                     self.plot_settings['pairwise_plot'])
+                     **self.plot_settings['pairwise_plot'])
     
     def __str__(self):
         return 'Task: Visualize a dataset'
@@ -210,12 +210,12 @@ class ShowPropertyVariationWithSimilarity(Task):
             print('Plotting Responses of Similar Molecules')
         plot_parity(reference_mol_properties,
                     similar_mol_properties,
-                    self.plot_settings)
+                    **self.plot_settings)
         if molecule_set.is_verbose:
             print('Plotting Responses of Dissimilar Molecules')
         plot_parity(reference_mol_properties,
                     dissimilar_mol_properties,
-                    self.plot_settings)
+                    **self.plot_settings)
 
         #### Put in Molecule #####
         pearson_coff_of_responses = pearsonr(reference_mol_properties,
