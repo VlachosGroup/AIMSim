@@ -569,6 +569,14 @@ class MoleculeSet:
         if self.similarity_matrix is None:
             self._set_similarity_matrix()
         return self.similarity_matrix
+    
+    def get_pairwise_similarities(self):
+        pairwise_similarity_vector = []
+        for ref_mol in range(len(self.molecule_database)):
+            for target_mol in range(ref_mol+1, len(self.molecule_database)):
+                pairwise_similarity_vector.append(
+                                    self.similarity_matrix[ref_mol, target_mol])
+        return np.array(pairwise_similarity_vector)
 
 
 
