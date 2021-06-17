@@ -143,14 +143,7 @@ class VisualizeDataset(Task):
         plot_heatmap(similarity_matrix, **self.plot_settings['heatmap_plot'])
         if molecule_set.is_verbose:
             print('Generating pairwise similarities')
-        pairwise_similarity_vector = np.array([similarity_matrix[row, col]
-                                            for row, col
-                                            in zip(
-                                                range(
-                                                similarity_matrix.shape[0]),
-                                                range(
-                                                similarity_matrix.shape[1]))
-                                            if row < col])
+        pairwise_similarity_vector = molecule_set.get_pairwise_similarities()
         if molecule_set.is_verbose:
             print('Plotting density of pairwise similarities')
         plot_density(pairwise_similarity_vector, 
