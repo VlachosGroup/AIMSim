@@ -57,7 +57,7 @@ class CompareTargetMolecule(Task):
             log_dir = basename(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
         
-        self.plot_settings = self.configs.get('similarity_plot_settings', None)
+        self.plot_settings = self.configs.get('similarity_plot_settings', {})
     
     def __call__(self, molecule_set):
         """
@@ -118,11 +118,10 @@ class VisualizeDataset(Task):
     
     def _extract_configs(self):
         self.plot_settings['heatmap_plot'] = self.configs.get(
-                                            'heatmap_plot_settings', 
-                                            None)
+                                            'heatmap_plot_settings', {})
         self.plot_settings['pairwise_plot'] = self.configs.get(
                                             'pairwise_similarity_plot_settings',
-                                            None)
+                                            {})
         
     def __call__(self, molecule_set):
         """ Visualize essential properties of the dataset.
