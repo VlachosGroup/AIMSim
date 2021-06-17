@@ -40,7 +40,7 @@ class CompareTargetMolecule(Task):
         self.target_molecule = None
         self.log_fpath = None
         self.plot_settings = None
-        self._verify_and_extract_configs()
+        self._extract_configs()
             
     def _extract_configs(self):
         target_molecule_smiles = self.configs.get('target_molecule_smiles')
@@ -57,7 +57,7 @@ class CompareTargetMolecule(Task):
             log_dir = basename(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
         
-        self.plot_settings = self.configs.get('similarity_plot_settings', None)
+        self.plot_settings = self.configs.get('similarity_plot_settings', {})
     
     def __call__(self, molecule_set):
         """
@@ -114,15 +114,14 @@ class VisualizeDataset(Task):
     def __init__(self, configs):
         super().__init__(configs)
         self.plot_settings = {}
-        self._verify_and_extract_configs()
+        self._extract_configs()
     
     def _extract_configs(self):
         self.plot_settings['heatmap_plot'] = self.configs.get(
-                                            'heatmap_plot_settings', 
-                                            None)
+                                            'heatmap_plot_settings', {})
         self.plot_settings['pairwise_plot'] = self.configs.get(
                                             'pairwise_similarity_plot_settings',
-                                            None)
+                                            {})
         
     def __call__(self, molecule_set):
         """ Visualize essential properties of the dataset.
@@ -141,7 +140,7 @@ class VisualizeDataset(Task):
         similarity_matrix = molecule_set.get_similarity_matrix()
         if molecule_set.is_verbose:
             print('Plotting similarity heatmap')
-        plot_heatmap(similarity_matrix, self.plot_settings['heatmap_plot'])
+        plot_heatmap(similarity_matrix, **self.plot_settings['heatmap_plot'])
         if molecule_set.is_verbose:
             print('Generating pairwise similarities')
         pairwise_similarity_vector = np.array([similarity_matrix[row, col]
@@ -155,7 +154,7 @@ class VisualizeDataset(Task):
         if molecule_set.is_verbose:
             print('Plotting density of pairwise similarities')
         plot_density(pairwise_similarity_vector, 
-                     self.plot_settings['pairwise_plot'])
+                     **self.plot_settings['pairwise_plot'])
     
     def __str__(self):
         return 'Task: Visualize a dataset'
@@ -166,7 +165,7 @@ class ShowPropertyVariationWithSimilarity(Task):
         super().__init__(configs)
         self.plot_settings = None
         self.log_fpath = None
-        self._verify_and_extract_configs()
+        self._extract_configs()
 
     def _extract_configs(self):
         self.plot_settings = {'xlabel': 'Reference Molecule Property',
@@ -199,31 +198,31 @@ class ShowPropertyVariationWithSimilarity(Task):
             if mol1_property and mol2_property:
                 reference_mol_properties.append(mol1_property)
                 similar_mol_properties.append(mol2_property)
-        reference_mol_properties, dissimilar_mol_properties = [], []
+        dissimilar_reference_mol_properties, dissimilar_mol_properties = [], []
         for mol_pair in dissimilar_mol_pairs:
             mol1_property = mol_pair[0].get_mol_property_val()
             mol2_property = mol_pair[1].get_mol_property_val()
             if mol1_property and mol2_property:
-                reference_mol_properties.append(mol1_property)
+                dissimilar_reference_mol_properties.append(mol1_property)
                 dissimilar_mol_properties.append(mol2_property)
       
         if molecule_set.is_verbose:
             print('Plotting Responses of Similar Molecules')
         plot_parity(reference_mol_properties,
                     similar_mol_properties,
-                    self.plot_settings)
+                    **self.plot_settings)
         if molecule_set.is_verbose:
             print('Plotting Responses of Dissimilar Molecules')
-        plot_parity(reference_mol_properties,
+        plot_parity(dissimilar_reference_mol_properties,
                     dissimilar_mol_properties,
-                    self.plot_settings)
+                    **self.plot_settings)
 
         #### Put in Molecule #####
         pearson_coff_of_responses = pearsonr(reference_mol_properties,
                                              similar_mol_properties)
         pearson_coff_of_dissimilar_responses = pearsonr(
-                                                       reference_mol_properties,
-                                                      dissimilar_mol_properties)
+                                            dissimilar_reference_mol_properties,
+                                            dissimilar_mol_properties)
         ##############################
         text_prompt = 'Pearson Correlation in the properties of the ' \
                       'most similar molecules\n'
@@ -250,8 +249,8 @@ class ShowPropertyVariationWithSimilarity(Task):
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
         
-        def __str__(self):
-            return 'Task: show variation of molecule property with similarity'
+    def __str__(self):
+        return 'Task: show variation of molecule property with similarity'
 
 
 class TaskManager:
@@ -296,7 +295,7 @@ class TaskManager:
                 exit(1)
             self.to_do.append(loaded_task)
 
-        if len(self.to_do):
+        if len(self.to_do) == 0:
             print('No tasks were read. Exiting')
             exit(1)
     
@@ -310,11 +309,15 @@ class TaskManager:
             Configurations for initializing the MoleculeSet object.
 
         """
-        molecule_database_src = molecule_set_configs.get('molecule_database', None)
-        database_src_type = molecule_set_configs.get('molecule_database_source_type',
+        molecule_database_src = molecule_set_configs.get('molecule_database',
+                                                         None)
+        database_src_type = molecule_set_configs.get(
+                                                'molecule_database_source_type',
                                                 None)
-        if molecule_database_src is None:
-            print('molecule_database field not set in config file')
+        if molecule_database_src is None or database_src_type is None:
+            print('molecule_database fields not set in config file')
+            print(f'molecule_database: {molecule_database_src}')
+            print(f'molecule_database_source_type: {database_src_type}')
             exit(1)
         is_verbose = molecule_set_configs.get('is_verbose', False)
         similarity_measure = molecule_set_configs.get('similarity_measure',
@@ -341,7 +344,7 @@ class TaskManager:
         if self.molecule_set.is_verbose:
             print('Beginning tasks...')
         for task_id, task in enumerate(self.to_do):
-            print(f'Task ({task_id + 1} / len(self.to_do)) {task}')
+            print(f'Task ({task_id + 1} / {len(self.to_do)}) {task}')
             task(self.molecule_set) 
         input("Press enter to terminate (plots will be closed).")
 
