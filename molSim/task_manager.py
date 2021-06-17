@@ -344,7 +344,7 @@ class TaskManager:
         if self.molecule_set.is_verbose:
             print('Beginning tasks...')
         for task_id, task in enumerate(self.to_do):
-            print(f'Task ({task_id + 1} / len(self.to_do)) {task}')
+            print(f'Task ({task_id + 1} / {len(self.to_do)}) {task}')
             task(self.molecule_set) 
         input("Press enter to terminate (plots will be closed).")
 
