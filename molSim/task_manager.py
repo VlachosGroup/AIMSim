@@ -198,12 +198,12 @@ class ShowPropertyVariationWithSimilarity(Task):
             if mol1_property and mol2_property:
                 reference_mol_properties.append(mol1_property)
                 similar_mol_properties.append(mol2_property)
-        reference_mol_properties, dissimilar_mol_properties = [], []
+        dissimilar_reference_mol_properties, dissimilar_mol_properties = [], []
         for mol_pair in dissimilar_mol_pairs:
             mol1_property = mol_pair[0].get_mol_property_val()
             mol2_property = mol_pair[1].get_mol_property_val()
             if mol1_property and mol2_property:
-                reference_mol_properties.append(mol1_property)
+                dissimilar_reference_mol_properties.append(mol1_property)
                 dissimilar_mol_properties.append(mol2_property)
       
         if molecule_set.is_verbose:
@@ -213,7 +213,7 @@ class ShowPropertyVariationWithSimilarity(Task):
                     **self.plot_settings)
         if molecule_set.is_verbose:
             print('Plotting Responses of Dissimilar Molecules')
-        plot_parity(reference_mol_properties,
+        plot_parity(dissimilar_reference_mol_properties,
                     dissimilar_mol_properties,
                     **self.plot_settings)
 
@@ -221,8 +221,8 @@ class ShowPropertyVariationWithSimilarity(Task):
         pearson_coff_of_responses = pearsonr(reference_mol_properties,
                                              similar_mol_properties)
         pearson_coff_of_dissimilar_responses = pearsonr(
-                                                       reference_mol_properties,
-                                                      dissimilar_mol_properties)
+                                            dissimilar_reference_mol_properties,
+                                            dissimilar_mol_properties)
         ##############################
         text_prompt = 'Pearson Correlation in the properties of the ' \
                       'most similar molecules\n'
