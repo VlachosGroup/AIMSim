@@ -595,7 +595,7 @@ class MoleculeSet:
                                     self.similarity_matrix[ref_mol, target_mol])
         return np.array(pairwise_similarity_vector)
     
-    def _cluster(self, n_clusters, algorithm='kmedoids', **kwargs):
+    def cluster(self, n_clusters, algorithm='kmedoids', **kwargs):
         if algorithm == 'kmedoids':
             distance_matrix = self.get_distance_matrix(**kwargs)
             self.cluster_generator= KMedoids(n_clusters=n_clusters, 
@@ -604,6 +604,8 @@ class MoleculeSet:
         else:
             raise NotImplementedError(f'clustering algorithm "{algorithm}" '
                                        'not supported')
+    
+
         
         
         
