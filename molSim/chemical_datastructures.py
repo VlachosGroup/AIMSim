@@ -14,8 +14,8 @@ import numpy as np
 import pandas as pd
 from rdkit import DataStructs, Chem
 from rdkit.Chem import Draw
-from sklearn_extra.cluster import KMedoids
 
+from molSim.clustering import KMedoids
 from molSim.helper_methods import get_feature_datatype
 from molSim.featurize_molecule import Descriptor
 import molSim.similarity_measures as similarity_measures
@@ -598,12 +598,14 @@ class MoleculeSet:
     def cluster(self, n_clusters, algorithm='kmedoids', **kwargs):
         if algorithm == 'kmedoids':
             distance_matrix = self.get_distance_matrix(**kwargs)
-            self.cluster_generator= KMedoids(n_clusters=n_clusters, 
-                                             metric='precomputed').fit(
+            self.cluster_generator = KMedoids(n_clusters=n_clusters, 
+                                              metric='precomputed').fit(
                                                                 distance_matrix)
         else:
             raise NotImplementedError(f'clustering algorithm "{algorithm}" '
                                        'not supported')
+    
+
     
 
         
