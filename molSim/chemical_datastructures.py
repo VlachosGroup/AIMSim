@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 from rdkit import DataStructs, Chem
 from rdkit.Chem import Draw
+from sklearn_extra.cluster import KMedoids
 
 from molSim.helper_methods import get_feature_datatype
 from molSim.featurize_molecule import Descriptor
@@ -259,6 +260,7 @@ class MoleculeSet:
         self.molecular_descriptor = None
         self.similarity_measure = None
         self.similarity_matrix = None
+        self.clusters = []
         
         if molecule_database_src is not None \
             and molecule_database_src_type is not None:
@@ -570,6 +572,22 @@ class MoleculeSet:
             self._set_similarity_matrix()
         return self.similarity_matrix
     
+    def get_distance_matrix(self):
+        """Get the distance matrix for the data set defined here as:
+        distance_matrix =  -similarity_matrix.
+
+        Returns
+        -------
+        np.ndarray
+            Similarity matrix of the dataset.
+
+        Note
+        ----
+        If un-set, sets the self.similarity_matrix attribute.
+
+        """
+        return -self.get_similarity_matrix()        
+    
     def get_pairwise_similarities(self):
         pairwise_similarity_vector = []
         for ref_mol in range(len(self.molecule_database)):
@@ -577,6 +595,15 @@ class MoleculeSet:
                 pairwise_similarity_vector.append(
                                     self.similarity_matrix[ref_mol, target_mol])
         return np.array(pairwise_similarity_vector)
+    
+    def cluster(n_clusters, algorithm='kmedoids', **kwargs):
+        if algorithm == 'kmedoids':
+
+            
+
+
+    
+    
 
 
 
