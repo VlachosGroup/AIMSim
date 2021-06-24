@@ -37,7 +37,7 @@ class Cluster:
         except sklearn.exceptions.NotFittedError as e:
             raise e
 
-    def get_cluster_labels(self):
+    def get_labels(self):
         if not self._is_fitted():
             raise sklearn.exceptions.NotFittedError
         return self.labels_
