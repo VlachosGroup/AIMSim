@@ -1,19 +1,36 @@
-from abc import ABC, abstractmethod
-
 import sklearn.exceptions
 from sklearn_extra.cluster import KMedoids as SklearnExtraKMedoids
 
 
-class Cluster(ABC):
-    def __init__(self, n_clusters):
+class Cluster:
+    def __init__(self, clustering_method, n_clusters, **kwargs):
+        self.clustering_method = clustering_method
         self.n_clusters = n_clusters
-        self.model_ = None
+        if self.clustering_method == 'kmedoids':
+            self.model_ = self._get_kmedoids_model_(**kwargs)
+        else:
+            raise NotImplementedError('{clustering_method} not implemented')
         self.labels_ = None
         self.interia_ = None
-
-    @abstractmethod
+    
+    def _get_kmedoids_model_(self, **kwargs):
+        max_iter = kwargs.get('max_iter', 300)
+        return SklearnExtraKMedoids(n_clusters=self.n_clusters, 
+                                    metric='precomputed', 
+                                    max_iter=max_iter)
+    
     def fit(self, X):
-        pass
+        """
+        Parameters
+        ----------
+        X: np.ndarray or list
+            Distance matrix.
+
+        """
+        self.model_.fit(X)
+        self.labels_ = self.model_.labels_
+        self.interia_ = self.model_.interia_
+
 
     @abstractmethod
     def predict(self, X):
