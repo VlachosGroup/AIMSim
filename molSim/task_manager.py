@@ -3,6 +3,7 @@ from copy import deepcopy
 from os import makedirs
 from os.path import basename
 
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
 
@@ -246,6 +247,31 @@ class ShowPropertyVariationWithSimilarity(Task):
         return 'Task: show variation of molecule property with similarity'
 
 
+class ClusterData:
+    def __init__(self, configs):
+        super().__init__(configs)
+        self.n_clusters = None
+        self.plot_settings = None
+        self.log_fpath = None
+        self._extract_configs()
+    
+    def _extract_configs(self):
+        self.n_clusters = self.configs['n_clusters']
+        self.plot_settings = {'xlabel': 'PC1',
+                              'ylabel': 'PC2',
+                              'embedding': {'method': 'pca'},
+                              'cluster_colors': plt.cm.get_cmap(
+                                                               'hsv', 
+                                                               self.n_clusters)}
+        self.plot_settings.update(self.configs.get('cluster_plot_settings', {}))
+        
+        self.log_fpath = self.configs.get('log_file_path', None)
+        if self.log_fpath is not None:
+            log_dir = basename(self.log_fpath)
+            makedirs(log_dir, exist_ok=True)
+
+
+
 class TaskManager:
     def __init__(self, tasks):
         """Sequentially launches all the tasks from the configuration file.
@@ -278,7 +304,7 @@ class TaskManager:
                      loaded_task = VisualizeDataset(task_configs)
                 elif task == 'show_property_variation_w_similarity':
                     loaded_task = ShowPropertyVariationWithSimilarity(
-                                                                    task_configs)
+                                                                   task_configs)
                 else:
                     print(f'{task} not recognized')
                     continue
