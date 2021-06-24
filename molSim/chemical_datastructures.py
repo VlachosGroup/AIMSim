@@ -603,7 +603,7 @@ class MoleculeSet:
         for mol_id, mol in enumerate(self.molecule_database):
             mol_name = mol.get_name()
             if mol_name is None:
-                mol_names.append(str(mol_id))
+                mol_names.append('id: '+ str(mol_id))
             else:
                  mol_names.append(mol_name)
 
