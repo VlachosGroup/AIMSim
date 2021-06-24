@@ -3,7 +3,7 @@ from sklearn_extra.cluster import KMedoids as SklearnExtraKMedoids
 
 
 class Cluster:
-    def __init__(self, clustering_method, n_clusters, **kwargs):
+    def __init__(self, n_clusters, clustering_method,**kwargs):
         self.clustering_method = clustering_method
         self.n_clusters = n_clusters
         if self.clustering_method == 'kmedoids':
