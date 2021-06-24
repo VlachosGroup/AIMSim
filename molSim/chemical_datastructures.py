@@ -15,7 +15,7 @@ import pandas as pd
 from rdkit import DataStructs, Chem
 from rdkit.Chem import Draw
 
-from molSim.clustering import KMedoids
+from molSim.clustering import Cluster
 from molSim.helper_methods import get_feature_datatype
 from molSim.featurize_molecule import Descriptor
 import molSim.similarity_measures as similarity_measures
@@ -205,6 +205,9 @@ class Molecule:
             for ref_mol in molecule_set.molecule_database
             if ref_mol.mol_text != self.mol_text]
         return target_similarity
+    
+    def get_mol_name(self):
+        return self.mol_text
 
     def get_mol_property_val(self):
         return self.mol_property_val
@@ -260,7 +263,7 @@ class MoleculeSet:
         self.molecular_descriptor = None
         self.similarity_measure = None
         self.similarity_matrix = None
-        self.cluster_generator = None        
+        self.clusters = None        
         if molecule_database_src is not None \
             and molecule_database_src_type is not None:
             self._set_molecule_database(molecule_database_src,
@@ -595,16 +598,32 @@ class MoleculeSet:
                                     self.similarity_matrix[ref_mol, target_mol])
         return np.array(pairwise_similarity_vector)
     
-    def cluster(self, n_clusters, algorithm='kmedoids', **kwargs):
-        if algorithm == 'kmedoids':
-            distance_matrix = self.get_distance_matrix(**kwargs)
-            self.cluster_generator = KMedoids(n_clusters=n_clusters, 
-                                              metric='precomputed').fit(
-                                                                distance_matrix)
-        else:
-            raise NotImplementedError(f'clustering algorithm "{algorithm}" '
-                                       'not supported')
+    def get_mol_names(self):
+        mol_names = []
+        for mol_id, mol in enumerate(self.molecule_database):
+            mol_name = mol.get_name()
+            if mol_name is None:
+                mol_names.append(str(mol_id))
+            else:
+                 mol_names.append(mol_name)
+
+    def cluster(self, n_clusters, clustering_method='kmedoids', **kwargs):
+        self.clusters = Cluster(n_clusters=n_clusters, 
+                                clustering_method=clustering_method,
+                                **kwargs).fit(self.get_distance_matrix())
+        mol_names = np.array(self.get_mol_names())
+        cluster_grouped_mol_names = [mol_names[
+                                        self.clusters.get_labels == cluster_id]
+                                          for cluster_id in range(n_clusters)]
+        return cluster_grouped_mol_names
+        
+        
+
+
+
     
+        
+        
 
     
 
