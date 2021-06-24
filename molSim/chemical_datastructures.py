@@ -612,9 +612,11 @@ class MoleculeSet:
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
         mol_names = np.array(self.get_mol_names())
-        cluster_grouped_mol_names = [mol_names[
-                                        self.clusters.get_labels == cluster_id]
-                                          for cluster_id in range(n_clusters)]
+        cluster_grouped_mol_names = {}
+        for cluster_id in range(n_clusters):
+            cluster_grouped_mol_names[cluster_id] = mol_names[
+                                                        self.clusters.get_labels 
+                                                        == cluster_id].tolist()
         return cluster_grouped_mol_names
         
         
