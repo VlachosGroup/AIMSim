@@ -122,7 +122,7 @@ def plot_parity(x, y, **kwargs):
     }
     if kwargs is not None:
         plot_params.update(kwargs)
-        plt.figure()
+    plt.figure()
     plt.rcParams['svg.fonttype'] = 'none'
     plt.scatter(
         x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'],
@@ -157,3 +157,22 @@ def plot_parity(x, y, **kwargs):
     axes.yaxis.set_ticks(np.arange(start, end, stepsize))
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
     plt.show(block=False)
+
+def plot_bar_chart(heights, colors, xtick_labels=None,**kwargs):
+    """Plot a bar chart
+
+    Parameters
+    ----------
+    heights: list or np.array
+        Height of the bars
+    colors: list or str
+    xtick_labels: list
+        Labels to use for each bar. Default is None in which case just the
+        indices of the height are used
+    
+    """
+    plot_params = {'width': 0.8}
+    if kwargs is not None:
+        plot_params.update(kwargs)
+    
+    
