@@ -158,7 +158,7 @@ def plot_parity(x, y, **kwargs):
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
     plt.show(block=False)
 
-def plot_bar_chart(heights, colors, xtick_labels=None,**kwargs):
+def plot_barchart(heights, colors, xtick_labels=None,**kwargs):
     """Plot a bar chart
 
     Parameters
@@ -174,5 +174,8 @@ def plot_bar_chart(heights, colors, xtick_labels=None,**kwargs):
     plot_params = {'width': 0.8}
     if kwargs is not None:
         plot_params.update(kwargs)
+    if xtick_labels is None:
+        xtick_labels = [_ for _ in range(len(heights))]
+    plt.bar()
     
     
