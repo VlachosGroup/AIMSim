@@ -176,6 +176,7 @@ def plot_barchart(heights, colors, xtick_labels=None,**kwargs):
         plot_params.update(kwargs)
     if xtick_labels is None:
         xtick_labels = [_ for _ in range(len(heights))]
-    plt.bar()
+    plt.bar(height=heights, color=colors, tick_label=xtick_labels, **kwargs)
+    plt.show()
     
     
