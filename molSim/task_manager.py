@@ -6,9 +6,11 @@ from os.path import basename
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
+import yaml
 
 from molSim.chemical_datastructures import MoleculeSet, Molecule
 from molSim.plotting_scripts import plot_density, plot_heatmap, plot_parity
+from MolSim.plotting_scripts import plot_barchart
   
  
 class Task(ABC):
@@ -257,6 +259,7 @@ class ClusterData:
     
     def _extract_configs(self):
         self.n_clusters = self.configs['n_clusters']
+        self.clustering_method = self.configs['clustering_method']
         self.plot_settings = {'xlabel': 'PC1',
                               'ylabel': 'PC2',
                               'embedding': {'method': 'pca'},
@@ -269,6 +272,36 @@ class ClusterData:
         if self.log_fpath is not None:
             log_dir = basename(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
+        
+        self.cluster_fpath = self.configs.get('cluster_file_path', None)
+        if self.cluster_fpath is not None:
+            cluster_dir = basename(self.cluster_fpath)
+            makedirs(cluster_dir, exist_ok=True)
+    
+    def __call__(self, molecule_set):
+        cluster_grouped_mol_names = molecule_set.cluster(
+                                       n_clusters=self.n_clusters, 
+                                       clustering_method=self.clustering_method)
+        if molecule_set.is_verbose:
+            print('Writing to file ', self.cluster_fpath)
+        with open(self.cluster_fpath, "w") as fp:
+            yaml.dump(cluster_grouped_mol_names, fp)
+        
+        plot_barchart(heights=[cluster_grouped_mol_names[cluster_id] 
+                                   for cluster_id in range(self.n_clusters)],
+                      colors=self.plot_settings['cluster_colors'],
+                      xtick_labels=[_ for _ in range(self.n_clusters)],
+                      xlabel='Cluster Index',
+                      ylabel='Cluster Population')
+        
+
+        
+        
+        
+
+        
+
+        
 
 
 
