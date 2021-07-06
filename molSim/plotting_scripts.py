@@ -177,6 +177,17 @@ def plot_barchart(heights, colors, xtick_labels=None,**kwargs):
     if xtick_labels is None:
         xtick_labels = [_ for _ in range(len(heights))]
     plt.bar(height=heights, color=colors, tick_label=xtick_labels, **kwargs)
+    plt.title(
+        plot_params.get('title', ''),
+        fontsize=plot_params.get('title_fontsize', 24))
+    plt.xlabel(
+        plot_params.get('xlabel', ''),
+        fontsize=plot_params.get('xlabel_fontsize', 20))
+    plt.ylabel(
+        plot_params.get('ylabel', ''),
+        fontsize=plot_params.get('ylabel_fontsize', 20))
+    plt.xticks(fontsize=plot_params.get('xticksize', 24))
+    plt.yticks(fontsize=plot_params.get('yticksize', 24))
     plt.show()
     
     
