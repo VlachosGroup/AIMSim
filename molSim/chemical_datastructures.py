@@ -15,6 +15,7 @@ import pandas as pd
 from rdkit import DataStructs, Chem
 from rdkit.Chem import Draw
 
+from molSim.clustering import Cluster
 from molSim.helper_methods import get_feature_datatype
 from molSim.featurize_molecule import Descriptor
 import molSim.similarity_measures as similarity_measures
@@ -204,6 +205,9 @@ class Molecule:
             for ref_mol in molecule_set.molecule_database
             if ref_mol.mol_text != self.mol_text]
         return target_similarity
+    
+    def get_mol_name(self):
+        return self.mol_text
 
     def get_mol_property_val(self):
         return self.mol_property_val
@@ -259,7 +263,7 @@ class MoleculeSet:
         self.molecular_descriptor = None
         self.similarity_measure = None
         self.similarity_matrix = None
-        
+        self.clusters = None        
         if molecule_database_src is not None \
             and molecule_database_src_type is not None:
             self._set_molecule_database(molecule_database_src,
@@ -375,7 +379,7 @@ class MoleculeSet:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
                 f'Please enter valid foldername or path of a '
-                f'text/excel/csv file')
+                f'text/excel/csv')
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
@@ -569,6 +573,74 @@ class MoleculeSet:
         if self.similarity_matrix is None:
             self._set_similarity_matrix()
         return self.similarity_matrix
+    
+    def get_distance_matrix(self):
+        """Get the distance matrix for the data set defined here as:
+        distance_matrix =  -similarity_matrix.
+
+        Returns
+        -------
+        np.ndarray
+            Similarity matrix of the dataset.
+
+        Note
+        ----
+        If un-set, sets the self.similarity_matrix attribute.
+
+        """
+        return -self.get_similarity_matrix()        
+    
+    def get_pairwise_similarities(self):
+        pairwise_similarity_vector = []
+        for ref_mol in range(len(self.molecule_database)):
+            for target_mol in range(ref_mol+1, len(self.molecule_database)):
+                pairwise_similarity_vector.append(
+                                    self.similarity_matrix[ref_mol, target_mol])
+        return np.array(pairwise_similarity_vector)
+    
+    def get_mol_names(self):
+        mol_names = []
+        for mol_id, mol in enumerate(self.molecule_database):
+            mol_name = mol.get_name()
+            if mol_name is None:
+                mol_names.append('id: '+ str(mol_id))
+            else:
+                 mol_names.append(mol_name)
+
+    def cluster(self, n_clusters, clustering_method='kmedoids', **kwargs):
+        self.clusters = Cluster(n_clusters=n_clusters, 
+                                clustering_method=clustering_method,
+                                **kwargs).fit(self.get_distance_matrix())
+        mol_names = np.array(self.get_mol_names())
+        cluster_grouped_mol_names = {}
+        for cluster_id in range(n_clusters):
+            cluster_grouped_mol_names[cluster_id] = mol_names[
+                                                        self.clusters.get_labels 
+                                                        == cluster_id].tolist()
+        return cluster_grouped_mol_names
+        
+        
+
+
+
+    
+        
+        
+
+    
+
+        
+        
+        
+            
+
+            
+
+            
+
+
+    
+    
 
 
 

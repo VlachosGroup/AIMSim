@@ -1,9 +1,10 @@
 ---
 is_verbose: True
 molecule_database: 'D:\Research\Phosphine-Ligands\Code_ligands\molSim\smiles_responses.txt'
+molecule_database_source_type: text
 similarity_measure: 'tanimoto'
 # currently implements: 'rdkit topological' / 'morgan_fingerprint' (DEFAULT)
-molecular_descriptor: 'topological fingerprint'
+molecular_descriptor: 'topological_fingerprint'
 
 # The task field decides what you want to do
 # Each task field contains a sub-task field which further modifies the task.
@@ -17,25 +18,22 @@ tasks:
   compare_target_molecule:
       target_molecule_smiles: 'FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F' # put in SMILES string
       plot_settings: # turn on in case a plot of similarity score is desired
-          plot_color: 'orange' # Set a color recognized by matplotlib.
-          # Default is 'red'.
-          plot_title: 'Compared to Target Molecule'.
-          log_file_path: 'compare_target_mol.txt'  # complete path of output file
+          plot_color: 'orange' # Set a color recognized by matplotlib
+          plot_title: 'Compared to Target Molecule'
+          log_file_path: 'D:\Research\Phosphine-Ligands\Code_ligands\compare_target_mol.txt'  # complete path of output file
   visualize_dataset:
       heatmap_plot_settings:
-          plot_color: 'green' # Set a color recognized by matplotlib.
-                             # Default is 'red'.
-          plot_title: 'Entire Dataset'  # Set a title for plot if needed.
+        cmap: 'viridis' # Matplotlib recognized cmap (color map) used for heatmap.
+        plot_title: 'Entire Dataset'  # Set a title for plot if needed.
+        annotate: False # put in True or False. Default is False.
       pairwise_similarity_plot_settings:
-          annotate: False # put in True or False. Default is False.
+        plot_color: 'green' # Set a color recognized by matplotlib.
           #!xticklabels: # set labels for x-axis ticks
           #!yticklabels: # set labels for y-axis ticks
-          cmap: 'viridis' # Matplotlib recognized cmap (color map) used for heatmap.
-                  # Default is 'autumn'
   show_property_variation_w_similarity:
     # file w/ rows of molecule name and property separated by single space
     # row format --> "molecule-name(or smile string)" "property"
     # e.g. --> water 100
-    log_file_path: 'compare_target_mol.txt'  # complete path of output file
+    log_file_path: 'D:\Research\Phosphine-Ligands\Code_ligands\show_prop_var.txt'  # complete path of output file
     property_plot_settings:
       plot_color: red 
