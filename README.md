@@ -22,6 +22,13 @@ In the context of machine learning, visualizing the diversity of the training se
 A more diverse training data-set yields a more robust model, which generalizes well to unseen data. Additionally, such a visualization can 
 identify "clusters of similarity" indicating the need for separately trained models for each cluster.
 
+_Substrate Scope Robustness Verification_
+
+When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using `molSim`, one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
+![Image of sulfonamide substrate scope](tests/sulfonamide-substrate-scope.png)
+
+Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
+
 ## Installing molSim
 ### Conda
 Use the following command with conda to create an environment:
@@ -86,3 +93,10 @@ Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwa
 
 ## License
 MIT Open
+
+## Works Cited
+Collins, K., Glorius, F. A robustness screen for the rapid assessment of chemical reactions. Nature Chem 5, 597–601 (2013). https://doi.org/10.1038/nchem.1669
+
+Yiding Chen, Philip R. D. Murray, Alyn T. Davies, and Michael C. Willis
+Journal of the American Chemical Society 2018 140 (28), 8781-8787
+DOI: 10.1021/jacs.8b04532

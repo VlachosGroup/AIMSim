@@ -83,7 +83,7 @@ class MolsimUiApp:
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly")
         self.molecularDescriptorCombobox.configure(
-            cursor='arrow', justify='left', takefocus=False, values=['topological fingerprint', 'morgan fingerprint'])
+            cursor='arrow', justify='left', takefocus=False, values=['topological_fingerprint', 'morgan_fingerprint'])
         self.molecularDescriptorCombobox.place(
             anchor='center', relx='0.5', rely='0.5', x='0', y='0')
         self.molecularDescriptorCombobox.current(0)
