@@ -1,7 +1,7 @@
 """ Test the methods of the Molecule class """
 from os import remove, mkdir
 import os.path
-from  shutil import rmtree
+from shutil import rmtree
 import unittest
 
 import numpy as np
@@ -11,8 +11,8 @@ from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 
 from molSim.chemical_datastructures import Molecule, MoleculeSet
-from molSim.featurize_molecule import Descriptor
-from molSim.similarity_measures import get_supported_measures
+from molSim.ops import Descriptor
+from molSim.ops.similarity_measures import get_supported_measures
 
 
 class TestMolecule(unittest.TestCase):
@@ -280,8 +280,8 @@ class TestMoleculeSet(unittest.TestCase):
                                    properties[id],
                                    places=7,
                                    msg='Expected mol_property_val of' 
-                                        'Molecule object '
-                                        'to be set to value in text file')
+                                       'Molecule object '
+                                       'to be set to value in text file')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
     
@@ -304,10 +304,9 @@ class TestMoleculeSet(unittest.TestCase):
                          len(self.test_smiles),
                          'Expected the size of database to be equal to number '
                          'of files in dir')
-        for id, molecule in enumerate(molecule_set.molecule_database):
-            self.assertEqual(molecule.mol_text, self.test_smiles[id],
-                             'Expected mol_text attribute of Molecule object '
-                             'to be smiles')
+        for molecule in molecule_set.molecule_database:
+            self.assertIn(molecule.mol_text, self.test_smiles,
+                          'Expected molecule text to be a smiless string')
             self.assertIsNone(molecule.mol_property_val,
                               'Expected mol_property_val of Molecule object'
                               'initialized without property to be None')

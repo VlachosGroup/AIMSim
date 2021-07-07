@@ -1,18 +1,18 @@
 name: molSim_env
+
 channels:
   - anaconda
   - conda-forge
   - defaults
+
 dependencies:
-  - matplotlib-base
-  - numpy=1.20.2*
-  - numpy-base=1.20.*
-  - openpyxl=3.0.*
-  - pandas=1.2.*
-  - pillow=8.2.*
-  - pyyaml=5.4.*
-  - rdkit=2021.03.*
-  - scipy=1.6.*
+  - numpy
+  - openpyxl
+  - pandas
+  - pillow
+  - pyyaml
+  - rdkit
+  - scipy
   - scikit-learn
   - scikit-learn-extra
   - seaborn

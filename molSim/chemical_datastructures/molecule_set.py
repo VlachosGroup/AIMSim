@@ -8,9 +8,10 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem
 
-from molSim.clustering import Cluster
-from molSim.featurize_molecule import Descriptor
-from molSim import similarity_measures
+from molSim.chemical_datastructures import Molecule
+from molSim.ops.clustering import Cluster
+from molSim.ops.descriptor import Descriptor
+from molSim.ops import similarity_measures
 
 
 class MoleculeSet:

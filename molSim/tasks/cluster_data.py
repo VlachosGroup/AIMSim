@@ -2,11 +2,10 @@ from os import makedirs
 from os.path import basename
 
 import matplotlib.pyplot as plt
-import numpy as np
-from scipy.stats import pearsonr
 import yaml
 
 from .task import Task
+from molSim.utils.plotting_scripts import plot_barchart
 
 
 class ClusterData:

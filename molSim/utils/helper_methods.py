@@ -1,3 +1,4 @@
+"""Needs to be removed"""
 def get_feature_datatype(similarity_measure, molecular_descriptor):
     """ Get the datatype required for feature based on rules
     conditional on similarity measure and molecular_descriptor

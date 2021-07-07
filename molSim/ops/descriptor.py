@@ -159,14 +159,14 @@ class Descriptor:
     
     @staticmethod
     def get_supported_datatypes():
-    """Returns a list of labels for supported datatypes.
+        """Returns a list of labels for supported datatypes.
 
-    Returns
-    -------
-    List(str)
-        List of supported datatype labels.
-    """
-    return ['rdkit', 'numpy']
+        Returns
+        -------
+        List(str)
+            List of supported datatype labels.
+        """
+        return ['rdkit', 'numpy']
 
     def make_fingerprint(self,
                          molecule_graph,

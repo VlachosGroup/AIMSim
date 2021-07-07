@@ -8,9 +8,9 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from molSim.helper_methods import get_feature_datatype
-from molSim.featurize_molecule import Descriptor
-from molSim import similarity_measures
+from molSim.utils.helper_methods import get_feature_datatype
+from molSim.ops.descriptor import Descriptor
+from molSim.ops import similarity_measures
 
 
 class Molecule:

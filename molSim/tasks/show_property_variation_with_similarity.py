@@ -8,6 +8,7 @@ import yaml
 
 from .task import Task
 
+
 class ShowPropertyVariationWithSimilarity(Task):
     def __init__(self, configs):
         super().__init__(configs)

@@ -1,7 +1,7 @@
-from molSim.chemical_datastructures import MoleculeSet, Molecule
-from molSim.plotting_scripts import plot_density, plot_heatmap, plot_parity
-from MolSim.plotting_scripts import plot_barchart
-  
+from molSim.chemical_datastructures import MoleculeSet
+from molSim.tasks import CompareTargetMolecule, VisualizeDataset
+from molSim.tasks import ShowPropertyVariationWithSimilarity
+
 
 class TaskManager:
     def __init__(self, tasks):
@@ -30,20 +30,20 @@ class TaskManager:
         for task, task_configs in tasks.items():
             try: 
                 if task == 'compare_target_molecule':
-                    loaded_task = CompareTargetMolecule(task_configs)    
+                    loaded_task = CompareTargetMolecule(task_configs)
                 elif task == 'visualize_dataset':
-                     loaded_task = VisualizeDataset(task_configs)
+                    loaded_task = VisualizeDataset(task_configs)
                 elif task == 'show_property_variation_w_similarity':
                     loaded_task = ShowPropertyVariationWithSimilarity(
                                                                    task_configs)
                 else:
                     print(f'{task} not recognized')
                     continue
+                self.to_do.append(loaded_task)
             except IOError as e:
                 print(f'Error in the config file for task: ', task)
                 print('\n', e)
                 exit(1)
-            self.to_do.append(loaded_task)
 
         if len(self.to_do) == 0:
             print('No tasks were read. Exiting')
@@ -71,23 +71,22 @@ class TaskManager:
             exit(1)
         is_verbose = molecule_set_configs.get('is_verbose', False)
         similarity_measure = molecule_set_configs.get('similarity_measure',
-                                                'tanimoto_similarity')
+                                                      'tanimoto_similarity')
         molecular_descriptor = molecule_set_configs.get('molecular_descriptor',
-                                                    'morgan_fingerprint')
+                                                        'morgan_fingerprint')
         self.molecule_set = MoleculeSet(
-                                    molecule_database_src=molecule_database_src,
-                                    molecule_database_src_type=database_src_type,
-                                    similarity_measure=similarity_measure,
-                                    molecular_descriptor=molecular_descriptor,
-                                    is_verbose=is_verbose)
+                                molecule_database_src=molecule_database_src,
+                                molecule_database_src_type=database_src_type,
+                                similarity_measure=similarity_measure,
+                                molecular_descriptor=molecular_descriptor,
+                                is_verbose=is_verbose)
 
     def __call__(self, molecule_set_configs):
         """Launch all tasks from the queue.
                 
         Parameters
         ----------
-        molecule_set: Molecules object
-            Molecules object of the molecule database.
+        molecule_set_configs: dict
         
         """
         self._initialize_molecule_set(molecule_set_configs)
