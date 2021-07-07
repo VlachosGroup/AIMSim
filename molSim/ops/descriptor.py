@@ -16,17 +16,6 @@ from rdkit import DataStructs
 from rdkit.Chem import AllChem
 
 
-def get_supported_datatypes():
-    """Returns a list of labels for supported datatypes.
-
-    Returns
-    -------
-    List(str)
-        List of supported datatype labels.
-    """
-    return ['rdkit', 'numpy']
-
-
 class Descriptor:
     """Class for descriptors.
 
@@ -38,6 +27,7 @@ class Descriptor:
         Value of the descriptor.
     datatype: str
         String label denoting the datatype of the descriptor value.
+        
     """
     def __init__(self, label=None, value=None, datatype=None):
         self.value = value
@@ -166,6 +156,17 @@ class Descriptor:
         supported_descriptors.extend(Descriptor().
                                      _get_supported_fingerprints())
         return supported_descriptors
+    
+    @staticmethod
+    def get_supported_datatypes():
+        """Returns a list of labels for supported datatypes.
+
+        Returns
+        -------
+        List(str)
+            List of supported datatype labels.
+        """
+        return ['rdkit', 'numpy']
 
     def make_fingerprint(self,
                          molecule_graph,

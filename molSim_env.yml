@@ -1,0 +1,18 @@
+name: molSim_env
+
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+
+dependencies:
+  - numpy
+  - openpyxl
+  - pandas
+  - pillow
+  - pyyaml
+  - rdkit
+  - scipy
+  - scikit-learn
+  - scikit-learn-extra
+  - seaborn

@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 
 import yaml
 
-from molSim import task_manager
+from molSim.tasks import task_manager
 
 
 if __name__ == '__main__':
@@ -13,6 +13,6 @@ if __name__ == '__main__':
 
     tasks = configs.pop('tasks', None)
     if tasks is None:
-        raise IOError('<< tasks >> field not set in config file')
-    task_manager = task_manager.TaskManager(tasks=tasks)
-    task_manager(molecule_set_configs=configs)
+        raise IOError('"tasks" field not set in config file')
+
+    task_manager.launch_tasks(molecule_database_configs=configs, tasks=tasks)
