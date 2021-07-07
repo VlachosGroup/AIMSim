@@ -19,37 +19,37 @@ class TestMolecule(unittest.TestCase):
     def test_molecule_created_with_no_attributes(self):
         test_molecule = Molecule()
         self.assertIsNone(test_molecule.mol_graph,
-                          "Expected attribute mol_graph to be None "
-                          "for uninitialized Molecule")
+                          'Expected attribute mol_graph to be None '
+                          'for uninitialized Molecule')
         self.assertIsNone(test_molecule.mol_text,
-                          "Expected attribute mol_text to be None "
-                          "for uninitialized Molecule")
+                          'Expected attribute mol_text to be None '
+                          'for uninitialized Molecule')
         self.assertIsNone(test_molecule.mol_property_val,
-                          "Expected attribute mol_property_val to be None "
-                          "for uninitialized Molecule")
+                          'Expected attribute mol_property_val to be None '
+                          'for uninitialized Molecule')
         self.assertIsNone(test_molecule.descriptor.value,
-                          "Expected molecule.descriptor.value to be None "
-                          "for uninitialized Molecule")
+                          'Expected molecule.descriptor.value to be None '
+                          'for uninitialized Molecule')
 
     def test_molecule_created_w_attributes(self):
         test_molecule = Molecule(mol_text='test_molecule',
                                  mol_property_val=42,
                                  mol_descriptor_val=[1, 2, 3])
         self.assertEqual(test_molecule.mol_text, 'test_molecule',
-                         "Expected mol_text attribute to be set.")
+                         'Expected mol_text attribute to be set.')
         self.assertEqual(test_molecule.mol_property_val, 42,
-                         "Expected mol_property_val to be set.")
+                         'Expected mol_property_val to be set.')
         self.assertEqual(test_molecule.descriptor.datatype, 'numpy',
-                         "Expected descriptor.datatype to be numpy since "
-                         "it was initialized by list/array")
+                         'Expected descriptor.datatype to be numpy since '
+                         'it was initialized by list/array')
         self.assertIsInstance(test_molecule.descriptor.value, np.ndarray,
-                              "Expected descriptor.value to be np.ndarray")
+                              'Expected descriptor.value to be np.ndarray')
         self.assertTrue(np.all(
             test_molecule.descriptor.value == np.array([1, 2, 3])),
                          "Expected descriptor.value to be array[1, 2, 3]")
         self.assertEqual(test_molecule.descriptor.label, 'arbitrary',
-                         "Expected descriptor.label to be arbitrary since "
-                         "it was initialized by list/array")
+                         'Expected descriptor.label to be arbitrary since '
+                         'it was initialized by list/array')
 
     def test_set_molecule_from_smiles(self):
         test_smiles = 'CC'
@@ -75,16 +75,16 @@ class TestMolecule(unittest.TestCase):
             fp.write(test_smiles+' garbage vals')
         test_text_molecule._set_molecule_from_file(text_fpath)
         self.assertEqual(test_text_molecule.mol_text, test_smiles,
-                         "Expected mol_text attribute to be set "
-                         "to smiles string when loading from txt file")
+                         'Expected mol_text attribute to be set '
+                         'to smiles string when loading from txt file')
         self.assertIsNotNone(test_text_molecule.mol_graph,
-                             "Expected mol_graph attribute to be set "
-                             "from the smiles when loading from txt file")
+                             'Expected mol_graph attribute to be set '
+                             'from the smiles when loading from txt file')
         self.assertIsInstance(test_text_molecule.mol_graph,
                               rdkit.Chem.rdchem.Mol,
-                              "Expected initialized mol_graph to "
-                              "be rdkit.Chem.rdchem.Mol object "
-                              "when loading from txt file")
+                              'Expected initialized mol_graph to '
+                              'be rdkit.Chem.rdchem.Mol object '
+                              'when loading from txt file')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
 
@@ -97,16 +97,16 @@ class TestMolecule(unittest.TestCase):
         test_pdb_molecule._set_molecule_from_file(test_pdb_filename)
         self.assertEqual(test_pdb_molecule.mol_text,
                          os.path.basename(test_pdb_filename).split('.')[0],
-                         "Expected mol_text attribute to be set "
-                         "to smiles string when loading from pdb file")
+                         'Expected mol_text attribute to be set '
+                         'to smiles string when loading from pdb file')
         self.assertIsNotNone(test_pdb_molecule.mol_graph,
-                             "Expected mol_graph attribute to be set "
-                             "from the smiles when loading from pdb file")
+                             'Expected mol_graph attribute to be set '
+                             'from the smiles when loading from pdb file')
         self.assertIsInstance(test_pdb_molecule.mol_graph,
                               rdkit.Chem.rdchem.Mol,
-                              "Expected initialized mol_graph to "
-                              "be rdkit.Chem.rdchem.Mol object "
-                              "when loading from pdb file")
+                              'Expected initialized mol_graph to '
+                              'be rdkit.Chem.rdchem.Mol object '
+                              'when loading from pdb file')
         print(f'Test complete. Deleting file {test_pdb_filename}...')
         remove(test_pdb_filename)
     
@@ -134,8 +134,8 @@ class TestMolecule(unittest.TestCase):
                                      similarity_measure='tanimoto',
                                      molecular_descriptor='morgan_fingerprint')
         self.assertEqual(tanimoto_similarity, 1.,
-                         "Expected tanimoto similarity to be 1 when comparing "
-                         "molecule graph to itself")
+                         'Expected tanimoto similarity to be 1 when comparing '
+                         'molecule graph to itself')
 
     def test_molecule_graph_similar_to_itself_morgan_negl0(self):
         test_smiles = 'CC'
@@ -148,8 +148,8 @@ class TestMolecule(unittest.TestCase):
                                      similarity_measure='neg_l0',
                                      molecular_descriptor='morgan_fingerprint')
         self.assertEqual(negl0_similarity, 0.,
-                         "Expected negative L0 norm to be 0 when comparing "
-                         "molecule graph to itself")
+                         'Expected negative L0 norm to be 0 when comparing '
+                         'molecule graph to itself')
 
     def test_molecule_created_with_constructor(self):
         # Molecule created by passing SMILES to constructor
@@ -169,8 +169,8 @@ class TestMolecule(unittest.TestCase):
                                      similarity_measure='dice',
                                      molecular_descriptor='morgan_fingerprint')
         self.assertEqual(tanimoto_similarity, 1.,
-                         "Expected dice similarity to be 1 when comparing "
-                         "molecule graph to itself")
+                         'Expected dice similarity to be 1 when comparing '
+                         'molecule graph to itself')
 
 
 class TestMoleculeSet(unittest.TestCase):
@@ -373,8 +373,8 @@ class TestMoleculeSet(unittest.TestCase):
                                    properties[id],
                                    places=7,
                                    msg='Expected mol_property_val of' 
-                                        'Molecule object '
-                                        'to be set to value in excel file')
+                                       'Molecule object '
+                                       'to be set to value in excel file')
         print(f'Test complete. Deleting file {xl_fpath}...')
         remove(xl_fpath)
 
@@ -411,7 +411,7 @@ class TestMoleculeSet(unittest.TestCase):
     def test_set_molecule_database_w_property_from_csv(self):
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
-                                                property_seq=properties)
+                                                 property_seq=properties)
         molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
                                    molecule_database_src_type='csv',
                                    is_verbose=True)
@@ -419,7 +419,7 @@ class TestMoleculeSet(unittest.TestCase):
                         'Expected is_verbose to be True')
         self.assertIsNotNone(molecule_set.molecule_database,
                              'Expected molecule_database to be set from '
-                             'csvfile')
+                             'csv file')
         self.assertIsNone(molecule_set.molecular_descriptor,
                           'Expected molecular_descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
@@ -434,68 +434,70 @@ class TestMoleculeSet(unittest.TestCase):
                                    properties[id],
                                    places=7,
                                    msg='Expected mol_property_val of' 
-                                        'Molecule object '
-                                        'to be set to value in csv file')
+                                       'Molecule object '
+                                       'to be set to value in csv file')
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
 
     def test_set_molecule_database_w_similarity_from_csv(self):
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
-                                                property_seq=properties)
+                                                 property_seq=properties)
         for similarity_measure in get_supported_measures():
-            molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+            molecule_set = MoleculeSet(
+                                    molecule_database_src=csv_fpath,
                                     molecule_database_src_type='csv',
                                     similarity_measure=similarity_measure,
                                     is_verbose=True)
             self.assertTrue(molecule_set.is_verbose, 
                             'Expected is_verbose to be True')
             self.assertIsNotNone(molecule_set.molecule_database,
-                                'Expected molecule_database to be set from '
-                                'csvfile')
+                                 'Expected molecule_database to be set from '
+                                 'csvfile')
             self.assertIsNone(molecule_set.molecular_descriptor,
-                            'Expected molecular_descriptor to be unset')
+                              'Expected molecular_descriptor to be unset')
             self.assertEqual(molecule_set.similarity_measure, 
                              similarity_measure,
-                            'Expected similarity measure attribute of '
-                            'molecule_set to be the same as the initial value')
+                             'Expected similarity measure attribute of '
+                             'molecule_set to be the same as the initial value')
             self.assertIsNone(molecule_set.similarity_matrix,
-                            'Expected similarity_matrix to be unset')
+                              'Expected similarity_matrix to be unset')
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
     
     def test_set_molecule_database_descriptor_from_csv(self):
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
-                                                property_seq=properties)
+                                                 property_seq=properties)
         for descriptor in Descriptor().get_supported_descriptors():
             molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
-                                    molecule_database_src_type='csv',
-                                    molecular_descriptor=descriptor,
-                                    is_verbose=True)
+                                       molecule_database_src_type='csv',
+                                       molecular_descriptor=descriptor,
+                                       is_verbose=True)
             self.assertTrue(molecule_set.is_verbose, 
                             'Expected is_verbose to be True')
             self.assertIsNotNone(molecule_set.molecule_database,
-                                'Expected molecule_database to be set from '
-                                'csvfile')
+                                 'Expected molecule_database to be set from '
+                                 'csv file')
             self.assertIsNone(molecule_set.similarity_measure,
-                             'Expected similarity_measure to be unset')
+                              'Expected similarity_measure to be unset')
             self.assertEqual(molecule_set.molecular_descriptor, 
                              descriptor,
-                            'Expected molecular_descriptor attribute of '
-                            'molecule_set to be the same as the initial value')
+                             'Expected molecular_descriptor attribute of '
+                             'molecule_set to be the same as the initial value')
             self.assertIsNone(molecule_set.similarity_matrix,
-                            'Expected similarity_matrix to be unset')
+                              'Expected similarity_matrix to be unset')
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
     
     def test_set_molecule_database_w_descriptor_similarity_from_csv(self):
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
-                                                property_seq=properties)
+                                                 property_seq=properties)
         for descriptor in Descriptor().get_supported_descriptors():
             for similarity_measure in get_supported_measures():
-                molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                molecule_set = MoleculeSet(
+                                        molecule_database_src=csv_fpath,
                                         molecule_database_src_type='csv',
                                         molecular_descriptor=descriptor,
                                         similarity_measure=similarity_measure,
@@ -503,8 +505,8 @@ class TestMoleculeSet(unittest.TestCase):
                 self.assertTrue(molecule_set.is_verbose, 
                                 'Expected is_verbose to be True')
                 self.assertIsNotNone(molecule_set.molecule_database,
-                                    'Expected molecule_database to be set from '
-                                    'csvfile')
+                                     'Expected molecule_database to '
+                                     'be set from csv file')
                 self.assertIsNotNone(molecule_set.similarity_measure,
                                      'Expected similarity_measure to be set')
                 self.assertIsNotNone(molecule_set.similarity_matrix,
@@ -516,19 +518,21 @@ class TestMoleculeSet(unittest.TestCase):
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         for descriptor in Descriptor().get_supported_descriptors():
             for similarity_measure in get_supported_measures():
-                molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
-                                        molecule_database_src_type='csv',
-                                        molecular_descriptor=descriptor,
-                                        similarity_measure=similarity_measure,
-                                        is_verbose=True)
+                molecule_set = MoleculeSet(
+                                       molecule_database_src=csv_fpath,
+                                       molecule_database_src_type='csv',
+                                       molecular_descriptor=descriptor,
+                                       similarity_measure=similarity_measure,
+                                       is_verbose=True)
                 molecule_pairs = molecule_set.get_most_similar_pairs()
                 self.assertIsInstance(molecule_pairs, list, 
                                       'Expected get_most_similar_pairs() '
                                       'to return list')
                 for pair in molecule_pairs:
                     self.assertIsInstance(pair, tuple, 
-                                      'Expected elements of list returned by' 
-                                      ' get_most_similar_pairs() to be tuples')
+                                          'Expected elements of list '
+                                          'returned by get_most_similar_pairs()'
+                                          ' to be tuples')
     
     def test_get_most_dissimilar_pairs(self):
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
@@ -548,6 +552,7 @@ class TestMoleculeSet(unittest.TestCase):
                                           'Expected elements of list returned'
                                           ' by get_most_dissimilar_pairs() '
                                           'to be tuples')
+
 
 if __name__ == '__main__':
         unittest.main()
