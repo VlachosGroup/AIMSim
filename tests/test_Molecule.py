@@ -538,7 +538,8 @@ class TestMoleculeSet(unittest.TestCase):
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         for descriptor in Descriptor().get_supported_descriptors():
             for similarity_measure in get_supported_measures():
-                molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                molecule_set = MoleculeSet(
+                                        molecule_database_src=csv_fpath,
                                         molecule_database_src_type='csv',
                                         molecular_descriptor=descriptor,
                                         similarity_measure=similarity_measure,
