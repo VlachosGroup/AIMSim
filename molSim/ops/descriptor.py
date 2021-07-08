@@ -21,64 +21,45 @@ class Descriptor:
 
     Attributes
     ----------
-    label: str
+    label_: str
         Label used to denote the type of descriptor being used.
-    value: str
-        Value of the descriptor.
-    datatype: str
-        String label denoting the datatype of the descriptor value.
+    numpy_: np.ndarray
+        Value of the descriptor in the numpy format.
+    rdkit_: rdkit.DataStructs.cDataStructs.UIntSparseIntVec
+        Value of the descriptor in the rdkit format.
         
     """
-    def __init__(self, label=None, value=None, datatype=None):
-        self.value = value
-        # can only be initialized by numpy array arbitrary value
-        self.label = 'arbitrary' if value is not None else label
-        self.datatype = 'numpy' if value is not None else datatype
+    def __init__(self, label=None, value=None):
+        if value is None:
+            self.label_ = label
+            self.numpy_ = None
+        else:
+            self.label_ = 'arbitrary'
+            self.numpy_ = np.array(value)
+        self.rdkit_ = None
 
-    def _convert_to_numpy(self):
+    def to_numpy(self):
         """Convert arbitrary fingerprints of type in_dtype to numpy arrays.
-
-        Parameters
-        ----------
-        in_dtype: str
-            Datatype of the fingerprint class.
-            Current accepted formats:
-            'rdkit': rdkit.DataStructs.cDataStructs.UIntSparseIntVec
 
         Returns
         -------
         np.array
 
         """
-        if self.datatype == 'rdkit':
-            np_fingerprint = np.zeros((0,), dtype=np.int8)
-            DataStructs.ConvertToNumpyArray(self.value,
-                                            np_fingerprint)
-            self.value = np_fingerprint
-        self.datatype = 'numpy'
+        if self.numpy_ is None:
+            self.numpy_ = np.zeros((0,), dtype=np.int8)
+            self.numpy_ = DataStructs.ConvertToNumpyArray(self.rdkit_,
+                                                          self.numpy_)
+        return self.numpy_
 
-    def coerce_output_datatype(self, output_datatype):
-        """
-        Manage the output datatype of the fingerprint by ensuring that it is of
-        the desired type.
-
-        Parameters
-        ----------
-        output_datatype: str
-            Required output datatype of the fingerprint class.
-            Current accepted formats:
-            'rdkit': rdkit.DataStructs.cDataStructs.UIntSparseIntVec
-            'numpy': Numpy
-
-        """
-        if output_datatype == self.datatype:
-            return
-        if output_datatype == 'numpy':
-            self._convert_to_numpy()
+    def to_rdkit(self):
+        if self.rdkit_ is None:
+            raise ValueError('Attempting to convert arbitrary numpy array '
+                             'to rdkit bit vector is not supported')
+        return self.rdkit_
 
     def _set_morgan_fingerprint(self,
                                 molecule_graph,
-                                output_datatype,
                                 radius=3,
                                 n_bits=1024):
         """Set the descriptor to a morgan fingerprint.
@@ -87,8 +68,6 @@ class Descriptor:
         ----------
         molecule_graph: RDKIT object
             Graph of molecule to be fingerprinted.
-        output_datatype: str
-            Label indicating the required format for the fingerprint.
         radius: int
             Radius of fingerprint, 3 corresponds to diameter (ECFP)6.
             Default 3.
@@ -99,15 +78,13 @@ class Descriptor:
 
         """
 
-        self.value = AllChem.GetMorganFingerprintAsBitVect(   # rdkit bitvector
-            molecule_graph, radius, nBits=n_bits)
-        self.label = 'morgan_fingerprint'
-        self.datatype = 'rdkit'
-        self.coerce_output_datatype(output_datatype=output_datatype)
+        self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(molecule_graph,
+                                                            radius,
+                                                            nBits=n_bits)
+        self.label_ = 'morgan_fingerprint'
 
     def _set_rdkit_topological_fingerprint(self,
                                            molecule_graph,
-                                           output_datatype,
                                            min_path=1,
                                            max_path=7):
         """Set the descriptor to a topological fingerprint.
@@ -116,8 +93,6 @@ class Descriptor:
         ----------
         molecule_graph: RDKIT object
             Graph of molecule to be fingerprinted.
-        output_datatype: str
-            Label indicating the required format for the fingerprint.
         min_path: int
             Minimum path used to generate the topological fingerprint.
             Default is 1.
@@ -126,49 +101,10 @@ class Descriptor:
             Default is 7.
 
         """
-        self.value = rdmolops.RDKFingerprint(molecule_graph,
+        self.rdkit_ = rdmolops.RDKFingerprint(molecule_graph,
                                              minPath=min_path,
                                              maxPath=max_path)
-        self.label = 'topological_fingerprint'
-        self.datatype = 'rdkit'
-        self.coerce_output_datatype(output_datatype=output_datatype)
-
-    def _get_supported_fingerprints(self):
-        """Returns a list of labels for the molecular_fingerprints
-        that are supported currently
-
-        Returns
-        -------
-        List(str)
-            List of labels for fingerprints currently supported.
-
-        """
-        return ['topological_fingerprint', 'morgan_fingerprint']
-
-    @staticmethod
-    def get_supported_descriptors():
-        """Returns a list od descriptors supported by this class
-
-        Returns
-        -------
-        List(str)
-            List of labels for descriptors currently supported.
-        """
-        supported_descriptors = []
-        supported_descriptors.extend(Descriptor().
-                                     _get_supported_fingerprints())
-        return supported_descriptors
-    
-    @staticmethod
-    def get_supported_datatypes():
-        """Returns a list of labels for supported datatypes.
-
-        Returns
-        -------
-        List(str)
-            List of supported datatype labels.
-        """
-        return ['rdkit', 'numpy']
+        self.label_ = 'topological_fingerprint'
 
     def make_fingerprint(self,
                          molecule_graph,
@@ -195,12 +131,10 @@ class Descriptor:
 
         if fingerprint_type == 'morgan_fingerprint':
             self._set_morgan_fingerprint(molecule_graph=molecule_graph,
-                                         output_datatype=fingerprint_datatype,
                                          **kwargs)
         elif fingerprint_type == 'topological_fingerprint':
             self._set_rdkit_topological_fingerprint(
                                         molecule_graph=molecule_graph,
-                                        output_datatype=fingerprint_datatype,
                                         **kwargs)
         else:
             raise ValueError(f'{fingerprint_type} not supported')
