@@ -126,7 +126,9 @@ class Descriptor:
             Default is 7.
 
         """
-        self.value = rdmolops.RDKFingerprint(molecule_graph, minPath=min_path, maxPath=max_path)
+        self.value = rdmolops.RDKFingerprint(molecule_graph,
+                                             minPath=min_path,
+                                             maxPath=max_path)
         self.label = 'topological_fingerprint'
         self.datatype = 'rdkit'
         self.coerce_output_datatype(output_datatype=output_datatype)
