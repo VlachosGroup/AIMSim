@@ -5,6 +5,7 @@ import os
 import tkinter as tk
 import tkinter.ttk as ttk
 import matplotlib.pyplot as plt
+import webbrowser
 
 
 class MolsimUiApp:
@@ -93,6 +94,17 @@ class MolsimUiApp:
         self.runButton.place(anchor='center', relx='0.5',
                              rely='0.75', x='0', y='0')
         self.runButton.configure(command=self.runCallback)
+        self.openConfigButton = ttk.Button(self.mainframe)
+        self.openConfigButton.configure(text='Open Config')
+        self.openConfigButton.place(anchor='center', relx='0.5',
+                             rely='0.85', x='0', y='0')
+        self.openConfigButton.configure(command=self.openConfigCallback)
+        self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.multiprocessingCheckbutton.configure(
+            compound='top', cursor='arrow', offvalue='False', onvalue='True')
+        self.multiprocessingCheckbutton.configure(state='normal', text='Enable Multiple Workers')
+        self.multiprocessingCheckbutton.place(
+            anchor='center', relx='0.78', rely='0.95', x='0', y='0')
         self.mainframe.configure(height='400', width='400')
         self.mainframe.place(anchor='nw', relheight='0.9',
                              rely='0.1', x='0', y='0')
@@ -102,6 +114,13 @@ class MolsimUiApp:
 
         # Main widget
         self.mainwindow = self.window
+
+    def openConfigCallback(self):
+        '''
+        Open the config file being used by the UI to allow the user to edit it.
+
+        '''
+        webbrowser.open('molSim-ui-config.yaml')
 
     def runCallback(self):
         '''
@@ -125,6 +144,10 @@ class MolsimUiApp:
                       'most_dissimilar': True, 'similarity_plot_settings': {'plot_color': 'red'}}
         
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
+        if 'selected' in self.multiprocessingCheckbutton.state():
+            n_workers = os.cpu_count()/2
+        else:
+            n_workers = 1
 
         _, file_extension = os.path.splitext(self.databaseFile.get())
         if(file_extension == '.txt'):
@@ -136,7 +159,7 @@ class MolsimUiApp:
         else:
             molecule_database_source_type = file_extension.replace('.','')
 
-        yamlOut = {'is_verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
+        yamlOut = {'is_verbose': verboseChecked, 'n_workers': n_workers, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
                    'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
         with open('molSim-ui-config.yaml', 'w') as outfile:
