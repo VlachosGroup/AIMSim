@@ -70,7 +70,7 @@ class TaskManager:
             print(f'molecule_database_source_type: {database_src_type}')
             exit(1)
         is_verbose = molecule_set_configs.get('is_verbose', False)
-        n_threads = molecule_set_configs.get('n_threads', 1)
+        n_threads = molecule_set_configs.get('n_workers', 1)
         similarity_measure = molecule_set_configs.get('similarity_measure',
                                                       'tanimoto_similarity')
         molecular_descriptor = molecule_set_configs.get('molecular_descriptor',
