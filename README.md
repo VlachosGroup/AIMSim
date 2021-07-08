@@ -50,10 +50,12 @@ _coming soon_
 ## Running molSim
 Example Run:
 `python -m molSim config.yaml`
+
 Tests:
 `python -m unittest discover`
+
 User interface:
-`pythong -m molSim-ui-main`
+`python -m molSim-ui-main`
 
 ## Notes
 

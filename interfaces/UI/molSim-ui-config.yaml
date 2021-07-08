@@ -1,0 +1,14 @@
+is_verbose: false
+n_threads: 6
+molecular_descriptor: topological_fingerprint
+molecule_database: C:\Users\jwb1j\OneDrive\Documents\GitHub\molSim\tests\data\10.1021_jacs.8b04532-substrates.smi
+molecule_database_source_type: text
+similarity_measure: tanimoto
+tasks:
+  visualize_dataset:
+    pairwise_heatmap_settings:
+      annotate: false
+      cmap: viridis
+    plot_settings:
+      plot_color: green
+      plot_title: Entire Dataset
