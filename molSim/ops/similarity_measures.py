@@ -15,104 +15,90 @@ Supported Metrics
 'neg_l0': Negative L0 norm of |x1 - x2|
 'neg_l1': Negative L1 norm of |x1 - x2|
 'neg_l2': Negative L2 norm of |x1 - x2|
+'dice': Dice similarity
+'cosine': Cosine similarity
 
 """
 import numpy as np
 from rdkit import DataStructs
+import scipy.spatial.distance.cosine as scipy_cosine
 
 
-def get_l_similarity(mol1_descriptor, mol2_descriptor, order):
-    """Get L-similarity of arbitrary order.
-    This is defined -(L-order norm).
+class SimilarityMeasure:
+    def __init__(self, metric):
+        if metric.lower() in ['negative_l0']:
+            self.metric = 'negative_l0'
+        elif metric.lower() in ['negative_l1', 'negative_manhattan']:
+            self.metric = 'negative_l1'
+        elif metric.lower() in ['negative_l2', 'negative_euclidean']:
+            self.metric = 'negative_l2'
+        elif metric.lower() in ['dice']:
+            self.metric = 'dice'
+        elif metric.lower() in ['jaccard', 'tanimoto']:
+            self.metric = 'tanimoto'
+        elif metric.lower() in ['cosine']:
+            self.metric = 'cosine'
+        else:
+            raise NotImplementedError
 
-    Parameters
-    ---------
-    mol1_descriptor: Descriptor object
-        Descriptor Representation for molecule 1.
-    mol2_descriptor: Descriptor object
-        Descriptor Representation for molecule 2.
-    order: int
-        Order of the norm used to calculate similarity.
-        E.g. order of 2 corresponds to L2 similarity etc.
+    def __call__(self, mol1_descriptor, mol2_descriptor):
+        """
 
-    Returns
-    ------
-    float
-        Similarity between the two molecules.
+        Parameters
+        ----------
+        mol1_descriptor: Descriptor object
+        mol2_descriptor: Descriptor object
 
-    Notes
-    -----
-    All molecular descriptors need to be of datatype numpy.
+        Returns
+        -------
+        similarity_: float
+            Similarity value
 
-    """
-    if (mol1_descriptor.datatype != 'numpy'
-            or mol2_descriptor.datatype != 'numpy'):
-        mol1_descriptor.coerce_output_datatype(output_datatype='numpy')
-        mol1_descriptor.coerce_output_datatype(output_datatype='numpy')
-    return -np.linalg.norm(mol1_descriptor.value - mol2_descriptor.value,
-                               ord=order)
-        
+        """
+        similarity_ = np.nan
+        if self.metric == 'negative_l0':
+            similarity_ = -np.linalg.norm(mol1_descriptor.to_numpy()
+                                          - mol2_descriptor.to_numpy(),
+                                          ord=0)
+        elif self.metric == 'negative_l1':
+            similarity_ = -np.linalg.norm(mol1_descriptor.to_numpy()
+                                          - mol2_descriptor.to_numpy(),
+                                          ord=1)
+        elif self.metric == 'negative_l2':
+            similarity_ = -np.linalg.norm(mol1_descriptor.to_numpy()
+                                          - mol2_descriptor.to_numpy(),
+                                          ord=2)
+        elif self.metric == 'dice':
+            if (mol1_descriptor.datatype == 'numpy'
+                    or mol2_descriptor.datatype == 'numpy'):
+                raise ValueError(
+                    'Dice similarity is only useful for bit strings.'
+                    'Consider using the rdkit bitstring data structure.')
+            else:
+                similarity_ = DataStructs.DiceSimilarity(
+                                              mol1_descriptor.to_rdkit(),
+                                              mol2_descriptor.to_rdkit())
+        elif self.metric == 'tanimoto':
+            if (mol1_descriptor.datatype == 'numpy'
+                    or mol2_descriptor.datatype == 'numpy'):
+                raise ValueError(
+                    'Tanimoto similarity is only useful for bit strings.'
+                    'Consider using the rdkit bitstring data structure.')
+            else:
+                similarity_ = DataStructs.TanimotoSimilarity(
+                                              mol1_descriptor.to_rdkit(),
+                                              mol2_descriptor.to_rdkit())
+        elif self.metric == 'cosine':
+            if (mol1_descriptor.datatype == 'rdkit'
+                    and mol2_descriptor.datatype == 'rdkit'):
+                similarity_ = DataStructs.CosineSimilarity(
+                                              mol1_descriptor.to_rdkit(),
+                                              mol2_descriptor.to_rdkit())
+            else:
+                similarity_ = scipy_cosine(mol1_descriptor.to_numpy(),
+                                           mol2_descriptor.to_numpy())
 
+        return similarity_
 
-def get_tanimoto_similarity(mol1_descriptor, mol2_descriptor):
-    """Get tanimoto similarity between two molecular descriptors.
-
-    Parameters
-    ----------
-    mol1_descriptor: Descriptor object
-        Descriptor Representation for molecule 1.
-    mol2_descriptor: Descriptor object
-        Descriptor Representation for molecule 2.
-
-    Returns
-    -------
-    float
-
-    """
-    if (mol1_descriptor.datatype == 'rdkit'
-            and mol2_descriptor.datatype == 'rdkit'):
-        return DataStructs.TanimotoSimilarity(mol1_descriptor.value,
-                                              mol2_descriptor.value)
-    elif (mol1_descriptor.datatype == 'numpy'
-          or mol2_descriptor.datatype == 'numpy'):
-        raise ValueError('Tanimoto similarity is only useful for bitstrings.'
-                         'Consider using the rdkit bitstring data structure')
-
-
-def get_dice_similarity(mol1_descriptor, mol2_descriptor):
-    """Get dice similarity between two molecular descriptors.
-
-    Parameters
-    ----------
-    mol1_descriptor: Descriptor object
-        Descriptor Representation for molecule 1.
-    mol2_descriptor: Descriptor object
-        Descriptor Representation for molecule 2.
-
-    Returns
-    -------
-    float
-
-    """
-    if (mol1_descriptor.datatype == 'rdkit'
-            and mol2_descriptor.datatype == 'rdkit'):
-        return DataStructs.DiceSimilarity(mol1_descriptor.value,
-                                          mol2_descriptor.value)
-    elif (mol1_descriptor.datatype == 'numpy'
-          or mol2_descriptor.datatype == 'numpy'):
-        raise ValueError('Dice similarity is only useful for bitstrings.'
-                         'Consider using the rdkit bitstring data structure.')
-
-
-def get_supported_measures():
-    """Returns a list of labels for the similarity_measures
-    that are supported currently
-
-    Returns
-    ------
-    list(str)
-        Supported similarity measures.
-    """
-    return ['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2', 'dice']
 
 
