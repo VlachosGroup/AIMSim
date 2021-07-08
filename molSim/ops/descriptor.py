@@ -109,7 +109,6 @@ class Descriptor:
     def make_fingerprint(self,
                          molecule_graph,
                          fingerprint_type,
-                         fingerprint_datatype,
                          **kwargs):
         """Make fingerprint of a molecule based on a graph representation.
         Set the state of the descriptor to this fingerprint.
@@ -122,8 +121,6 @@ class Descriptor:
             label for the type of fingerprint.
             Invokes get_supported_descriptors()['fingerprints']
             for list of supported fingerprints.
-        fingerprint_datatype: str
-            Type of fingerprint to take.
         kwargs: dict
             Keyword arguments used to modify parameters of fingerprint.
 
