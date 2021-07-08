@@ -12,16 +12,16 @@ Supported Metrics
 ----------------
 'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
         0 (not similar at all) to 1 (identical)
-'neg_l0': Negative L0 norm of |x1 - x2|
-'neg_l1': Negative L1 norm of |x1 - x2|
-'neg_l2': Negative L2 norm of |x1 - x2|
+'negative_l0': Negative L0 norm of |x1 - x2|
+'negative_l1': Negative L1 norm of |x1 - x2|
+'negative_l2': Negative L2 norm of |x1 - x2|
 'dice': Dice similarity
 'cosine': Cosine similarity
 
 """
 import numpy as np
 from rdkit import DataStructs
-import scipy.spatial.distance.cosine as scipy_cosine
+from scipy.spatial.distance import cosine as scipy_cosine
 
 
 class SimilarityMeasure:
@@ -98,7 +98,7 @@ class SimilarityMeasure:
             else:
                 similarity_ = scipy_cosine(mol1_descriptor.to_numpy(),
                                            mol2_descriptor.to_numpy())
-                
+
         return similarity_
 
 
