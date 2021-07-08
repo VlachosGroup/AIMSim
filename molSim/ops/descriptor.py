@@ -102,8 +102,8 @@ class Descriptor:
 
         """
         self.rdkit_ = rdmolops.RDKFingerprint(molecule_graph,
-                                             minPath=min_path,
-                                             maxPath=max_path)
+                                              minPath=min_path,
+                                              maxPath=max_path)
         self.label_ = 'topological_fingerprint'
 
     def make_fingerprint(self,
