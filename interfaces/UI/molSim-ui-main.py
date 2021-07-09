@@ -1,3 +1,14 @@
+"""User Interface and associated methods to access the key functionalities of molSim
+without having to use the command line.
+
+Raises:
+    IOError: When pressing 'open config' it is possible that no suitable program
+    will be known to the OS to open .yaml files. Also if no tasks are selected,
+    an IOError will be raised.
+
+Author:
+    Jackson Burns
+"""
 from molSim.task_manager import launch_tasks
 
 import yaml
@@ -7,7 +18,14 @@ import tkinter.ttk as ttk
 
 
 class MolsimUiApp:
+    """User interface to access key functionalities of molSim.
+    """
     def __init__(self, master=None):
+        """Constructor for Molsim.
+
+        Args:
+            master (tk, optional): tk window. Defaults to None.
+        """
         # build ui
         self.window = tk.Tk() if master is None else tk.Toplevel(master)
         self.databaseFile = tk.StringVar(self.window)
@@ -103,11 +121,12 @@ class MolsimUiApp:
         self.mainwindow = self.window
 
     def runCallback(self):
-        '''
-        to write the yaml configuration file, put all the use settings into a giant nested dictionary.
+        """Retrieves user input, writes to a .yaml configuration file, and calls molSim on that input.
 
-        then, call task_launcher on the config file.
-        '''
+        Raises:
+            IOError: When opening the automatically generated config file from the UI, there is a chance
+            that the OS will not know which program to use, raising the error.
+        """
         tasks_dict = {}
 
         inner_dict = {}
@@ -150,6 +169,8 @@ class MolsimUiApp:
         launch_tasks(molecule_database_configs=configs, tasks=tasks)
 
     def run(self):
+        """Start the UI.
+        """
         self.mainwindow.mainloop()
 
 
