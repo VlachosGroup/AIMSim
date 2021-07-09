@@ -146,6 +146,18 @@ class Descriptor:
         else:
             raise ValueError(f'{fingerprint_type} not supported')
 
+    def set_manually(self, arbitrary_descriptor_val):
+        """
+        Set the descriptor value manually based on user specified value.
+        Parameters
+        ----------
+        arbitrary_descriptor_val: np.ndarray or list
+            Vectorized representation of descriptor values.
+
+        """
+        self.label_ = 'arbitrary'
+        self.numpy_ = np.array(arbitrary_descriptor_val)
+
 
 
 
