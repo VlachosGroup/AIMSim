@@ -15,6 +15,8 @@ from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
 
+from ..exceptions import NotInitializedError
+
 
 class Descriptor:
     """Class for descriptors.
@@ -46,6 +48,7 @@ class Descriptor:
         np.array
 
         """
+        self._check_init()
         if self.numpy_ is None:
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             self.numpy_ = DataStructs.ConvertToNumpyArray(self.rdkit_,
@@ -53,10 +56,17 @@ class Descriptor:
         return self.numpy_
 
     def to_rdkit(self):
+        self._check_init()
         if self.rdkit_ is None:
             raise ValueError('Attempting to convert arbitrary numpy array '
                              'to rdkit bit vector is not supported')
         return self.rdkit_
+
+    def _check_init(self):
+        if self.numpy_ or self.rdkit_:
+            return True
+        raise NotInitializedError('Descriptor value not generated. '
+                                  'Use make_fingerprint() to initialize it.')
 
     def _set_morgan_fingerprint(self,
                                 molecule_graph,
