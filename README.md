@@ -49,13 +49,20 @@ _coming soon_
 
 ## Running molSim
 Example Run:
+
 `python -m molSim config.yaml`
 
 Tests:
+
 `python -m unittest discover`
 
 User interface:
+
 `python -m molSim-ui-main`
+
+To build the docs, execute the following with `sphinx-quickstart` installed and from the `/docs` directory:
+
+`make html`
 
 ## Notes
 
