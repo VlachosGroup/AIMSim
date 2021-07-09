@@ -36,8 +36,7 @@ class Descriptor:
             self.label_ = label
             self.numpy_ = None
         else:
-            self.label_ = 'arbitrary'
-            self.numpy_ = np.array(value)
+            self.set_manually(arbitrary_descriptor_val=value)
         self.rdkit_ = None
 
     def to_numpy(self):
