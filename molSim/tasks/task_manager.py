@@ -70,6 +70,7 @@ class TaskManager:
             print(f'molecule_database_source_type: {database_src_type}')
             exit(1)
         is_verbose = molecule_set_configs.get('is_verbose', False)
+        n_threads = molecule_set_configs.get('n_workers', 1)
         similarity_measure = molecule_set_configs.get('similarity_measure',
                                                       'tanimoto_similarity')
         molecular_descriptor = molecule_set_configs.get('molecular_descriptor',
@@ -79,7 +80,8 @@ class TaskManager:
                                 molecule_database_src_type=database_src_type,
                                 similarity_measure=similarity_measure,
                                 molecular_descriptor=molecular_descriptor,
-                                is_verbose=is_verbose)
+                                is_verbose=is_verbose,
+                                n_threads=n_threads)
 
     def __call__(self, molecule_set_configs):
         """Launch all tasks from the queue.
