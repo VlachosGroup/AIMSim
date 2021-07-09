@@ -1,6 +1,9 @@
 # vscode configuration files
 *.json
 
+# intellij configuration files
+.idea/*
+
 # compiled python files
 *.pyc
 
