@@ -10,7 +10,7 @@ from rdkit.Chem import Draw
 
 from molSim.utils.helper_methods import get_feature_datatype
 from molSim.ops.descriptor import Descriptor
-from molSim.ops import similarity_measures
+from molSim.ops.similarity_measures import SimilarityMeasure
 
 
 class Molecule:
@@ -113,6 +113,26 @@ class Molecule:
                     mol_smiles = fp.readline().split()[0]
                 self._set_molecule_from_smiles(mol_smiles)
 
+    def _set_molecular_descriptor(self,
+                                  arbitrary_descriptor_val=None,
+                                  fingerprint_type=None):
+        """Sets molecular descriptor attribute.
+
+        Parameters
+        ----------
+        arbitrary_descriptor_val : np.array or list
+            Arbitrary descriptor vector. Default is None.
+        fingerprint_type : str
+            String label specifying which fingerprint to use. Default is None.
+
+        """
+        if arbitrary_descriptor_val:
+            self.descriptor.set_manually(arbitrary_descriptor_val)
+        elif fingerprint_type:
+            self.descriptor.make_fingerprint(self.mol_graph)
+        else:
+            raise ValueError(f'No descriptor vector were passed.')
+
     def get_similarity_to_molecule(self,
                                    target_mol,
                                    similarity_measure,
@@ -136,38 +156,13 @@ class Molecule:
             Similarity coefficient by the chosen method.
 
         """
-        feature_datatype = get_feature_datatype(
-                                     similarity_measure=similarity_measure,
-                                     molecular_descriptor=molecular_descriptor)
+        similarity = SimilarityMeasure(metric=similarity_measure)
         self.descriptor.make_fingerprint(molecule_graph=self.mol_graph,
-                                         fingerprint_type=molecular_descriptor,
-                                         fingerprint_datatype=feature_datatype)
+                                         fingerprint_type=molecular_descriptor)
         target_mol.descriptor.make_fingerprint(
                                          molecule_graph=target_mol.mol_graph,
-                                         fingerprint_type=molecular_descriptor,
-                                         fingerprint_datatype=feature_datatype)
-        if similarity_measure == 'tanimoto':
-            return similarity_measures.get_tanimoto_similarity(
-                                                         self.descriptor,
-                                                         target_mol.descriptor)
-        elif similarity_measure == 'neg_l0':
-            return similarity_measures.get_l_similarity(self.descriptor,
-                                                        target_mol.descriptor,
-                                                        order=0)
-        elif similarity_measure == 'neg_l1':
-            return similarity_measures.get_l_similarity(self.descriptor,
-                                                        target_mol.descriptor,
-                                                        order=1)
-        elif similarity_measure == 'neg_l2':
-            return similarity_measures.get_l_similarity(self.descriptor,
-                                                        target_mol.descriptor,
-                                                        order=2)
-        elif similarity_measure == 'dice':
-            return similarity_measures.get_dice_similarity(
-                                                        self.descriptor,
-                                                        target_mol.descriptor)
-        else:
-            raise ValueError('Similarity measure note specified correctly')
+                                         fingerprint_type=molecular_descriptor)
+        return similarity(self.descriptor, target_mol.descriptor)
 
     def compare_to_molecule_set(self, molecule_set):
         """Compare the molecule to a database contained in
