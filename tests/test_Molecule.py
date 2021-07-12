@@ -43,10 +43,7 @@ class TestMolecule(unittest.TestCase):
                          'Expected mol_text attribute to be set.')
         self.assertEqual(test_molecule.mol_property_val, 42,
                          'Expected mol_property_val to be set.')
-        self.assertEqual(test_molecule.descriptor.datatype, 'numpy',
-                         'Expected descriptor.datatype to be numpy since '
-                         'it was initialized by list/array')
-        self.assertIsInstance(test_molecule.descriptor.value, np.ndarray,
+        self.assertIsInstance(test_molecule.descriptor.to_numpy(), np.ndarray,
                               'Expected descriptor.value to be np.ndarray')
         self.assertTrue(np.all(
             test_molecule.descriptor.value == np.array([1, 2, 3])),
