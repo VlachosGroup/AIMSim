@@ -1,5 +1,5 @@
 from molSim.chemical_datastructures import MoleculeSet
-from molSim.tasks import CompareTargetMolecule, VisualizeDataset
+from molSim.tasks import CompareTargetMolecule, VisualizeDataset, ClusterData
 from molSim.tasks import ShowPropertyVariationWithSimilarity
 
 
@@ -36,6 +36,8 @@ class TaskManager:
                 elif task == 'show_property_variation_w_similarity':
                     loaded_task = ShowPropertyVariationWithSimilarity(
                                                                    task_configs)
+                elif task == 'cluster':
+                    loaded_task = ClusterData(task_configs)
                 else:
                     print(f'{task} not recognized')
                     continue
