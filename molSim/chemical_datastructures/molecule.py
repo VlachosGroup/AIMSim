@@ -135,8 +135,7 @@ class Molecule:
 
     def get_similarity_to_molecule(self,
                                    target_mol,
-                                   similarity_measure,
-                                   molecular_descriptor):
+                                   similarity_measure):
         """Get a similarity metric to a target molecule
 
         Parameters
@@ -145,10 +144,6 @@ class Molecule:
             Similarity score is with respect to this molecule
         similarity_measure: str
             The similarity metric used.
-        molecular_descriptor : str
-            The molecular descriptor used to encode molecules.
-            *** Supported Descriptors ***
-            'morgan_fingerprint'
 
         Returns
         -------
@@ -157,11 +152,6 @@ class Molecule:
 
         """
         similarity = SimilarityMeasure(metric=similarity_measure)
-        self.descriptor.make_fingerprint(molecule_graph=self.mol_graph,
-                                         fingerprint_type=molecular_descriptor)
-        target_mol.descriptor.make_fingerprint(
-                                         molecule_graph=target_mol.mol_graph,
-                                         fingerprint_type=molecular_descriptor)
         return similarity(self.descriptor, target_mol.descriptor)
 
     def compare_to_molecule_set(self, molecule_set):
