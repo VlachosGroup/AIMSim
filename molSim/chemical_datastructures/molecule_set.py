@@ -170,7 +170,7 @@ class MoleculeSet:
 
     def _set_descriptor(self,
                         arbitrary_descriptor_val=None,
-                    fingerprint_type=None):
+                        fingerprint_type=None):
         """Sets molecular descriptor attribute.
 
         Parameters
