@@ -1,6 +1,9 @@
 # molSim README
 molSim is a tool for visualizing diversity in your molecular data-set using graph theory. 
 
+## Documentation
+[View our Online Documentation](https://himaghna.github.io/molSim/)
+
 ## Purpose
 
 __Why Do We Need To Visualize Molecular Similarity / Diversity?__
