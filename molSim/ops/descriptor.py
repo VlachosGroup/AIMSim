@@ -50,8 +50,7 @@ class Descriptor:
                                       'make_fingerprint() to initialize it.')
         if not hasattr(self, 'numpy_'):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
-            self.numpy_ = DataStructs.ConvertToNumpyArray(self.rdkit_,
-                                                          self.numpy_)
+            DataStructs.ConvertToNumpyArray(self.rdkit_, self.numpy_)
         return self.numpy_
 
     def to_rdkit(self):
