@@ -11,7 +11,7 @@ from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 
 from molSim.chemical_datastructures import Molecule, MoleculeSet
-from molSim.ops import Descriptor
+from molSim.ops import Descriptor, SimilarityMeasure
 
 
 SUPPORTED_SIMILARITIES = ['tanimoto', 'jaccard', 'negative_l0',
@@ -31,9 +31,9 @@ class TestMolecule(unittest.TestCase):
         self.assertIsNone(test_molecule.mol_property_val,
                           'Expected attribute mol_property_val to be None '
                           'for uninitialized Molecule')
-        self.assertIsNone(test_molecule.descriptor.value,
-                          'Expected molecule.descriptor.value to be None '
-                          'for uninitialized Molecule')
+        self.assertFalse(test_molecule.descriptor._check_init(),
+                         'Expected molecule.descriptor to be unitialized  '
+                         'for uninitialized Molecule')
 
     def test_molecule_created_w_attributes(self):
         test_molecule = Molecule(mol_text='test_molecule',
@@ -44,11 +44,11 @@ class TestMolecule(unittest.TestCase):
         self.assertEqual(test_molecule.mol_property_val, 42,
                          'Expected mol_property_val to be set.')
         self.assertIsInstance(test_molecule.descriptor.to_numpy(), np.ndarray,
-                              'Expected descriptor.value to be np.ndarray')
+                              'Expected descriptor.to_numpy()to be np.ndarray')
         self.assertTrue(np.all(
-            test_molecule.descriptor.value == np.array([1, 2, 3])),
-                         "Expected descriptor.value to be array[1, 2, 3]")
-        self.assertEqual(test_molecule.descriptor.label, 'arbitrary',
+            test_molecule.descriptor.to_numpy() == np.array([1, 2, 3])),
+                         "Expected descriptor.to_numpy() to be array[1, 2, 3]")
+        self.assertEqual(test_molecule.descriptor.label_, 'arbitrary',
                          'Expected descriptor.label to be arbitrary since '
                          'it was initialized by list/array')
 
@@ -126,50 +126,55 @@ class TestMolecule(unittest.TestCase):
 
     def test_molecule_graph_similar_to_itself_morgan_tanimoto(self):
         test_smiles = 'CC'
+        fingerprint_type = 'morgan_fingerprint'
+        similarity_metric = 'tanimoto'
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
         test_molecule_duplicate = Molecule()
         test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
+        test_molecule.set_descriptor(fingerprint_type)
+        test_molecule_duplicate.set_descriptor(fingerprint_type)
+        similarity_measure = SimilarityMeasure(metric=similarity_metric)
         tanimoto_similarity = test_molecule.get_similarity_to_molecule(
                                      test_molecule_duplicate,
-                                     similarity_measure='tanimoto',
-                                     descriptor='morgan_fingerprint')
+                                     similarity_measure=similarity_measure)
         self.assertEqual(tanimoto_similarity, 1.,
                          'Expected tanimoto similarity to be 1 when comparing '
                          'molecule graph to itself')
 
     def test_molecule_graph_similar_to_itself_morgan_negl0(self):
         test_smiles = 'CC'
+        fingerprint_type = 'morgan_fingerprint'
+        similarity_metric = 'negative_l0'
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
         test_molecule_duplicate = Molecule()
         test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
+        test_molecule.set_descriptor(fingerprint_type)
+        test_molecule_duplicate.set_descriptor(fingerprint_type)
+        similarity_measure = SimilarityMeasure(metric=similarity_metric)
         negl0_similarity = test_molecule.get_similarity_to_molecule(
                                      test_molecule_duplicate,
-                                     similarity_measure='neg_l0',
-                                     descriptor='morgan_fingerprint')
+                                     similarity_measure=similarity_measure)
         self.assertEqual(negl0_similarity, 0.,
                          'Expected negative L0 norm to be 0 when comparing '
                          'molecule graph to itself')
 
-    def test_molecule_created_with_constructor(self):
-        # Molecule created by passing SMILES to constructor
-        test_smiles = 'CC'
-        test_molecule_from_construct = Molecule(mol_smiles=test_smiles)
-        test_molecule_empty = Molecule()
-        test_molecule_empty._set_molecule_from_smiles(test_smiles)
-
     def test_molecule_graph_similar_to_itself_morgan_dice(self):
         test_smiles = 'CCO'
+        fingerprint_type = 'morgan_fingerprint'
+        similarity_metric = 'dice'
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
         test_molecule_duplicate = Molecule()
         test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
-        tanimoto_similarity = test_molecule.get_similarity_to_molecule(
+        test_molecule.set_descriptor(fingerprint_type)
+        test_molecule_duplicate.set_descriptor(fingerprint_type)
+        similarity_measure = SimilarityMeasure(metric=similarity_metric)
+        dice_similarity = test_molecule.get_similarity_to_molecule(
                                      test_molecule_duplicate,
-                                     similarity_measure='dice',
-                                     descriptor='morgan_fingerprint')
-        self.assertEqual(tanimoto_similarity, 1.,
+                                     similarity_measure=similarity_measure)
+        self.assertEqual(dice_similarity, 1.,
                          'Expected dice similarity to be 1 when comparing '
                          'molecule graph to itself')
 
