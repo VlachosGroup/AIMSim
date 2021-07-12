@@ -11,7 +11,7 @@ from rdkit import Chem
 from molSim.chemical_datastructures import Molecule
 from molSim.ops.clustering import Cluster
 from molSim.ops.descriptor import Descriptor
-from molSim.ops import similarity_measures
+from molSim.ops.similarity_measures import SimilarityMeasure
 
 
 class MoleculeSet:
@@ -44,16 +44,16 @@ class MoleculeSet:
                  molecular_descriptor=None):
         self.is_verbose = is_verbose
         self.molecule_database = None
-        self.molecular_descriptor = None
+        self.molecular_descriptor = Descriptor()
         self.similarity_measure = None
         self.similarity_matrix = None
         self.clusters = None        
         if molecule_database_src is not None \
-            and molecule_database_src_type is not None:
+                and molecule_database_src_type is not None:
             self._set_molecule_database(molecule_database_src,
                                         molecule_database_src_type)
         if similarity_measure is not None:
-            self._set_similarity_measure(similarity_measure)
+            self.similarity_measure = SimilarityMeasure(similarity_measure)
         if molecular_descriptor is not None:
             self._set_molecular_descriptor(molecular_descriptor)
         if self.molecular_descriptor and self.similarity_measure:
@@ -168,36 +168,22 @@ class MoleculeSet:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
 
-    def _set_molecular_descriptor(self, molecular_descriptor):
+    def _set_molecular_descriptor(self,
+                                  arbitrary_descriptor_val=None,
+                                  fingerprint_type=None):
         """Sets molecular descriptor attribute.
 
         Parameters
         ----------
-        molecular_descriptor: str
-            String label specifying which descriptor to use for featurization.
-            See docstring for implemented descriptors and labels.
+        arbitrary_descriptor_val : np.array or list
+            Arbitrary descriptor vector. Default is None.
+        fingerprint_type : str
+            String label specifying which fingerprint to use. Default is None.
 
         """
-        if molecular_descriptor not in Descriptor.get_supported_descriptors():
-            raise NotImplementedError(f'{molecular_descriptor} '
-                                      'is currently not supported')
-        self.molecular_descriptor = molecular_descriptor
+        for molecule in self.molecule_database:
+            molecule.set_descriptor(arbitrary_descriptor_val, fingerprint_type)
 
-    def _set_similarity_measure(self, similarity_measure):
-        """Set the similarity measure attribute.
-
-        Parameters
-        ----------
-        similarity_measure: str
-            The similarity metric used. See docstring for list
-            of supported similarity metrics.
-
-        """
-        if similarity_measure not in similarity_measures.get_supported_measures():
-            raise NotImplementedError(f'{similarity_measure} '
-                                      'is currently not supported')
-        self.similarity_measure = similarity_measure
-    
     def _set_similarity_matrix(self):
         """Calculate the similarity metric using a molecular descriptor
         and a similarity measure. Set this attribute.
