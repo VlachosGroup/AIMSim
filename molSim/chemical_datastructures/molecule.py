@@ -114,8 +114,8 @@ class Molecule:
                 self._set_molecule_from_smiles(mol_smiles)
 
     def set_descriptor(self,
-                                  arbitrary_descriptor_val=None,
-                                  fingerprint_type=None):
+                       arbitrary_descriptor_val=None,
+                       fingerprint_type=None):
         """Sets molecular descriptor attribute.
 
         Parameters
@@ -129,7 +129,8 @@ class Molecule:
         if arbitrary_descriptor_val:
             self.descriptor.set_manually(arbitrary_descriptor_val)
         elif fingerprint_type:
-            self.descriptor.make_fingerprint(self.mol_graph)
+            self.descriptor.make_fingerprint(self.mol_graph,
+                                             fingerprint_type=fingerprint_type)
         else:
             raise ValueError(f'No descriptor vector were passed.')
 
