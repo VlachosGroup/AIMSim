@@ -41,7 +41,7 @@ class MoleculeSet:
                  molecule_database_src_type,
                  is_verbose,
                  similarity_measure=None,
-                 descriptor=None):
+                 fingerprint_type=None):
         self.is_verbose = is_verbose
         self.molecule_database = None
         self.descriptor = Descriptor()
@@ -54,8 +54,9 @@ class MoleculeSet:
                                         molecule_database_src_type)
         if similarity_measure is not None:
             self.similarity_measure = SimilarityMeasure(similarity_measure)
-        if descriptor is not None:
-            self._set_descriptor(descriptor)
+        if fingerprint_type is not None:
+            # overrides if descriptor set in self._set_molecule_database
+            self._set_descriptor(fingerprint_type=fingerprint_type)
         if self.descriptor and self.similarity_measure:
             self._set_similarity_matrix()
 
