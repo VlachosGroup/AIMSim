@@ -113,7 +113,7 @@ class Molecule:
                     mol_smiles = fp.readline().split()[0]
                 self._set_molecule_from_smiles(mol_smiles)
 
-    def _set_descriptor(self,
+    def set_descriptor(self,
                                   arbitrary_descriptor_val=None,
                                   fingerprint_type=None):
         """Sets molecular descriptor attribute.
