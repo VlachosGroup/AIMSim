@@ -34,10 +34,8 @@ class Descriptor:
     def __init__(self, label=None, value=None):
         if value is None:
             self.label_ = label
-            self.numpy_ = None
         else:
             self.set_manually(arbitrary_descriptor_val=value)
-        self.rdkit_ = None
 
     def to_numpy(self):
         """Convert arbitrary fingerprints of type in_dtype to numpy arrays.
@@ -48,7 +46,7 @@ class Descriptor:
 
         """
         self._check_init()
-        if self.numpy_ is None:
+        if not hasattr(self, 'numpy_'):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             self.numpy_ = DataStructs.ConvertToNumpyArray(self.rdkit_,
                                                           self.numpy_)
@@ -56,13 +54,13 @@ class Descriptor:
 
     def to_rdkit(self):
         self._check_init()
-        if self.rdkit_ is None:
+        if not hasattr(self, 'rdkit_'):
             raise ValueError('Attempting to convert arbitrary numpy array '
                              'to rdkit bit vector is not supported')
         return self.rdkit_
 
     def _check_init(self):
-        if self.numpy_ or self.rdkit_:
+        if hasattr(self, 'numpy_') or hasattr(self, 'rdkit_'):
             return True
         raise NotInitializedError('Descriptor value not generated. '
                                   'Use make_fingerprint() to initialize it.')
