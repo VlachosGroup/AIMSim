@@ -169,8 +169,8 @@ class MoleculeSet:
         self.molecule_database = molecule_database
 
     def _set_descriptor(self,
-                                  arbitrary_descriptor_val=None,
-                                  fingerprint_type=None):
+                        arbitrary_descriptor_val=None,
+                    fingerprint_type=None):
         """Sets molecular descriptor attribute.
 
         Parameters
