@@ -45,7 +45,9 @@ class Descriptor:
         np.array
 
         """
-        self._check_init()
+        if self._check_init() is False:
+            raise NotInitializedError('Descriptor value not generated. Use '
+                                      'make_fingerprint() to initialize it.')
         if not hasattr(self, 'numpy_'):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             self.numpy_ = DataStructs.ConvertToNumpyArray(self.rdkit_,
@@ -53,7 +55,9 @@ class Descriptor:
         return self.numpy_
 
     def to_rdkit(self):
-        self._check_init()
+        if self._check_init() is False:
+            raise NotInitializedError('Descriptor value not generated. Use '
+                                      'make_fingerprint() to initialize it.')
         if not hasattr(self, 'rdkit_'):
             raise ValueError('Attempting to convert arbitrary numpy array '
                              'to rdkit bit vector is not supported')
@@ -62,8 +66,7 @@ class Descriptor:
     def _check_init(self):
         if hasattr(self, 'numpy_') or hasattr(self, 'rdkit_'):
             return True
-        raise NotInitializedError('Descriptor value not generated. '
-                                  'Use make_fingerprint() to initialize it.')
+        return False
 
     def _set_morgan_fingerprint(self,
                                 molecule_graph,
