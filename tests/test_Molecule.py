@@ -243,7 +243,7 @@ class TestMoleculeSet(unittest.TestCase):
                              'Expected molecule_database to be set from text')
         for molecule in molecule_set.molecule_database:
             self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -485,7 +485,7 @@ class TestMoleculeSet(unittest.TestCase):
         for descriptor in SUPPORTED_DESCRIPTORS:
             molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
                                        molecule_database_src_type='csv',
-                                       descriptor=descriptor,
+                                       fingerprint_type=descriptor,
                                        is_verbose=True)
             self.assertTrue(molecule_set.is_verbose, 
                             'Expected is_verbose to be True')
@@ -509,7 +509,7 @@ class TestMoleculeSet(unittest.TestCase):
                 molecule_set = MoleculeSet(
                                         molecule_database_src=csv_fpath,
                                         molecule_database_src_type='csv',
-                                        descriptor=descriptor,
+                                        fingerprint_type=descriptor,
                                         similarity_measure=similarity_measure,
                                         is_verbose=True)
                 self.assertTrue(molecule_set.is_verbose, 
@@ -532,7 +532,7 @@ class TestMoleculeSet(unittest.TestCase):
                 molecule_set = MoleculeSet(
                                        molecule_database_src=csv_fpath,
                                        molecule_database_src_type='csv',
-                                       descriptor=descriptor,
+                                       fingerprint_type=descriptor,
                                        similarity_measure=similarity_measure,
                                        is_verbose=True)
                 molecule_pairs = molecule_set.get_most_similar_pairs()
@@ -552,7 +552,7 @@ class TestMoleculeSet(unittest.TestCase):
                 molecule_set = MoleculeSet(
                                         molecule_database_src=csv_fpath,
                                         molecule_database_src_type='csv',
-                                        descriptor=descriptor,
+                                        fingerprint_type=descriptor,
                                         similarity_measure=similarity_measure,
                                         is_verbose=True)
                 molecule_pairs = molecule_set.get_most_dissimilar_pairs()
@@ -567,7 +567,7 @@ class TestMoleculeSet(unittest.TestCase):
 
 
 if __name__ == '__main__':
-        unittest.main()
+    unittest.main()
 
 
 
