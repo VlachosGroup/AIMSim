@@ -113,7 +113,7 @@ class Molecule:
                     mol_smiles = fp.readline().split()[0]
                 self._set_molecule_from_smiles(mol_smiles)
 
-    def _set_molecular_descriptor(self,
+    def _set_descriptor(self,
                                   arbitrary_descriptor_val=None,
                                   fingerprint_type=None):
         """Sets molecular descriptor attribute.
@@ -142,7 +142,7 @@ class Molecule:
         ----------
         target_mol: Molecule object: Target molecule.
             Similarity score is with respect to this molecule
-        similarity_measure: str
+        similarity_measure: SimilarityMeasure object.
             The similarity metric used.
 
         Returns
@@ -151,8 +151,7 @@ class Molecule:
             Similarity coefficient by the chosen method.
 
         """
-        similarity = SimilarityMeasure(metric=similarity_measure)
-        return similarity(self.descriptor, target_mol.descriptor)
+        return similarity_measure(self.descriptor, target_mol.descriptor)
 
     def compare_to_molecule_set(self, molecule_set):
         """Compare the molecule to a database contained in

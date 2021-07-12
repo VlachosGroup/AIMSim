@@ -168,7 +168,7 @@ class MoleculeSet:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
 
-    def _set_molecular_descriptor(self,
+    def _set_descriptor(self,
                                   arbitrary_descriptor_val=None,
                                   fingerprint_type=None):
         """Sets molecular descriptor attribute.
@@ -199,8 +199,7 @@ class MoleculeSet:
                 similarity_matrix[source_mol_id, target_mol_id] = \
                     molecule.get_similarity_to_molecule(
                                 self.molecule_database[target_mol_id],
-                                similarity_measure=self.similarity_measure,
-                                molecular_descriptor=self.molecular_descriptor)
+                                similarity_measure=self.similarity_measure)
                 # symmetric matrix entry
                 similarity_matrix[target_mol_id, source_mol_id] = \
                     similarity_matrix[source_mol_id, target_mol_id]
@@ -216,10 +215,7 @@ class MoleculeSet:
             of supported similarity metrics.
 
         """
-        if similarity_measure not in similarity_measures.get_supported_measures():
-            raise NotImplementedError(f'{similarity_measure} '
-                                      'is currently not supported')
-        self.similarity_measure = similarity_measure
+        self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
     def get_most_similar_pairs(self,
                                molecular_descriptor=None,
