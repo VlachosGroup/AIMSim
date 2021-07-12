@@ -131,8 +131,17 @@ class MoleculeSet:
             mol_names, mol_smiles, responses = None, None, None
             if 'feature_name' in feature_cols:
                 mol_names = database_feature_df['feature_name'].values.flatten()
+                database_feature_df = database_feature_df.drop(['feature_name'],
+                                                               axis=1)
             if 'feature_smiles' in feature_cols:
                 mol_smiles = database_df['feature_smiles'].values.flatten()
+                database_feature_df = database_feature_df.drop(
+                                                             ['feature_smiles'],
+                                                             axis=1)
+            if len(database_feature_df.columns) > 0:
+                _set_descriptor(
+                           self,
+                           arbitrary_descriptor_vals=database_feature_df.values)
 
             response_col = [column for column in database_df.columns
                             if column.split('_')[0] == 'response']
@@ -162,27 +171,40 @@ class MoleculeSet:
         else:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
-                f'Please enter valid foldername or path of a '
+                f'Please enter valid folder name or path of a '
                 f'text/excel/csv')
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
 
     def _set_descriptor(self,
-                        arbitrary_descriptor_val=None,
+                        arbitrary_descriptor_vals=None,
                         fingerprint_type=None):
-        """Sets molecular descriptor attribute.
+        """Sets molecule.descriptor attribute for each molecule object in
+        MoleculeSet. Either use arbitrary_descriptor_vals to pass descriptor
+        values manually or pass fingerprint_type to generate a fingerprint
+        from molecule_graph. Both can't be None.
 
         Parameters
         ----------
-        arbitrary_descriptor_val : np.array or list
-            Arbitrary descriptor vector. Default is None.
+        arbitrary_descriptor_vals : np.ndarray
+            Arbitrary descriptor array of size:
+                (n_mols xx dimensionality of descriptor space).
+                Default is None.
         fingerprint_type : str
             String label specifying which fingerprint to use. Default is None.
 
         """
-        for molecule in self.molecule_database:
-            molecule.set_descriptor(arbitrary_descriptor_val, fingerprint_type)
+        for molecule_id, molecule in enumerate(self.molecule_database):
+            if fingerprint_type is not None:
+                molecule.set_descriptor(fingerprint_type=fingerprint_type)
+            elif arbitrary_descriptor_vals is not None:
+                molecule.set_descriptor(
+                    arbitrary_descriptor_val=arbitrary_descriptor_vals[
+                                                                   molecule_id])
+            else:
+                raise ValueError('No descriptor vector or fingerprint type '
+                                 'were passed.')
 
     def _set_similarity_matrix(self):
         """Calculate the similarity metric using a molecular descriptor
