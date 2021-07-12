@@ -17,5 +17,6 @@ UI/molSim-ui-config.yaml
 
 # documentation
 docs/_build/*
-docs/dist/*
+docs/_sources/*
+docs/_static/*
 docs/molSim.egg-info/*

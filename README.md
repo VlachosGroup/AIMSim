@@ -63,9 +63,9 @@ User interface:
 
 `python -m molSim-ui-main`
 
-To build the docs, execute the following with `sphinx-quickstart` installed and from the `/docs` directory:
+To build the docs, execute the following with `sphinx` installed and from the `/docs` directory:
 
-`make html`
+`make html | cp _build/html/* source`
 
 ## Notes
 
