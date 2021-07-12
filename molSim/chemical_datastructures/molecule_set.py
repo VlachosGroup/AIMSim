@@ -41,10 +41,10 @@ class MoleculeSet:
                  molecule_database_src_type,
                  is_verbose,
                  similarity_measure=None,
-                 molecular_descriptor=None):
+                 descriptor=None):
         self.is_verbose = is_verbose
         self.molecule_database = None
-        self.molecular_descriptor = Descriptor()
+        self.descriptor = Descriptor()
         self.similarity_measure = None
         self.similarity_matrix = None
         self.clusters = None        
@@ -54,9 +54,9 @@ class MoleculeSet:
                                         molecule_database_src_type)
         if similarity_measure is not None:
             self.similarity_measure = SimilarityMeasure(similarity_measure)
-        if molecular_descriptor is not None:
-            self._set_molecular_descriptor(molecular_descriptor)
-        if self.molecular_descriptor and self.similarity_measure:
+        if descriptor is not None:
+            self._set_descriptor(descriptor)
+        if self.descriptor and self.similarity_measure:
             self._set_similarity_matrix()
 
     def _set_molecule_database(self,
@@ -218,13 +218,13 @@ class MoleculeSet:
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
     def get_most_similar_pairs(self,
-                               molecular_descriptor=None,
+                               descriptor=None,
                                similarity_measure=None):
         """Get pairs of samples which are most similar.
 
         Parameters
         ----------
-        molecular_descriptor: str
+        descriptor: str
             If descriptor was not defined for this data set,
             must be defined now. Default is None.
         similarity_measure: str
@@ -239,14 +239,14 @@ class MoleculeSet:
             i.e. (A, B) =/=> (B, A)
 
         """
-        if molecular_descriptor is not None:
-            self._set_molecular_descriptor(molecular_descriptor)
+        if descriptor is not None:
+            self._set_descriptor(descriptor)
             if similarity_measure is not None:
                 self._set_similarity_measure(similarity_measure)
                 self._set_similarity_matrix()
-        if self.molecular_descriptor is None:
+        if self.descriptor is None:
             raise ValueError('Feature datatype could not be set, probably'
-                             'due to bad molecular_descriptor argument')
+                             'due to bad descriptor argument')
         if self.similarity_measure is None:
             raise ValueError('Similarity measure not set')
 
@@ -283,13 +283,13 @@ class MoleculeSet:
         return out_list
 
     def get_most_dissimilar_pairs(self,
-                                  molecular_descriptor=None,
+                                  descriptor=None,
                                   similarity_measure=None):
         """Get pairs of samples which are least similar.
 
         Parameters
         ----------
-        molecular_descriptor: str
+        descriptor: str
             If descriptor was not defined for this data set,
             must be defined now. Default is None.
         similarity_measure: str
@@ -302,8 +302,8 @@ class MoleculeSet:
             List of pairs of indices closest to one another.
 
         """
-        if molecular_descriptor is not None:
-            self._set_molecular_descriptor(molecular_descriptor)
+        if descriptor is not None:
+            self._set_descriptor(descriptor)
             if similarity_measure is not None:
                 self._set_similarity_measure(similarity_measure)
                 self._set_similarity_matrix()
