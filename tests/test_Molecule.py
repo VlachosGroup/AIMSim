@@ -155,7 +155,7 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate.set_descriptor(
                                               fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
-de        negl0_similarity = test_molecule.get_similarity_to_molecule(
+        negl0_similarity = test_molecule.get_similarity_to_molecule(
                                      test_molecule_duplicate,
                                      similarity_measure=similarity_measure)
         self.assertEqual(negl0_similarity, 0.,
