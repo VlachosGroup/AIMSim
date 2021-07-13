@@ -1,6 +1,22 @@
-
+# vscode configuration files
 *.json
 
+# intellij configuration files
+.idea/*
+
+# compiled python files
 *.pyc
+
+# build and distribution files
 molSim.egg-info/*
+build/*
+dist/*
+
+# UI-generated config file
 UI/molSim-ui-config.yaml
+
+# documentation
+docs/_build/*
+docs/_sources/*
+docs/_static/*
+docs/molSim.egg-info/*

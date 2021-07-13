@@ -1,6 +1,9 @@
 # molSim README
 molSim is a tool for visualizing diversity in your molecular data-set using graph theory. 
 
+## Documentation
+[View our Online Documentation](https://himaghna.github.io/molSim/)
+
 ## Purpose
 
 __Why Do We Need To Visualize Molecular Similarity / Diversity?__
@@ -49,11 +52,20 @@ _coming soon_
 
 ## Running molSim
 Example Run:
+
 `python -m molSim config.yaml`
+
 Tests:
+
 `python -m unittest discover`
+
 User interface:
-`pythong -m molSim-ui-main`
+
+`python -m molSim-ui-main`
+
+To build the docs, execute the following with `sphinx` and `m2r` installed and from the `/docs` directory:
+
+`m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .`
 
 ## Notes
 

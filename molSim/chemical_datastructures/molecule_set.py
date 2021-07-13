@@ -2,6 +2,7 @@
 Abstraction of a data set comprising multiple Molecule objects.
 """
 from glob import glob
+import multiprocess
 import os.path
 
 import numpy as np
@@ -42,8 +43,10 @@ class MoleculeSet:
                  molecule_database_src_type,
                  is_verbose,
                  similarity_measure,
-                 fingerprint_type=None):
+                 fingerprint_type=None,
+                 n_threads):
         self.is_verbose = is_verbose
+        self.n_threads = n_threads
         self.molecule_database = None
         self.descriptor = Descriptor()
         if molecule_database_src is not None \
@@ -212,22 +215,76 @@ class MoleculeSet:
         """
         n_mols = len(self.molecule_database)
         similarity_matrix = np.zeros(shape=(n_mols, n_mols))
-        for source_mol_id, molecule in enumerate(self.molecule_database):
-            for target_mol_id in range(source_mol_id, n_mols):
+        
+        # Parallel implementation of similarity calculations.
+        if self.n_threads > 1:
+            m = multiprocess.Manager()
+            q = m.Queue()
+            # worker thread
+            def worker(thread_idx, n_mols, start_idx, end_idx, queue):
+                # make a local copy of the overall similarity matrix
+                local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
                 if self.is_verbose:
-                    print('Computing similarity of molecule num '
-                          f'{target_mol_id+1} against {source_mol_id+1}')
-                try:
+                    print("thread",thread_idx,"will calculate molecules",start_idx,"through",end_idx)
+                # same iteration as serial implementation, but only compute source molecules in the specified range
+                for source_mol_id, molecule in enumerate(self.molecule_database):
+                    if source_mol_id >= start_idx and source_mol_id < end_idx:
+                        for target_mol_id in range(source_mol_id, n_mols):
+                            if self.is_verbose:
+                                print(f'thread {thread_idx} computing similarity of molecule num '
+                                    f'{target_mol_id+1} against {source_mol_id+1}')
+                            try:
+                                similarity_matrix[source_mol_id, target_mol_id] = \
+                                    molecule.get_similarity_to_molecule(
+                                                self.molecule_database[target_mol_id],
+                                                similarity_measure=self.similarity_measure)
+                            except NotInitializedError as e:
+                                e.message += 'Similarity matrix could not be set '
+                                raise e
+                            # symmetric matrix entry
+                            local_similarity_matrix[target_mol_id, source_mol_id] = \
+                                local_similarity_matrix[source_mol_id, target_mol_id]
+                queue.put(local_similarity_matrix)
+                return None
+            
+            # calculate work distribution and spawn threads
+            remainder = n_mols % (self.n_threads-1)
+            bulk = n_mols // (self.n_threads-1)
+            threads = []
+            for i in range(self.n_threads-1):
+                thread = multiprocess.Process(target=worker, args=(i, n_mols, i*bulk, bulk*(i+1), q, ))
+                thread.daemon = True
+                threads.append(thread)
+                thread.start()
+            thread = multiprocess.Process(target=worker, args=(self.n_threads-1, n_mols, (self.n_threads-1)*bulk, (self.n_threads-1)*bulk+remainder+1, q, ))
+            thread.daemon = True
+            threads.append(thread)
+            thread.start()
+
+            # retrieve the result and sum all the matrices together.
+            for thread in threads:
+                thread.join()
+            thread_results = []
+            for _ in range(self.n_threads-1):
+                thread_results.append(q.get())
+            similarity_matrix = sum(thread_results)
+            print("done")
+        else:
+            # serial implementation
+            for source_mol_id, molecule in enumerate(self.molecule_database):
+                for target_mol_id in range(source_mol_id, n_mols):
+                    if self.is_verbose:
+                        print('Computing similarity of molecule num '
+                            f'{target_mol_id+1} against {source_mol_id+1}')
                     similarity_matrix[source_mol_id, target_mol_id] = \
                         molecule.get_similarity_to_molecule(
                                     self.molecule_database[target_mol_id],
-                                    similarity_measure=self.similarity_measure)
-                except NotInitializedError as e:
-                    e.message += 'Similarity matrix could not be set '
-                    raise e
-                # symmetric matrix entry
-                similarity_matrix[target_mol_id, source_mol_id] = \
-                    similarity_matrix[source_mol_id, target_mol_id]
+                                    similarity_measure=self.similarity_measure,
+                                    molecular_descriptor=self.molecular_descriptor)
+                    # symmetric matrix entry
+                    similarity_matrix[target_mol_id, source_mol_id] = \
+                        similarity_matrix[source_mol_id, target_mol_id]
+        
         self.similarity_matrix = similarity_matrix
 
     def _set_similarity_measure(self, similarity_measure):
@@ -388,3 +445,4 @@ class MoleculeSet:
                                                         self.clusters.get_labels 
                                                         == cluster_id].tolist()
         return cluster_grouped_mol_names
+

@@ -1,13 +1,33 @@
-from molSim.task_manager import launch_tasks
+"""User Interface and associated methods to access the key functionalities of molSim
+without having to use the command line.
+
+Raises:
+    IOError: When pressing 'open config' it is possible that no suitable program
+    will be known to the OS to open .yaml files. Also if no tasks are selected,
+    an IOError will be raised.
+
+Author:
+    Jackson Burns
+"""
+from molSim.tasks.task_manager import TaskManager
 
 import yaml
 import os
 import tkinter as tk
 import tkinter.ttk as ttk
+import matplotlib.pyplot as plt
+import webbrowser
 
 
 class MolsimUiApp:
+    """User interface to access key functionalities of molSim.
+    """
     def __init__(self, master=None):
+        """Constructor for Molsim.
+
+        Args:
+            master (tk, optional): tk window. Defaults to None.
+        """
         # build ui
         self.window = tk.Tk() if master is None else tk.Toplevel(master)
         self.databaseFile = tk.StringVar(self.window)
@@ -36,7 +56,7 @@ class MolsimUiApp:
         self.databaseFileLabel = ttk.Label(self.mainframe)
         self.databaseFileLabel.configure(text='Database File:')
         self.databaseFileLabel.place(
-            anchor='center', relx='.24', rely='0.03', x='0', y='0')
+            anchor='center', relx='.2', rely='0.03', x='0', y='0')
         self.targetMoleculeEntry = ttk.Entry(
             self.mainframe, textvariable=self.targetMolecule)
         _text_ = '''FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F'''
@@ -47,7 +67,7 @@ class MolsimUiApp:
         self.targetMoleculeLabel = ttk.Label(self.mainframe)
         self.targetMoleculeLabel.configure(text='Target Molecule:')
         self.targetMoleculeLabel.place(
-            anchor='center', relx='0.22', rely='0.27', x='0', y='0')
+            anchor='center', relx='0.17', rely='0.27', x='0', y='0')
         self.similarityPDFCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPDFCheckbutton.configure(text='Similarity PDF')
         self.similarityPDFCheckbutton.place(
@@ -68,30 +88,41 @@ class MolsimUiApp:
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly")
         self.similarityMeasureCombobox.configure(
-            takefocus=False, values=['tanimoto'])
+            takefocus=False, values=['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2', 'dice'])
         self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
-            anchor='center', relx='0.5', rely='0.45', x='0', y='0')
+            anchor='center', relx='0.55', rely='0.45', x='0', y='0')
         self.similarityMeasureLabel = ttk.Label(self.mainframe)
         self.similarityMeasureLabel.configure(text='Similarity Measure:')
         self.similarityMeasureLabel.place(
-            anchor='center', relx='0.19', rely='0.45', x='0', y='0')
+            anchor='center', relx='0.2', rely='0.45', x='0', y='0')
         self.molecularDescriptorLabel = ttk.Label(self.mainframe)
         self.molecularDescriptorLabel.configure(text='Molecular Descriptor:')
         self.molecularDescriptorLabel.place(
-            anchor='center', relx='0.17', rely='0.5', x='0', y='0')
+            anchor='center', relx='0.18', rely='0.55', x='0', y='0')
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly")
         self.molecularDescriptorCombobox.configure(
             cursor='arrow', justify='left', takefocus=False, values=['topological_fingerprint', 'morgan_fingerprint'])
         self.molecularDescriptorCombobox.place(
-            anchor='center', relx='0.5', rely='0.5', x='0', y='0')
+            anchor='center', relx='0.55', rely='0.55', x='0', y='0')
         self.molecularDescriptorCombobox.current(0)
         self.runButton = ttk.Button(self.mainframe)
         self.runButton.configure(text='Run')
         self.runButton.place(anchor='center', relx='0.5',
                              rely='0.75', x='0', y='0')
         self.runButton.configure(command=self.runCallback)
+        self.openConfigButton = ttk.Button(self.mainframe)
+        self.openConfigButton.configure(text='Open Config')
+        self.openConfigButton.place(anchor='center', relx='0.5',
+                             rely='0.85', x='0', y='0')
+        self.openConfigButton.configure(command=self.openConfigCallback)
+        self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.multiprocessingCheckbutton.configure(
+            compound='top', cursor='arrow', offvalue='False', onvalue='True')
+        self.multiprocessingCheckbutton.configure(state='normal', text='Enable Multiple Workers')
+        self.multiprocessingCheckbutton.place(
+            anchor='center', relx='0.78', rely='0.95', x='0', y='0')
         self.mainframe.configure(height='400', width='400')
         self.mainframe.place(anchor='nw', relheight='0.9',
                              rely='0.1', x='0', y='0')
@@ -102,12 +133,20 @@ class MolsimUiApp:
         # Main widget
         self.mainwindow = self.window
 
-    def runCallback(self):
+    def openConfigCallback(self):
         '''
-        to write the yaml configuration file, put all the use settings into a giant nested dictionary.
+        Open the config file being used by the UI to allow the user to edit it.
 
-        then, call task_launcher on the config file.
         '''
+        webbrowser.open('molSim-ui-config.yaml')
+
+    def runCallback(self):
+        """Retrieves user input, writes to a .yaml configuration file, and calls molSim on that input.
+
+        Raises:
+            IOError: When opening the automatically generated config file from the UI, there is a chance
+            that the OS will not know which program to use, raising the error.
+        """
         tasks_dict = {}
 
         inner_dict = {}
@@ -124,6 +163,10 @@ class MolsimUiApp:
                       'most_dissimilar': True, 'similarity_plot_settings': {'plot_color': 'red'}}
         
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
+        if 'selected' in self.multiprocessingCheckbutton.state():
+            n_workers = os.cpu_count()/2
+        else:
+            n_workers = 1
 
         _, file_extension = os.path.splitext(self.databaseFile.get())
         if(file_extension == '.txt'):
@@ -135,7 +178,7 @@ class MolsimUiApp:
         else:
             molecule_database_source_type = file_extension.replace('.','')
 
-        yamlOut = {'is_verbose': verboseChecked, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
+        yamlOut = {'is_verbose': verboseChecked, 'n_workers': n_workers, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
                    'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
         with open('molSim-ui-config.yaml', 'w') as outfile:
@@ -147,9 +190,12 @@ class MolsimUiApp:
         if tasks is None:
             raise IOError('<< tasks >> field not set in config file')
 
-        launch_tasks(molecule_database_configs=configs, tasks=tasks)
+        task_manager = TaskManager(tasks=tasks)
+        task_manager(molecule_set_configs=configs)
 
     def run(self):
+        """Start the UI.
+        """
         self.mainwindow.mainloop()
 
 
