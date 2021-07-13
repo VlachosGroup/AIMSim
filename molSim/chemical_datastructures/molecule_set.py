@@ -2,9 +2,9 @@
 Abstraction of a data set comprising multiple Molecule objects.
 """
 from glob import glob
-import multiprocess
 import os.path
 
+import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -43,8 +43,8 @@ class MoleculeSet:
                  molecule_database_src_type,
                  is_verbose,
                  similarity_measure,
-                 fingerprint_type=None,
-                 n_threads):
+                 n_threads=1,
+                 fingerprint_type=None):
         self.is_verbose = is_verbose
         self.n_threads = n_threads
         self.molecule_database = None
@@ -279,8 +279,7 @@ class MoleculeSet:
                     similarity_matrix[source_mol_id, target_mol_id] = \
                         molecule.get_similarity_to_molecule(
                                     self.molecule_database[target_mol_id],
-                                    similarity_measure=self.similarity_measure,
-                                    molecular_descriptor=self.molecular_descriptor)
+                                    similarity_measure=self.similarity_measure)
                     # symmetric matrix entry
                     similarity_matrix[target_mol_id, source_mol_id] = \
                         similarity_matrix[source_mol_id, target_mol_id]
