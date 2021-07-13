@@ -31,10 +31,8 @@ class Descriptor:
         Value of the descriptor in the rdkit format.
         
     """
-    def __init__(self, label=None, value=None):
-        if value is None:
-            self.label_ = label
-        else:
+    def __init__(self, value=None):
+        if value is not None:
             self.set_manually(arbitrary_descriptor_val=value)
 
     def to_numpy(self):
