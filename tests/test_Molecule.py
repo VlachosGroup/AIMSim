@@ -244,8 +244,6 @@ class TestMoleculeSet(unittest.TestCase):
                         'Expected is_verbose to be True')
         self.assertIsNotNone(molecule_set.molecule_database,
                              'Expected molecule_database to be set from text')
-        self.assertIsNone(molecule_set.similarity_measure,
-                          'Expected similarity_measure to be unset')
         self.assertEqual(len(molecule_set.molecule_database), 
                          len(self.test_smiles),
                          'Expected the size of database to be equal to number '
