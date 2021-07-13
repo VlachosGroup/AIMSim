@@ -63,8 +63,11 @@ class MoleculeSet:
         self.n_threads = n_threads
         self.molecule_database = None
         self.descriptor = Descriptor()
-        self._set_molecule_database(molecule_database_src,
-                                    molecule_database_src_type)
+        self.molecule_database, features = self._get_molecule_database(
+                                              molecule_database_src,
+                                              molecule_database_src_type)
+        if features is not None:
+            self._set_descriptor(arbitrary_descriptor_vals=features)
         if 0. < sampling_ratio < 1.:
             self._subsample_database(sampling_ratio=sampling_ratio,
                                      random_state=sampling_random_state)
@@ -76,10 +79,11 @@ class MoleculeSet:
         self._set_similarity_matrix()
         self.clusters = None
 
-    def _set_molecule_database(self,
+    def _get_molecule_database(self,
                                molecule_database_src,
                                molecule_database_src_type):
-        """Load molecular database and set attribute molecule_database.
+        """Load molecular database and return it.
+        Optionally return features if found in excel / csv file.
 
         Parameters
         ----------
@@ -94,11 +98,14 @@ class MoleculeSet:
 
         Returns
         -------
-        None
-        Sets self.molecule_database: List(Molecule)
+        (list(Molecule), np.ndarray or None)
+            Returns a tuple. First element of tuple is the molecule_database.
+            Second element is array of features of shape
+            (len(molecule_database), n_features) or None if None found.
 
         """
         molecule_database = []
+        features = None
         if molecule_database_src_type.lower() in ['folder', 'directory']:
             if self.is_verbose:
                 print(f'Searching for *.pdb files in {molecule_database_src}')
@@ -133,6 +140,7 @@ class MoleculeSet:
                         Molecule(mol_graph=mol_graph,
                                  mol_text=mol_text,
                                  mol_property_val=mol_property_val))
+
         elif molecule_database_src_type.lower() in ['excel', 'csv']:
             if self.is_verbose:
                 print(f'Reading molecules from {molecule_database_src}')
@@ -181,10 +189,7 @@ class MoleculeSet:
                                  mol_text=mol_text,
                                  mol_property_val=mol_property_val))
             if len(database_feature_df.columns) > 0:
-                _set_descriptor(
-                    self,
-                    arbitrary_descriptor_vals=database_feature_df.values)
-
+                features = database_feature_df.values
         else:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
@@ -192,7 +197,7 @@ class MoleculeSet:
                 f'text/excel/csv')
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
-        self.molecule_database = molecule_database
+        return molecule_database, features
 
     def _subsample_database(self, sampling_ratio, random_state):
         n_samples = int(sampling_ratio * len(self.molecule_database))
