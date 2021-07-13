@@ -46,22 +46,17 @@ class MoleculeSet:
         self.is_verbose = is_verbose
         self.molecule_database = None
         self.descriptor = Descriptor()
-        self.similarity_measure = None
-        self.similarity_matrix = None
-        self.clusters = None        
         if molecule_database_src is not None \
                 and molecule_database_src_type is not None:
             self._set_molecule_database(molecule_database_src,
                                         molecule_database_src_type)
-        self.similarity_measure = SimilarityMeasure(similarity_measure)
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
             self._set_descriptor(fingerprint_type=fingerprint_type)
-        if not self.descriptor.check_init():
-            raise NotInitializedError('MoleculeSet instance not properly '
-                                      'initialized with descriptor '
-                                      '/ fingerprint')
+        self.similarity_measure = SimilarityMeasure(similarity_measure)
+        self.similarity_matrix = None
         self._set_similarity_matrix()
+        self.clusters = None
 
     def _set_molecule_database(self,
                                molecule_database_src,
@@ -222,10 +217,13 @@ class MoleculeSet:
                 if self.is_verbose:
                     print('Computing similarity of molecule num '
                           f'{target_mol_id+1} against {source_mol_id+1}')
-                similarity_matrix[source_mol_id, target_mol_id] = \
-                    molecule.get_similarity_to_molecule(
-                                self.molecule_database[target_mol_id],
-                                similarity_measure=self.similarity_measure)
+                try:
+                    similarity_matrix[source_mol_id, target_mol_id] = \
+                        molecule.get_similarity_to_molecule(
+                                    self.molecule_database[target_mol_id],
+                                    similarity_measure=self.similarity_measure)
+                except NotInitializedError as e:
+                    raise e('Similarity matrix could not be set')
                 # symmetric matrix entry
                 similarity_matrix[target_mol_id, source_mol_id] = \
                     similarity_matrix[source_mol_id, target_mol_id]
