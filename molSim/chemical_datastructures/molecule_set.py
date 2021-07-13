@@ -9,6 +9,7 @@ import pandas as pd
 from rdkit import Chem
 
 from molSim.chemical_datastructures import Molecule
+from molSim.exceptions import NotInitializedError
 from molSim.ops.clustering import Cluster
 from molSim.ops.descriptor import Descriptor
 from molSim.ops.similarity_measures import SimilarityMeasure
@@ -40,7 +41,7 @@ class MoleculeSet:
                  molecule_database_src,
                  molecule_database_src_type,
                  is_verbose,
-                 similarity_measure=None,
+                 similarity_measure,
                  fingerprint_type=None):
         self.is_verbose = is_verbose
         self.molecule_database = None
@@ -52,13 +53,15 @@ class MoleculeSet:
                 and molecule_database_src_type is not None:
             self._set_molecule_database(molecule_database_src,
                                         molecule_database_src_type)
-        if similarity_measure is not None:
-            self.similarity_measure = SimilarityMeasure(similarity_measure)
+        self.similarity_measure = SimilarityMeasure(similarity_measure)
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
             self._set_descriptor(fingerprint_type=fingerprint_type)
-        if self.descriptor.check_init() and self.similarity_measure:
-            self._set_similarity_matrix()
+        if not self.descriptor.check_init():
+            raise NotInitializedError('MoleculeSet instance not properly '
+                                      'initialized with descriptor '
+                                      '/ fingerprint')
+        self._set_similarity_matrix()
 
     def _set_molecule_database(self,
                                molecule_database_src,
@@ -240,19 +243,12 @@ class MoleculeSet:
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
-    def get_most_similar_pairs(self,
-                               descriptor=None,
-                               similarity_measure=None):
+    def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
 
         Parameters
         ----------
-        descriptor: str
-            If descriptor was not defined for this data set,
-            must be defined now. Default is None.
-        similarity_measure: str
-            If similarity_measure was not defined for this data set,
-            must be defined now. Default is None.
+
 
         Returns
         -------
@@ -262,17 +258,10 @@ class MoleculeSet:
             i.e. (A, B) =/=> (B, A)
 
         """
-        if descriptor is not None:
-            self._set_descriptor(descriptor)
-            if similarity_measure is not None:
-                self._set_similarity_measure(similarity_measure)
-                self._set_similarity_matrix()
-        if self.descriptor is None:
-            raise ValueError('Feature datatype could not be set, probably'
-                             'due to bad descriptor argument')
-        if self.similarity_measure is None:
-            raise ValueError('Similarity measure not set')
-
+        if self.similarity_matrix is None:
+            raise NotInitializedError('MoleculeSet instance not properly '
+                                      'initialized with descriptor and '
+                                      'similarity measure')
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
         out_list = []
@@ -312,12 +301,6 @@ class MoleculeSet:
 
         Parameters
         ----------
-        descriptor: str
-            If descriptor was not defined for this data set,
-            must be defined now. Default is None.
-        similarity_measure: str
-            If similarity_measure was not defined for this data set,
-            must be defined now. Default is None.
 
         Returns
         -------
@@ -325,11 +308,10 @@ class MoleculeSet:
             List of pairs of indices closest to one another.
 
         """
-        if descriptor is not None:
-            self._set_descriptor(descriptor)
-            if similarity_measure is not None:
-                self._set_similarity_measure(similarity_measure)
-                self._set_similarity_matrix()
+        if self.similarity_matrix is None:
+            raise NotInitializedError('MoleculeSet instance not properly '
+                                      'initialized with descriptor and '
+                                      'similarity measure')
 
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
