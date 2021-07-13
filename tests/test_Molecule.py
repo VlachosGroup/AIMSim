@@ -255,6 +255,31 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsNone(molecule.mol_property_val,
                               'Expected mol_property_val of Molecule object '
                               'initialized without property to be None')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+        print(f'Test complete. Deleting file {text_fpath}...')
+        remove(text_fpath)
+
+    def test_subsample_molecule_database_from_textfile(self):
+        text_fpath = self.smiles_seq_to_textfile()
+        sampling_ratio = 0.5
+        molecule_set = MoleculeSet(molecule_database_src=text_fpath,
+                                   molecule_database_src_type='text',
+                                   fingerprint_type='morgan_fingerprint',
+                                   similarity_measure='tanimoto',
+                                   is_verbose=True,
+                                   sampling_ratio=sampling_ratio)
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from text')
+        self.assertEqual(len(molecule_set.molecule_database),
+                         int(sampling_ratio * len(self.test_smiles)),
+                         'Expected the size of subsampled database to be equal '
+                         'to number of smiles in text file * sampling_ratio')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
     
@@ -284,6 +309,9 @@ class TestMoleculeSet(unittest.TestCase):
                                    msg='Expected mol_property_val of' 
                                        'Molecule object '
                                        'to be set to value in text file')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
         print(f'Test complete. Deleting file {text_fpath}...')
         remove(text_fpath)
     
@@ -308,6 +336,31 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsNone(molecule.mol_property_val,
                               'Expected mol_property_val of Molecule object'
                               'initialized without property to be None')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+        print(f'Test complete. Deleting directory {dir_path}...')
+        rmtree(dir_path)
+
+    def test_subsample_molecule_database_from_pdb_dir(self):
+        dir_path = self.smiles_seq_to_pdb_dir(self.test_smiles)
+        sampling_ratio = 0.5
+        molecule_set = MoleculeSet(molecule_database_src=dir_path,
+                                   molecule_database_src_type='directory',
+                                   fingerprint_type='morgan_fingerprint',
+                                   similarity_measure='tanimoto',
+                                   is_verbose=True,
+                                   sampling_ratio=sampling_ratio)
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from dir')
+        self.assertEqual(len(molecule_set.molecule_database),
+                         int(sampling_ratio * len(self.test_smiles)),
+                         'Expected the size of subsampled database to be '
+                         'equal to number of files in dir * sampling_ratio')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
         print(f'Test complete. Deleting directory {dir_path}...')
         rmtree(dir_path)
 
@@ -334,6 +387,32 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsNone(molecule.mol_property_val,
                               'Expected mol_property_val of Molecule object'
                               'initialized without property to be None')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+        print(f'Test complete. Deleting file {xl_fpath}...')
+        remove(xl_fpath)
+
+    def test_subsample_molecule_database_from_excel(self):
+        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype='excel')
+        sampling_ratio = 0.5
+        molecule_set = MoleculeSet(molecule_database_src=xl_fpath,
+                                   molecule_database_src_type='excel',
+                                   fingerprint_type='morgan_fingerprint',
+                                   similarity_measure='tanimoto',
+                                   is_verbose=True,
+                                   sampling_ratio=sampling_ratio)
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from '
+                             'excel file')
+        self.assertEqual(len(molecule_set.molecule_database),
+                         int(sampling_ratio * len(self.test_smiles)),
+                         'Expected the size of subsampled database to be '
+                         'equal to number of smiles * sampling ratio')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
         print(f'Test complete. Deleting file {xl_fpath}...')
         remove(xl_fpath)
     
@@ -365,7 +444,10 @@ class TestMoleculeSet(unittest.TestCase):
                                    msg='Expected mol_property_val of' 
                                        'Molecule object '
                                        'to be set to value in excel file')
-        print(f'Test complete. Deleting file {xl_fpath}...')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+            print(f'Test complete. Deleting file {xl_fpath}...')
         remove(xl_fpath)
 
     def test_set_molecule_database_from_csv(self):
@@ -391,6 +473,32 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsNone(molecule.mol_property_val,
                               'Expected mol_property_val of Molecule object'
                               'initialized without property to be None')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+        print(f'Test complete. Deleting file {csv_fpath}...')
+        remove(csv_fpath)
+
+    def test_subsample_molecule_database_from_csv(self):
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
+        sampling_ratio = 0.5
+        molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                                   molecule_database_src_type='csv',
+                                   fingerprint_type='morgan_fingerprint',
+                                   similarity_measure='tanimoto',
+                                   sampling_ratio=sampling_ratio,
+                                   is_verbose=True)
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from '
+                             'csv file')
+        self.assertEqual(len(molecule_set.molecule_database),
+                         int(sampling_ratio * len(self.test_smiles)),
+                         'Expected the size of database to be equal to number '
+                         'of smiles * sampling_ratio')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
     
@@ -418,6 +526,7 @@ class TestMoleculeSet(unittest.TestCase):
                                    msg='Expected mol_property_val of' 
                                        'Molecule object '
                                        'to be set to value in csv file')
+            self.assertIsInstance(molecule, Molecule)
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
 
