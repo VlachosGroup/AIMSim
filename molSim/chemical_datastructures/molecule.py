@@ -157,6 +157,7 @@ class Molecule:
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
+            e.message += 'Similarity could not be calculated. '
             raise e
 
     def compare_to_molecule_set(self, molecule_set):

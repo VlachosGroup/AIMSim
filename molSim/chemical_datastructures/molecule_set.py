@@ -223,7 +223,8 @@ class MoleculeSet:
                                     self.molecule_database[target_mol_id],
                                     similarity_measure=self.similarity_measure)
                 except NotInitializedError as e:
-                    raise e('Similarity matrix could not be set')
+                    e.message += 'Similarity matrix could not be set '
+                    raise e
                 # symmetric matrix entry
                 similarity_matrix[target_mol_id, source_mol_id] = \
                     similarity_matrix[source_mol_id, target_mol_id]
