@@ -128,9 +128,9 @@ class Molecule:
             String label specifying which fingerprint to use. Default is None.
 
         """
-        if arbitrary_descriptor_val:
+        if arbitrary_descriptor_val is not None:
             self.descriptor.set_manually(arbitrary_descriptor_val)
-        elif fingerprint_type:
+        elif fingerprint_type is not None:
             self.descriptor.make_fingerprint(self.mol_graph,
                                              fingerprint_type=fingerprint_type)
         else:
