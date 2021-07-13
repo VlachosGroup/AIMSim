@@ -441,7 +441,7 @@ class TestMoleculeSet(unittest.TestCase):
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
                                                  property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
-            with self.assertRaises(NotInitializedError):
+            with self.assertRaises(TypeError):
                 MoleculeSet(
                     molecule_database_src=csv_fpath,
                     molecule_database_src_type='csv',
