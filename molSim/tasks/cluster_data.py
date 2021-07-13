@@ -8,7 +8,7 @@ from .task import Task
 from molSim.utils.plotting_scripts import plot_barchart
 
 
-class ClusterData:
+class ClusterData(Task):
     def __init__(self, configs):
         super().__init__(configs)
         self.n_clusters = None
@@ -52,3 +52,6 @@ class ClusterData:
                       xtick_labels=[_ for _ in range(self.n_clusters)],
                       xlabel='Cluster Index',
                       ylabel='Cluster Population')
+
+    def __str__(self):
+        return 'Task: Cluster data'

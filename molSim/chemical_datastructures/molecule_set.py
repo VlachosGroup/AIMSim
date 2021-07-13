@@ -2,6 +2,7 @@
 Abstraction of a data set comprising multiple Molecule objects.
 """
 from glob import glob
+import multiprocess
 import os.path
 
 import numpy as np
@@ -9,11 +10,11 @@ import pandas as pd
 from rdkit import Chem
 
 from molSim.chemical_datastructures import Molecule
+from molSim.exceptions import NotInitializedError
 from molSim.ops.clustering import Cluster
 from molSim.ops.descriptor import Descriptor
-from molSim.ops import similarity_measures
+from molSim.ops.similarity_measures import SimilarityMeasure
 
-import multiprocess
 
 class MoleculeSet:
     """Collection of Molecule objects.
@@ -41,26 +42,24 @@ class MoleculeSet:
                  molecule_database_src,
                  molecule_database_src_type,
                  is_verbose,
-                 n_threads,
-                 similarity_measure=None,
-                 molecular_descriptor=None):
+                 similarity_measure,
+                 fingerprint_type=None,
+                 n_threads):
         self.is_verbose = is_verbose
         self.n_threads = n_threads
         self.molecule_database = None
-        self.molecular_descriptor = None
-        self.similarity_measure = None
-        self.similarity_matrix = None
-        self.clusters = None        
+        self.descriptor = Descriptor()
         if molecule_database_src is not None \
-            and molecule_database_src_type is not None:
+                and molecule_database_src_type is not None:
             self._set_molecule_database(molecule_database_src,
                                         molecule_database_src_type)
-        if similarity_measure is not None:
-            self._set_similarity_measure(similarity_measure)
-        if molecular_descriptor is not None:
-            self._set_molecular_descriptor(molecular_descriptor)
-        if self.molecular_descriptor and self.similarity_measure:
-            self._set_similarity_matrix()
+        if fingerprint_type is not None:
+            # overrides if descriptor set in self._set_molecule_database
+            self._set_descriptor(fingerprint_type=fingerprint_type)
+        self.similarity_measure = SimilarityMeasure(similarity_measure)
+        self.similarity_matrix = None
+        self._set_similarity_matrix()
+        self.clusters = None
 
     def _set_molecule_database(self,
                                molecule_database_src,
@@ -134,8 +133,17 @@ class MoleculeSet:
             mol_names, mol_smiles, responses = None, None, None
             if 'feature_name' in feature_cols:
                 mol_names = database_feature_df['feature_name'].values.flatten()
+                database_feature_df = database_feature_df.drop(['feature_name'],
+                                                               axis=1)
             if 'feature_smiles' in feature_cols:
                 mol_smiles = database_df['feature_smiles'].values.flatten()
+                database_feature_df = database_feature_df.drop(
+                                                             ['feature_smiles'],
+                                                             axis=1)
+            if len(database_feature_df.columns) > 0:
+                _set_descriptor(
+                           self,
+                           arbitrary_descriptor_vals=database_feature_df.values)
 
             response_col = [column for column in database_df.columns
                             if column.split('_')[0] == 'response']
@@ -165,42 +173,41 @@ class MoleculeSet:
         else:
             raise FileNotFoundError(
                 f'{molecule_database_src} could not be found. '
-                f'Please enter valid foldername or path of a '
+                f'Please enter valid folder name or path of a '
                 f'text/excel/csv')
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
 
-    def _set_molecular_descriptor(self, molecular_descriptor):
-        """Sets molecular descriptor attribute.
+    def _set_descriptor(self,
+                        arbitrary_descriptor_vals=None,
+                        fingerprint_type=None):
+        """Sets molecule.descriptor attribute for each molecule object in
+        MoleculeSet. Either use arbitrary_descriptor_vals to pass descriptor
+        values manually or pass fingerprint_type to generate a fingerprint
+        from molecule_graph. Both can't be None.
 
         Parameters
         ----------
-        molecular_descriptor: str
-            String label specifying which descriptor to use for featurization.
-            See docstring for implemented descriptors and labels.
+        arbitrary_descriptor_vals : np.ndarray
+            Arbitrary descriptor array of size:
+                (n_mols xx dimensionality of descriptor space).
+                Default is None.
+        fingerprint_type : str
+            String label specifying which fingerprint to use. Default is None.
 
         """
-        if molecular_descriptor not in Descriptor.get_supported_descriptors():
-            raise NotImplementedError(f'{molecular_descriptor} '
-                                      'is currently not supported')
-        self.molecular_descriptor = molecular_descriptor
+        for molecule_id, molecule in enumerate(self.molecule_database):
+            if fingerprint_type is not None:
+                molecule.set_descriptor(fingerprint_type=fingerprint_type)
+            elif arbitrary_descriptor_vals is not None:
+                molecule.set_descriptor(
+                    arbitrary_descriptor_val=arbitrary_descriptor_vals[
+                                                                   molecule_id])
+            else:
+                raise ValueError('No descriptor vector or fingerprint type '
+                                 'were passed.')
 
-    def _set_similarity_measure(self, similarity_measure):
-        """Set the similarity measure attribute.
-
-        Parameters
-        ----------
-        similarity_measure: str
-            The similarity metric used. See docstring for list
-            of supported similarity metrics.
-
-        """
-        if similarity_measure not in similarity_measures.get_supported_measures():
-            raise NotImplementedError(f'{similarity_measure} '
-                                      'is currently not supported')
-        self.similarity_measure = similarity_measure
-    
     def _set_similarity_matrix(self):
         """Calculate the similarity metric using a molecular descriptor
         and a similarity measure. Set this attribute.
@@ -226,11 +233,14 @@ class MoleculeSet:
                             if self.is_verbose:
                                 print(f'thread {thread_idx} computing similarity of molecule num '
                                     f'{target_mol_id+1} against {source_mol_id+1}')
-                            local_similarity_matrix[source_mol_id, target_mol_id] = \
-                                molecule.get_similarity_to_molecule(
-                                            self.molecule_database[target_mol_id],
-                                            similarity_measure=self.similarity_measure,
-                                            molecular_descriptor=self.molecular_descriptor)
+                            try:
+                                similarity_matrix[source_mol_id, target_mol_id] = \
+                                    molecule.get_similarity_to_molecule(
+                                                self.molecule_database[target_mol_id],
+                                                similarity_measure=self.similarity_measure)
+                            except NotInitializedError as e:
+                                e.message += 'Similarity matrix could not be set '
+                                raise e
                             # symmetric matrix entry
                             local_similarity_matrix[target_mol_id, source_mol_id] = \
                                 local_similarity_matrix[source_mol_id, target_mol_id]
@@ -260,7 +270,7 @@ class MoleculeSet:
             similarity_matrix = sum(thread_results)
             print("done")
         else:
-            # Serial implementation
+            # serial implementation
             for source_mol_id, molecule in enumerate(self.molecule_database):
                 for target_mol_id in range(source_mol_id, n_mols):
                     if self.is_verbose:
@@ -287,24 +297,14 @@ class MoleculeSet:
             of supported similarity metrics.
 
         """
-        if similarity_measure not in similarity_measures.get_supported_measures():
-            raise NotImplementedError(f'{similarity_measure} '
-                                      'is currently not supported')
-        self.similarity_measure = similarity_measure
+        self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
-    def get_most_similar_pairs(self,
-                               molecular_descriptor=None,
-                               similarity_measure=None):
+    def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
 
         Parameters
         ----------
-        molecular_descriptor: str
-            If descriptor was not defined for this data set,
-            must be defined now. Default is None.
-        similarity_measure: str
-            If similarity_measure was not defined for this data set,
-            must be defined now. Default is None.
+
 
         Returns
         -------
@@ -314,17 +314,10 @@ class MoleculeSet:
             i.e. (A, B) =/=> (B, A)
 
         """
-        if molecular_descriptor is not None:
-            self._set_molecular_descriptor(molecular_descriptor)
-            if similarity_measure is not None:
-                self._set_similarity_measure(similarity_measure)
-                self._set_similarity_matrix()
-        if self.molecular_descriptor is None:
-            raise ValueError('Feature datatype could not be set, probably'
-                             'due to bad molecular_descriptor argument')
-        if self.similarity_measure is None:
-            raise ValueError('Similarity measure not set')
-
+        if self.similarity_matrix is None:
+            raise NotInitializedError('MoleculeSet instance not properly '
+                                      'initialized with descriptor and '
+                                      'similarity measure')
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
         out_list = []
@@ -358,18 +351,12 @@ class MoleculeSet:
         return out_list
 
     def get_most_dissimilar_pairs(self,
-                                  molecular_descriptor=None,
+                                  descriptor=None,
                                   similarity_measure=None):
         """Get pairs of samples which are least similar.
 
         Parameters
         ----------
-        molecular_descriptor: str
-            If descriptor was not defined for this data set,
-            must be defined now. Default is None.
-        similarity_measure: str
-            If similarity_measure was not defined for this data set,
-            must be defined now. Default is None.
 
         Returns
         -------
@@ -377,11 +364,10 @@ class MoleculeSet:
             List of pairs of indices closest to one another.
 
         """
-        if molecular_descriptor is not None:
-            self._set_molecular_descriptor(molecular_descriptor)
-            if similarity_measure is not None:
-                self._set_similarity_measure(similarity_measure)
-                self._set_similarity_matrix()
+        if self.similarity_matrix is None:
+            raise NotInitializedError('MoleculeSet instance not properly '
+                                      'initialized with descriptor and '
+                                      'similarity measure')
 
         n_samples = self.similarity_matrix.shape[0]
         found_samples = [0 for _ in range(n_samples)]
