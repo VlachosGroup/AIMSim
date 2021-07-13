@@ -79,7 +79,7 @@ class MoleculeSet:
     def _set_molecule_database(self,
                                molecule_database_src,
                                molecule_database_src_type):
-        """Load molecular database and set as attribute.
+        """Load molecular database and set attribute molecule_database.
 
         Parameters
         ----------
