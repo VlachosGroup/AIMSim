@@ -8,6 +8,7 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from sklearn.utils import resample
 
 from molSim.chemical_datastructures import Molecule
 from molSim.exceptions import NotInitializedError
@@ -29,6 +30,8 @@ class MoleculeSet:
         n_mols X n_mols numpy matrix of pairwise similarity scores.
     is_verbose : bool
         Controls how much information is displayed during plotting.
+    sample_ratio : float
+        Fraction of dataset to keep for analysis. Default is 1.
 
     Methods
     -------
@@ -44,15 +47,27 @@ class MoleculeSet:
                  is_verbose,
                  similarity_measure,
                  n_threads=1,
-                 fingerprint_type=None):
+                 fingerprint_type=None,
+                 sampling_ratio=1.,
+                 sampling_random_state=42):
+        """
+        Parameters
+        ----------
+        sampling_ratio : float
+            Fraction of the molecules to keep. Useful for selection subset
+            of dataset for quick computations.
+        sampling_random_state : int
+        Random state used for sampling. Default is 42.
+        """
         self.is_verbose = is_verbose
         self.n_threads = n_threads
         self.molecule_database = None
         self.descriptor = Descriptor()
-        if molecule_database_src is not None \
-                and molecule_database_src_type is not None:
-            self._set_molecule_database(molecule_database_src,
-                                        molecule_database_src_type)
+        self._set_molecule_database(molecule_database_src,
+                                    molecule_database_src_type)
+        if 0. < sampling_ratio < 1.:
+            self._subsample_database(sampling_ratio=sampling_ratio,
+                                     random_state=sampling_random_state)
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
             self._set_descriptor(fingerprint_type=fingerprint_type)
@@ -68,13 +83,13 @@ class MoleculeSet:
 
         Parameters
         ----------
-        molecule_database_src: str
+        molecule_database_src : str
             Source of molecular information. Can be a folder or a filepath.
             In case a folder is specified, all .pdb files in the folder
             are sequentially read.
             If a file path, it is assumed that the file is a .txt file with
             layout: SMILES string (column1) '\b' property (column2, optional).
-        molecule_database_src_type: str
+        molecule_database_src_type : str
             Type of source. Can be ['folder', 'text', 'excel', 'csv']
 
         Returns
@@ -140,10 +155,6 @@ class MoleculeSet:
                 database_feature_df = database_feature_df.drop(
                                                              ['feature_smiles'],
                                                              axis=1)
-            if len(database_feature_df.columns) > 0:
-                _set_descriptor(
-                           self,
-                           arbitrary_descriptor_vals=database_feature_df.values)
 
             response_col = [column for column in database_df.columns
                             if column.split('_')[0] == 'response']
@@ -169,6 +180,10 @@ class MoleculeSet:
                         Molecule(mol_graph=mol_graph,
                                  mol_text=mol_text,
                                  mol_property_val=mol_property_val))
+            if len(database_feature_df.columns) > 0:
+                _set_descriptor(
+                    self,
+                    arbitrary_descriptor_vals=database_feature_df.values)
 
         else:
             raise FileNotFoundError(
@@ -178,6 +193,13 @@ class MoleculeSet:
         if len(molecule_database) == 0:
             raise UserWarning('No molecular files found in the location!')
         self.molecule_database = molecule_database
+
+    def _subsample_database(self, sampling_ratio, random_state):
+        n_samples = int(sampling_ratio * len(self.molecule_database))
+        self.molecule_database = resample(self.molecule_database,
+                                          replace=False,
+                                          n_samples=n_samples,
+                                          random_state=random_state)
 
     def _set_descriptor(self,
                         arbitrary_descriptor_vals=None,
