@@ -8,9 +8,11 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from molSim.utils.helper_methods import get_feature_datatype
+from molSim.exceptions import NotInitializedError
 from molSim.ops.descriptor import Descriptor
 from molSim.ops.similarity_measures import SimilarityMeasure
+from molSim.utils.helper_methods import get_feature_datatype
+
 
 
 class Molecule:
@@ -152,7 +154,10 @@ class Molecule:
             Similarity coefficient by the chosen method.
 
         """
-        return similarity_measure(self.descriptor, target_mol.descriptor)
+        try:
+            return similarity_measure(self.descriptor, target_mol.descriptor)
+        except NotInitializedError as e:
+            raise e
 
     def compare_to_molecule_set(self, molecule_set):
         """Compare the molecule to a database contained in
