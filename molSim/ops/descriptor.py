@@ -45,7 +45,7 @@ class Descriptor:
         np.array
 
         """
-        if self._check_init() is False:
+        if self.check_init() is False:
             raise NotInitializedError('Descriptor value not generated. Use '
                                       'make_fingerprint() to initialize it.')
         if not hasattr(self, 'numpy_'):
@@ -54,7 +54,7 @@ class Descriptor:
         return self.numpy_
 
     def to_rdkit(self):
-        if self._check_init() is False:
+        if self.check_init() is False:
             raise NotInitializedError('Descriptor value not generated. Use '
                                       'make_fingerprint() to initialize it.')
         if not hasattr(self, 'rdkit_'):
@@ -62,7 +62,7 @@ class Descriptor:
                              'to rdkit bit vector is not supported')
         return self.rdkit_
 
-    def _check_init(self):
+    def check_init(self):
         if hasattr(self, 'numpy_') or hasattr(self, 'rdkit_'):
             return True
         return False

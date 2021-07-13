@@ -31,7 +31,7 @@ class TestMolecule(unittest.TestCase):
         self.assertIsNone(test_molecule.mol_property_val,
                           'Expected attribute mol_property_val to be None '
                           'for uninitialized Molecule')
-        self.assertFalse(test_molecule.descriptor._check_init(),
+        self.assertFalse(test_molecule.descriptor.check_init(),
                          'Expected molecule.descriptor to be unitialized  '
                          'for uninitialized Molecule')
 
@@ -242,7 +242,7 @@ class TestMoleculeSet(unittest.TestCase):
         self.assertIsNotNone(molecule_set.molecule_database,
                              'Expected molecule_database to be set from text')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
+            self.assertFalse(molecule.descriptor.check_init(),
                              'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
@@ -273,8 +273,8 @@ class TestMoleculeSet(unittest.TestCase):
         self.assertIsNotNone(molecule_set.molecule_database,
                              'Expected molecule_database to be set from text')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+            self.assertFalse(molecule.descriptor.check_init(),
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -306,8 +306,8 @@ class TestMoleculeSet(unittest.TestCase):
         self.assertIsNotNone(molecule_set.molecule_database,
                              'Expected molecule_database to be set from dir')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+            self.assertFalse(molecule.descriptor.check_init(),
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -336,8 +336,8 @@ class TestMoleculeSet(unittest.TestCase):
                              'Expected molecule_database to be set from '
                              'excel file')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+            self.assertFalse(molecule.descriptor.check_init(),
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -369,8 +369,8 @@ class TestMoleculeSet(unittest.TestCase):
                              'Expected molecule_database to be set from '
                              'excel file')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+            self.assertFalse(molecule.descriptor.check_init(),
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -403,8 +403,8 @@ class TestMoleculeSet(unittest.TestCase):
                              'Expected molecule_database to be set from '
                              'csv file')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+            self.assertFalse(molecule.descriptor.check_init(),
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -436,8 +436,8 @@ class TestMoleculeSet(unittest.TestCase):
                              'Expected molecule_database to be set from '
                              'csv file')
         for molecule in molecule_set.molecule_database:
-            self.assertFalse(molecule.descriptor._check_init(),
-                              'Expected descriptor to be unset')
+            self.assertFalse(molecule.descriptor.check_init(),
+                             'Expected descriptor to be unset')
         self.assertIsNone(molecule_set.similarity_measure,
                           'Expected similarity_measure to be unset')
         self.assertIsNone(molecule_set.similarity_matrix,
@@ -471,7 +471,7 @@ class TestMoleculeSet(unittest.TestCase):
                                  'Expected molecule_database to be set from '
                                  'csvfile')
             for molecule in molecule_set.molecule_database:
-                self.assertFalse(molecule.descriptor._check_init(),
+                self.assertFalse(molecule.descriptor.check_init(),
                                  'Expected descriptor to be unset')
             self.assertIsNone(molecule_set.similarity_matrix,
                               'Expected similarity_matrix to be unset')
@@ -493,7 +493,7 @@ class TestMoleculeSet(unittest.TestCase):
                                  'Expected molecule_database to be set from '
                                  'csv file')
             for molecule in molecule_set.molecule_database:
-                self.assertTrue(molecule.descriptor._check_init(),
+                self.assertTrue(molecule.descriptor.check_init(),
                                 'Expected descriptor to be set')
             self.assertIsNone(molecule_set.similarity_matrix,
                               'Expected similarity_matrix to be unset')
@@ -518,8 +518,8 @@ class TestMoleculeSet(unittest.TestCase):
                                      'Expected molecule_database to '
                                      'be set from csv file')
                 for molecule in molecule_set.molecule_database:
-                    self.assertTrue(molecule.descriptor._check_init(),
-                                     'Expected descriptor to be set')
+                    self.assertTrue(molecule.descriptor.check_init(),
+                                    'Expected descriptor to be set')
                 self.assertIsNotNone(molecule_set.similarity_matrix,
                                      'Expected similarity_matrix to be set')
         print(f'Test complete. Deleting file {csv_fpath}...')

@@ -57,7 +57,7 @@ class MoleculeSet:
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
             self._set_descriptor(fingerprint_type=fingerprint_type)
-        if self.descriptor and self.similarity_measure:
+        if self.descriptor.check_init() and self.similarity_measure:
             self._set_similarity_matrix()
 
     def _set_molecule_database(self,
