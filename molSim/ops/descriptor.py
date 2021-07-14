@@ -29,8 +29,9 @@ class Descriptor:
         Value of the descriptor in the numpy format.
     rdkit_: rdkit.DataStructs.cDataStructs.UIntSparseIntVec
         Value of the descriptor in the rdkit format.
-        
+
     """
+
     def __init__(self, value=None):
         if value is not None:
             self.set_manually(arbitrary_descriptor_val=value)
@@ -138,8 +139,8 @@ class Descriptor:
                                          **kwargs)
         elif fingerprint_type == 'topological_fingerprint':
             self._set_rdkit_topological_fingerprint(
-                                        molecule_graph=molecule_graph,
-                                        **kwargs)
+                molecule_graph=molecule_graph,
+                **kwargs)
         else:
             raise ValueError(f'{fingerprint_type} not supported')
 
@@ -155,8 +156,11 @@ class Descriptor:
         self.label_ = 'arbitrary'
         self.numpy_ = np.array(arbitrary_descriptor_val)
 
+    @staticmethod
+    def get_supported_fprints():
+        """Return a list of strings for the currently implemented molecular fingerprints.
 
-
-
-
-
+        Returns:
+            List: List of strings.
+        """
+        return ['morgan_fingerprint', 'topological_fingerprint']

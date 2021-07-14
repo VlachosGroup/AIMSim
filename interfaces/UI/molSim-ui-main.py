@@ -10,6 +10,8 @@ Author:
     Jackson Burns
 """
 from molSim.tasks.task_manager import TaskManager
+from molSim.ops.descriptor import Descriptor
+from molSim.ops.similarity_measures import SimilarityMeasure
 
 import yaml
 import os
@@ -62,7 +64,7 @@ class MolsimUiApp:
             anchor='center', relx='.2', rely='0.03', x='0', y='0')
         self.targetMoleculeEntry = ttk.Entry(
             self.mainframe, textvariable=self.targetMolecule)
-        _text_ = '''FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F'''
+        _text_ = '''CO'''
         self.targetMoleculeEntry.delete('0', 'end')
         self.targetMoleculeEntry.insert('0', _text_)
         self.targetMoleculeEntry.place(
@@ -91,7 +93,7 @@ class MolsimUiApp:
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly")
         self.similarityMeasureCombobox.configure(
-            takefocus=False, values=['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2', 'dice'])
+            takefocus=False, values=SimilarityMeasure.get_supported_metrics())
         self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
             anchor='center', relx='0.55', rely='0.45', x='0', y='0')
@@ -106,7 +108,7 @@ class MolsimUiApp:
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly")
         self.molecularDescriptorCombobox.configure(
-            cursor='arrow', justify='left', takefocus=False, values=['topological_fingerprint', 'morgan_fingerprint'])
+            cursor='arrow', justify='left', takefocus=False, values=Descriptor.get_supported_fprints())
         self.molecularDescriptorCombobox.place(
             anchor='center', relx='0.55', rely='0.55', x='0', y='0')
         self.molecularDescriptorCombobox.current(0)
