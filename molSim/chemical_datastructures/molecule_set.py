@@ -41,6 +41,7 @@ class MoleculeSet:
         Get the indexes of the most similar molecules as tuples.
 
     """
+
     def __init__(self,
                  molecule_database_src,
                  molecule_database_src_type,
@@ -64,8 +65,8 @@ class MoleculeSet:
         self.molecule_database = None
         self.descriptor = Descriptor()
         self.molecule_database, features = self._get_molecule_database(
-                                              molecule_database_src,
-                                              molecule_database_src_type)
+            molecule_database_src,
+            molecule_database_src_type)
         if features is not None:
             self._set_descriptor(arbitrary_descriptor_vals=features)
         if 0. < sampling_ratio < 1.:
@@ -155,14 +156,15 @@ class MoleculeSet:
             database_feature_df = database_df[feature_cols]
             mol_names, mol_smiles, responses = None, None, None
             if 'feature_name' in feature_cols:
-                mol_names = database_feature_df['feature_name'].values.flatten()
+                mol_names = database_feature_df['feature_name'].values.flatten(
+                )
                 database_feature_df = database_feature_df.drop(['feature_name'],
                                                                axis=1)
             if 'feature_smiles' in feature_cols:
                 mol_smiles = database_df['feature_smiles'].values.flatten()
                 database_feature_df = database_feature_df.drop(
-                                                             ['feature_smiles'],
-                                                             axis=1)
+                    ['feature_smiles'],
+                    axis=1)
 
             response_col = [column for column in database_df.columns
                             if column.split('_')[0] == 'response']
@@ -230,7 +232,7 @@ class MoleculeSet:
             elif arbitrary_descriptor_vals is not None:
                 molecule.set_descriptor(
                     arbitrary_descriptor_val=arbitrary_descriptor_vals[
-                                                                   molecule_id])
+                        molecule_id])
             else:
                 raise ValueError('No descriptor vector or fingerprint type '
                                  'were passed.')
@@ -242,49 +244,52 @@ class MoleculeSet:
         """
         n_mols = len(self.molecule_database)
         similarity_matrix = np.zeros(shape=(n_mols, n_mols))
-        
+
         # Parallel implementation of similarity calculations.
         if self.n_threads > 1:
             m = multiprocess.Manager()
             q = m.Queue()
             # worker thread
+
             def worker(thread_idx, n_mols, start_idx, end_idx, queue):
                 # make a local copy of the overall similarity matrix
                 local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
                 if self.is_verbose:
-                    print("thread",thread_idx,"will calculate molecules",start_idx,"through",end_idx)
+                    print("thread", thread_idx, "will calculate molecules",
+                          start_idx, "through", end_idx)
                 # same iteration as serial implementation, but only compute source molecules in the specified range
                 for source_mol_id, molecule in enumerate(self.molecule_database):
                     if source_mol_id >= start_idx and source_mol_id < end_idx:
                         for target_mol_id in range(source_mol_id, n_mols):
                             if self.is_verbose:
                                 print(f'thread {thread_idx} computing similarity of molecule num '
-                                    f'{target_mol_id+1} against {source_mol_id+1}')
+                                      f'{target_mol_id+1} against {source_mol_id+1}')
                             try:
-                                similarity_matrix[source_mol_id, target_mol_id] = \
+                                local_similarity_matrix[source_mol_id, target_mol_id] = \
                                     molecule.get_similarity_to_molecule(
-                                                self.molecule_database[target_mol_id],
-                                                similarity_measure=self.similarity_measure)
+                                    self.molecule_database[target_mol_id],
+                                    similarity_measure=self.similarity_measure)
                             except NotInitializedError as e:
                                 e.message += 'Similarity matrix could not be set '
                                 raise e
                             # symmetric matrix entry
                             local_similarity_matrix[target_mol_id, source_mol_id] = \
-                                local_similarity_matrix[source_mol_id, target_mol_id]
+                                local_similarity_matrix[source_mol_id,
+                                                        target_mol_id]
                 queue.put(local_similarity_matrix)
                 return None
-            
+
             # calculate work distribution and spawn threads
             remainder = n_mols % (self.n_threads-1)
             bulk = n_mols // (self.n_threads-1)
             threads = []
             for i in range(self.n_threads-1):
-                thread = multiprocess.Process(target=worker, args=(i, n_mols, i*bulk, bulk*(i+1), q, ))
-                thread.daemon = True
+                thread = multiprocess.Process(
+                    target=worker, args=(i, n_mols, i*bulk, bulk*(i+1), q, ))
                 threads.append(thread)
                 thread.start()
-            thread = multiprocess.Process(target=worker, args=(self.n_threads-1, n_mols, (self.n_threads-1)*bulk, (self.n_threads-1)*bulk+remainder+1, q, ))
-            thread.daemon = True
+            thread = multiprocess.Process(target=worker, args=(
+                self.n_threads-1, n_mols, (self.n_threads-1)*bulk, (self.n_threads-1)*bulk+remainder+1, q, ))
             threads.append(thread)
             thread.start()
 
@@ -292,7 +297,7 @@ class MoleculeSet:
             for thread in threads:
                 thread.join()
             thread_results = []
-            for _ in range(self.n_threads-1):
+            for _ in range(self.n_threads):
                 thread_results.append(q.get())
             similarity_matrix = sum(thread_results)
             print("done")
@@ -302,15 +307,15 @@ class MoleculeSet:
                 for target_mol_id in range(source_mol_id, n_mols):
                     if self.is_verbose:
                         print('Computing similarity of molecule num '
-                            f'{target_mol_id+1} against {source_mol_id+1}')
+                              f'{target_mol_id+1} against {source_mol_id+1}')
                     similarity_matrix[source_mol_id, target_mol_id] = \
                         molecule.get_similarity_to_molecule(
-                                    self.molecule_database[target_mol_id],
-                                    similarity_measure=self.similarity_measure)
+                        self.molecule_database[target_mol_id],
+                        similarity_measure=self.similarity_measure)
                     # symmetric matrix entry
                     similarity_matrix[target_mol_id, source_mol_id] = \
                         similarity_matrix[source_mol_id, target_mol_id]
-        
+
         self.similarity_matrix = similarity_matrix
 
     def _set_similarity_measure(self, similarity_measure):
@@ -426,7 +431,7 @@ class MoleculeSet:
         if self.similarity_matrix is None:
             self._set_similarity_matrix()
         return self.similarity_matrix
-    
+
     def get_distance_matrix(self):
         """Get the distance matrix for the data set defined here as:
         distance_matrix =  -similarity_matrix.
@@ -441,34 +446,33 @@ class MoleculeSet:
         If un-set, sets the self.similarity_matrix attribute.
 
         """
-        return -self.get_similarity_matrix()        
-    
+        return -self.get_similarity_matrix()
+
     def get_pairwise_similarities(self):
         pairwise_similarity_vector = []
         for ref_mol in range(len(self.molecule_database)):
             for target_mol in range(ref_mol+1, len(self.molecule_database)):
                 pairwise_similarity_vector.append(
-                                    self.similarity_matrix[ref_mol, target_mol])
+                    self.similarity_matrix[ref_mol, target_mol])
         return np.array(pairwise_similarity_vector)
-    
+
     def get_mol_names(self):
         mol_names = []
         for mol_id, mol in enumerate(self.molecule_database):
             mol_name = mol.get_name()
             if mol_name is None:
-                mol_names.append('id: '+ str(mol_id))
+                mol_names.append('id: ' + str(mol_id))
             else:
-                 mol_names.append(mol_name)
+                mol_names.append(mol_name)
 
     def cluster(self, n_clusters, clustering_method='kmedoids', **kwargs):
-        self.clusters = Cluster(n_clusters=n_clusters, 
+        self.clusters = Cluster(n_clusters=n_clusters,
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
         mol_names = np.array(self.get_mol_names())
         cluster_grouped_mol_names = {}
         for cluster_id in range(n_clusters):
             cluster_grouped_mol_names[cluster_id] = mol_names[
-                                                        self.clusters.get_labels 
-                                                        == cluster_id].tolist()
+                self.clusters.get_labels
+                == cluster_id].tolist()
         return cluster_grouped_mol_names
-

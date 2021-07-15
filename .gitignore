@@ -14,3 +14,4 @@ dist/*
 
 # UI-generated config file
 UI/molSim-ui-config.yaml
+molSim-ui-config.yaml
