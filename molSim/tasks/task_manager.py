@@ -75,13 +75,13 @@ class TaskManager:
         n_threads = molecule_set_configs.get('n_workers', 1)
         similarity_measure = molecule_set_configs.get('similarity_measure',
                                                       'tanimoto_similarity')
-        molecular_descriptor = molecule_set_configs.get('molecular_descriptor',
-                                                        'morgan_fingerprint')
+        fingerprint_type = molecule_set_configs.get('fingerprint_type',
+                                                    None)
         self.molecule_set = MoleculeSet(
                                 molecule_database_src=molecule_database_src,
                                 molecule_database_src_type=database_src_type,
                                 similarity_measure=similarity_measure,
-                                molecular_descriptor=molecular_descriptor,
+                                fingerprint_type=fingerprint_type,
                                 is_verbose=is_verbose,
                                 n_threads=n_threads)
 

@@ -14,7 +14,6 @@ from molSim.ops.similarity_measures import SimilarityMeasure
 from molSim.utils.helper_methods import get_feature_datatype
 
 
-
 class Molecule:
     """Molecular object defined from RDKIT mol object.
 
@@ -182,14 +181,12 @@ class Molecule:
 
         """
         target_similarity = [
-            self.get_similarity_to_molecule(
-                ref_mol, similarity_measure=molecule_set.similarity_measure,
-                molecular_descriptor=molecule_set.molecular_descriptor)
+            self.get_similarity_to_molecule(ref_mol)
             for ref_mol in molecule_set.molecule_database
             if ref_mol.mol_text != self.mol_text]
         return target_similarity
     
-    def get_mol_name(self):
+    def get_name(self):
         return self.mol_text
 
     def get_mol_property_val(self):

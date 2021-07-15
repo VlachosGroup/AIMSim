@@ -248,25 +248,29 @@ class MoleculeSet:
             m = multiprocess.Manager()
             q = m.Queue()
             # worker thread
+
             def worker(thread_idx, n_mols, start_idx, end_idx, queue):
                 # make a local copy of the overall similarity matrix
                 local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
                 if self.is_verbose:
                     print("thread",thread_idx,"will calculate molecules",start_idx,"through",end_idx)
-                # same iteration as serial implementation, but only compute source molecules in the specified range
+                # same iteration as serial implementation, but only compute
+                # source molecules in the specified range
                 for source_mol_id, molecule in enumerate(self.molecule_database):
                     if source_mol_id >= start_idx and source_mol_id < end_idx:
                         for target_mol_id in range(source_mol_id, n_mols):
                             if self.is_verbose:
-                                print(f'thread {thread_idx} computing similarity of molecule num '
-                                    f'{target_mol_id+1} against {source_mol_id+1}')
+                                print(f'thread {thread_idx} computing '
+                                      f'similarity of molecule num '
+                                      f'{target_mol_id+1} against '
+                                      f'{source_mol_id+1}')
                             try:
                                 similarity_matrix[source_mol_id, target_mol_id] = \
                                     molecule.get_similarity_to_molecule(
                                                 self.molecule_database[target_mol_id],
                                                 similarity_measure=self.similarity_measure)
                             except NotInitializedError as e:
-                                e.message += 'Similarity matrix could not be set '
+                                e.message += 'Similarity matrix cannot be set '
                                 raise e
                             # symmetric matrix entry
                             local_similarity_matrix[target_mol_id, source_mol_id] = \
@@ -428,20 +432,15 @@ class MoleculeSet:
         return self.similarity_matrix
     
     def get_distance_matrix(self):
-        """Get the distance matrix for the data set defined here as:
-        distance_matrix =  -similarity_matrix.
+        """Get the distance matrix for the data set.
 
         Returns
         -------
         np.ndarray
-            Similarity matrix of the dataset.
-
-        Note
-        ----
-        If un-set, sets the self.similarity_matrix attribute.
+            Distance matrix of the dataset.
 
         """
-        return -self.get_similarity_matrix()        
+        return self.similarity_measure.to_distance(self.similarity_matrix)
     
     def get_pairwise_similarities(self):
         pairwise_similarity_vector = []
@@ -456,11 +455,37 @@ class MoleculeSet:
         for mol_id, mol in enumerate(self.molecule_database):
             mol_name = mol.get_name()
             if mol_name is None:
-                mol_names.append('id: '+ str(mol_id))
+                mol_names.append('id: ' + str(mol_id))
             else:
-                 mol_names.append(mol_name)
+                mol_names.append(mol_name)
+        return mol_names
 
-    def cluster(self, n_clusters, clustering_method='kmedoids', **kwargs):
+    def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
+        """
+        Cluster the molecules of the MoleculeSet.
+
+        Parameters
+        ----------
+        n_clusters : int
+            Number of clusters. Default is 8.
+        clustering_method : str
+            Clustering algorithm to use. Default is None in which case the
+            algorithm is chosen from the similarity measure in use.
+        kwargs : keyword args
+            Key word arguments to supply to clustering algorithm.
+
+        Returns
+        -------
+        cluster_grouped_mol_names : dict
+            Dictionary of cluster id (key) --> Names of molecules in cluster.
+
+        """
+        if clustering_method is None:
+            if self.similarity_measure.type_ == 'continuous':
+                clustering_method = 'kmedoids'
+            else:
+                clustering_method = 'complete_linkage'
+
         self.clusters = Cluster(n_clusters=n_clusters, 
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
@@ -468,7 +493,7 @@ class MoleculeSet:
         cluster_grouped_mol_names = {}
         for cluster_id in range(n_clusters):
             cluster_grouped_mol_names[cluster_id] = mol_names[
-                                                        self.clusters.get_labels 
-                                                        == cluster_id].tolist()
+                                                    self.clusters.get_labels()
+                                                    == cluster_id].tolist()
         return cluster_grouped_mol_names
 
