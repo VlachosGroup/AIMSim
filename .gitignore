@@ -15,3 +15,6 @@ dist/*
 # UI-generated config file
 UI/molSim-ui-config.yaml
 molSim-ui-config.yaml
+
+# testing-related configuration file
+.no-speedup-test

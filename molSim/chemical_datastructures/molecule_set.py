@@ -256,7 +256,7 @@ class MoleculeSet:
                 local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
                 if self.is_verbose:
                     print("thread", thread_idx, "will calculate molecules",
-                          start_idx, "through", end_idx)
+                          start_idx, "through", end_idx, "(", end_idx-start_idx, "total)")
                 # same iteration as serial implementation, but only compute source molecules in the specified range
                 for source_mol_id, molecule in enumerate(self.molecule_database):
                     if source_mol_id >= start_idx and source_mol_id < end_idx:
@@ -264,34 +264,38 @@ class MoleculeSet:
                             if self.is_verbose:
                                 print(f'thread {thread_idx} computing similarity of molecule num '
                                       f'{target_mol_id+1} against {source_mol_id+1}')
-                            try:
-                                local_similarity_matrix[source_mol_id, target_mol_id] = \
-                                    molecule.get_similarity_to_molecule(
-                                    self.molecule_database[target_mol_id],
-                                    similarity_measure=self.similarity_measure)
-                            except NotInitializedError as e:
-                                e.message += 'Similarity matrix could not be set '
-                                raise e
-                            # symmetric matrix entry
-                            local_similarity_matrix[target_mol_id, source_mol_id] = \
+                            # diagonal entry
+                            if target_mol_id == source_mol_id:
                                 local_similarity_matrix[source_mol_id,
-                                                        target_mol_id]
+                                                        target_mol_id] = 1
+                            else:  # non-diagonal entries
+                                try:
+                                    local_similarity_matrix[source_mol_id, target_mol_id] = \
+                                        molecule.get_similarity_to_molecule(
+                                        self.molecule_database[target_mol_id],
+                                        similarity_measure=self.similarity_measure)
+                                except NotInitializedError as e:
+                                    e.message += 'Similarity matrix could not be set '
+                                    raise e
                 queue.put(local_similarity_matrix)
                 return None
 
             # calculate work distribution and spawn threads
-            remainder = n_mols % (self.n_threads-1)
-            bulk = n_mols // (self.n_threads-1)
+            remainder = n_mols % (self.n_threads)
+            bulk = n_mols // (self.n_threads)
             threads = []
-            for i in range(self.n_threads-1):
-                thread = multiprocess.Process(
-                    target=worker, args=(i, n_mols, i*bulk, bulk*(i+1), q, ))
-                threads.append(thread)
-                thread.start()
-            thread = multiprocess.Process(target=worker, args=(
-                self.n_threads-1, n_mols, (self.n_threads-1)*bulk, (self.n_threads-1)*bulk+remainder+1, q, ))
-            threads.append(thread)
-            thread.start()
+            for i in range(self.n_threads):
+                # last thread
+                if i == self.n_threads - 1:
+                    thread = multiprocess.Process(
+                        target=worker, args=(i, n_mols, i * bulk, bulk * (i + 1) + remainder, q,))
+                    threads.append(thread)
+                    thread.start()
+                else:
+                    thread = multiprocess.Process(
+                        target=worker, args=(i, n_mols, i*bulk, bulk*(i+1), q, ))
+                    threads.append(thread)
+                    thread.start()
 
             # retrieve the result and sum all the matrices together.
             for thread in threads:
@@ -300,7 +304,13 @@ class MoleculeSet:
             for _ in range(self.n_threads):
                 thread_results.append(q.get())
             similarity_matrix = sum(thread_results)
-            print("done")
+            # reflect over the diagonal
+            for i in range(n_mols):
+                for j in range(n_mols):
+                    # skip diagonal entries
+                    if i == j:
+                        continue
+                    similarity_matrix[j, i] = similarity_matrix[i, j]
         else:
             # serial implementation
             for source_mol_id, molecule in enumerate(self.molecule_database):
