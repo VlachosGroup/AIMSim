@@ -55,6 +55,10 @@ Example Run:
 
 `python -m molSim config.yaml`
 
+Using multiprocessing:
+
+`molSim` includes support for multiprocessing to split up the work of molecular comparisons across multiple CPU cores, speeding up execution. Because there is a cost associated with creating and destroying these processes, setting `n_workers` to any number larger than 1 is _not_ reccomended for datasets smaller than ~5000 molecules.
+
 Tests:
 
 `python -m unittest discover`
