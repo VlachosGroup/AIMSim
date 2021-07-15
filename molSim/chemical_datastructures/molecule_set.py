@@ -443,21 +443,15 @@ class MoleculeSet:
         return self.similarity_matrix
 
     def get_distance_matrix(self):
-        """Get the distance matrix for the data set defined here as:
-        distance_matrix =  -similarity_matrix.
+        """Get the distance matrix for the data set.
 
         Returns
         -------
         np.ndarray
-            Similarity matrix of the dataset.
-
-        Note
-        ----
-        If un-set, sets the self.similarity_matrix attribute.
+            Distance matrix of the dataset.
 
         """
-        return -self.get_similarity_matrix()
-
+        return self.similarity_measure.to_distance(self.similarity_matrix)
     def get_pairwise_similarities(self):
         pairwise_similarity_vector = []
         for ref_mol in range(len(self.molecule_database)):
@@ -474,15 +468,41 @@ class MoleculeSet:
                 mol_names.append('id: ' + str(mol_id))
             else:
                 mol_names.append(mol_name)
+        return mol_names
 
-    def cluster(self, n_clusters, clustering_method='kmedoids', **kwargs):
-        self.clusters = Cluster(n_clusters=n_clusters,
+    def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
+        """
+        Cluster the molecules of the MoleculeSet.
+
+        Parameters
+        ----------
+        n_clusters : int
+            Number of clusters. Default is 8.
+        clustering_method : str
+            Clustering algorithm to use. Default is None in which case the
+            algorithm is chosen from the similarity measure in use.
+        kwargs : keyword args
+            Key word arguments to supply to clustering algorithm.
+
+        Returns
+        -------
+        cluster_grouped_mol_names : dict
+            Dictionary of cluster id (key) --> Names of molecules in cluster.
+
+        """
+        if clustering_method is None:
+            if self.similarity_measure.type_ == 'continuous':
+                clustering_method = 'kmedoids'
+            else:
+                clustering_method = 'complete_linkage'
+
+        self.clusters = Cluster(n_clusters=n_clusters, 
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
         mol_names = np.array(self.get_mol_names())
         cluster_grouped_mol_names = {}
         for cluster_id in range(n_clusters):
             cluster_grouped_mol_names[cluster_id] = mol_names[
-                self.clusters.get_labels
-                == cluster_id].tolist()
+                                                    self.clusters.get_labels()
+                                                    == cluster_id].tolist()
         return cluster_grouped_mol_names

@@ -158,11 +158,14 @@ def plot_parity(x, y, **kwargs):
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
     plt.show(block=False)
 
-def plot_barchart(heights, colors, xtick_labels=None,**kwargs):
+
+def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     """Plot a bar chart
 
     Parameters
     ----------
+    x: list or numpy array
+       X axis grid.
     heights: list or np.array
         Height of the bars
     colors: list or str
@@ -171,23 +174,29 @@ def plot_barchart(heights, colors, xtick_labels=None,**kwargs):
         indices of the height are used
     
     """
-    plot_params = {'width': 0.8}
-    if kwargs is not None:
-        plot_params.update(kwargs)
+    plot_params = {'title': kwargs.pop('title', ''),
+                   'title_fontsize': kwargs.pop('title_fontsize', 24),
+                   'xlabel': kwargs.pop('xlabel', ''),
+                   'xlabel_fontsize': kwargs.pop('xlabel_fontsize', 20),
+                   'ylabel': kwargs.pop('ylabel', ''),
+                   'ylabel_fontsize': kwargs.pop('ylabel_fontsize', 20),
+                   'xticksize': kwargs.pop('xticksize', 24),
+                   'yticksize': kwargs.pop('yticksize', 24),
+                   }
     if xtick_labels is None:
         xtick_labels = [_ for _ in range(len(heights))]
-    plt.bar(height=heights, color=colors, tick_label=xtick_labels, **kwargs)
+    plt.bar(x, height=heights, color=colors, tick_label=xtick_labels, **kwargs)
     plt.title(
-        plot_params.get('title', ''),
-        fontsize=plot_params.get('title_fontsize', 24))
+        plot_params['title'],
+        fontsize=plot_params['title_fontsize'])
     plt.xlabel(
-        plot_params.get('xlabel', ''),
-        fontsize=plot_params.get('xlabel_fontsize', 20))
+        plot_params['xlabel'],
+        fontsize=plot_params['xlabel_fontsize'])
     plt.ylabel(
-        plot_params.get('ylabel', ''),
-        fontsize=plot_params.get('ylabel_fontsize', 20))
-    plt.xticks(fontsize=plot_params.get('xticksize', 24))
-    plt.yticks(fontsize=plot_params.get('yticksize', 24))
+        plot_params['ylabel'],
+        fontsize=plot_params['ylabel_fontsize'])
+    plt.xticks(fontsize=plot_params['xticksize'])
+    plt.yticks(fontsize=plot_params['yticksize'])
     plt.show()
     
-    
+

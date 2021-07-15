@@ -28,18 +28,37 @@ class SimilarityMeasure:
     def __init__(self, metric):
         if metric.lower() in ['negative_l0']:
             self.metric = 'negative_l0'
+            self.type_ = 'continuous'
+            self.to_distance = lambda x: -x
+
         elif metric.lower() in ['negative_l1', 'negative_manhattan']:
             self.metric = 'negative_l1'
+            self.type_ = 'continuous'
+            self.to_distance = lambda x: -x
+
         elif metric.lower() in ['negative_l2', 'negative_euclidean']:
             self.metric = 'negative_l2'
-        elif metric.lower() in ['dice']:
-            self.metric = 'dice'
-        elif metric.lower() in ['jaccard', 'tanimoto']:
-            self.metric = 'tanimoto'
+            self.type_ = 'continuous'
+            self.to_distance = lambda x: -x
+
         elif metric.lower() in ['cosine']:
             self.metric = 'cosine'
+            self.type_ = 'continuous'
+            # angular distance
+            self.to_distance = lambda x: np.arccos(x) / np.pi
+
+        elif metric.lower() in ['dice']:
+            self.metric = 'dice'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
+        elif metric.lower() in ['jaccard', 'tanimoto']:
+            self.metric = 'tanimoto'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
-            raise NotImplementedError
+            raise ValueError(f'Similarity metric: {metric} is not implemented')
 
     def __call__(self, mol1_descriptor, mol2_descriptor):
         """

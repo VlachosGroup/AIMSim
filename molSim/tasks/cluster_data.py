@@ -18,7 +18,7 @@ class ClusterData(Task):
     
     def _extract_configs(self):
         self.n_clusters = self.configs['n_clusters']
-        self.clustering_method = self.configs['clustering_method']
+        self.clustering_method = self.configs.get('clustering_method', None)
         self.plot_settings = {'xlabel': 'PC1',
                               'ylabel': 'PC2',
                               'embedding': {'method': 'pca'},
@@ -46,8 +46,9 @@ class ClusterData(Task):
         with open(self.cluster_fpath, "w") as fp:
             yaml.dump(cluster_grouped_mol_names, fp)
         
-        plot_barchart(heights=[cluster_grouped_mol_names[cluster_id] 
-                                   for cluster_id in range(self.n_clusters)],
+        plot_barchart([_ for _ in range(self.n_clusters)],
+                      heights=[len(cluster_grouped_mol_names[cluster_id])
+                               for cluster_id in range(self.n_clusters)],
                       colors=self.plot_settings['cluster_colors'],
                       xtick_labels=[_ for _ in range(self.n_clusters)],
                       xlabel='Cluster Index',

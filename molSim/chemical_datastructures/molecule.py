@@ -189,7 +189,7 @@ class Molecule:
             if ref_mol.mol_text != self.mol_text]
         return target_similarity
 
-    def get_mol_name(self):
+    def get_name(self):
         return self.mol_text
 
     def get_mol_property_val(self):
