@@ -1,15 +1,11 @@
 """Test for the Descriptor class"""
 import unittest
-
 import numpy as np
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import MolFromSmiles
-
-
 from molSim.ops import Descriptor
 
-
-SUPPORTED_FPRINTS = ['morgan_fingerprint', 'topological_fingerprint']
+SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 
 
 class TestDescriptor(unittest.TestCase):
@@ -65,6 +61,3 @@ class TestDescriptor(unittest.TestCase):
                                   'Expected to_rdkit() to return '
                                   'ExplicitBitVect representation '
                                   f'of {fprint} fingerprint')
-
-
-

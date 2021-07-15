@@ -14,9 +14,11 @@ dist/*
 
 # UI-generated config file
 UI/molSim-ui-config.yaml
+molSim-ui-config.yaml
 
-# documentation
-docs/_build/*
-docs/_sources/*
-docs/_static/*
-docs/molSim.egg-info/*
+# testing-related configuration file
+.no-speedup-test
+
+# coverage files
+.coverage
+htmlcov/*

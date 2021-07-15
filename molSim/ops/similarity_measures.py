@@ -90,8 +90,8 @@ class SimilarityMeasure:
         elif self.metric == 'dice':
             try:
                 similarity_ = DataStructs.DiceSimilarity(
-                                                  mol1_descriptor.to_rdkit(),
-                                                  mol2_descriptor.to_rdkit())
+                    mol1_descriptor.to_rdkit(),
+                    mol2_descriptor.to_rdkit())
             except ValueError as e:
                 raise ValueError(
                     'Dice similarity is only useful for bit strings '
@@ -101,8 +101,8 @@ class SimilarityMeasure:
         elif self.metric == 'tanimoto':
             try:
                 similarity_ = DataStructs.TanimotoSimilarity(
-                                                  mol1_descriptor.to_rdkit(),
-                                                  mol2_descriptor.to_rdkit())
+                    mol1_descriptor.to_rdkit(),
+                    mol2_descriptor.to_rdkit())
             except ValueError as e:
                 raise ValueError(
                     'Tanimoto similarity is only useful for bit strings '
@@ -112,13 +112,20 @@ class SimilarityMeasure:
         elif self.metric == 'cosine':
             if mol1_descriptor.rdkit_ and mol2_descriptor.rdkit_:
                 similarity_ = DataStructs.CosineSimilarity(
-                                              mol1_descriptor.rdkit_,
-                                              mol2_descriptor.rdkit_)
+                    mol1_descriptor.rdkit_,
+                    mol2_descriptor.rdkit_)
             else:
                 similarity_ = scipy_cosine(mol1_descriptor.to_numpy(),
                                            mol2_descriptor.to_numpy())
 
         return similarity_
 
+    @staticmethod
+    def get_supported_metrics():
+        """Return a list of strings for the currently implemented similarity measures, aka metrics.
 
-
+        Returns:
+            List: List of strings.
+        """
+        return ['negative_l0', 'negative_l1', 'negative_manhattan',
+                'negative_l2', 'negative_euclidean', 'dice', 'jaccard', 'tanimoto', 'cosine']

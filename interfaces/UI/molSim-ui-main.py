@@ -10,6 +10,8 @@ Author:
     Jackson Burns
 """
 from molSim.tasks.task_manager import TaskManager
+from molSim.ops.descriptor import Descriptor
+from molSim.ops.similarity_measures import SimilarityMeasure
 
 import yaml
 import os
@@ -22,6 +24,7 @@ import webbrowser
 class MolsimUiApp:
     """User interface to access key functionalities of molSim.
     """
+
     def __init__(self, master=None):
         """Constructor for Molsim.
 
@@ -30,6 +33,8 @@ class MolsimUiApp:
         """
         # build ui
         self.window = tk.Tk() if master is None else tk.Toplevel(master)
+        self.window.title('molSim')
+        self.window.iconphoto(False, tk.PhotoImage(file='molSim-logo.png'))
         self.databaseFile = tk.StringVar(self.window)
         self.targetMolecule = tk.StringVar(self.window)
         self.similarityMeasure = tk.StringVar(self.window)
@@ -59,7 +64,7 @@ class MolsimUiApp:
             anchor='center', relx='.2', rely='0.03', x='0', y='0')
         self.targetMoleculeEntry = ttk.Entry(
             self.mainframe, textvariable=self.targetMolecule)
-        _text_ = '''FC(F)(F)C(F)(F)C(F)C(F)C(F)(F)F'''
+        _text_ = '''CO'''
         self.targetMoleculeEntry.delete('0', 'end')
         self.targetMoleculeEntry.insert('0', _text_)
         self.targetMoleculeEntry.place(
@@ -88,7 +93,7 @@ class MolsimUiApp:
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly")
         self.similarityMeasureCombobox.configure(
-            takefocus=False, values=['tanimoto', 'neg_l0', 'neg_l1', 'neg_l2', 'dice'])
+            takefocus=False, values=SimilarityMeasure.get_supported_metrics())
         self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
             anchor='center', relx='0.55', rely='0.45', x='0', y='0')
@@ -103,7 +108,7 @@ class MolsimUiApp:
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly")
         self.molecularDescriptorCombobox.configure(
-            cursor='arrow', justify='left', takefocus=False, values=['topological_fingerprint', 'morgan_fingerprint'])
+            cursor='arrow', justify='left', takefocus=False, values=Descriptor.get_supported_fprints())
         self.molecularDescriptorCombobox.place(
             anchor='center', relx='0.55', rely='0.55', x='0', y='0')
         self.molecularDescriptorCombobox.current(0)
@@ -115,12 +120,13 @@ class MolsimUiApp:
         self.openConfigButton = ttk.Button(self.mainframe)
         self.openConfigButton.configure(text='Open Config')
         self.openConfigButton.place(anchor='center', relx='0.5',
-                             rely='0.85', x='0', y='0')
+                                    rely='0.85', x='0', y='0')
         self.openConfigButton.configure(command=self.openConfigCallback)
         self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
         self.multiprocessingCheckbutton.configure(
             compound='top', cursor='arrow', offvalue='False', onvalue='True')
-        self.multiprocessingCheckbutton.configure(state='normal', text='Enable Multiple Workers')
+        self.multiprocessingCheckbutton.configure(
+            state='normal', text='Enable Multiple Workers')
         self.multiprocessingCheckbutton.place(
             anchor='center', relx='0.78', rely='0.95', x='0', y='0')
         self.mainframe.configure(height='400', width='400')
@@ -151,17 +157,20 @@ class MolsimUiApp:
 
         inner_dict = {}
         if('selected' in self.similarityPDFCheckbutton.state()):
-            inner_dict['plot_settings'] = {'plot_color': 'green', 'plot_title': 'Entire Dataset'}
+            inner_dict['plot_settings'] = {
+                'plot_color': 'green', 'plot_title': 'Entire Dataset'}
         if('selected' in self.similarityHeatmapCheckbutton.state()):
-            inner_dict['pairwise_heatmap_settings'] = {'annotate': False, 'cmap': 'viridis'}
-        if(len(inner_dict)>0):
+            inner_dict['pairwise_heatmap_settings'] = {
+                'annotate': False, 'cmap': 'viridis'}
+        if(len(inner_dict) > 0):
             tasks_dict['visualize_dataset'] = inner_dict
         if('selected' in self.similarityPlotCheckbutton.state()):
-            tasks_dict['compare_target_molecule'] = {'target_molecule_smiles': self.targetMolecule.get(), 'plot_settings': {'plot_color': 'orange', 'plot_title': 'Compared to Target Molecule'}, 'identify_closest_furthest': {'out_file_path': 'molSim-ui_output.txt'}}
+            tasks_dict['compare_target_molecule'] = {'target_molecule_smiles': self.targetMolecule.get(), 'plot_settings': {
+                'plot_color': 'orange', 'plot_title': 'Compared to Target Molecule'}, 'identify_closest_furthest': {'out_file_path': 'molSim-ui_output.txt'}}
         if('selected' in self.propertySimilarityCheckbutton.state()):
             tasks_dict['show_property_variation_w_similarity'] = {'property_file': self.databaseFile.get(),
-                      'most_dissimilar': True, 'similarity_plot_settings': {'plot_color': 'red'}}
-        
+                                                                  'most_dissimilar': True, 'similarity_plot_settings': {'plot_color': 'red'}}
+
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
         if 'selected' in self.multiprocessingCheckbutton.state():
             n_workers = os.cpu_count()/2
@@ -176,7 +185,7 @@ class MolsimUiApp:
         elif(file_extension == '.xlsx'):
             molecule_database_source_type = 'excel'
         else:
-            molecule_database_source_type = file_extension.replace('.','')
+            molecule_database_source_type = file_extension.replace('.', '')
 
         yamlOut = {'is_verbose': verboseChecked, 'n_workers': n_workers, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
                    'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
@@ -184,7 +193,8 @@ class MolsimUiApp:
         with open('molSim-ui-config.yaml', 'w') as outfile:
             yaml.dump(yamlOut, outfile, default_flow_style=False)
 
-        configs = yaml.load(open('molSim-ui-config.yaml', "r"), Loader=yaml.FullLoader)
+        configs = yaml.load(open('molSim-ui-config.yaml',
+                            "r"), Loader=yaml.FullLoader)
 
         tasks = configs.pop('tasks', None)
         if tasks is None:
