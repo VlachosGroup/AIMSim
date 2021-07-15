@@ -18,3 +18,7 @@ molSim-ui-config.yaml
 
 # testing-related configuration file
 .no-speedup-test
+
+# coverage files
+.coverage
+htmlcov/*
