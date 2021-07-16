@@ -1,7 +1,8 @@
-""" Test multithreading to ensure consistent behavior with serial implementation."""
+""" Test multithreading to ensure consistent behavior with
+serial implementation."""
 import unittest
 from os import remove
-from os.path import exists
+from os.path import exists, join
 import numpy as np
 import pandas as pd
 import rdkit
@@ -21,7 +22,8 @@ class TestMultithreading(unittest.TestCase):
     """
     @classmethod
     def setUpClass(self):
-        """Create a SMILES database to use for comparisons and find the similarity matrix.
+        """Create a SMILES database to use for comparisons and
+        find the similarity matrix.
         """
         print(" ~ ~ Testing Multithreading ~ ~ ")
         # basic consistency tests
@@ -42,7 +44,7 @@ class TestMultithreading(unittest.TestCase):
 
         if NO_SPEEDUP_TEST:
             return
-        with open(r"tests\data\combinatorial_1.txt", "r") as file:
+        with open(join('tests', 'data', 'combinatorial_1.txt'), "r") as file:
             data = file.readlines()
             _100_molecules = data[1:102]
             _500_molecules = data[1:502]
