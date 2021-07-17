@@ -1,4 +1,4 @@
-"""Test for the Descriptor class"""
+"""Tests for the Descriptor class"""
 import unittest
 import numpy as np
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
@@ -10,11 +10,20 @@ SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 
 class TestDescriptor(unittest.TestCase):
     def test_descriptor_empty_init(self):
+        """
+        Test to verify empty Descriptor object can be created.
+
+        """
         descriptor = Descriptor()
         self.assertFalse(descriptor.check_init(),
                          'Expected Descriptor object to be uninitialized')
 
     def test_descriptor_arbitrary_list_init(self):
+        """
+        Test to verify creation of Descriptor object initialized
+        by arbitrary list.
+
+        """
         descriptor_value = [1, 2, 3]
         descriptor = Descriptor(value=descriptor_value)
         self.assertTrue(descriptor.check_init(),
@@ -30,6 +39,11 @@ class TestDescriptor(unittest.TestCase):
             descriptor.to_rdkit()
 
     def test_descriptor_arbitrary_numpy_init(self):
+        """
+        Test to verify creation of Descriptor object initialized
+        by arbitrary numpy array.
+
+        """
         descriptor_value = np.array([1, 2, 3])
         descriptor = Descriptor(value=descriptor_value)
         self.assertTrue(descriptor.check_init(),
@@ -45,6 +59,11 @@ class TestDescriptor(unittest.TestCase):
             descriptor.to_rdkit()
 
     def test_descriptor_make_fingerprint(self):
+        """
+        Test to verify creation of Descriptor object by
+        creating molecular fingerprints from the molecule graph.
+
+        """
         mol_graph = MolFromSmiles('CCC')
         for fprint in SUPPORTED_FPRINTS:
             descriptor = Descriptor()
