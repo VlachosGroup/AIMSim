@@ -527,7 +527,7 @@ class MoleculeSet:
                                                     == cluster_id].tolist()
         return cluster_grouped_mol_names
     
-    def unsupervised_transform(self, method_='pca'):
+    def get_transformed_descriptors(self, method_='pca'):
         if method_.lower() == 'pca':
             return self._do_pca()
     
