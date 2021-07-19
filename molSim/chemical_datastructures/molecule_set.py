@@ -8,6 +8,8 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
 from molSim.chemical_datastructures import Molecule
@@ -339,6 +341,23 @@ class MoleculeSet:
 
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
+    
+    def _do_pca(self, get_component_info=False):
+        pca = PCA()
+        X = [molecule.get_descriptor_val() 
+                for molecule in self.molecule_database]
+        scaler = StandardScaler()
+        X = scaler.fit_transform(X)
+        X = pca.fit_transform(X)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'components_': pca.components_,
+                'explained_variance_': pca.explain_variance_,
+                'explained_variance_ratio_': pca.explained_variance_ratio_,
+                'singular_values_': pca.singular_values_}
+            return X, component_info
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
@@ -452,6 +471,7 @@ class MoleculeSet:
 
         """
         return self.similarity_measure.to_distance(self.similarity_matrix)
+
     def get_pairwise_similarities(self):
         pairwise_similarity_vector = []
         for ref_mol in range(len(self.molecule_database)):
@@ -506,3 +526,9 @@ class MoleculeSet:
                                                     self.clusters.get_labels()
                                                     == cluster_id].tolist()
         return cluster_grouped_mol_names
+    
+    def unsupervised_transform(self, method_='pca'):
+        if method_.lower() == 'pca':
+            return self._do_pca()
+    
+
