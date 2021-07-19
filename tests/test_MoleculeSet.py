@@ -1,3 +1,4 @@
+"""Test the MoleculeSet class."""
 from os import remove, mkdir
 import os.path
 from shutil import rmtree
@@ -23,6 +24,19 @@ class TestMoleculeSet(unittest.TestCase):
     test_smiles = ['C', 'CC', 'CCC', 'O']
     
     def smiles_seq_to_textfile(self, property_seq=None):
+        """Helper method to convert a SMILES sequence to a text file.
+        
+        Parameters
+        ----------
+        property_seq : list or np.ndarray
+            Optional sequence of molecular responses.
+        
+        Returns
+        -------
+        text_fpath : str
+            Path to created file.
+        
+        """
         text_fpath = 'temp_smiles_seq.txt'
         print(f'Creating text file {text_fpath}')
         with open(text_fpath, "w") as fp:
@@ -37,6 +51,20 @@ class TestMoleculeSet(unittest.TestCase):
         return text_fpath
     
     def smiles_seq_to_pdb_dir(self, property_seq=None):
+        """Helper method to convert a SMILES sequence to a pdb files 
+        stored in a directory.
+        
+        Parameters
+        ----------
+        property_seq : list or np.ndarray
+            Optional sequence of molecular responses.
+        
+        Returns
+        -------
+        dir_path : str
+            Path to created directory.
+        
+        """
         dir_path = 'test_dir'
         if not os.path.isdir(dir_path):
             print(f'Creating directory {dir_path}')
@@ -54,6 +82,26 @@ class TestMoleculeSet(unittest.TestCase):
                                 property_seq=None,
                                 name_seq=None,
                                 feature_arr=None):
+        """Helper method to convert a SMILES sequence or arbitrary features 
+        to Excel or CSV files.
+        
+        Parameters
+        ----------
+        ftype : str
+            String label to denote the filetype. 'csv' or 'excel'.
+        property_seq : list or np.ndarray
+            Optional sequence of molecular responses.
+        name_seq : list or np.ndarray
+            Optional sequence of molecular names.
+        feature_arr : np.ndarray
+            Optional array of molecular descriptor values.
+        
+        Returns
+        -------
+        fpath : str
+            Path to created file.
+        
+        """
         data = {'feature_smiles': self.test_smiles}
         if property_seq is not None:
             data.update({'response_random': property_seq})
@@ -79,6 +127,11 @@ class TestMoleculeSet(unittest.TestCase):
         return fpath
                 
     def test_set_molecule_database_from_textfile(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        from a textfile.
+
+        """
         text_fpath = self.smiles_seq_to_textfile()
         molecule_set = MoleculeSet(molecule_database_src=text_fpath,
                                    molecule_database_src_type='text',
@@ -107,6 +160,10 @@ class TestMoleculeSet(unittest.TestCase):
         remove(text_fpath)
 
     def test_subsample_molecule_database_from_textfile(self):
+        """
+        Test to randomly subsample a molecule database loaded from a textfile.
+
+        """
         text_fpath = self.smiles_seq_to_textfile()
         sampling_ratio = 0.5
         molecule_set = MoleculeSet(molecule_database_src=text_fpath,
@@ -129,6 +186,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(text_fpath)
     
     def test_set_molecule_database_w_property_from_textfile(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        and molecular responses from a textfile.
+        
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
         molecule_set = MoleculeSet(molecule_database_src=text_fpath,
@@ -161,6 +223,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(text_fpath)
     
     def test_set_molecule_database_from_pdb_dir(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        from a directory of pdb files.
+        
+        """
         dir_path = self.smiles_seq_to_pdb_dir(self.test_smiles)
         molecule_set = MoleculeSet(molecule_database_src=dir_path,
                                    molecule_database_src_type='directory',
@@ -188,6 +255,11 @@ class TestMoleculeSet(unittest.TestCase):
         rmtree(dir_path)
 
     def test_subsample_molecule_database_from_pdb_dir(self):
+        """
+        Test to randomly subsample a molecule database loaded from a 
+        directory of pdb files.
+
+        """
         dir_path = self.smiles_seq_to_pdb_dir(self.test_smiles)
         sampling_ratio = 0.5
         molecule_set = MoleculeSet(molecule_database_src=dir_path,
@@ -210,6 +282,11 @@ class TestMoleculeSet(unittest.TestCase):
         rmtree(dir_path)
 
     def test_set_molecule_database_from_excel(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        from an Excel file.
+        
+        """
         xl_fpath = self.smiles_seq_to_xl_or_csv(ftype='excel')
         molecule_set = MoleculeSet(molecule_database_src=xl_fpath,
                                    molecule_database_src_type='excel',
@@ -239,6 +316,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(xl_fpath)
 
     def test_subsample_molecule_database_from_excel(self):
+        """
+        Test to randomly subsample a molecule database loaded from an 
+        Excel file.
+
+        """
         xl_fpath = self.smiles_seq_to_xl_or_csv(ftype='excel')
         sampling_ratio = 0.5
         molecule_set = MoleculeSet(molecule_database_src=xl_fpath,
@@ -262,6 +344,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(xl_fpath)
     
     def test_set_molecule_database_w_property_from_excel(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        and molecular responses from an Excel file.
+        
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         xl_fpath = self.smiles_seq_to_xl_or_csv(ftype='excel', 
                                                 property_seq=properties)
@@ -296,6 +383,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(xl_fpath)
 
     def test_set_molecule_database_w_descriptor_property_from_excel(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        containing arbitrary molecular descriptor values from an Excel file.
+        
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
@@ -336,6 +428,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(xl_fpath)
 
     def test_set_molecule_database_from_csv(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        and molecular responses from a CSV file.
+        
+        """
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
                                    molecule_database_src_type='csv',
@@ -365,6 +462,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
 
     def test_subsample_molecule_database_from_csv(self):
+        """
+        Test to randomly subsample a molecule database loaded from an 
+        CSV file.
+
+        """
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         sampling_ratio = 0.5
         molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
@@ -388,6 +490,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
     
     def test_set_molecule_database_w_property_from_csv(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        and molecular responses from a CSV file.
+        
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
                                                  property_seq=properties)
@@ -416,6 +523,12 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
 
     def test_set_molecule_database_w_descriptor_property_from_csv(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        containing arbitrary molecular descriptors and molecular responses 
+        from a CSV file.
+        
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
@@ -456,6 +569,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
 
     def test_set_molecule_database_w_similarity_from_csv(self):
+        """
+        Verify that a NotInitializedError is raised if no fingerprint_type 
+        is specified when instantiating a MoleculeSet object.
+
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
                                                  property_seq=properties)
@@ -471,6 +589,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
     
     def test_set_molecule_database_fingerprint_from_csv(self):
+        """
+        Verify that a TypeError is raised if no similarity_measure
+        is specified when instantiating a MoleculeSet object.
+        
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
                                                  property_seq=properties)
@@ -486,6 +609,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
     
     def test_set_molecule_database_w_fingerprint_similarity_from_csv(self):
+        """
+        Test all combinations of fingerprints and similarity measures with the
+        MoleculeSet class.
+
+        """
         properties = np.random.normal(size=len(self.test_smiles))
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv', 
                                                  property_seq=properties)
@@ -511,6 +639,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
     
     def test_get_most_similar_pairs(self):
+        """
+        Test that all combinations of fingerprint_type and similarity measure
+        works with the MoleculeSet.get_most_similar_pairs() method.
+
+        """
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
@@ -531,6 +664,11 @@ class TestMoleculeSet(unittest.TestCase):
                                           ' to be tuples')
     
     def test_get_most_dissimilar_pairs(self):
+        """
+        Test that all combinations of fingerprint_type and similarity measure
+        works with the MoleculeSet.get_most_dissimilar_pairs() method.
+        
+        """
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
