@@ -21,7 +21,15 @@ SUPPORTED_FPRINTS = ['morgan_fingerprint', 'topological_fingerprint']
 
 
 class TestMolecule(unittest.TestCase):
+    """
+    Tests for methods of Molecule class.
+
+    """
     def test_molecule_created_with_no_attributes(self):
+        """
+        Test for creation of empty Molecule object with no attributes.
+
+        """
         test_molecule = Molecule()
         self.assertIsNone(test_molecule.mol_graph,
                           'Expected attribute mol_graph to be None '
@@ -37,6 +45,11 @@ class TestMolecule(unittest.TestCase):
                          'for uninitialized Molecule')
 
     def test_molecule_created_w_attributes(self):
+        """
+        Test to create Molecule object with descriptor value (list) and a 
+        response scalar.
+
+        """
         test_molecule = Molecule(mol_text='test_molecule',
                                  mol_property_val=42,
                                  mol_descriptor_val=[1, 2, 3])
@@ -54,6 +67,10 @@ class TestMolecule(unittest.TestCase):
                          'it was initialized by list/array')
 
     def test_set_molecule_from_smiles(self):
+        """
+        Test to create Molecule object by reading SMILES string.
+
+        """
         test_smiles = 'CC'
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
@@ -68,6 +85,13 @@ class TestMolecule(unittest.TestCase):
                               "be rdkit.Chem.rdchem.Mol object")
 
     def test_set_molecule_from_file(self):
+        """
+        Test to create Molecule object by reading the contents of a file.
+
+        Case #1: text file
+        Case #2: PDB file
+
+        """
         test_smiles = 'CC'
         # Case 1: text file
         test_text_molecule = Molecule()
@@ -113,6 +137,10 @@ class TestMolecule(unittest.TestCase):
         remove(test_pdb_filename)
     
     def test_molecule_draw(self):
+        """
+        Test to draw molecule stored in Molecule object.
+
+        """
         test_smiles = 'CC'
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
@@ -126,6 +154,11 @@ class TestMolecule(unittest.TestCase):
             print(f'Could not find {test_image_fpath}')
 
     def test_molecule_graph_similar_to_itself_morgan_tanimoto(self):
+        """
+        Test that the morgan fingerprint of a Molecule object is similar 
+        to itself using Tanimoto similarity.
+
+        """
         test_smiles = 'CC'
         fingerprint_type = 'morgan_fingerprint'
         similarity_metric = 'tanimoto'
@@ -145,6 +178,11 @@ class TestMolecule(unittest.TestCase):
                          'molecule graph to itself')
 
     def test_molecule_graph_similar_to_itself_morgan_negl0(self):
+        """
+        Test that the morgan fingerprint of a Molecule object is similar 
+        to itself using negative L0 norm similarity.
+
+        """
         test_smiles = 'CC'
         fingerprint_type = 'morgan_fingerprint'
         similarity_metric = 'negative_l0'
@@ -164,6 +202,11 @@ class TestMolecule(unittest.TestCase):
                          'molecule graph to itself')
 
     def test_molecule_graph_similar_to_itself_morgan_dice(self):
+        """
+        Test that the morgan fingerprint of a Molecule object is similar 
+        to itself using dice similarity.
+
+        """
         test_smiles = 'CCO'
         fingerprint_type = 'morgan_fingerprint'
         similarity_metric = 'dice'
