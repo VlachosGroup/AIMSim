@@ -9,6 +9,8 @@ import pandas as pd
 import rdkit
 from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 from molSim.chemical_datastructures import Molecule, MoleculeSet
 from molSim.exceptions import NotInitializedError
@@ -687,7 +689,29 @@ class TestMoleculeSet(unittest.TestCase):
                                           'Expected elements of list returned'
                                           ' by get_most_dissimilar_pairs() '
                                           'to be tuples')
-
+    
+    def test_pca_transform(self):
+        """ 
+        Test the unsupervised transformation of molecules in 
+        MoleculSet using Principal Component Analysis.
+        
+        """
+        n_features = 20
+        features = np.random.normal(size=(len(self.test_smiles), n_features))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv',
+                                                 feature_arr=features)
+        molecule_set = MoleculeSet(molecule_database_src=csv_fpath,
+                                   molecule_database_src_type='csv',
+                                   similarity_measure='negative_l0',
+                                   is_verbose=True)
+        features = StandardScaler().fit_transform(features)
+        features = PCA().fit_transform(features)
+        error_matrix = features - molecule_set.get_transformed_descriptors()
+        error_threshold = 1e-6
+        self.assertLessEqual(error_matrix.min(), error_threshold,
+                            'Expected transformed molecular descriptors to be '
+                            'equal to PCA decomposed features')
+        
 
 if __name__ == '__main__':
     unittest.main()
