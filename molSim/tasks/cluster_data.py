@@ -44,7 +44,7 @@ class ClusterData(Task):
         molecule_set.cluster(n_clusters=self.n_clusters, 
                              clustering_method=self.clustering_method)
         mol_names = molecule_set.get_mol_names()
-        cluster_labels = molecule_set.get_cluster_labels() ### have to implement
+        cluster_labels = molecule_set.get_cluster_labels()
         cluster_grouped_mol_names = {}
         for cluster_id in range(self.n_clusters):
             cluster_grouped_mol_names[cluster_id] = mol_names[
