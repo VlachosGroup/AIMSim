@@ -481,6 +481,13 @@ class MoleculeSet:
         return np.array(pairwise_similarity_vector)
 
     def get_mol_names(self):
+        """
+        Get names of the molecules in the set.
+
+        Returns
+        -------
+        np.ndarray
+        """
         mol_names = []
         for mol_id, mol in enumerate(self.molecule_database):
             mol_name = mol.get_name()
@@ -488,7 +495,7 @@ class MoleculeSet:
                 mol_names.append('id: ' + str(mol_id))
             else:
                 mol_names.append(mol_name)
-        return mol_names
+        return np.array(mol_names)
 
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
         """
