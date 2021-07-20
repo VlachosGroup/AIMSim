@@ -80,7 +80,6 @@ class MoleculeSet:
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
-        self.clusters = None
 
     def _get_molecule_database(self,
                                molecule_database_src,
@@ -516,17 +515,13 @@ class MoleculeSet:
             else:
                 clustering_method = 'complete_linkage'
 
-        self.clusters = Cluster(n_clusters=n_clusters, 
+        self.clusters_ = Cluster(n_clusters=n_clusters, 
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
-        mol_names = np.array(self.get_mol_names())
-        cluster_grouped_mol_names = {}
-        for cluster_id in range(n_clusters):
-            cluster_grouped_mol_names[cluster_id] = mol_names[
-                                                    self.clusters.get_labels()
-                                                    == cluster_id].tolist()
-        return cluster_grouped_mol_names
-    
+
+    def get_cluster_labels(self):
+        pass
+
     def get_transformed_descriptors(self, method_='pca'):
         if method_.lower() == 'pca':
             return self._do_pca()
