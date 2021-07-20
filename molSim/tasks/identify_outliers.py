@@ -25,12 +25,12 @@ class IdentifyOutliers(Task):
             molecule_set (list): List of RDKit molecule objects.
         """
         descs = []
-        for molecule in self.molecule_set:
+        for molecule in molecule_set.molecule_database:
             descs.append(molecule.descriptor.to_numpy())
         iof = IsolationForest()
         iof.fit(descs)
         print(" ~"*10 + " Outlier Detection " + "~ "*10)
-        for nmol, anomaly in zip(range(len(molecule_set)), iof.predict(descs)):
+        for nmol, anomaly in zip(range(len(molecule_set.molecule_database)), iof.predict(descs)):
             if anomaly == -1:
                 warnings.warn("Molecule {} (name: {}) is a potential outlier ({:.2f} outlier score)".format(
                     nmol + 1, molecule.mol_text, iof.decision_function(descs[nmol].reshape(1, -1))[0]))
