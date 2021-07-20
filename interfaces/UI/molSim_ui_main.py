@@ -188,7 +188,7 @@ class MolsimUiApp:
             molecule_database_source_type = file_extension.replace('.', '')
 
         yamlOut = {'is_verbose': verboseChecked, 'n_workers': n_workers, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
-                   'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
+                   'fingerprint_type': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
         with open('molSim-ui-config.yaml', 'w') as outfile:
             yaml.dump(yamlOut, outfile, default_flow_style=False)

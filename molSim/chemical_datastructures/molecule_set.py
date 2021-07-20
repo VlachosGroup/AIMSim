@@ -334,13 +334,13 @@ class MoleculeSet:
             # check for outliers
             descs = []
             for molecule in self.molecule_database:
-                descs.append(molecule.molecular_descriptor)
+                descs.append(molecule.descriptor.to_numpy())
             iof = IsolationForest()
             iof.fit(descs)
-            for nmol, anomaly in zip(range(n_mols, iof.predict(descs))):
+            for nmol, anomaly in zip(range(n_mols), iof.predict(descs)):
                 if anomaly == -1:
-                    warnings.warn("Molecule {} is a potential outlier ({} outlier score)".format(
-                        nmol+1, iof.decision_function(descs[nmol])))
+                    warnings.warn("Molecule {} is a potential outlier ({:.2f} outlier score)".format(
+                        nmol+1, iof.decision_function(descs[nmol].reshape(1, -1))[0]))
 
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
