@@ -5,6 +5,7 @@ from glob import glob
 import os.path
 
 import multiprocess
+import warnings
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -12,6 +13,7 @@ from sklearn.decomposition import PCA
 from sklearn.exceptions import NotFittedError
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
+from sklearn.ensemble import IsolationForest
 
 from molSim.chemical_datastructures import Molecule
 from molSim.exceptions import NotInitializedError
@@ -330,6 +332,18 @@ class MoleculeSet:
 
         self.similarity_matrix = similarity_matrix
 
+        if self.is_verbose:
+            # check for outliers
+            descs = []
+            for molecule in self.molecule_database:
+                descs.append(molecule.descriptor.to_numpy())
+            iof = IsolationForest()
+            iof.fit(descs)
+            for nmol, anomaly in zip(range(n_mols), iof.predict(descs)):
+                if anomaly == -1:
+                    warnings.warn("Molecule {} is a potential outlier ({:.2f} outlier score)".format(
+                        nmol+1, iof.decision_function(descs[nmol].reshape(1, -1))[0]))
+
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
 
@@ -522,7 +536,6 @@ class MoleculeSet:
                 clustering_method = 'kmedoids'
             else:
                 clustering_method = 'complete_linkage'
-
         self.clusters_ = Cluster(n_clusters=n_clusters, 
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
@@ -536,5 +549,4 @@ class MoleculeSet:
     def get_transformed_descriptors(self, method_='pca'):
         if method_.lower() == 'pca':
             return self._do_pca()
-    
-
+   

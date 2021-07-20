@@ -173,7 +173,7 @@ class MolsimUiApp:
 
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
         if 'selected' in self.multiprocessingCheckbutton.state():
-            n_workers = os.cpu_count()/2
+            n_workers = (os.cpu_count()/2)-1
         else:
             n_workers = 1
 
@@ -188,7 +188,7 @@ class MolsimUiApp:
             molecule_database_source_type = file_extension.replace('.', '')
 
         yamlOut = {'is_verbose': verboseChecked, 'n_workers': n_workers, 'molecule_database': self.databaseFile.get(), 'molecule_database_source_type': 'text', 'similarity_measure': self.similarityMeasure.get(),
-                   'molecular_descriptor': self.molecularDescriptor.get(), 'tasks': tasks_dict}
+                   'fingerprint_type': self.molecularDescriptor.get(), 'tasks': tasks_dict}
 
         with open('molSim-ui-config.yaml', 'w') as outfile:
             yaml.dump(yamlOut, outfile, default_flow_style=False)
@@ -207,6 +207,11 @@ class MolsimUiApp:
         """Start the UI.
         """
         self.mainwindow.mainloop()
+
+
+def main():
+    app = MolsimUiApp()
+    app.run()
 
 
 if __name__ == '__main__':
