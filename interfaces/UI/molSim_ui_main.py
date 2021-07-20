@@ -173,7 +173,7 @@ class MolsimUiApp:
 
         verboseChecked = 'selected' in self.verboseCheckbutton.state()
         if 'selected' in self.multiprocessingCheckbutton.state():
-            n_workers = os.cpu_count()/2
+            n_workers = (os.cpu_count()/2)-1
         else:
             n_workers = 1
 

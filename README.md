@@ -67,7 +67,7 @@ _Note: Multiprocessing speedup and efficiency tests take more than 30 minutes to
 
 User interface:
 
-`python -m molSim-ui-main`
+`python -m molSim`
 
 To build the docs, execute the following with `sphinx` and `m2r` installed and from the `/docs` directory:
 

@@ -5,6 +5,7 @@ from glob import glob
 import os.path
 
 import multiprocess
+import warnings
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -335,7 +336,10 @@ class MoleculeSet:
             descs.append(molecule.molecular_descriptor)
         iof = IsolationForest()
         iof.fit(descs)
-        print(iof.predict(descs))
+        for nmol, anomaly in zip(range(n_mols, iof.predict(descs))):
+            if anomaly == -1:
+                warnings.warn("Molecule {} is a potential outlier ({} outlier score)".format(
+                    nmol+1, iof.decision_function(descs[nmol])))
 
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
