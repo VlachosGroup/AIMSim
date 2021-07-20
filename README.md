@@ -84,6 +84,7 @@ Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate 
 
 1. Morgan Fingerprint (Equivalent to the ECFP-6)
 2. RDKIT Topological Fingerprint
+3. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_only available through command-line. In `fingerprint_type`, specify 'mordred:desciptorname'._).
 
 ### Currently Implemented Similarity Scores
 
