@@ -330,16 +330,17 @@ class MoleculeSet:
 
         self.similarity_matrix = similarity_matrix
 
-        # check for outliers
-        descs = []
-        for molecule in self.molecule_database:
-            descs.append(molecule.molecular_descriptor)
-        iof = IsolationForest()
-        iof.fit(descs)
-        for nmol, anomaly in zip(range(n_mols, iof.predict(descs))):
-            if anomaly == -1:
-                warnings.warn("Molecule {} is a potential outlier ({} outlier score)".format(
-                    nmol+1, iof.decision_function(descs[nmol])))
+        if self.is_verbose:
+            # check for outliers
+            descs = []
+            for molecule in self.molecule_database:
+                descs.append(molecule.molecular_descriptor)
+            iof = IsolationForest()
+            iof.fit(descs)
+            for nmol, anomaly in zip(range(n_mols, iof.predict(descs))):
+                if anomaly == -1:
+                    warnings.warn("Molecule {} is a potential outlier ({} outlier score)".format(
+                        nmol+1, iof.decision_function(descs[nmol])))
 
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
