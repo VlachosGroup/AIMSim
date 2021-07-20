@@ -1,7 +1,9 @@
 """Reads a configuration file from the command line input and calls molSim.
 
 Raises:
-    IOError: If the tasks field is empty in the input file, an IOError will be raised.
+    IOError: If the tasks field is empty in the input file, 
+    an IOError will be raised.
+
 """
 from argparse import ArgumentParser
 
@@ -10,7 +12,7 @@ import yaml
 from molSim.tasks import TaskManager
 
 
-def main():
+if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('config', help='Path to config yaml file.')
     args = parser.parse_args()
