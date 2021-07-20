@@ -202,7 +202,7 @@ def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     plt.yticks(fontsize=plot_params['yticksize'])
     plt.show()
 
-def scatter(x, y, **kwargs):
+def plot_scatter(x, y, **kwargs):
     """Plot scatter plot of x vs y.
 
     Parameters
