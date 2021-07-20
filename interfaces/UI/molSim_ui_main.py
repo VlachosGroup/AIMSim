@@ -129,6 +129,13 @@ class MolsimUiApp:
             state='normal', text='Enable Multiple Workers')
         self.multiprocessingCheckbutton.place(
             anchor='center', relx='0.78', rely='0.95', x='0', y='0')
+        self.identifyOutliersCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.identifyOutliersCheckbutton.configure(
+            compound='top', cursor='arrow', offvalue='False', onvalue='True')
+        self.identifyOutliersCheckbutton.configure(
+            state='normal', text='Outlier Check')
+        self.identifyOutliersCheckbutton.place(
+            anchor='center', relx='0.4', rely='0.95', x='0', y='0')
         self.mainframe.configure(height='400', width='400')
         self.mainframe.place(anchor='nw', relheight='0.9',
                              rely='0.1', x='0', y='0')
@@ -164,6 +171,9 @@ class MolsimUiApp:
                 'annotate': False, 'cmap': 'viridis'}
         if(len(inner_dict) > 0):
             tasks_dict['visualize_dataset'] = inner_dict
+        if('selected' in self.identifyOutliersCheckbutton.state()):
+            tasks_dict['identify_outliers'] = {
+                'output': 'terminal'}
         if('selected' in self.similarityPlotCheckbutton.state()):
             tasks_dict['compare_target_molecule'] = {'target_molecule_smiles': self.targetMolecule.get(), 'plot_settings': {
                 'plot_color': 'orange', 'plot_title': 'Compared to Target Molecule'}, 'identify_closest_furthest': {'out_file_path': 'molSim-ui_output.txt'}}

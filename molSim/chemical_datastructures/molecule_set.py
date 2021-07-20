@@ -13,7 +13,6 @@ from sklearn.decomposition import PCA
 from sklearn.exceptions import NotFittedError
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
-from sklearn.ensemble import IsolationForest
 
 from molSim.chemical_datastructures import Molecule
 from molSim.exceptions import NotInitializedError
@@ -332,18 +331,6 @@ class MoleculeSet:
 
         self.similarity_matrix = similarity_matrix
 
-        if self.is_verbose:
-            # check for outliers
-            descs = []
-            for molecule in self.molecule_database:
-                descs.append(molecule.descriptor.to_numpy())
-            iof = IsolationForest()
-            iof.fit(descs)
-            for nmol, anomaly in zip(range(n_mols), iof.predict(descs)):
-                if anomaly == -1:
-                    warnings.warn("Molecule {} is a potential outlier ({:.2f} outlier score)".format(
-                        nmol+1, iof.decision_function(descs[nmol].reshape(1, -1))[0]))
-
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
 
@@ -355,11 +342,11 @@ class MoleculeSet:
 
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
-    
+
     def _do_pca(self, get_component_info=False):
         pca = PCA()
-        X = [molecule.get_descriptor_val() 
-                for molecule in self.molecule_database]
+        X = [molecule.get_descriptor_val()
+             for molecule in self.molecule_database]
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
         X = pca.fit_transform(X)
@@ -536,17 +523,16 @@ class MoleculeSet:
                 clustering_method = 'kmedoids'
             else:
                 clustering_method = 'complete_linkage'
-        self.clusters_ = Cluster(n_clusters=n_clusters, 
-                                clustering_method=clustering_method,
-                                **kwargs).fit(self.get_distance_matrix())
+        self.clusters_ = Cluster(n_clusters=n_clusters,
+                                 clustering_method=clustering_method,
+                                 **kwargs).fit(self.get_distance_matrix())
 
     def get_cluster_labels(self):
         try:
             return self.clusters_.get_labels()
-        except NotFittedError as e:    
+        except NotFittedError as e:
             raise e('Molecule set not clustered. Use cluster() to cluster.')
-       
+
     def get_transformed_descriptors(self, method_='pca'):
         if method_.lower() == 'pca':
             return self._do_pca()
-   
