@@ -10,8 +10,6 @@ from rdkit.Chem import Draw
 
 from molSim.exceptions import NotInitializedError
 from molSim.ops.descriptor import Descriptor
-from molSim.ops.similarity_measures import SimilarityMeasure
-from molSim.utils.helper_methods import get_feature_datatype
 
 
 class Molecule:
