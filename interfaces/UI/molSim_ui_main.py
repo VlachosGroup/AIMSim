@@ -209,6 +209,11 @@ class MolsimUiApp:
         self.mainwindow.mainloop()
 
 
+def main():
+    app = MolsimUiApp()
+    app.run()
+
+
 if __name__ == '__main__':
     app = MolsimUiApp()
     app.run()

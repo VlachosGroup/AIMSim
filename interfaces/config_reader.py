@@ -9,7 +9,8 @@ import yaml
 
 from molSim.tasks import TaskManager
 
-if __name__ == '__main__':
+
+def main():
     parser = ArgumentParser()
     parser.add_argument('config', help='Path to config yaml file.')
     args = parser.parse_args()

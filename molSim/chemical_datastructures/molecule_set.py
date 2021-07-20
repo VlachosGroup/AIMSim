@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem
 from sklearn.utils import resample
+from sklearn.ensemble import IsolationForest
 
 from molSim.chemical_datastructures import Molecule
 from molSim.exceptions import NotInitializedError
@@ -328,6 +329,14 @@ class MoleculeSet:
 
         self.similarity_matrix = similarity_matrix
 
+        # check for outliers
+        descs = []
+        for molecule in self.molecule_database:
+            descs.append(molecule.molecular_descriptor)
+        iof = IsolationForest()
+        iof.fit(descs)
+        print(iof.predict(descs))
+
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
 
@@ -452,6 +461,7 @@ class MoleculeSet:
 
         """
         return self.similarity_measure.to_distance(self.similarity_matrix)
+
     def get_pairwise_similarities(self):
         pairwise_similarity_vector = []
         for ref_mol in range(len(self.molecule_database)):
@@ -496,13 +506,13 @@ class MoleculeSet:
             else:
                 clustering_method = 'complete_linkage'
 
-        self.clusters = Cluster(n_clusters=n_clusters, 
+        self.clusters = Cluster(n_clusters=n_clusters,
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
         mol_names = np.array(self.get_mol_names())
         cluster_grouped_mol_names = {}
         for cluster_id in range(n_clusters):
             cluster_grouped_mol_names[cluster_id] = mol_names[
-                                                    self.clusters.get_labels()
-                                                    == cluster_id].tolist()
+                self.clusters.get_labels()
+                == cluster_id].tolist()
         return cluster_grouped_mol_names
