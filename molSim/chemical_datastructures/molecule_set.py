@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem
 from sklearn.decomposition import PCA
+from sklearn.exceptions import NotFittedError
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
@@ -520,8 +521,11 @@ class MoleculeSet:
                                 **kwargs).fit(self.get_distance_matrix())
 
     def get_cluster_labels(self):
-        pass
-
+        try:
+            return self.clusters_.get_labels()
+        except NotFittedError as e:    
+            raise e('Molecule set not clustered. Use cluster() to cluster.')
+       
     def get_transformed_descriptors(self, method_='pca'):
         if method_.lower() == 'pca':
             return self._do_pca()
