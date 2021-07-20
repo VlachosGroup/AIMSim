@@ -135,6 +135,16 @@ class Molecule:
                                              fingerprint_type=fingerprint_type)
         else:
             raise ValueError(f'No descriptor vector were passed.')
+        
+    def get_descriptor_val(self):
+        """ Get value of molecule descriptor.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+        return self.descriptor.to_numpy()
 
     def get_similarity_to_molecule(self,
                                    target_mol,

@@ -9,6 +9,9 @@ import warnings
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from sklearn.decomposition import PCA
+from sklearn.exceptions import NotFittedError
+from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 from sklearn.ensemble import IsolationForest
 
@@ -80,7 +83,6 @@ class MoleculeSet:
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
-        self.clusters = None
 
     def _get_molecule_database(self,
                                molecule_database_src,
@@ -353,6 +355,23 @@ class MoleculeSet:
 
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
+    
+    def _do_pca(self, get_component_info=False):
+        pca = PCA()
+        X = [molecule.get_descriptor_val() 
+                for molecule in self.molecule_database]
+        scaler = StandardScaler()
+        X = scaler.fit_transform(X)
+        X = pca.fit_transform(X)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'components_': pca.components_,
+                'explained_variance_': pca.explain_variance_,
+                'explained_variance_ratio_': pca.explained_variance_ratio_,
+                'singular_values_': pca.singular_values_}
+            return X, component_info
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
@@ -476,6 +495,13 @@ class MoleculeSet:
         return np.array(pairwise_similarity_vector)
 
     def get_mol_names(self):
+        """
+        Get names of the molecules in the set.
+
+        Returns
+        -------
+        np.ndarray
+        """
         mol_names = []
         for mol_id, mol in enumerate(self.molecule_database):
             mol_name = mol.get_name()
@@ -483,7 +509,7 @@ class MoleculeSet:
                 mol_names.append('id: ' + str(mol_id))
             else:
                 mol_names.append(mol_name)
-        return mol_names
+        return np.array(mol_names)
 
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
         """
@@ -510,14 +536,17 @@ class MoleculeSet:
                 clustering_method = 'kmedoids'
             else:
                 clustering_method = 'complete_linkage'
-
-        self.clusters = Cluster(n_clusters=n_clusters,
+        self.clusters_ = Cluster(n_clusters=n_clusters, 
                                 clustering_method=clustering_method,
                                 **kwargs).fit(self.get_distance_matrix())
-        mol_names = np.array(self.get_mol_names())
-        cluster_grouped_mol_names = {}
-        for cluster_id in range(n_clusters):
-            cluster_grouped_mol_names[cluster_id] = mol_names[
-                self.clusters.get_labels()
-                == cluster_id].tolist()
-        return cluster_grouped_mol_names
+
+    def get_cluster_labels(self):
+        try:
+            return self.clusters_.get_labels()
+        except NotFittedError as e:    
+            raise e('Molecule set not clustered. Use cluster() to cluster.')
+       
+    def get_transformed_descriptors(self, method_='pca'):
+        if method_.lower() == 'pca':
+            return self._do_pca()
+   
