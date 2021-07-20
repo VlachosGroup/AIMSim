@@ -103,7 +103,7 @@ This can be inputted as a .txt file containing rows of name property pairs. An e
 provided in the file smiles_responses.txt. This option is typically used to check the suitability of the fingerprint / similarity measure
 for a property of interest. If they do a good job for the particular property then the parity plot should be scattered around the diagonal.
 
-3. identify_outliers: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor.
+3. identify_outliers: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying `otuput` to be `terminal` or to a text file by instead providing a filename.
 
 ## Credits and Licensing
 
