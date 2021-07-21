@@ -14,7 +14,6 @@ from sklearn.preprocessing import StandardScaler
 
 from molSim.chemical_datastructures import Molecule, MoleculeSet
 from molSim.exceptions import NotInitializedError
-from molSim.ops import Descriptor, SimilarityMeasure
 
 
 SUPPORTED_SIMILARITIES = ['tanimoto', 'jaccard', 'negative_l0',
@@ -711,7 +710,37 @@ class TestMoleculeSet(unittest.TestCase):
         self.assertLessEqual(error_matrix.min(), error_threshold,
                             'Expected transformed molecular descriptors to be '
                             'equal to PCA decomposed features')
-        
+    
+    def test_clustering_fingerprints(self):
+        """
+        Test the clustering of molecules featurized by their fingerprints.
+
+        """
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
+        n_clusters = 3
+        for descriptor in SUPPORTED_FPRINTS:
+            for similarity_measure in SUPPORTED_SIMILARITIES:
+                molecule_set = MoleculeSet(
+                                        molecule_database_src=csv_fpath,
+                                        molecule_database_src_type='csv',
+                                        fingerprint_type=descriptor,
+                                        similarity_measure=similarity_measure,
+                                        is_verbose=True)
+                with self.assertRaises(NotInitializedError):  
+                    molecule_set.get_cluster_labels()
+                molecule_set.cluster(n_clusters=n_clusters)
+                self.assertLessEqual(len(set(molecule_set.get_cluster_labels())), 
+                                     n_clusters,
+                                     'Expected number of cluster labels to be '
+                                     'less than equal to number of clusters')
+                if similarity_measure in ['negative_l0',
+                                          'negative_l1', 
+                                          'negative_l2']:
+                    self.assertEqual(str(molecule_set.clusters_), 'kmedoids')
+                else:
+                    self.assertEqual(str(molecule_set.clusters_), 
+                                     'complete_linkage')
+
 
 if __name__ == '__main__':
     unittest.main()
