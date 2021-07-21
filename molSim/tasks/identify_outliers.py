@@ -40,7 +40,7 @@ class IdentifyOutliers(Task):
                 msg = "Molecule {} (name: {}) is a potential outlier " \
                       "({:.2f} outlier score)".format(
                         nmol + 1,
-                        molecule.mol_text,
+                        molecule_set.molecule_database[nmol],
                         iof.decision_function(descs[nmol].reshape(1, -1))[0])
                 if self.output == 'terminal':
                     warnings.warn(msg)
