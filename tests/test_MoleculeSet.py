@@ -708,8 +708,8 @@ class TestMoleculeSet(unittest.TestCase):
         error_matrix = features - molecule_set.get_transformed_descriptors()
         error_threshold = 1e-6
         self.assertLessEqual(error_matrix.min(), error_threshold,
-                            'Expected transformed molecular descriptors to be '
-                            'equal to PCA decomposed features')
+                             'Expected transformed molecular descriptors to be '
+                             'equal to PCA decomposed features')
     
     def test_clustering_fingerprints(self):
         """
