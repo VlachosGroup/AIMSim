@@ -2,6 +2,7 @@
 from .task import Task
 from molSim.utils.plotting_scripts import plot_density, plot_heatmap
 
+
 class VisualizeDataset(Task):
     def __init__(self, configs):
         if configs is None:
