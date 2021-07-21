@@ -14,8 +14,9 @@ import numpy as np
 from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
+from mordred import Calculator, descriptors
 
-from ..exceptions import NotInitializedError
+from ..exceptions import NotInitializedError, MordredCalculatorError
 
 
 class Descriptor:
@@ -114,6 +115,29 @@ class Descriptor:
                                               maxPath=max_path)
         self.label_ = 'topological_fingerprint'
 
+    def _set_mordred_descriptor(self, molecule_graph, descriptor):
+        """Set the value of numpy_ to the descriptor as indicated by descriptor.
+
+        Args:
+            molecule_graph (RDKit object): Graph of the molecule of interest.
+            descriptor (string): Name of descriptor, as implemented in Mordred.
+
+        Raises:
+            MordredCalculatorError: If Morded is unable to calculate a value
+                for the indicated descriptor, this exception will be raised.
+        """
+        try:
+            calc = Calculator(descriptors, ignore_3D=False)
+            res = calc(molecule_graph)
+            res.drop_missing()
+            self.numpy_ = np.array(res[descriptor])
+            self.label_ = descriptor
+        except KeyError:
+            raise MordredCalculatorError(
+                """Mordred descriptor calculator unable to calculate descriptor \"{}\",
+                ensure correct name is used (https://mordred-descriptor.github.io/documentation/master/descriptors.html).""" .format(
+                    descriptor))
+
     def make_fingerprint(self,
                          molecule_graph,
                          fingerprint_type,
@@ -141,6 +165,11 @@ class Descriptor:
             self._set_rdkit_topological_fingerprint(
                 molecule_graph=molecule_graph,
                 **kwargs)
+        elif fingerprint_type.split(":")[0] == 'mordred':
+            self._set_mordred_descriptor(
+                molecule_graph=molecule_graph,
+                descriptor=fingerprint_type.split(":")[1],
+                ** kwargs)
         else:
             raise ValueError(f'{fingerprint_type} not supported')
 
