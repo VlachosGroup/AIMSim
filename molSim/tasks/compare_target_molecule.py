@@ -1,5 +1,5 @@
 from os import makedirs
-from os.path import basename
+from os.path import dirname
 from molSim.chemical_datastructures import Molecule
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,7 +29,7 @@ class CompareTargetMolecule(Task):
 
         self.log_fpath = self.configs.get('log_file_path', None)
         if self.log_fpath is not None:
-            log_dir = basename(self.log_fpath)
+            log_dir = dirname(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
 
         self.plot_settings = self.configs.get('similarity_plot_settings', {})

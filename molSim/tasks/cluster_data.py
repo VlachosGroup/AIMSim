@@ -1,5 +1,5 @@
 from os import makedirs
-from os.path import basename
+from os.path import dirname
 
 import matplotlib.pyplot as plt
 import yaml
@@ -32,12 +32,12 @@ class ClusterData(Task):
 
         self.log_fpath = self.configs.get('log_file_path', None)
         if self.log_fpath is not None:
-            log_dir = basename(self.log_fpath)
+            log_dir = dirname(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
         
         self.cluster_fpath = self.configs.get('cluster_file_path', None)
         if self.cluster_fpath is not None:
-            cluster_dir = basename(self.cluster_fpath)
+            cluster_dir = dirname(self.cluster_fpath)
             makedirs(cluster_dir, exist_ok=True)
     
     def __call__(self, molecule_set):
