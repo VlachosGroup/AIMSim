@@ -1,0 +1,21 @@
+is_verbose: True
+molecule_database: 'C:\Users\jwb1j\OneDrive\Documents\GitHub\molSim\tests\data\small.smi'
+molecule_database_source_type: text
+similarity_measure: 'tanimoto'
+# currently implements: 'rdkit topological' / 'morgan_fingerprint' (DEFAULT)
+fingerprint_type: 'topological_fingerprint'
+
+# The task field decides what you want to do
+# Each task field contains a sub-task field which further modifies the task.
+# The task fields are arranged as:
+  # tasks:
+     # task 1:
+        # sub-tasks of task 1
+# The lines beginning with '#!' can be directly uncommented to implement them.
+
+tasks:
+  visualize_dataset:
+      heatmap_plot_settings:
+          plot_color: 'green' # Set a color recognized by matplotlib.
+                             # Default is 'red'.
+          plot_title: 'Entire Dataset'  # Set a title for plot if needed.

@@ -1,6 +1,5 @@
 from molSim.chemical_datastructures import MoleculeSet
-from molSim.tasks import CompareTargetMolecule, VisualizeDataset, ClusterData
-from molSim.tasks import ShowPropertyVariationWithSimilarity
+from molSim.tasks import *
 
 
 class TaskManager:
@@ -25,17 +24,19 @@ class TaskManager:
         tasks: dict
             The tasks field of the config yaml containing various tasks
             and their parameters.
-        
+
         """
         for task, task_configs in tasks.items():
-            try: 
+            try:
                 if task == 'compare_target_molecule':
                     loaded_task = CompareTargetMolecule(task_configs)
                 elif task == 'visualize_dataset':
                     loaded_task = VisualizeDataset(task_configs)
                 elif task == 'show_property_variation_w_similarity':
                     loaded_task = ShowPropertyVariationWithSimilarity(
-                                                                   task_configs)
+                        task_configs)
+                elif task == 'identify_outliers':
+                    loaded_task = IdentifyOutliers(task_configs)
                 elif task == 'cluster':
                     loaded_task = ClusterData(task_configs)
                 else:
@@ -50,7 +51,7 @@ class TaskManager:
         if len(self.to_do) == 0:
             print('No tasks were read. Exiting')
             exit(1)
-    
+
     def _initialize_molecule_set(self, molecule_set_configs):
         """Initialize molecule_set attribute to a MoleculeSet object 
         based on parameters in the config file
@@ -64,8 +65,8 @@ class TaskManager:
         molecule_database_src = molecule_set_configs.get('molecule_database',
                                                          None)
         database_src_type = molecule_set_configs.get(
-                                                'molecule_database_source_type',
-                                                None)
+            'molecule_database_source_type',
+            None)
         if molecule_database_src is None or database_src_type is None:
             print('molecule_database fields not set in config file')
             print(f'molecule_database: {molecule_database_src}')
@@ -78,33 +79,25 @@ class TaskManager:
         fingerprint_type = molecule_set_configs.get('fingerprint_type',
                                                     None)
         self.molecule_set = MoleculeSet(
-                                molecule_database_src=molecule_database_src,
-                                molecule_database_src_type=database_src_type,
-                                similarity_measure=similarity_measure,
-                                fingerprint_type=fingerprint_type,
-                                is_verbose=is_verbose,
-                                n_threads=n_threads)
+            molecule_database_src=molecule_database_src,
+            molecule_database_src_type=database_src_type,
+            similarity_measure=similarity_measure,
+            fingerprint_type=fingerprint_type,
+            is_verbose=is_verbose,
+            n_threads=n_threads)
 
     def __call__(self, molecule_set_configs):
         """Launch all tasks from the queue.
-                
+
         Parameters
         ----------
         molecule_set_configs: dict
-        
+
         """
         self._initialize_molecule_set(molecule_set_configs)
         if self.molecule_set.is_verbose:
             print('Beginning tasks...')
         for task_id, task in enumerate(self.to_do):
             print(f'Task ({task_id + 1} / {len(self.to_do)}) {task}')
-            task(self.molecule_set) 
+            task(self.molecule_set)
         input("Press enter to terminate (plots will be closed).")
-
-
-
-            
-
-
-
-

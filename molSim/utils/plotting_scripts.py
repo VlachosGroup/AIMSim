@@ -156,7 +156,10 @@ def plot_parity(x, y, **kwargs):
     stepsize = (end - start) / 5
     axes.yaxis.set_ticks(np.arange(start, end, stepsize))
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
-    plt.show(block=False)
+    if kwargs.get('show_plot', True):
+        plt.show(block=False)
+    else:
+        return axes
 
 
 def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
@@ -198,5 +201,61 @@ def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     plt.xticks(fontsize=plot_params['xticksize'])
     plt.yticks(fontsize=plot_params['yticksize'])
     plt.show()
-    
+
+def plot_scatter(x, y, **kwargs):
+    """Plot scatter plot of x vs y.
+
+    Parameters
+    ----------
+    x : np.ndarray or list
+        Values plotted along x axis.
+    y : np.ndarray or list
+        Values plotted along y axis.
+
+    Returns
+    -------
+    if kwargs.show_plot set to False, returns pyplot axis.
+
+    """
+    plot_params = {
+        'alpha': 0.7,
+        's': 100,
+        'plot_color': 'green',
+    }
+    if kwargs is not None:
+        plot_params.update(kwargs)
+    plt.figure()
+    plt.rcParams['svg.fonttype'] = 'none'
+    plt.scatter(
+        x=x, y=y, alpha=plot_params['alpha'], s=plot_params['s'],
+        c=plot_params['plot_color'])
+    max_entry = max(max(x), max(y)) + plot_params.get('offset', 5.0)
+    min_entry = min(min(x), min(y)) - plot_params.get('offset', 5.0)
+    axes = plt.gca()
+    axes.set_xlim([min_entry, max_entry])
+    axes.set_ylim([min_entry, max_entry])
+    plt.title(
+        plot_params.get('title', ''),
+        fontsize=plot_params.get('title_fontsize', 24))
+    plt.xlabel(
+        plot_params.get('xlabel', ''),
+        fontsize=plot_params.get('xlabel_fontsize', 20))
+    plt.ylabel(
+        plot_params.get('ylabel', ''),
+        fontsize=plot_params.get('ylabel_fontsize', 20))
+    plt.xticks(fontsize=plot_params.get('xticksize', 24))
+    plt.yticks(fontsize=plot_params.get('yticksize', 24))
+    start, end = axes.get_xlim()
+    stepsize = (end - start) / 5
+    axes.xaxis.set_ticks(np.arange(start, end, stepsize))
+    axes.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
+    # set y tick stepsize
+    start, end = axes.get_ylim()
+    stepsize = (end - start) / 5
+    axes.yaxis.set_ticks(np.arange(start, end, stepsize))
+    axes.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
+    if kwargs.get('show_plot', True):
+        plt.show(block=False)
+    else:
+        return axes
 

@@ -55,6 +55,10 @@ Example Run:
 
 `python -m molSim config.yaml`
 
+Using multiprocessing:
+
+`molSim` includes support for multiprocessing to split up the work of molecular comparisons across multiple CPU cores, speeding up execution. Because there is a cost associated with creating and destroying these processes, setting `n_workers` to any number larger than 1 is _not_ reccomended for datasets smaller than ~5000 molecules.
+
 Tests:
 
 `python -m unittest discover`
@@ -63,7 +67,7 @@ _Note: Multiprocessing speedup and efficiency tests take more than 30 minutes to
 
 User interface:
 
-`python -m molSim-ui-main`
+`python -m molSim`
 
 To build the docs, execute the following with `sphinx` and `m2r` installed and from the `/docs` directory:
 
@@ -80,6 +84,7 @@ Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate 
 
 1. Morgan Fingerprint (Equivalent to the ECFP-6)
 2. RDKIT Topological Fingerprint
+3. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_only available through command-line. In `fingerprint_type`, specify 'mordred:desciptorname'._).
 
 ### Currently Implemented Similarity Scores
 
@@ -98,6 +103,8 @@ pairs of most similar molecules. The last output requires the input of the molec
 This can be inputted as a .txt file containing rows of name property pairs. An example of such a file with fictitious properties is
 provided in the file smiles_responses.txt. This option is typically used to check the suitability of the fingerprint / similarity measure
 for a property of interest. If they do a good job for the particular property then the parity plot should be scattered around the diagonal.
+
+3. identify_outliers: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying `otuput` to be `terminal` or to a text file by instead providing a filename.
 
 ## Credits and Licensing
 

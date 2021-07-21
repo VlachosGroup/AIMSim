@@ -10,8 +10,6 @@ from rdkit.Chem import Draw
 
 from molSim.exceptions import NotInitializedError
 from molSim.ops.descriptor import Descriptor
-from molSim.ops.similarity_measures import SimilarityMeasure
-from molSim.utils.helper_methods import get_feature_datatype
 
 
 class Molecule:
@@ -135,6 +133,16 @@ class Molecule:
                                              fingerprint_type=fingerprint_type)
         else:
             raise ValueError(f'No descriptor vector were passed.')
+        
+    def get_descriptor_val(self):
+        """ Get value of molecule descriptor.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+        return self.descriptor.to_numpy()
 
     def get_similarity_to_molecule(self,
                                    target_mol,
@@ -184,7 +192,7 @@ class Molecule:
         target_similarity = [
             self.get_similarity_to_molecule(
                 ref_mol, similarity_measure=molecule_set.similarity_measure,
-                molecular_descriptor=molecule_set.descriptor)
+                fingerprint_type=molecule_set.descriptor)
             for ref_mol in molecule_set.molecule_database
             if ref_mol.mol_text != self.mol_text]
         return target_similarity

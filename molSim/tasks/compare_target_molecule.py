@@ -1,6 +1,6 @@
 from os import makedirs
 from os.path import basename
-
+from molSim.chemical_datastructures import Molecule
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
@@ -16,7 +16,7 @@ class CompareTargetMolecule(Task):
         self.log_fpath = None
         self.plot_settings = None
         self._extract_configs()
-            
+
     def _extract_configs(self):
         target_molecule_smiles = self.configs.get('target_molecule_smiles')
         target_molecule_src = self.configs.get('target_molecule_src')
@@ -26,14 +26,14 @@ class CompareTargetMolecule(Task):
             self.target_molecule = Molecule(mol_src=target_molecule_src)
         else:
             raise IOError('Target molecule source is not specified')
-        
+
         self.log_fpath = self.configs.get('log_file_path', None)
         if self.log_fpath is not None:
             log_dir = basename(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
-        
+
         self.plot_settings = self.configs.get('similarity_plot_settings', {})
-    
+
     def __call__(self, molecule_set):
         """
         Compare a target molecule with molecular database in terms
@@ -51,12 +51,12 @@ class CompareTargetMolecule(Task):
 
         """
         target_similarity = self.target_molecule.compare_to_molecule_set(
-                                                                   molecule_set)
-        ### shift to MoleculeSet
+            molecule_set)
+        # shift to MoleculeSet
         most_similar_mol = molecule_set.molecule_database[
-                                                np.argmax(target_similarity)]
+            np.argmax(target_similarity)]
         least_similar_mol = molecule_set.molecule_database[
-                                                np.argmin(target_similarity)]
+            np.argmin(target_similarity)]
         ###############
 
         text_prompt = '***** '
