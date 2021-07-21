@@ -11,6 +11,8 @@ from .task import Task
 
 class CompareTargetMolecule(Task):
     def __init__(self, configs):
+        if configs is None:
+            raise IOError(f'No config supplied for {str(self)}')
         super().__init__(configs)
         self.target_molecule = None
         self.log_fpath = None
