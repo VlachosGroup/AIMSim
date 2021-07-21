@@ -4,6 +4,8 @@ from molSim.utils.plotting_scripts import plot_density, plot_heatmap
 
 class VisualizeDataset(Task):
     def __init__(self, configs):
+        if configs is None:
+            configs = dict()  # all configs are optional
         super().__init__(configs)
         self.plot_settings = {}
         self._extract_configs()
@@ -21,7 +23,7 @@ class VisualizeDataset(Task):
         Parameters
         ----------
         molecule_set: MoleculeSet object
-            Molecular database initialized with the parameters.
+            Molecular database..
 
         Plots Generated
         ---------------

@@ -11,6 +11,8 @@ from .task import Task
 
 class ShowPropertyVariationWithSimilarity(Task):
     def __init__(self, configs):
+        if configs is None:
+            configs = dict()  # all configs are optional
         super().__init__(configs)
         self.plot_settings = None
         self.log_fpath = None
