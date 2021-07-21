@@ -359,6 +359,29 @@ class MoleculeSet:
                 'singular_values_': pca.singular_values_}
             return X, component_info
 
+    def compare_to_molecule(self, target_molecule):
+        """
+        Compare the molecule set to an arbitrary target molecule.
+
+        Parameters
+        ----------
+        target_molecule : Molecule object
+            Target molecule to compare.
+
+        Returns
+        -------
+        target_similarity : np.ndarray
+            Similarity scores between target molecule and all other molecules
+            of the molecule set.
+
+        """
+        target_similarity = [
+            target_molecule.get_similarity_to_molecule(
+                set_molecule, similarity_measure=self.similarity_measure,
+                fingerprint_type=self.descriptor)
+            for set_molecule in self.molecule_database]
+        return np.array(target_similarity)
+
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
 

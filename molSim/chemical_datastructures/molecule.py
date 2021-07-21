@@ -168,35 +168,6 @@ class Molecule:
             e.message += 'Similarity could not be calculated. '
             raise e
 
-    def compare_to_molecule_set(self, molecule_set):
-        """Compare the molecule to a database contained in
-        a MoleculeSet object.
-
-        Parameters
-        ----------
-        molecule_set: MoleculeSet object
-            Database of molecules to compare against.
-
-        Returns
-        -------
-        target_similarity: list
-           List of similarity scores of molecules of the database when
-           compared to the self molecule.
-
-        Note
-        ----
-        Excludes the self molecule if it is part of the same database.
-        Uses mol_text attribute to achieve this.
-
-        """
-        target_similarity = [
-            self.get_similarity_to_molecule(
-                ref_mol, similarity_measure=molecule_set.similarity_measure,
-                fingerprint_type=molecule_set.descriptor)
-            for ref_mol in molecule_set.molecule_database
-            if ref_mol.mol_text != self.mol_text]
-        return target_similarity
-
     def get_name(self):
         return self.mol_text
 
