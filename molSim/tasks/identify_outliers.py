@@ -12,8 +12,9 @@ class IdentifyOutliers(Task):
     """
 
     def __init__(self, configs):
+        if configs is None:
+            configs = dict()  # all configs are optional
         super().__init__(configs)
-        print(configs)
         self._extract_configs()
 
     def _extract_configs(self):
