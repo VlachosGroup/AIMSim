@@ -25,7 +25,7 @@ class ShowPropertyVariationWithSimilarity(Task):
         
         self.log_fpath = self.configs.get('log_file_path', None)
         if self.log_fpath is not None:
-            log_dir = basename(self.log_fpath)
+            log_dir = dirname(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
     
     def __call__(self, molecule_set):
