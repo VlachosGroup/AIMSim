@@ -163,9 +163,29 @@ class Molecule:
         -------
         similarity_score: float
             Similarity coefficient by the chosen method.
+        
+        Note
+        ----
+        If self object descriptor is a fingerprint, this method will try 
+        to calculate the fingerprint of the target molecule. 
+        If this fails because of the absence of mol_graph atttribute in 
+        target_molecule, a ValueError is raised.
+
+        Raises
+        ------
+        ValueError
+            See Note.
+        NotInitializedError
+            If target_molecule has uninitialized descriptor. See note.
 
         """
-        if self.desciptor.is_fingerprint():
+        if self.descriptor.is_fingerprint():
+            try:
+                target_mol.set_descriptor(
+                                fingerprint_type=self.descriptor.get_label())
+            except ValueError as e:
+                e.message += ' For target molecule'
+                raise e
 
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
