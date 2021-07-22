@@ -405,7 +405,7 @@ class MoleculeSet:
     
     def get_molecule_most_similar_to(self, target_molecule, exclude_self=True):
         """
-        Get the Molecule in the Set most similar to a Target Molecule
+        Get the Molecule in the Set most similar to a Target Molecule.
         
         Parameters
         ----------
@@ -420,12 +420,30 @@ class MoleculeSet:
         Returns
         -------
         Molecule object
+
         """
         sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
         if exclude_self and self.is_present(target_molecule):
             return self.molecule_database[sorted_similarity[-2]]
         else:
             return self.molecule_database[sorted_similarity[-1]]
+    
+    def get_molecule_least_similar_to(self, target_molecule):
+        """
+        Get the Molecule in the Set least similar to a Target Molecule.
+        
+        Parameters
+        ----------
+        target_molecule : Molecule object
+            Target molecule to compare.
+        
+        Returns
+        -------
+        Molecule object
+
+        """
+        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
