@@ -1,0 +1,58 @@
+{% set name = "molSim" %}
+{% set version = "0.0.1" %}
+
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/molSim-{{ version }}.tar.gz
+  sha256: d41cdfd3a4e770cb3da6da940ccea0b6306cbf12f3bb6c7a3861240ff10740bf
+
+build:
+  number: 0
+  noarch: python
+  entry_points:
+    - molSim=molSim.__main__:start_molSim
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - matplotlib-base ==3.3.4
+    - mordred ==1.2.0
+    - multiprocess ==0.70.12.2
+    - networkx ==2.1
+    - numpy ==1.19.5
+    - pandas ==1.1.5
+    - python
+    - python ==3.7.10
+    - pyyaml ==5.4.1
+    - scikit-learn ==0.24.2
+    - scikit-learn-extra ==0.2.0
+    - scipy ==1.5.4
+    - seaborn ==0.11.1
+    - tabulate ==0.8.9
+
+test:
+  imports:
+    - interfaces
+    - interfaces.UI
+  commands:
+    - pip check
+    - molSim --help
+  requires:
+    - pip
+
+about:
+  home: https://github.com/himaghna/molSim
+  summary: Python command line and GUI tool to analyze molecular similarity.
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - ADD_YOUR_GITHUB_ID_HERE

@@ -47,13 +47,16 @@ Use the following command with conda to create an environment:
 8. openpyxl
 
 ### Pip
-_coming soon_
-~~To install molSim using pip, run the following command: `pip install molSim`~~
+Required dependency _RDKit_ is only available through _conda_. To install using _pip_, first run `conda install -c rdkit rdkit` to install it. To then install molSim using pip, run the following command: `pip install molSim`
 
 ## Running molSim
+Start `molSim` with a graphical user interface:
+
+`molSim`
+
 Example Run:
 
-`python -m molSim config.yaml`
+`molSim config.yaml`
 
 Using multiprocessing:
 
@@ -65,13 +68,17 @@ Tests:
 
 _Note: Multiprocessing speedup and efficiency tests take more than 30 minutes to execute. To run all other tests and ignore these, create a file called `.no-speedup-test` in the `molSim` directory and execute the above command as shown._
 
-User interface:
-
-`python -m molSim`
-
 To build the docs, execute the following with `sphinx` and `m2r` installed and from the `/docs` directory:
 
 `m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .`
+
+For packaging on Pypi:
+
+`python -m build; twine upload dist/*`
+
+For packaging on conda:
+
+`conda build package`
 
 ## Notes
 
@@ -108,7 +115,7 @@ for a property of interest. If they do a good job for the particular property th
 
 ## Credits and Licensing
 
-Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
 
 Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
