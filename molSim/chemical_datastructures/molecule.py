@@ -192,7 +192,7 @@ class Molecule:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
     
     @staticmethod
-    def is_same_as(source_molecule, target_molecule):
+    def is_same(source_molecule, target_molecule):
         """Check if the target_molecule is a duplicate of source_molecule
 
         Parameters
