@@ -129,6 +129,9 @@ class Molecule:
         if arbitrary_descriptor_val is not None:
             self.descriptor.set_manually(arbitrary_descriptor_val)
         elif fingerprint_type is not None:
+            if self.mol_graph is None:
+                raise ValueError('Molecular graph not present. '
+                                 'Fingerprint cannot be calculated.')
             self.descriptor.make_fingerprint(self.mol_graph,
                                              fingerprint_type=fingerprint_type)
         else:
@@ -162,6 +165,8 @@ class Molecule:
             Similarity coefficient by the chosen method.
 
         """
+        if self.desciptor.is_fingerprint():
+
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
