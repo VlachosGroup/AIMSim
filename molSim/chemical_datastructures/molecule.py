@@ -190,3 +190,22 @@ class Molecule:
             Draw.MolToImage(self.mol_graph, **kwargs).show()
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
+    
+    @staticmethod
+    def is_same_as(source_molecule, target_molecule):
+        """Check if the target_molecule is a duplicate of source_molecule
+
+        Parameters
+        ----------
+        source_molecule : Molecule object
+            Source molecule to compare.
+        target_molecule : Molecule object
+            Target molecule to compare.
+        
+        Returns
+        -------
+        bool
+           True if the molecules are the same.
+
+        """
+        return source_molecule.mol_text == target_molecule.mol_text
