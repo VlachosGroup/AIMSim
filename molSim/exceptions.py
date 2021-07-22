@@ -10,6 +10,6 @@ class NotInitializedError(AttributeError):
 class MordredCalculatorError(RuntimeError):
     """Used in descriptor.py when the Mordred property calculator fails."""
 
-    def __init__(self, message):
+    def __init__(self, message=None):
         self.message = message
         super().__init__(message)
