@@ -359,7 +359,7 @@ class MoleculeSet:
                 'singular_values_': pca.singular_values_}
             return X, component_info
     
-    def is_present(self, target_molecule_name):
+    def is_present(self, target_molecule):
         """
         Searches the name of a target molecule in the molecule set to 
         determine if the target molecule is present in the molecule set.
@@ -375,8 +375,8 @@ class MoleculeSet:
             If the molecule is present in the molecule set or not.
 
         """
-        for molecule_name in self.get_mol_names():
-            if molecule_name == target_molecule_name:
+        for set_molecule in self.molecule_database:
+            if Molecule().is_same(set_molecule, target_molecule):
                 return True
         return False
 
@@ -406,7 +406,7 @@ class MoleculeSet:
     def get_molecule_most_similar_to(self, target_molecule, exclude_self=True):
         """Get the Molecule in the Set most similar to a Target Molecule"""
         sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
-        if exclude_self:
+        if exclude_self and self.is_present(target_molecule=):
             return self.molecule_database[np.argmax(
                                      )]
 
