@@ -190,3 +190,6 @@ class Descriptor:
             raise NotInitializedError
         else:
             return self.label_
+    
+    def is_fingerprint(self):
+        return 'fingerprint' in self.get_label()
