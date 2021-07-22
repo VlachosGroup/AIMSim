@@ -358,6 +358,27 @@ class MoleculeSet:
                 'explained_variance_ratio_': pca.explained_variance_ratio_,
                 'singular_values_': pca.singular_values_}
             return X, component_info
+    
+    def is_present(self, target_molecule_name):
+        """
+        Searches the name of a target molecule in the molecule set to 
+        determine if the target molecule is present in the molecule set.
+
+        Paramters
+        ---------
+        target_molecule_name : str
+            Name of the target molecule to search.
+        
+        Returns
+        -------
+        bool
+            If the molecule is present in the molecule set or not.
+
+        """
+        for molecule_name in self.get_mol_names():
+            if molecule_name == target_molecule_name:
+                return True
+        return False
 
     def compare_to_molecule(self, target_molecule):
         """
@@ -381,6 +402,13 @@ class MoleculeSet:
                 fingerprint_type=self.descriptor)
             for set_molecule in self.molecule_database]
         return np.array(target_similarity)
+    
+    def get_molecule_most_similar_to(self, target_molecule, exclude_self=True):
+        """Get the Molecule in the Set most similar to a Target Molecule"""
+        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        if exclude_self:
+            return self.molecule_database[np.argmax(
+                                     )]
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
