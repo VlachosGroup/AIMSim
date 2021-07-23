@@ -33,6 +33,9 @@ When proposing a novel reaction it is essential for the practicing chemist to ev
 Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
 
 ## Installing molSim
+### Pip _(preferred method)_
+Required dependency _RDKit_ is only available through _conda_. To install using _pip_, first run `conda install -c rdkit rdkit` to install it. To then install molSim using pip, run the following command: `pip install molSim`
+
 ### Conda
 Install all depedencies at once with:
 
@@ -49,9 +52,6 @@ Or build everything manually, using the following command with conda to create a
 6. PyYAML
 7. Pandas 1.0.1+
 8. openpyxl
-
-### Pip
-Required dependency _RDKit_ is only available through _conda_. To install using _pip_, first run `conda install -c rdkit rdkit` to install it. To then install molSim using pip, run the following command: `pip install molSim`
 
 ## Running molSim
 Start `molSim` with a graphical user interface:
