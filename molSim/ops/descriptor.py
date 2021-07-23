@@ -195,7 +195,7 @@ class Descriptor:
         """
         self.label_ = 'arbitrary'
         self.numpy_ = np.array(arbitrary_descriptor_val)
-    
+
     def get_label(self):
         if not self.check_init():
             raise NotInitializedError
@@ -210,3 +210,11 @@ class Descriptor:
 
     def is_fingerprint(self):
         return 'fingerprint' in self.get_label()
+
+    @staticmethod
+    def get_supported_fprints():
+        """Return a list of strings for the currently implemented molecular fingerprints.
+        Returns:
+            List: List of strings.
+        """
+        return ['morgan_fingerprint', 'topological_fingerprint']

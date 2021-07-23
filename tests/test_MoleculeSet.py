@@ -23,15 +23,18 @@ SUPPORTED_FPRINTS = ['morgan_fingerprint', 'topological_fingerprint']
 
 
 class TestMoleculeSet(unittest.TestCase):
-    test_smiles = ['CCCCCCC', 
-                   'CCCC', 
-                   'CCC', 
-                   'O', 
-                   'N', 
-                   'C1=CC=CC=C1', 
+    test_smarts = ["[CH3:1][S:2][c:3]1[cH:4][cH:5][c:6]([B:7]([OH:8])[OH:9])[cH:10][cH:11]1",
+                   "[NH:1]1[CH2:2][CH2:3][O:4][CH2:5][CH2:6]1.[O:7]=[S:8]=[O:9]"]
+
+    test_smiles = ['CCCCCCC',
+                   'CCCC',
+                   'CCC',
+                   'O',
+                   'N',
+                   'C1=CC=CC=C1',
                    'CC1=CC=CC=C1',
                    'C(=O)(N)N']
-    
+
     def smiles_seq_to_textfile(self, property_seq=None):
         """Helper method to convert a SMILES sequence to a text file.
 
@@ -104,6 +107,33 @@ class TestMoleculeSet(unittest.TestCase):
         print(f'Creating text file {SMILES_fpath}')
         with open(SMILES_fpath, "w") as fp:
             for id, smiles in enumerate(self.test_smiles):
+                write_txt = smiles
+                if property_seq is not None:
+                    write_txt += ' ' + str(property_seq[id])
+                if id < len(self.test_smiles) - 1:
+                    write_txt += '\n'
+
+                fp.write(write_txt)
+        return SMILES_fpath
+
+    def SMARTS_seq_to_SMILES_file(self, property_seq=None):
+        """Helper method to convert a SMARTS sequence to a SMILES file.
+
+        Parameters
+        ----------
+        property_seq : list or np.ndarray
+            Optional sequence of molecular responses.
+
+        Returns
+        -------
+        text_fpath : str
+            Path to created file.
+
+        """
+        SMILES_fpath = 'temp_smiles_seq.SMILES'
+        print(f'Creating text file {SMILES_fpath}')
+        with open(SMILES_fpath, "w") as fp:
+            for id, smiles in enumerate(self.test_smarts):
                 write_txt = smiles
                 if property_seq is not None:
                     write_txt += ' ' + str(property_seq[id])
@@ -277,6 +307,39 @@ class TestMoleculeSet(unittest.TestCase):
                          'of smiles in text file')
         for id, molecule in enumerate(molecule_set.molecule_database):
             self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                             'Expected mol_text attribute of Molecule object '
+                             'to be smiles')
+            self.assertIsNone(molecule.mol_property_val,
+                              'Expected mol_property_val of Molecule object '
+                              'initialized without property to be None')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+        print(f'Test complete. Deleting file {text_fpath}...')
+        remove(text_fpath)
+
+    def test_set_molecule_database_from_SMARTS_file(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        from a SMILES file containing SMARTS strings.
+
+        """
+        text_fpath = self.SMARTS_seq_to_SMILES_file()
+        molecule_set = MoleculeSet(molecule_database_src=text_fpath,
+                                   molecule_database_src_type='text',
+                                   fingerprint_type='morgan_fingerprint',
+                                   similarity_measure='tanimoto',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose,
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from text')
+        self.assertEqual(len(molecule_set.molecule_database),
+                         len(self.test_smarts),
+                         'Expected the size of database to be equal to number '
+                         'of smiles in text file')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertEqual(molecule.mol_text, self.test_smarts[id],
                              'Expected mol_text attribute of Molecule object '
                              'to be smiles')
             self.assertIsNone(molecule.mol_property_val,
@@ -772,57 +835,57 @@ class TestMoleculeSet(unittest.TestCase):
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
                 molecule_set = MoleculeSet(
-                                        molecule_database_src=csv_fpath,
-                                        molecule_database_src_type='csv',
-                                        fingerprint_type=descriptor,
-                                        similarity_measure=similarity_measure,
-                                        is_verbose=True)
+                    molecule_database_src=csv_fpath,
+                    molecule_database_src_type='csv',
+                    fingerprint_type=descriptor,
+                    similarity_measure=similarity_measure,
+                    is_verbose=True)
                 for mol_id, mol in enumerate(molecule_set.molecule_database):
                     mol_similarities = molecule_set.compare_to_molecule(mol)
                     closest_mol = molecule_set.get_molecule_most_similar_to(
-                                                mol, 
-                                                exclude_self=False)
+                        mol,
+                        exclude_self=False)
                     self.assertEqual(max(mol_similarities),
                                      mol.get_similarity_to(
-                                               closest_mol, 
-                                               molecule_set.similarity_measure),
-                                    'Expected closest mol to have maximum '
-                                    'similarity to target molecule')
+                        closest_mol,
+                        molecule_set.similarity_measure),
+                        'Expected closest mol to have maximum '
+                        'similarity to target molecule')
                     closest_mol_nt_self = molecule_set.get_molecule_most_similar_to(
-                                                                mol, 
-                                                                exclude_self=True)
-                    mol_similarities_nt_self =  np.concatenate(
-                                                  (mol_similarities[:mol_id], 
-                                                   mol_similarities[mol_id+1:]))
+                        mol,
+                        exclude_self=True)
+                    mol_similarities_nt_self = np.concatenate(
+                        (mol_similarities[:mol_id],
+                         mol_similarities[mol_id+1:]))
                     self.assertEqual(max(mol_similarities_nt_self),
                                      mol.get_similarity_to(
-                                               closest_mol_nt_self,
-                                               molecule_set.similarity_measure),
-                                     'Expected closest mol to be non identical '
-                                     'molecule having maximum '
-                                     'similarity to target molecule.')
-    
+                        closest_mol_nt_self,
+                        molecule_set.similarity_measure),
+                        'Expected closest mol to be non identical '
+                        'molecule having maximum '
+                        'similarity to target molecule.')
+
     def test_get_molecule_least_similar_to(self):
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
                 molecule_set = MoleculeSet(
-                                        molecule_database_src=csv_fpath,
-                                        molecule_database_src_type='csv',
-                                        fingerprint_type=descriptor,
-                                        similarity_measure=similarity_measure,
-                                        is_verbose=True)
+                    molecule_database_src=csv_fpath,
+                    molecule_database_src_type='csv',
+                    fingerprint_type=descriptor,
+                    similarity_measure=similarity_measure,
+                    is_verbose=True)
                 for mol in molecule_set.molecule_database:
                     mol_similarities = molecule_set.compare_to_molecule(mol)
                     furthest_mol = molecule_set.get_molecule_least_similar_to(
-                                                mol)
+                        mol)
                     self.assertEqual(min(mol_similarities),
                                      mol.get_similarity_to(
-                                               furthest_mol,
-                                               molecule_set.similarity_measure),
-                                    'Expected furthest mol to have minimum '
-                                    'similarity to target molecule')           
-                                                   
+                        furthest_mol,
+                        molecule_set.similarity_measure),
+                        'Expected furthest mol to have minimum '
+                        'similarity to target molecule')
+
     def test_get_most_similar_pairs(self):
         """
         Test that all combinations of fingerprint_type and similarity measure
