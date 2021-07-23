@@ -52,6 +52,7 @@ class MoleculeSet:
                  similarity_measure,
                  n_threads=1,
                  fingerprint_type=None,
+                 fingerprint_params=None,
                  sampling_ratio=1.,
                  sampling_random_state=42):
         """
@@ -77,7 +78,8 @@ class MoleculeSet:
                                      random_state=sampling_random_state)
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
-            self._set_descriptor(fingerprint_type=fingerprint_type)
+            self._set_descriptor(fingerprint_type=fingerprint_type,
+                                 fingerprint_params=fingerprint_params)
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
@@ -212,7 +214,8 @@ class MoleculeSet:
 
     def _set_descriptor(self,
                         arbitrary_descriptor_vals=None,
-                        fingerprint_type=None):
+                        fingerprint_type=None,
+                        fingerprint_params=None):
         """Sets molecule.descriptor attribute for each molecule object in
         MoleculeSet. Either use arbitrary_descriptor_vals to pass descriptor
         values manually or pass fingerprint_type to generate a fingerprint
@@ -226,11 +229,14 @@ class MoleculeSet:
                 Default is None.
         fingerprint_type : str
             String label specifying which fingerprint to use. Default is None.
+        fingerprint_params : dict
+           Parameters to modify the fingerprint generated. Default is None.
 
         """
         for molecule_id, molecule in enumerate(self.molecule_database):
             if fingerprint_type is not None:
-                molecule.set_descriptor(fingerprint_type=fingerprint_type)
+                molecule.set_descriptor(fingerprint_type=fingerprint_type,
+                                        fingerprint_params=fingerprint_params)
             elif arbitrary_descriptor_vals is not None:
                 molecule.set_descriptor(
                     arbitrary_descriptor_val=arbitrary_descriptor_vals[
