@@ -82,7 +82,7 @@ For packaging on Pypi:
 
 For packaging on conda:
 
-`conda build .`
+`conda build .; conda upload /path/to/.bz2`
 
 ## Notes
 
