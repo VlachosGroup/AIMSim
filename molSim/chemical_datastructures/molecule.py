@@ -147,7 +147,7 @@ class Molecule:
         """
         return self.descriptor.to_numpy()
 
-    def get_similarity_to_(self, target_mol, similarity_measure):
+    def get_similarity_to(self, target_mol, similarity_measure):
         """Get a similarity metric to a target molecule
 
         Parameters
