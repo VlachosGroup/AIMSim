@@ -115,7 +115,8 @@ class Molecule:
 
     def set_descriptor(self,
                        arbitrary_descriptor_val=None,
-                       fingerprint_type=None):
+                       fingerprint_type=None,
+                       fingerprint_params=None):
         """Sets molecular descriptor attribute.
 
         Parameters
@@ -124,6 +125,9 @@ class Molecule:
             Arbitrary descriptor vector. Default is None.
         fingerprint_type : str
             String label specifying which fingerprint to use. Default is None.
+        fingerprint_params : dict
+            Additional parameters for modifying fingerprint defaults.
+            Default is None.
 
         """
         if arbitrary_descriptor_val is not None:
@@ -132,8 +136,10 @@ class Molecule:
             if self.mol_graph is None:
                 raise ValueError('Molecular graph not present. '
                                  'Fingerprint cannot be calculated.')
-            self.descriptor.make_fingerprint(self.mol_graph,
-                                             fingerprint_type=fingerprint_type)
+            self.descriptor.make_fingerprint(
+                                         self.mol_graph,
+                                         fingerprint_type=fingerprint_type,
+                                         fingerprint_params=fingerprint_params)
         else:
             raise ValueError(f'No descriptor vector were passed.')
         
@@ -180,7 +186,8 @@ class Molecule:
         if self.descriptor.is_fingerprint():
             try:
                 target_mol.set_descriptor(
-                                fingerprint_type=self.descriptor.get_label())
+                                fingerprint_type=self.descriptor.get_label(),
+                                fingerprint_params=self.descriptor.get_params())
             except ValueError as e:
                 e.message += ' For target molecule'
                 raise e

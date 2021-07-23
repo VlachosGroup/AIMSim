@@ -69,8 +69,9 @@ class Descriptor:
 
     def _set_morgan_fingerprint(self,
                                 molecule_graph,
-                                radius=3,
-                                n_bits=1024):
+                                radius,
+                                n_bits,
+                                **kwargs):
         """Set the descriptor to a morgan fingerprint.
 
         Parameters
@@ -79,23 +80,24 @@ class Descriptor:
             Graph of molecule to be fingerprinted.
         radius: int
             Radius of fingerprint, 3 corresponds to diameter (ECFP)6.
-            Default 3.
         n_bits: int
             Number of bits to use if Morgan Fingerprint wanted as
             a bit vector. If set to None, Morgan fingerprint returned
-            as count. Default is 1024.
+            as count.
 
         """
-
         self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(molecule_graph,
                                                             radius,
                                                             nBits=n_bits)
         self.label_ = 'morgan_fingerprint'
+        self.params_ = {'radius': radius,
+                        'n_bits': n_bits}
 
     def _set_rdkit_topological_fingerprint(self,
                                            molecule_graph,
-                                           min_path=1,
-                                           max_path=7):
+                                           min_path,
+                                           max_path,
+                                           **kwargs):
         """Set the descriptor to a topological fingerprint.
 
         Parameters
@@ -104,18 +106,18 @@ class Descriptor:
             Graph of molecule to be fingerprinted.
         min_path: int
             Minimum path used to generate the topological fingerprint.
-            Default is 1.
         max_path: int
             Maximum path used to generate the topological fingerprint.
-            Default is 7.
 
         """
         self.rdkit_ = rdmolops.RDKFingerprint(molecule_graph,
                                               minPath=min_path,
                                               maxPath=max_path)
         self.label_ = 'topological_fingerprint'
+        self.params_ = {'min_path': min_path,
+                        'max_path': max_path}
 
-    def _set_mordred_descriptor(self, molecule_graph, descriptor):
+    def _set_mordred_descriptor(self, molecule_graph, descriptor, **kwargs):
         """Set the value of numpy_ to the descriptor as indicated by descriptor.
 
         Args:
@@ -141,7 +143,7 @@ class Descriptor:
     def make_fingerprint(self,
                          molecule_graph,
                          fingerprint_type,
-                         **kwargs):
+                         fingerprint_params=None):
         """Make fingerprint of a molecule based on a graph representation.
         Set the state of the descriptor to this fingerprint.
 
@@ -153,23 +155,32 @@ class Descriptor:
             label for the type of fingerprint.
             Invokes get_supported_descriptors()['fingerprints']
             for list of supported fingerprints.
-        kwargs: dict
+        fingerprint_params : dict
             Keyword arguments used to modify parameters of fingerprint.
+            Default is None.
 
         """
-
+        if fingerprint_params is None:
+            fingerprint_params = {}
         if fingerprint_type == 'morgan_fingerprint':
+            morgan_params = {'radius': 3,
+                             'n_bits': 1024}
+            morgan_params.update(fingerprint_params)
             self._set_morgan_fingerprint(molecule_graph=molecule_graph,
-                                         **kwargs)
+                                         **morgan_params)
         elif fingerprint_type == 'topological_fingerprint':
+            topological_params = {'min_path': 1,
+                                  'max_path': 7}
+            topological_params.update(fingerprint_params)
             self._set_rdkit_topological_fingerprint(
-                molecule_graph=molecule_graph,
-                **kwargs)
+                                                molecule_graph=molecule_graph,
+                                                **topological_params)
         elif fingerprint_type.split(":")[0] == 'mordred':
+            mordred_params = {}
             self._set_mordred_descriptor(
                 molecule_graph=molecule_graph,
                 descriptor=fingerprint_type.split(":")[1],
-                ** kwargs)
+                **mordred_params)
         else:
             raise ValueError(f'{fingerprint_type} not supported')
 
@@ -190,6 +201,12 @@ class Descriptor:
             raise NotInitializedError
         else:
             return self.label_
-    
+
+    def get_params(self):
+        if not self.check_init():
+            raise NotInitializedError
+        else:
+            return self.params_
+
     def is_fingerprint(self):
         return 'fingerprint' in self.get_label()
