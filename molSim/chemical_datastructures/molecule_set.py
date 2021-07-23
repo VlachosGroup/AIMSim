@@ -380,7 +380,7 @@ class MoleculeSet:
                 return True
         return False
 
-    def compare_to_(self, target_molecule):
+    def compare_to_molecule(self, target_molecule):
         """
         Compare the molecule set to an arbitrary target molecule.
 
