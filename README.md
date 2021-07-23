@@ -33,9 +33,16 @@ When proposing a novel reaction it is essential for the practicing chemist to ev
 Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
 
 ## Installing molSim
+### Pip _(preferred method)_
+Required dependency _RDKit_ is only available through _conda_. To install using _pip_, first run `conda install -c rdkit rdkit` to install it. To then install molSim using pip, run the following command: `pip install molSim`
+
 ### Conda
-Use the following command with conda to create an environment:
-`conda create --name your-env-name --file spec-file.txt`
+Install all depedencies at once with:
+
+`conda install -c jacksonburns molsim`
+
+Or build everything manually, using the following command with conda to create an environment:
+`conda create --name your-env-name --file requirements.txt`
 
 1. Python 3+
 2. Matplotlib
@@ -46,14 +53,14 @@ Use the following command with conda to create an environment:
 7. Pandas 1.0.1+
 8. openpyxl
 
-### Pip
-_coming soon_
-~~To install molSim using pip, run the following command: `pip install molSim`~~
-
 ## Running molSim
+Start `molSim` with a graphical user interface:
+
+`molSim`
+
 Example Run:
 
-`python -m molSim config.yaml`
+`molSim config.yaml`
 
 Using multiprocessing:
 
@@ -65,13 +72,17 @@ Tests:
 
 _Note: Multiprocessing speedup and efficiency tests take more than 30 minutes to execute. To run all other tests and ignore these, create a file called `.no-speedup-test` in the `molSim` directory and execute the above command as shown._
 
-User interface:
-
-`python -m molSim`
-
 To build the docs, execute the following with `sphinx` and `m2r` installed and from the `/docs` directory:
 
 `m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .`
+
+For packaging on Pypi:
+
+`python -m build; twine upload dist/*`
+
+For packaging on conda:
+
+`conda build .; conda upload /path/to/.bz2`
 
 ## Notes
 
@@ -108,7 +119,7 @@ for a property of interest. If they do a good job for the particular property th
 
 ## Credits and Licensing
 
-Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
 
 Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
