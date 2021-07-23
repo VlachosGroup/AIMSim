@@ -23,6 +23,8 @@ SUPPORTED_FPRINTS = ['morgan_fingerprint', 'topological_fingerprint']
 
 class TestMoleculeSet(unittest.TestCase):
     test_smiles = ['C', 'CC', 'CCC', 'O']
+    test_smarts = ["[CH3:1][S:2][c:3]1[cH:4][cH:5][c:6]([B:7]([OH:8])[OH:9])[cH:10][cH:11]1",
+                   "[NH:1]1[CH2:2][CH2:3][O:4][CH2:5][CH2:6]1.[O:7]=[S:8]=[O:9]"]
 
     def smiles_seq_to_textfile(self, property_seq=None):
         """Helper method to convert a SMILES sequence to a text file.
@@ -96,6 +98,33 @@ class TestMoleculeSet(unittest.TestCase):
         print(f'Creating text file {SMILES_fpath}')
         with open(SMILES_fpath, "w") as fp:
             for id, smiles in enumerate(self.test_smiles):
+                write_txt = smiles
+                if property_seq is not None:
+                    write_txt += ' ' + str(property_seq[id])
+                if id < len(self.test_smiles) - 1:
+                    write_txt += '\n'
+
+                fp.write(write_txt)
+        return SMILES_fpath
+
+    def SMARTS_seq_to_SMILES_file(self, property_seq=None):
+        """Helper method to convert a SMARTS sequence to a SMILES file.
+
+        Parameters
+        ----------
+        property_seq : list or np.ndarray
+            Optional sequence of molecular responses.
+
+        Returns
+        -------
+        text_fpath : str
+            Path to created file.
+
+        """
+        SMILES_fpath = 'temp_smiles_seq.SMILES'
+        print(f'Creating text file {SMILES_fpath}')
+        with open(SMILES_fpath, "w") as fp:
+            for id, smiles in enumerate(self.test_smarts):
                 write_txt = smiles
                 if property_seq is not None:
                     write_txt += ' ' + str(property_seq[id])
@@ -269,6 +298,39 @@ class TestMoleculeSet(unittest.TestCase):
                          'of smiles in text file')
         for id, molecule in enumerate(molecule_set.molecule_database):
             self.assertEqual(molecule.mol_text, self.test_smiles[id],
+                             'Expected mol_text attribute of Molecule object '
+                             'to be smiles')
+            self.assertIsNone(molecule.mol_property_val,
+                              'Expected mol_property_val of Molecule object '
+                              'initialized without property to be None')
+            self.assertIsInstance(molecule, Molecule,
+                                  'Expected member of molecule_set to '
+                                  'be Molecule object')
+        print(f'Test complete. Deleting file {text_fpath}...')
+        remove(text_fpath)
+
+    def test_set_molecule_database_from_SMARTS_file(self):
+        """
+        Test to create MoleculeSet object by reading molecule database 
+        from a SMILES file containing SMARTS strings.
+
+        """
+        text_fpath = self.SMARTS_seq_to_SMILES_file()
+        molecule_set = MoleculeSet(molecule_database_src=text_fpath,
+                                   molecule_database_src_type='text',
+                                   fingerprint_type='morgan_fingerprint',
+                                   similarity_measure='tanimoto',
+                                   is_verbose=True)
+        self.assertTrue(molecule_set.is_verbose,
+                        'Expected is_verbose to be True')
+        self.assertIsNotNone(molecule_set.molecule_database,
+                             'Expected molecule_database to be set from text')
+        self.assertEqual(len(molecule_set.molecule_database),
+                         len(self.test_smarts),
+                         'Expected the size of database to be equal to number '
+                         'of smiles in text file')
+        for id, molecule in enumerate(molecule_set.molecule_database):
+            self.assertEqual(molecule.mol_text, self.test_smarts[id],
                              'Expected mol_text attribute of Molecule object '
                              'to be smiles')
             self.assertIsNone(molecule.mol_property_val,
