@@ -273,7 +273,7 @@ class MoleculeSet:
                             else:  # non-diagonal entries
                                 try:
                                     local_similarity_matrix[source_mol_id, target_mol_id] = \
-                                        molecule.get_similarity_to_molecule(
+                                        molecule.get_similarity_to(
                                         self.molecule_database[target_mol_id],
                                         similarity_measure=self.similarity_measure)
                                 except NotInitializedError as e:
@@ -321,7 +321,7 @@ class MoleculeSet:
                         print('Computing similarity of molecule num '
                               f'{target_mol_id+1} against {source_mol_id+1}')
                     similarity_matrix[source_mol_id, target_mol_id] = \
-                        molecule.get_similarity_to_molecule(
+                        molecule.get_similarity_to(
                         self.molecule_database[target_mol_id],
                         similarity_measure=self.similarity_measure)
                     # symmetric matrix entry
@@ -380,7 +380,7 @@ class MoleculeSet:
                 return True
         return False
 
-    def compare_to_molecule(self, target_molecule):
+    def compare_to_(self, target_molecule):
         """
         Compare the molecule set to an arbitrary target molecule.
 
@@ -397,9 +397,9 @@ class MoleculeSet:
 
         """
         target_similarity = [
-            target_molecule.get_similarity_to_molecule(
-                set_molecule, similarity_measure=self.similarity_measure,
-                fingerprint_type=self.descriptor)
+            set_molecule.get_similarity_to(
+                                    target_molecule, 
+                                    similarity_measure=self.similarity_measure)
             for set_molecule in self.molecule_database]
         return np.array(target_similarity)
     
