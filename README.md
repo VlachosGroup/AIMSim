@@ -44,15 +44,6 @@ Install all depedencies at once with:
 Or build everything manually, using the following command with conda to create an environment:
 `conda create --name your-env-name --file requirements.txt`
 
-1. Python 3+
-2. Matplotlib
-3. Numpy
-4. RDKIT
-5. SEABORN
-6. PyYAML
-7. Pandas 1.0.1+
-8. openpyxl
-
 ## Running molSim
 Start `molSim` with a graphical user interface:
 
