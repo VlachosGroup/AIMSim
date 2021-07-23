@@ -5,6 +5,7 @@ from shutil import rmtree
 import unittest
 
 import numpy as np
+from numpy.core.numeric import False_
 import pandas as pd
 import rdkit
 from rdkit.Chem import MolFromSmiles
@@ -22,8 +23,15 @@ SUPPORTED_FPRINTS = ['morgan_fingerprint', 'topological_fingerprint']
 
 
 class TestMoleculeSet(unittest.TestCase):
-    test_smiles = ['C', 'CC', 'CCC', 'O']
-
+    test_smiles = ['CCCCCCC', 
+                   'CCCC', 
+                   'CCC', 
+                   'O', 
+                   'N', 
+                   'C1=CC=CC=C1', 
+                   'CC1=CC=CC=C1',
+                   'C(=O)(N)N']
+    
     def smiles_seq_to_textfile(self, property_seq=None):
         """Helper method to convert a SMILES sequence to a text file.
 
@@ -759,6 +767,62 @@ class TestMoleculeSet(unittest.TestCase):
         print(f'Test complete. Deleting file {csv_fpath}...')
         remove(csv_fpath)
 
+    def test_get_molecule_most_similar_to(self):
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
+        for descriptor in SUPPORTED_FPRINTS:
+            for similarity_measure in SUPPORTED_SIMILARITIES:
+                molecule_set = MoleculeSet(
+                                        molecule_database_src=csv_fpath,
+                                        molecule_database_src_type='csv',
+                                        fingerprint_type=descriptor,
+                                        similarity_measure=similarity_measure,
+                                        is_verbose=True)
+                for mol_id, mol in enumerate(molecule_set.molecule_database):
+                    mol_similarities = molecule_set.compare_to_molecule(mol)
+                    closest_mol = molecule_set.get_molecule_most_similar_to(
+                                                mol, 
+                                                exclude_self=False)
+                    self.assertEqual(max(mol_similarities),
+                                     mol.get_similarity_to(
+                                               closest_mol, 
+                                               molecule_set.similarity_measure),
+                                    'Expected closest mol to have maximum '
+                                    'similarity to target molecule')
+                    closest_mol_nt_self = molecule_set.get_molecule_most_similar_to(
+                                                                mol, 
+                                                                exclude_self=True)
+                    mol_similarities_nt_self =  np.concatenate(
+                                                  (mol_similarities[:mol_id], 
+                                                   mol_similarities[mol_id+1:]))
+                    self.assertEqual(max(mol_similarities_nt_self),
+                                     mol.get_similarity_to(
+                                               closest_mol_nt_self,
+                                               molecule_set.similarity_measure),
+                                     'Expected closest mol to be non identical '
+                                     'molecule having maximum '
+                                     'similarity to target molecule.')
+    
+    def test_get_molecule_least_similar_to(self):
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype='csv')
+        for descriptor in SUPPORTED_FPRINTS:
+            for similarity_measure in SUPPORTED_SIMILARITIES:
+                molecule_set = MoleculeSet(
+                                        molecule_database_src=csv_fpath,
+                                        molecule_database_src_type='csv',
+                                        fingerprint_type=descriptor,
+                                        similarity_measure=similarity_measure,
+                                        is_verbose=True)
+                for mol in molecule_set.molecule_database:
+                    mol_similarities = molecule_set.compare_to_molecule(mol)
+                    furthest_mol = molecule_set.get_molecule_least_similar_to(
+                                                mol)
+                    self.assertEqual(min(mol_similarities),
+                                     mol.get_similarity_to(
+                                               furthest_mol,
+                                               molecule_set.similarity_measure),
+                                    'Expected furthest mol to have minimum '
+                                    'similarity to target molecule')           
+                                                   
     def test_get_most_similar_pairs(self):
         """
         Test that all combinations of fingerprint_type and similarity measure

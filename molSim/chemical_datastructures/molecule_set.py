@@ -273,7 +273,7 @@ class MoleculeSet:
                             else:  # non-diagonal entries
                                 try:
                                     local_similarity_matrix[source_mol_id, target_mol_id] = \
-                                        molecule.get_similarity_to_molecule(
+                                        molecule.get_similarity_to(
                                         self.molecule_database[target_mol_id],
                                         similarity_measure=self.similarity_measure)
                                 except NotInitializedError as e:
@@ -321,7 +321,7 @@ class MoleculeSet:
                         print('Computing similarity of molecule num '
                               f'{target_mol_id+1} against {source_mol_id+1}')
                     similarity_matrix[source_mol_id, target_mol_id] = \
-                        molecule.get_similarity_to_molecule(
+                        molecule.get_similarity_to(
                         self.molecule_database[target_mol_id],
                         similarity_measure=self.similarity_measure)
                     # symmetric matrix entry
@@ -358,6 +358,27 @@ class MoleculeSet:
                 'explained_variance_ratio_': pca.explained_variance_ratio_,
                 'singular_values_': pca.singular_values_}
             return X, component_info
+    
+    def is_present(self, target_molecule):
+        """
+        Searches the name of a target molecule in the molecule set to 
+        determine if the target molecule is present in the molecule set.
+
+        Paramters
+        ---------
+        target_molecule_name : str
+            Name of the target molecule to search.
+        
+        Returns
+        -------
+        bool
+            If the molecule is present in the molecule set or not.
+
+        """
+        for set_molecule in self.molecule_database:
+            if Molecule().is_same(set_molecule, target_molecule):
+                return True
+        return False
 
     def compare_to_molecule(self, target_molecule):
         """
@@ -376,11 +397,53 @@ class MoleculeSet:
 
         """
         target_similarity = [
-            target_molecule.get_similarity_to_molecule(
-                set_molecule, similarity_measure=self.similarity_measure,
-                fingerprint_type=self.descriptor)
+            set_molecule.get_similarity_to(
+                                    target_molecule, 
+                                    similarity_measure=self.similarity_measure)
             for set_molecule in self.molecule_database]
         return np.array(target_similarity)
+    
+    def get_molecule_most_similar_to(self, target_molecule, exclude_self=True):
+        """
+        Get the Molecule in the Set most similar to a Target Molecule.
+        
+        Parameters
+        ----------
+        target_molecule : Molecule object
+            Target molecule to compare.
+        exclude_self : bool
+           If true then a duplicate of the target_molecule in the 
+           molecule set (if present) is ignored and the second most 
+           similar molecule is retured (since a molecule is trivially most 
+           similar to itself). Default is True.
+        
+        Returns
+        -------
+        Molecule object
+
+        """
+        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        if exclude_self and self.is_present(target_molecule):
+            return self.molecule_database[sorted_similarity[-2]]
+        else:
+            return self.molecule_database[sorted_similarity[-1]]
+    
+    def get_molecule_least_similar_to(self, target_molecule):
+        """
+        Get the Molecule in the Set least similar to a Target Molecule.
+        
+        Parameters
+        ----------
+        target_molecule : Molecule object
+            Target molecule to compare.
+        
+        Returns
+        -------
+        Molecule object
+
+        """
+        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.

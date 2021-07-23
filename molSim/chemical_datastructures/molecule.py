@@ -129,6 +129,9 @@ class Molecule:
         if arbitrary_descriptor_val is not None:
             self.descriptor.set_manually(arbitrary_descriptor_val)
         elif fingerprint_type is not None:
+            if self.mol_graph is None:
+                raise ValueError('Molecular graph not present. '
+                                 'Fingerprint cannot be calculated.')
             self.descriptor.make_fingerprint(self.mol_graph,
                                              fingerprint_type=fingerprint_type)
         else:
@@ -144,9 +147,7 @@ class Molecule:
         """
         return self.descriptor.to_numpy()
 
-    def get_similarity_to_molecule(self,
-                                   target_mol,
-                                   similarity_measure):
+    def get_similarity_to(self, target_mol, similarity_measure):
         """Get a similarity metric to a target molecule
 
         Parameters
@@ -160,8 +161,30 @@ class Molecule:
         -------
         similarity_score: float
             Similarity coefficient by the chosen method.
+        
+        Note
+        ----
+        If self object descriptor is a fingerprint, this method will try 
+        to calculate the fingerprint of the target molecule. 
+        If this fails because of the absence of mol_graph atttribute in 
+        target_molecule, a ValueError is raised.
+
+        Raises
+        ------
+        ValueError
+            See Note.
+        NotInitializedError
+            If target_molecule has uninitialized descriptor. See note.
 
         """
+        if self.descriptor.is_fingerprint():
+            try:
+                target_mol.set_descriptor(
+                                fingerprint_type=self.descriptor.get_label())
+            except ValueError as e:
+                e.message += ' For target molecule'
+                raise e
+
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
@@ -190,3 +213,22 @@ class Molecule:
             Draw.MolToImage(self.mol_graph, **kwargs).show()
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
+    
+    @staticmethod
+    def is_same(source_molecule, target_molecule):
+        """Check if the target_molecule is a duplicate of source_molecule
+
+        Parameters
+        ----------
+        source_molecule : Molecule object
+            Source molecule to compare.
+        target_molecule : Molecule object
+            Target molecule to compare.
+        
+        Returns
+        -------
+        bool
+           True if the molecules are the same.
+
+        """
+        return source_molecule.mol_text == target_molecule.mol_text

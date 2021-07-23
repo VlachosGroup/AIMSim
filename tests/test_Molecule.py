@@ -162,12 +162,36 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate.set_descriptor(
                                               fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
-        tanimoto_similarity = test_molecule.get_similarity_to_molecule(
+        tanimoto_similarity = test_molecule.get_similarity_to(
                                      test_molecule_duplicate,
                                      similarity_measure=similarity_measure)
         self.assertEqual(tanimoto_similarity, 1.,
                          'Expected tanimoto similarity to be 1 when comparing '
                          'molecule graph to itself')
+    
+    def test_mol_mol_similarity_w_morgan_tanimoto(self):
+        """
+        Test that the tanimoto similarity of the morgan fingerprints of 
+        two Molecules are in (0, 1).
+
+        """
+        mol1_smiles = 'CCCCCCCCC'
+        mol2_smiles = 'CCCCCCCCCCC'
+        fingerprint_type = 'morgan_fingerprint'
+        similarity_metric = 'tanimoto'
+        molecules = []
+        for smiles in [mol1_smiles, mol2_smiles]:
+            molecule = Molecule(mol_smiles=smiles)
+            molecule.set_descriptor(fingerprint_type=fingerprint_type)
+            molecules.append(molecule)
+        similarity_measure = SimilarityMeasure(metric=similarity_metric)
+        tanimoto_similarity = molecules[0].get_similarity_to(
+                                        molecules[1],
+                                        similarity_measure=similarity_measure)
+        self.assertGreaterEqual(tanimoto_similarity, 0.,
+                                'Expected tanimoto similarity to be >= 0.')
+        self.assertLessEqual(tanimoto_similarity, 1.,
+                            'Expected tanimoto similarity to be <= 1.')
 
     def test_molecule_graph_similar_to_itself_morgan_negl0(self):
         """
@@ -186,7 +210,7 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate.set_descriptor(
                                               fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
-        negl0_similarity = test_molecule.get_similarity_to_molecule(
+        negl0_similarity = test_molecule.get_similarity_to(
                                      test_molecule_duplicate,
                                      similarity_measure=similarity_measure)
         self.assertEqual(negl0_similarity, 0.,
@@ -210,12 +234,14 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate.set_descriptor(
                                               fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
-        dice_similarity = test_molecule.get_similarity_to_molecule(
+        dice_similarity = test_molecule.get_similarity_to(
                                      test_molecule_duplicate,
                                      similarity_measure=similarity_measure)
         self.assertEqual(dice_similarity, 1.,
                          'Expected dice similarity to be 1 when comparing '
                          'molecule graph to itself')
+    
+    
 
 
 if __name__ == '__main__':
