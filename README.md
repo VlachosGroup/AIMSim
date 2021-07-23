@@ -34,8 +34,12 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 
 ## Installing molSim
 ### Conda
-Use the following command with conda to create an environment:
-`conda create --name your-env-name --file spec-file.txt`
+Install all depedencies at once with:
+
+`conda install -c jacksonburns molsim`
+
+Or build everything manually, using the following command with conda to create an environment:
+`conda create --name your-env-name --file requirements.txt`
 
 1. Python 3+
 2. Matplotlib
@@ -78,7 +82,7 @@ For packaging on Pypi:
 
 For packaging on conda:
 
-`conda build package`
+`conda build .`
 
 ## Notes
 
