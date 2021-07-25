@@ -1,5 +1,5 @@
-molSim-master
-=============
+molSim
+======
 
 .. toctree::
    :maxdepth: 4

@@ -20,6 +20,14 @@ molSim.tasks.compare\_target\_molecule module
    :undoc-members:
    :show-inheritance:
 
+molSim.tasks.identify\_outliers module
+--------------------------------------
+
+.. automodule:: molSim.tasks.identify_outliers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 molSim.tasks.show\_property\_variation\_with\_similarity module
 ---------------------------------------------------------------
 
@@ -51,6 +59,7 @@ molSim.tasks.visualize\_dataset module
    :members:
    :undoc-members:
    :show-inheritance:
+
 
 Module contents
 ---------------

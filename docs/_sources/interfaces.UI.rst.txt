@@ -4,13 +4,14 @@ interfaces.UI package
 Submodules
 ----------
 
-interfaces.UI.molSim\-ui\-main module
+interfaces.UI.molSim\_ui\_main module
 -------------------------------------
 
-.. automodule:: interfaces.UI.molSim-ui-main
+.. automodule:: interfaces.UI.molSim_ui_main
    :members:
    :undoc-members:
    :show-inheritance:
+
 
 Module contents
 ---------------

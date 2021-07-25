@@ -4,6 +4,14 @@ tests package
 Submodules
 ----------
 
+tests.test\_Descriptor module
+-----------------------------
+
+.. automodule:: tests.test_Descriptor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tests.test\_Molecule module
 ---------------------------
 
@@ -11,6 +19,23 @@ tests.test\_Molecule module
    :members:
    :undoc-members:
    :show-inheritance:
+
+tests.test\_MoleculeSet module
+------------------------------
+
+.. automodule:: tests.test_MoleculeSet
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_multithreading module
+---------------------------------
+
+.. automodule:: tests.test_multithreading
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------
