@@ -29,12 +29,9 @@ class Cluster:
         )
 
     def fit(self, X):
-        """
-        Parameters
-        ----------
-        X: np.ndarray or list
-            Distance matrix.
-
+        """Call the model fit method.
+        Args:
+            X (np.ndarray or list):  Distance matrix.
         """
         self.model_.fit(X)
         self.labels_ = self.model_.labels_

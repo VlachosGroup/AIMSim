@@ -1,15 +1,13 @@
+"""Abstract task class."""
 from abc import ABC, abstractmethod
 from copy import deepcopy
 
 
 class Task(ABC):
     def __init__(self, configs):
-        """
-        Parameters
-        ----------
-        configs: dict
-            parameters of the task
-
+        """Get configurations.
+        Args:
+            configs (dict): Parameters of the task
         """
         self.configs = deepcopy(configs)
 

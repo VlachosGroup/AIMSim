@@ -1,6 +1,6 @@
+"""Data clustering task."""
 from os import makedirs
 from os.path import dirname
-
 import matplotlib.pyplot as plt
 import yaml
 

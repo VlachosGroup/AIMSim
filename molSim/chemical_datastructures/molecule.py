@@ -1,7 +1,4 @@
-"""
-Abstraction of a molecule with relevant property manipulation methods.
-"""
-from glob import glob
+"""Abstraction of a molecule with relevant property manipulation methods."""
 import os.path
 
 import numpy as np
@@ -26,36 +23,29 @@ class Molecule:
     ):
         """Constructor
 
-        Parameters
-        ----------
-        mol_graph: RDKIT mol object
-            Graph-level information of molecule.
-            Implemented as an RDKIT mol object. Default is None.
-        mol_text: str
-            Text identifier of the molecule. Default is None.
-            Identifiers can be:
-            ------------------
-            1. Name of the molecule.
-            2. SMILES string representing the molecule.
-        mol_property_val: float
-            Some property associated with the molecule. This is typically the
-            response being studied. E.g. Boiling point, Selectivity etc.
-            Default is None.
-        mol_descriptor_val: numpy ndarray
-            Decriptor value for the molecule. Must be numpy array or list.
-            Default is None.
-        mol_src: str
-            Source file or SMILES string to load molecule. Acceptable files are
-              -> .pdb file
-              -> .txt file with SMILE string in first column, first row and
-                      (optionally) property in second column, first row.
-            Default is None.
-            If provided mol_graph is attempted to be loaded from it.
-        mol_smiles: str
-            SMILES string for molecule. If provided, mol_graph is loaded from
-            it. If mol_text not set in keyword argument, this string is used
-            to set it.
-
+        Args:
+            mol_graph (RDKIT mol object): Graph-level information of molecule.
+                Implemented as an RDKIT mol object. Default is None.
+            mol_text (str): Text identifier of the molecule. Default is None.
+                Identifiers can be:
+                ------------------
+                1. Name of the molecule.
+                2. SMILES string representing the molecule.
+            mol_property_val (float): Some property associated with the molecule.
+                This is typically the response being studied. E.g. Boiling point,
+                Selectivity etc. Default is None.
+            mol_descriptor_val (numpy ndarray): Decriptor value for the molecule.
+                Must be numpy array or list. Default is None.
+            mol_src (str):
+                Source file or SMILES string to load molecule. Acceptable files are
+                -> .pdb file
+                -> .txt file with SMILE string in first column, first row and
+                        (optionally) property in second column, first row.
+                Default is None.
+                If provided mol_graph is attempted to be loaded from it.
+            mol_smiles (str): SMILES string for molecule. If provided, mol_graph
+                is loaded from it. If mol_text not set in keyword argument,
+                this string is used to set it.
         """
         self.mol_graph = mol_graph
         self.mol_text = mol_text
@@ -68,7 +58,10 @@ class Molecule:
         if mol_src is not None:
             self._set_molecule_from_file(mol_src)
             if self.mol_graph is None:
-                raise ValueError("Could not load molecule from file source", mol_src)
+                raise ValueError(
+                    "Could not load molecule from file source",
+                    mol_src,
+                )
         if mol_smiles is not None:
             self._set_molecule_from_smiles(mol_smiles)
             if self.mol_graph is None:
@@ -77,32 +70,26 @@ class Molecule:
                 )
 
     def _set_molecule_from_smiles(self, mol_smiles):
-        """
-        Set the mol_graph attribute from smiles string.
+        """Set the mol_graph attribute from smiles string.
         If self.mol_text is not set, it is set to the smiles string.
 
-        Parameters
-        ----------
-        mol_smiles: str
-        SMILES string for molecule. If provided, mol_graph is loaded from
-            it. If mol_text not set in keyword argument, this string is used
-            to set it.
-
+        Args:
+            mol_smiles (str): SMILES string for molecule. If provided,
+                mol_graph is loaded from it. If mol_text not set in keyword
+                argument, this string is used to set it.
         """
         self.mol_graph = Chem.MolFromSmiles(mol_smiles)
         if self.mol_text is None:
             self.mol_text = mol_smiles
 
     def _set_molecule_from_file(self, mol_src):
-        """Load molecule graph from file
+        """Load molecule graph from file.
 
-        Parameters
-        mol_src: str
-            Source file or SMILES string to load molecule.
-            Acceptable files are
-              -> .pdb file
-              -> .txt file with SMILE string in first column, first row.
-
+        Args:
+            mol_src (str): Source file or SMILES string to load molecule.
+                Acceptable files are
+                -> .pdb file
+                -> .txt file with SMILE string in first column, first row.
         """
         if os.path.isfile(mol_src):
             mol_fname, extension = os.path.basename(mol_src).split(".")
@@ -124,23 +111,20 @@ class Molecule:
     ):
         """Sets molecular descriptor attribute.
 
-        Parameters
-        ----------
-        arbitrary_descriptor_val : np.array or list
-            Arbitrary descriptor vector. Default is None.
-        fingerprint_type : str
-            String label specifying which fingerprint to use. Default is None.
-        fingerprint_params : dict
-            Additional parameters for modifying fingerprint defaults.
-            Default is None.
-
+        Args:
+            arbitrary_descriptor_val (np.array or list): Arbitrary descriptor
+                vector. Default is None.
+            fingerprint_type (str): String label specifying which fingerprint
+                to use. Default is None.
+            fingerprint_params (dict): Additional parameters for modifying
+                fingerprint defaults. Default is None.
         """
         if arbitrary_descriptor_val is not None:
             self.descriptor.set_manually(arbitrary_descriptor_val)
         elif fingerprint_type is not None:
             if self.mol_graph is None:
                 raise ValueError(
-                    "Molecular graph not present. " "Fingerprint cannot be calculated."
+                    "Molecular graph not present. Fingerprint cannot be calculated."
                 )
             self.descriptor.make_fingerprint(
                 self.mol_graph,
@@ -153,9 +137,8 @@ class Molecule:
     def get_descriptor_val(self):
         """Get value of molecule descriptor.
 
-        Returns
-        -------
-        np.ndarray
+        Returns:
+            np.ndarray: value(s) of the descriptor.
 
         """
         return self.descriptor.to_numpy()
@@ -163,17 +146,15 @@ class Molecule:
     def get_similarity_to(self, target_mol, similarity_measure):
         """Get a similarity metric to a target molecule
 
-        Parameters
-        ----------
-        target_mol: Molecule object: Target molecule.
-            Similarity score is with respect to this molecule
-        similarity_measure: SimilarityMeasure object.
-            The similarity metric used.
+        Args:
+            target_mol (molSim.ops Molecule): Target molecule. Similarity
+                score is with respect to this molecule
+            similarity_measure (molSim.ops SimilarityMeasure). The similarity
+                metric used.
 
-        Returns
-        -------
-        similarity_score: float
-            Similarity coefficient by the chosen method.
+        Returns:
+            similarity_score (float): Similarity coefficient by the chosen
+                method.
 
         Note
         ----
@@ -182,13 +163,11 @@ class Molecule:
         If this fails because of the absence of mol_graph atttribute in
         target_molecule, a ValueError is raised.
 
-        Raises
-        ------
-        ValueError
-            See Note.
-        NotInitializedError
-            If target_molecule has uninitialized descriptor. See note.
-
+        Raises:
+            ValueError
+                See Note.
+            NotInitializedError
+                If target_molecule has uninitialized descriptor. See note.
         """
         if self.descriptor.is_fingerprint():
             try:
@@ -215,14 +194,10 @@ class Molecule:
     def draw(self, fpath=None, **kwargs):
         """Draw or molecule graph.
 
-        Parameters
-        ----------
-        fpath: str
-            Path of file to store image. If None, image is displayed in io.
-            Default is None.
-        kwargs: keyword arguments
-            Arguments to modify plot properties.
-
+        Args:
+            fpath (str): Path of file to store image. If None, image is
+                displayed in io. Default is None.
+            kwargs (keyword arguments): Arguments to modify plot properties.
         """
         if fpath is None:
             Draw.MolToImage(self.mol_graph, **kwargs).show()
@@ -231,19 +206,16 @@ class Molecule:
 
     @staticmethod
     def is_same(source_molecule, target_molecule):
-        """Check if the target_molecule is a duplicate of source_molecule
+        """Check if the target_molecule is a duplicate of source_molecule.
 
-        Parameters
-        ----------
-        source_molecule : Molecule object
-            Source molecule to compare.
-        target_molecule : Molecule object
-            Target molecule to compare.
+        Args:
+            source_molecule (molSim.chemical_datastructures Molecule): Source
+                molecule to compare.
+            target_molecule (molSim.chemical_datastructures Molecule): Target
+                molecule to compare.
 
-        Returns
-        -------
-        bool
-           True if the molecules are the same.
+        Returns:
+            bool: True if the molecules are the same.
 
         """
         return source_molecule.mol_text == target_molecule.mol_text

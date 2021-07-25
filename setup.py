@@ -1,16 +1,12 @@
 import pathlib
 from setuptools import setup, find_packages
 
-# The directory containing this file
 cwd = pathlib.Path(__file__).parent
 
-# The text of the README file
 README = (cwd / "README.md").read_text()
 
-# short description field
 desc = "Python command line and GUI tool to analyze molecular similarity."
 
-# This call to setup() does all the work
 setup(
     name="molSim",
     version="0.0.1",

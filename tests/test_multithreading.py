@@ -18,7 +18,7 @@ class TestMultithreading(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         """Create a SMILES database to use for comparisons and
-        find the similarity matrix.
+        find the similarity matrices and execution times.
         """
         if exists(".no-speedup-test"):
             print("Speedup and Efficiency tests DISABLED.")
@@ -31,6 +31,7 @@ class TestMultithreading(unittest.TestCase):
                 ResourceWarning,
             )
         print(" ~ ~ Testing Multithreading ~ ~ ")
+
         # basic consistency tests
         self.text_fpath = "temp_multithread_smiles_seq.txt"
         print(f"Creating text file {self.text_fpath}")
@@ -56,6 +57,7 @@ class TestMultithreading(unittest.TestCase):
             _1000_molecules = data[1:1002]
             _5000_molecules = data[1:5002]
             _10000_molecules = data[1:10002]
+
         # data used for speedup and efficiency tests
         self._100_molecules_fpath = "temp_multithread_speedup_100.txt"
         print(f"Creating text file {self._100_molecules_fpath}")
@@ -1265,6 +1267,7 @@ class TestMultithreading(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        """Delete temporary files used in testing."""
         print("Deleting smiles database files.")
         remove(self.text_fpath)
         if not self.NO_SPEEDUP_TEST:

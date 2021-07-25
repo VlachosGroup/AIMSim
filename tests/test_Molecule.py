@@ -26,11 +26,11 @@ class TestMolecule(unittest.TestCase):
         test_molecule = Molecule()
         self.assertIsNone(
             test_molecule.mol_graph,
-            "Expected attribute mol_graph to be None " "for uninitialized Molecule",
+            "Expected attribute mol_graph to be None for uninitialized Molecule",
         )
         self.assertIsNone(
             test_molecule.mol_text,
-            "Expected attribute mol_text to be None " "for uninitialized Molecule",
+            "Expected attribute mol_text to be None for uninitialized Molecule",
         )
         self.assertIsNone(
             test_molecule.mol_property_val,

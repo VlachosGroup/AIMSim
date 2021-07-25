@@ -1,10 +1,8 @@
 from os import makedirs
 from os.path import dirname
 from molSim.chemical_datastructures import Molecule
-import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import pearsonr
-import yaml
+from molSim.utils.plotting_scripts import plot_density
 
 from .task import Task
 
@@ -40,24 +38,13 @@ class CompareTargetMolecule(Task):
         """
         Compare a target molecule with molecular database in terms
         of similarity.
-        Parameters
-        ----------
-        target_molecule: Molecule object
-            Target molecule.
-        molecule_set: MoleculeSet object
-            Database of molecules to compare against.
-        out_fpath: str
-            Filepath to output results. If None, results are not saved and
-            simply displayed to IO.
-
-
+        Args:
+            molecule_set (molSim.chemical_datastructures Molecule): Target
+                molecule.
         """
         target_similarity = self.target_molecule.compare_to_molecule_set(molecule_set)
-        # shift to MoleculeSet
         most_similar_mol = molecule_set.molecule_database[np.argmax(target_similarity)]
         least_similar_mol = molecule_set.molecule_database[np.argmin(target_similarity)]
-        ###############
-
         text_prompt = "***** "
         text_prompt += f"FOR MOLECULE {self.target_molecule.mol_text} *****"
         text_prompt += "\n\n"

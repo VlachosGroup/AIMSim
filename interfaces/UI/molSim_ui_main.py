@@ -1,10 +1,10 @@
-"""User Interface and associated methods to access the key functionalities of molSim
-without having to use the command line.
+"""User Interface and associated methods to access the key functionalities of
+molSim without having to use the command line.
 
 Raises:
-    IOError: When pressing 'open config' it is possible that no suitable program
-    will be known to the OS to open .yaml files. Also if no tasks are selected,
-    an IOError will be raised.
+    IOError: When pressing 'open config' it is possible that no suitable
+    program will be known to the OS to open .yaml files. Also if no tasks
+    are selected, an IOError will be raised.
 
 Author:
     Jackson Burns
@@ -17,7 +17,6 @@ import yaml
 import os
 import tkinter as tk
 import tkinter.ttk as ttk
-import matplotlib.pyplot as plt
 import webbrowser
 
 
@@ -260,6 +259,7 @@ class MolsimUiApp:
 
 
 def main():
+    """Start the app."""
     app = MolsimUiApp()
     app.run()
 

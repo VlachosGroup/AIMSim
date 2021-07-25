@@ -146,18 +146,14 @@ class Descriptor:
         """Make fingerprint of a molecule based on a graph representation.
         Set the state of the descriptor to this fingerprint.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            The graph object used to make a fingerprint
-        fingerprint_type: str
-            label for the type of fingerprint.
-            Invokes get_supported_descriptors()['fingerprints']
-            for list of supported fingerprints.
-        fingerprint_params : dict
-            Keyword arguments used to modify parameters of fingerprint.
-            Default is None.
-
+        Args:
+            molecule_graph (RDKIT object): The graph object used to make a
+                fingerprint.
+            fingerprint_type (str): label for the type of fingerprint.
+                Invokes get_supported_descriptors()['fingerprints']
+                for list of supported fingerprints.
+            fingerprint_params (dict): Keyword arguments used to modify
+                parameters of fingerprint. Default is None.
         """
         if fingerprint_params is None:
             fingerprint_params = {}
@@ -182,13 +178,11 @@ class Descriptor:
             raise ValueError(f"{fingerprint_type} not supported")
 
     def set_manually(self, arbitrary_descriptor_val):
-        """
-        Set the descriptor value manually based on user specified value.
-        Parameters
-        ----------
-        arbitrary_descriptor_val: np.ndarray or list
-            Vectorized representation of descriptor values.
+        """Set the descriptor value manually based on user specified value.
 
+        Args:
+            arbitrary_descriptor_val (np.ndarray or list): Vectorized
+                representation of descriptor values.
         """
         self.label_ = "arbitrary"
         self.numpy_ = np.array(arbitrary_descriptor_val)

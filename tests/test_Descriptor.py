@@ -10,6 +10,12 @@ SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 
 
 class TestDescriptor(unittest.TestCase):
+    """Tests for methods of the Descriptor class.
+
+    Args:
+        unittest (unittest): Python unittest module.
+    """
+
     def test_descriptor_empty_init(self):
         """
         Test to verify empty Descriptor object can be created.
@@ -17,7 +23,8 @@ class TestDescriptor(unittest.TestCase):
         """
         descriptor = Descriptor()
         self.assertFalse(
-            descriptor.check_init(), "Expected Descriptor object to be uninitialized"
+            descriptor.check_init(),
+            "Expected Descriptor object to be uninitialized",
         )
 
     def test_descriptor_arbitrary_list_init(self):
@@ -29,7 +36,8 @@ class TestDescriptor(unittest.TestCase):
         descriptor_value = [1, 2, 3]
         descriptor = Descriptor(value=descriptor_value)
         self.assertTrue(
-            descriptor.check_init(), "Expected Descriptor object to be initialized"
+            descriptor.check_init(),
+            "Expected Descriptor object to be initialized",
         )
         self.assertEqual(
             descriptor.label_,
@@ -59,7 +67,8 @@ class TestDescriptor(unittest.TestCase):
         descriptor_value = np.array([1, 2, 3])
         descriptor = Descriptor(value=descriptor_value)
         self.assertTrue(
-            descriptor.check_init(), "Expected Descriptor object to be initialized"
+            descriptor.check_init(),
+            "Expected Descriptor object to be initialized",
         )
         self.assertEqual(
             descriptor.label_,
@@ -90,7 +99,8 @@ class TestDescriptor(unittest.TestCase):
                 molecule_graph=mol_graph, fingerprint_type=fprint
             )
             self.assertTrue(
-                descriptor.check_init(), "Expected Descriptor object to be initialized"
+                descriptor.check_init(),
+                "Expected Descriptor object to be initialized",
             )
             self.assertEqual(
                 descriptor.label_,
@@ -122,7 +132,8 @@ class TestDescriptor(unittest.TestCase):
                 molecule_graph=mol_graph, fingerprint_type="mordred:" + desc
             )
             self.assertTrue(
-                descriptor.check_init(), "Expected Descriptor object to be initialized"
+                descriptor.check_init(),
+                "Expected Descriptor object to be initialized",
             )
             self.assertEqual(
                 descriptor.label_,
@@ -145,5 +156,6 @@ class TestDescriptor(unittest.TestCase):
             descriptor = Descriptor()
             with self.assertRaises(MordredCalculatorError):
                 descriptor.make_fingerprint(
-                    molecule_graph=mol_graph, fingerprint_type="mordred:" + desc
+                    molecule_graph=mol_graph,
+                    fingerprint_type="mordred:" + desc,
                 )

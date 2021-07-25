@@ -1,3 +1,4 @@
+"""Class to call al tasks in sequence."""
 from molSim.chemical_datastructures import MoleculeSet
 from molSim.tasks import *
 
@@ -6,12 +7,9 @@ class TaskManager:
     def __init__(self, tasks):
         """Sequentially launches all the tasks from the configuration file.
 
-        Parameters
-        ----------
-        tasks: dict
-            The tasks field of the config yaml containing various tasks
-            and their parameters.
-
+        Args:
+            tasks (dict): The tasks field of the config yaml containing various
+                tasks and their parameters.
         """
         self.to_do = []
         self.molecule_set = None
@@ -19,12 +17,9 @@ class TaskManager:
 
     def _set_tasks(self, tasks):
         """
-        Parameters
-        ----------
-        tasks: dict
-            The tasks field of the config yaml containing various tasks
-            and their parameters.
-
+        Args:
+            tasks (dict): The tasks field of the config yaml containing various
+            tasks and their parameters.
         """
         for task, task_configs in tasks.items():
             try:
@@ -53,15 +48,16 @@ class TaskManager:
 
     def _initialize_molecule_set(self, molecule_set_configs):
         """Initialize molecule_set attribute to a MoleculeSet object
-        based on parameters in the config file
+        based on parameters in the config file.
 
-        Parameters
-        ----------
-        molecule_set_configs: dict
-            Configurations for initializing the MoleculeSet object.
-
+        Args:
+            molecule_set_configs (dict): Configurations for initializing
+                the MoleculeSet object.
         """
-        molecule_database_src = molecule_set_configs.get("molecule_database", None)
+        molecule_database_src = molecule_set_configs.get(
+            "molecule_database",
+            None,
+        )
         database_src_type = molecule_set_configs.get(
             "molecule_database_source_type", None
         )
@@ -88,10 +84,8 @@ class TaskManager:
     def __call__(self, molecule_set_configs):
         """Launch all tasks from the queue.
 
-        Parameters
-        ----------
-        molecule_set_configs: dict
-
+        Args:
+            molecule_set_configs (dict): Configurations for the molecule_set.
         """
         self._initialize_molecule_set(molecule_set_configs)
         if self.molecule_set.is_verbose:

@@ -1,24 +1,4 @@
-"""This module contains methods to find similarities between molecules.
-Notes
------
-Input to all methods is an rdkit fingerprint or numpy array.
-
-Supported descriptor datatypes
-------------------------------
-'numpy': np.array
-'rdkit': rdkit.DataStructs.cDataStructs.ExplicitBitVect
-
-Supported Metrics
-----------------
-'tanimoto': Jaccard Coefficient/ Tanimoto Similarity
-        0 (not similar at all) to 1 (identical)
-'negative_l0': Negative L0 norm of |x1 - x2|
-'negative_l1': Negative L1 norm of |x1 - x2|
-'negative_l2': Negative L2 norm of |x1 - x2|
-'dice': Dice similarity
-'cosine': Cosine similarity
-
-"""
+"""This module contains methods to find similarities between molecules."""
 import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
@@ -61,18 +41,14 @@ class SimilarityMeasure:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
 
     def __call__(self, mol1_descriptor, mol2_descriptor):
-        """
+        """Compare two descriptors.
 
-        Parameters
-        ----------
-        mol1_descriptor: Descriptor object
-        mol2_descriptor: Descriptor object
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
 
-        Returns
-        -------
-        similarity_: float
-            Similarity value
-
+        Returns:
+            similarity_ (float): Similarity value
         """
         similarity_ = None
         if self.metric == "negative_l0":
@@ -125,7 +101,8 @@ class SimilarityMeasure:
 
     @staticmethod
     def get_supported_metrics():
-        """Return a list of strings for the currently implemented similarity measures, aka metrics.
+        """Return a list of strings for the currently implemented
+        similarity measures, aka metrics.
 
         Returns:
             List: List of strings.

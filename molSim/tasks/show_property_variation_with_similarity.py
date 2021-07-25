@@ -1,10 +1,8 @@
+"""Task to visualize property similarity over a dataset."""
 from os import makedirs
-from os.path import basename
-
-import matplotlib.pyplot as plt
-import numpy as np
+from os.path import dirname
 from scipy.stats import pearsonr
-import yaml
+from molSim.utils.plotting_scripts import plot_parity
 
 from .task import Task
 
@@ -33,10 +31,9 @@ class ShowPropertyVariationWithSimilarity(Task):
     def __call__(self, molecule_set):
         """Plot the variation of molecular property with molecular fingerprint.
 
-        Parameters
-        ----------
-        molecule_set: Molecules object
-            Molecules object of the molecule database.
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                Molecules object of the molecule database.
 
         """
         similar_mol_pairs = molecule_set.get_most_similar_pairs()
@@ -60,7 +57,9 @@ class ShowPropertyVariationWithSimilarity(Task):
         if molecule_set.is_verbose:
             print("Plotting Responses of Similar Molecules")
         plot_parity(
-            reference_mol_properties, similar_mol_properties, **self.plot_settings
+            reference_mol_properties,
+            similar_mol_properties,
+            **self.plot_settings,
         )
         if molecule_set.is_verbose:
             print("Plotting Responses of Dissimilar Molecules")
@@ -70,16 +69,14 @@ class ShowPropertyVariationWithSimilarity(Task):
             **self.plot_settings,
         )
 
-        #### Put in Molecule #####
         pearson_coff_of_responses = pearsonr(
             reference_mol_properties, similar_mol_properties
         )
         pearson_coff_of_dissimilar_responses = pearsonr(
             dissimilar_reference_mol_properties, dissimilar_mol_properties
         )
-        ##############################
         text_prompt = (
-            "Pearson Correlation in the properties of the " "most similar molecules\n"
+            "Pearson Correlation in the properties of the most similar molecules\n"
         )
         text_prompt += "-" * 60
         text_prompt += "\n\n"

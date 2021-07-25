@@ -1,3 +1,4 @@
+"""Create similarity plots for the dataset."""
 from .task import Task
 from molSim.utils.plotting_scripts import plot_density, plot_heatmap
 
@@ -21,10 +22,9 @@ class VisualizeDataset(Task):
     def __call__(self, molecule_set):
         """Visualize essential properties of the dataset.
 
-        Parameters
-        ----------
-        molecule_set: MoleculeSet object
-            Molecular database..
+        Args:
+            molecule_set(molSim.chemical_datastructures MoleculeSet):
+                Molecular database.
 
         Plots Generated
         ---------------

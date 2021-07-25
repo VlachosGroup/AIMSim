@@ -48,7 +48,8 @@ class TestMoleculeSet(unittest.TestCase):
         """Helper method to convert a SMILES sequence to a text file.
 
         Args:
-            property_seq (list or np.ndarray, optional): Optional sequence of molecular responses.. Defaults to None.
+            property_seq (list or np.ndarray, optional): Optional sequence of
+                molecular responses.. Defaults to None.
 
         Returns:
             str: Path to created file.
@@ -69,16 +70,12 @@ class TestMoleculeSet(unittest.TestCase):
     def smiles_seq_to_smi_file(self, property_seq=None):
         """Helper method to convert a SMILES sequence to a .smi file.
 
-        Parameters
-        ----------
-        property_seq : list or np.ndarray
-            Optional sequence of molecular responses.
+        Args:
+            property_seq (list or np.ndarray, optional): Optional sequence of
+                molecular responses. Defaults to None.
 
-        Returns
-        -------
-        text_fpath : str
-            Path to created file.
-
+        Returns:
+            str: Path to created file.
         """
         smi_fpath = "temp_smiles_seq.smi"
         print(f"Creating text file {smi_fpath}")
@@ -94,18 +91,14 @@ class TestMoleculeSet(unittest.TestCase):
         return smi_fpath
 
     def smiles_seq_to_SMILES_file(self, property_seq=None):
-        """Helper method to convert a SMILES sequence to a SMILES file.
+        """Helper method to convert a SMILES sequence to a .SMILES file.
 
-        Parameters
-        ----------
-        property_seq : list or np.ndarray
-            Optional sequence of molecular responses.
+        Args:
+            property_seq (list or np.ndarray, optional): Optional sequence of
+                molecular responses. Defaults to None.
 
-        Returns
-        -------
-        text_fpath : str
-            Path to created file.
-
+        Returns:
+            str: Path to created file.
         """
         SMILES_fpath = "temp_smiles_seq.SMILES"
         print(f"Creating text file {SMILES_fpath}")
@@ -121,18 +114,14 @@ class TestMoleculeSet(unittest.TestCase):
         return SMILES_fpath
 
     def SMARTS_seq_to_SMILES_file(self, property_seq=None):
-        """Helper method to convert a SMARTS sequence to a SMILES file.
+        """Helper method to convert a SMARTS sequence to a .SMILES file.
 
-        Parameters
-        ----------
-        property_seq : list or np.ndarray
-            Optional sequence of molecular responses.
+        Args:
+            property_seq (list or np.ndarray, optional): Optional sequence of
+                molecular responses. Defaults to None.
 
-        Returns
-        -------
-        text_fpath : str
-            Path to created file.
-
+        Returns:
+            str: Path to created file.
         """
         SMILES_fpath = "temp_smiles_seq.SMILES"
         print(f"Creating text file {SMILES_fpath}")
@@ -151,16 +140,12 @@ class TestMoleculeSet(unittest.TestCase):
         """Helper method to convert a SMILES sequence to a pdb files
         stored in a directory.
 
-        Parameters
-        ----------
-        property_seq : list or np.ndarray
-            Optional sequence of molecular responses.
+        Args:
+            property_seq (list or np.ndarray, optional): Optional sequence of
+                molecular responses. Defaults to None.
 
-        Returns
-        -------
-        dir_path : str
-            Path to created directory.
-
+        Returns:
+            str: Path to created directory.
         """
         dir_path = "test_dir"
         if not os.path.isdir(dir_path):
@@ -180,22 +165,20 @@ class TestMoleculeSet(unittest.TestCase):
         """Helper method to convert a SMILES sequence or arbitrary features
         to Excel or CSV files.
 
-        Parameters
-        ----------
-        ftype : str
-            String label to denote the filetype. 'csv' or 'excel'.
-        property_seq : list or np.ndarray
-            Optional sequence of molecular responses.
-        name_seq : list or np.ndarray
-            Optional sequence of molecular names.
-        feature_arr : np.ndarray
-            Optional array of molecular descriptor values.
+        Args:
+            ftype (str): String label to denote the filetype. 'csv' or 'excel'.
+            property_seq (list or np.ndarray, optional): Optional sequence of
+                molecular responses. Defaults to None.
+            name_seq (list or np.ndarray, optional): Optional sequence of
+                molecular names. Defaults to None.
+            feature_arr (np.ndarray, optional): Optional array of molecular
+                descriptor values. Defaults to None.
 
-        Returns
-        -------
-        fpath : str
-            Path to created file.
+        Raises:
+            ValueError: Invalid file type specified.
 
+        Returns:
+            str: Path to created file.
         """
         data = {"feature_smiles": self.test_smiles}
         if property_seq is not None:
@@ -1035,6 +1018,7 @@ class TestMoleculeSet(unittest.TestCase):
                     )
 
     def test_get_molecule_least_similar_to(self):
+        """Test for get_molecule_least_similar_to functionality."""
         csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv")
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:

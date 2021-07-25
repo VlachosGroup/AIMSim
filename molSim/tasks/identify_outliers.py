@@ -24,10 +24,9 @@ class IdentifyOutliers(Task):
         """Iterates through all molecules in molecule_set,
         trains an IsolationForest, and identifies outliers.
 
-        Parameters
-        ----------
-        molecule_set: MoleculeSet object
-            Molecular database.
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                Molecules object of the molecule database.
 
         """
         descs = []

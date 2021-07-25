@@ -1,6 +1,4 @@
-"""
-Abstraction of a data set comprising multiple Molecule objects.
-"""
+"""Abstraction of a data set comprising multiple Molecule objects."""
 from glob import glob
 import os.path
 import multiprocess
@@ -21,26 +19,21 @@ from molSim.ops.similarity_measures import SimilarityMeasure
 class MoleculeSet:
     """Collection of Molecule objects.
 
-    Attributes
-    ----------
-    molecule_database: List
-        List of Molecule objects.
-    similarity_measure : str
-        Similarity measure used.
-    similarity_matrix: numpy ndarray
-        n_mols X n_mols numpy matrix of pairwise similarity scores.
-    is_verbose : bool
-        Controls how much information is displayed during plotting.
-    sample_ratio : float
-        Fraction of dataset to keep for analysis. Default is 1.
+    Attributes:
+        molecule_database (List): List of Molecule objects.
+        similarity_measure (str): Similarity measure used.
+        similarity_matrix (numpy ndarray): n_mols X n_mols numpy matrix of
+            pairwise similarity scores.
+        is_verbose (bool): Controls how much information is displayed during
+            plotting.
+        sample_ratio (float): Fraction of dataset to keep for analysis.
+            Default is 1.
 
-    Methods
-    -------
-    generate_similarity_matrix()
-        Set the similarity_matrix attribute.
-    get_most_similar_pairs()
-        Get the indexes of the most similar molecules as tuples.
-
+    Methods:
+        generate_similarity_matrix()
+            Set the similarity_matrix attribute.
+        get_most_similar_pairs()
+            Get the indexes of the most similar molecules as tuples.
     """
 
     def __init__(
@@ -56,13 +49,11 @@ class MoleculeSet:
         sampling_random_state=42,
     ):
         """
-        Parameters
-        ----------
-        sampling_ratio : float
-            Fraction of the molecules to keep. Useful for selection subset
-            of dataset for quick computations.
-        sampling_random_state : int
-        Random state used for sampling. Default is 42.
+        Args:
+            sampling_ratio (float): Fraction of the molecules to keep. Useful
+                for selection subset of dataset for quick computations.
+            sampling_random_state (int): Random state used for sampling.
+                Default is 42.
         """
         self.is_verbose = is_verbose
         self.n_threads = n_threads
@@ -90,24 +81,21 @@ class MoleculeSet:
         """Load molecular database and return it.
         Optionally return features if found in excel / csv file.
 
-        Parameters
-        ----------
-        molecule_database_src : str
-            Source of molecular information. Can be a folder or a filepath.
-            In case a folder is specified, all .pdb files in the folder
-            are sequentially read.
-            If a file path, it is assumed that the file is a .txt file with
-            layout: SMILES string (column1) '\b' property (column2, optional).
-        molecule_database_src_type : str
-            Type of source. Can be ['folder', 'text', 'excel', 'csv']
+        Args:
+            molecule_database_src (str):
+                Source of molecular information. Can be a folder or a filepath.
+                In case a folder is specified, all .pdb files in the folder
+                are sequentially read.
+                If a file path, it is assumed that the file is a .txt file with
+                layout: SMILES string (column1) '\b' property (column2, optional).
+            molecule_database_src_type (str):
+                Type of source. Can be ['folder', 'text', 'excel', 'csv']
 
-        Returns
-        -------
-        (list(Molecule), np.ndarray or None)
-            Returns a tuple. First element of tuple is the molecule_database.
-            Second element is array of features of shape
-            (len(molecule_database), n_features) or None if None found.
-
+        Returns:
+            (list(Molecule), np.ndarray or None)
+                Returns a tuple. First element of tuple is the molecule_database.
+                Second element is array of features of shape
+                (len(molecule_database), n_features) or None if None found.
         """
         molecule_database = []
         features = None
@@ -238,17 +226,15 @@ class MoleculeSet:
         values manually or pass fingerprint_type to generate a fingerprint
         from molecule_graph. Both can't be None.
 
-        Parameters
-        ----------
-        arbitrary_descriptor_vals : np.ndarray
-            Arbitrary descriptor array of size:
-                (n_mols xx dimensionality of descriptor space).
-                Default is None.
-        fingerprint_type : str
-            String label specifying which fingerprint to use. Default is None.
-        fingerprint_params : dict
-           Parameters to modify the fingerprint generated. Default is None.
-
+        Args:
+            arbitrary_descriptor_vals (np.ndarray):
+                Arbitrary descriptor array of size:
+                    (n_mols xx dimensionality of descriptor space).
+                    Default is None.
+            fingerprint_type (str):  String label specifying which fingerprint
+                to use. Default is None.
+            fingerprint_params (dict): Parameters to modify the fingerprint
+                generated. Default is None.
         """
         for molecule_id, molecule in enumerate(self.molecule_database):
             if fingerprint_type is not None:
@@ -268,7 +254,6 @@ class MoleculeSet:
     def _set_similarity_matrix(self):
         """Calculate the similarity metric using a molecular descriptor
         and a similarity measure. Set this attribute.
-
         """
         n_mols = len(self.molecule_database)
         similarity_matrix = np.zeros(shape=(n_mols, n_mols))
@@ -394,12 +379,9 @@ class MoleculeSet:
     def _set_similarity_measure(self, similarity_measure):
         """Set the similarity measure attribute.
 
-        Parameters
-        ----------
-        similarity_measure: str
-            The similarity metric used. See docstring for list
-            of supported similarity metrics.
-
+        Args:
+            similarity_measure (str): The similarity metric used. See
+            docstring for list of supported similarity metrics.
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
@@ -425,16 +407,11 @@ class MoleculeSet:
         Searches the name of a target molecule in the molecule set to
         determine if the target molecule is present in the molecule set.
 
-        Paramters
-        ---------
-        target_molecule_name : str
-            Name of the target molecule to search.
+        Args:
+            target_molecule_name (str): Name of the target molecule to search.
 
-        Returns
-        -------
-        bool
-            If the molecule is present in the molecule set or not.
-
+        Returns:
+            bool: If the molecule is present in the molecule set or not.
         """
         for set_molecule in self.molecule_database:
             if Molecule().is_same(set_molecule, target_molecule):
@@ -445,17 +422,13 @@ class MoleculeSet:
         """
         Compare the molecule set to an arbitrary target molecule.
 
-        Parameters
-        ----------
-        target_molecule : Molecule object
-            Target molecule to compare.
+        Args:
+            target_molecule (molSim.chemical_datastructures Molecule): Target
+                molecule to compare.
 
-        Returns
-        -------
-        target_similarity : np.ndarray
-            Similarity scores between target molecule and all other molecules
-            of the molecule set.
-
+        Returns:
+            target_similarity (np.ndarray): Similarity scores between target
+                molecule and all other molecules of the molecule set.
         """
         target_similarity = [
             set_molecule.get_similarity_to(
@@ -469,20 +442,17 @@ class MoleculeSet:
         """
         Get the Molecule in the Set most similar to a Target Molecule.
 
-        Parameters
-        ----------
-        target_molecule : Molecule object
-            Target molecule to compare.
-        exclude_self : bool
-           If true then a duplicate of the target_molecule in the
-           molecule set (if present) is ignored and the second most
-           similar molecule is retured (since a molecule is trivially most
-           similar to itself). Default is True.
+        Args:
+            target_molecule (molSim.chemical_datastructures Molecule): Target
+                molecule to compare.
+            exclude_self (bool): If true then a duplicate of the
+                target_molecule in the molecule set (if present) is ignored
+                and the second most similar molecule is retured (since
+                a molecule is trivially most similar to itself).
+                Default is True.
 
-        Returns
-        -------
-        Molecule object
-
+        Returns:
+            molSim.chemical_datastructures Molecule: Most similar molecule.
         """
         sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
         if exclude_self and self.is_present(target_molecule):
@@ -494,15 +464,11 @@ class MoleculeSet:
         """
         Get the Molecule in the Set least similar to a Target Molecule.
 
-        Parameters
-        ----------
-        target_molecule : Molecule object
-            Target molecule to compare.
+        Args:
+            target_molecule (molSim.chemical_datastructures Molecule): Target molecule to compare.
 
-        Returns
-        -------
-        Molecule object
-
+        Returns:
+            molSim.chemical_datastructures Molecule: Least similar molecule.
         """
         sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
         return self.molecule_database[sorted_similarity[0]]
@@ -510,17 +476,11 @@ class MoleculeSet:
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
 
-        Parameters
-        ----------
-
-
-        Returns
-        -------
-        List(Tuple(Molecule, Molecule))
-            List of pairs of Molecules closest to one another.
-            Since ties are broken randomly, this may be non-transitive
-            i.e. (A, B) =/=> (B, A)
-
+        Returns:
+            List(Tuple(Molecule, Molecule))
+                List of pairs of Molecules closest to one another.
+                Since ties are broken randomly, this may be non-transitive
+                i.e. (A, B) =/=> (B, A)
         """
         if self.similarity_matrix is None:
             raise NotInitializedError(
@@ -567,14 +527,9 @@ class MoleculeSet:
     def get_most_dissimilar_pairs(self, descriptor=None, similarity_measure=None):
         """Get pairs of samples which are least similar.
 
-        Parameters
-        ----------
-
-        Returns
-        -------
-        List(Tuple(Molecule, Molecule))
-            List of pairs of indices closest to one another.
-
+        Returns:
+            List(Tuple(Molecule, Molecule))
+                List of pairs of indices closest to one another.
         """
         if self.similarity_matrix is None:
             raise NotInitializedError(
@@ -602,15 +557,11 @@ class MoleculeSet:
     def get_similarity_matrix(self):
         """Get the similarity matrix for the data set.
 
-        Returns
-        -------
-        np.ndarray
-            Similarity matrix of the dataset.
+        Returns:
+            np.ndarray: Similarity matrix of the dataset.
 
-        Note
-        ----
+        Note:
         If un-set, sets the self.similarity_matrix attribute.
-
         """
         if self.similarity_matrix is None:
             self._set_similarity_matrix()
@@ -619,11 +570,8 @@ class MoleculeSet:
     def get_distance_matrix(self):
         """Get the distance matrix for the data set.
 
-        Returns
-        -------
-        np.ndarray
-            Distance matrix of the dataset.
-
+        Returns:
+            np.ndarray: Distance matrix of the dataset.
         """
         return self.similarity_measure.to_distance(self.similarity_matrix)
 
@@ -640,9 +588,8 @@ class MoleculeSet:
         """
         Get names of the molecules in the set.
 
-        Returns
-        -------
-        np.ndarray
+        Returns:
+            np.ndarray: Array with molecules names.
         """
         mol_names = []
         for mol_id, mol in enumerate(self.molecule_database):
@@ -654,24 +601,19 @@ class MoleculeSet:
         return np.array(mol_names)
 
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
-        """
-        Cluster the molecules of the MoleculeSet.
+        """Cluster the molecules of the MoleculeSet.
 
-        Parameters
-        ----------
-        n_clusters : int
-            Number of clusters. Default is 8.
-        clustering_method : str
-            Clustering algorithm to use. Default is None in which case the
-            algorithm is chosen from the similarity measure in use.
-        kwargs : keyword args
-            Key word arguments to supply to clustering algorithm.
+        Args:
+            n_clusters (int): Number of clusters. Default is 8.
+            clustering_method (str): Clustering algorithm to use. Default is
+                None in which case the algorithm is chosen from the
+                similarity measure in use.
+            kwargs (keyword args): Key word arguments to supply to clustering
+                algorithm.
 
-        Returns
-        -------
-        cluster_grouped_mol_names : dict
-            Dictionary of cluster id (key) --> Names of molecules in cluster.
-
+        Returns:
+            cluster_grouped_mol_names (dict): Dictionary of cluster id
+                (key) --> Names of molecules in cluster.
         """
         if clustering_method is None:
             if self.similarity_measure.type_ == "continuous":

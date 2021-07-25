@@ -6,11 +6,11 @@ from seaborn import kdeplot, heatmap
 
 
 def plot_density(similarity_vector, **kwargs):
-    """Plot the similarity density
+    """Plot the similarity density.
 
     Args:
-        similarity_vector (list or numpy ndarray):
-        Vector of similarity scores to be plotted.
+        similarity_vector (list or numpy ndarray): Vector of similarity scores
+            to be plotted.
 
     kwargs: dict
         Keyword arguments to modify plot. Some common ones:
@@ -50,12 +50,10 @@ def plot_density(similarity_vector, **kwargs):
 
 
 def plot_heatmap(input_matrix, **kwargs):
-    """Plot a heatmap representing the input matrix
+    """Plot a heatmap representing the input matrix.
 
-    Attributes
-    ----------
-    input_vector: np.ndarray
-        Matrix to be plotted.
+    Args:
+        input_vector (np.ndarray): Matrix to be plotted.
 
     kwargs: dict
         Keyword arguments to modify plot. Some common ones:
@@ -104,14 +102,12 @@ def plot_heatmap(input_matrix, **kwargs):
 def plot_parity(x, y, **kwargs):
     """Plot parity plot of x vs y.
 
-    Parameters
-    ----------
-    x: n x 1 numpy array: values plotted along x axis
-    y: n x 1 numpy array: values plotted along y axis
+    Args:
+        x (n x 1 np.ndarray): values plotted along x axis
+        y (n x 1 np.ndarray): values plotted along y axis
 
-    Returns
-    -------
-    if kwargs.show_plot set to False, returns pyplot axis.
+    Returns:
+        if kwargs.show_plot set to False, returns pyplot axis.
 
     """
     plot_params = {
@@ -169,17 +165,12 @@ def plot_parity(x, y, **kwargs):
 def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     """Plot a bar chart
 
-    Parameters
-    ----------
-    x: list or numpy array
-       X axis grid.
-    heights: list or np.array
-        Height of the bars
-    colors: list or str
-    xtick_labels: list
-        Labels to use for each bar. Default is None in which case just the
-        indices of the height are used
-
+    Args:
+        x (list or numpy array): X axis grid.
+        heights (list or numpy array): Height of the bars.
+        colors (list or str): Plot colors.
+        xtick_labels (list, optional): Labels to use for each bar. Default is
+            None in which case just the indices of the height are used.
     """
     plot_params = {
         "title": kwargs.pop("title", ""),
@@ -205,16 +196,12 @@ def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
 def plot_scatter(x, y, **kwargs):
     """Plot scatter plot of x vs y.
 
-    Parameters
-    ----------
-    x : np.ndarray or list
-        Values plotted along x axis.
-    y : np.ndarray or list
-        Values plotted along y axis.
+    Args:
+        x(np.ndarray or list): Values plotted along x axis.
+        y(np.ndarray or list): Values plotted along y axis.
 
-    Returns
-    -------
-    if kwargs.show_plot set to False, returns pyplot axis.
+    Returns:
+        if kwargs.show_plot set to False, returns pyplot axis.
 
     """
     plot_params = {

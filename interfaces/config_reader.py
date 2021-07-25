@@ -3,7 +3,6 @@
 Raises:
     IOError: If the tasks field is empty in the input file, 
     an IOError will be raised.
-
 """
 from argparse import ArgumentParser
 import yaml
