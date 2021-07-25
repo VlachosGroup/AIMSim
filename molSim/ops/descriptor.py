@@ -46,32 +46,34 @@ class Descriptor:
 
         """
         if self.check_init() is False:
-            raise NotInitializedError('Descriptor value not generated. Use '
-                                      'make_fingerprint() to initialize it.')
-        if not hasattr(self, 'numpy_'):
+            raise NotInitializedError(
+                "Descriptor value not generated. Use "
+                "make_fingerprint() to initialize it."
+            )
+        if not hasattr(self, "numpy_"):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             DataStructs.ConvertToNumpyArray(self.rdkit_, self.numpy_)
         return self.numpy_
 
     def to_rdkit(self):
         if self.check_init() is False:
-            raise NotInitializedError('Descriptor value not generated. Use '
-                                      'make_fingerprint() to initialize it.')
-        if not hasattr(self, 'rdkit_'):
-            raise ValueError('Attempting to convert arbitrary numpy array '
-                             'to rdkit bit vector is not supported')
+            raise NotInitializedError(
+                "Descriptor value not generated. Use "
+                "make_fingerprint() to initialize it."
+            )
+        if not hasattr(self, "rdkit_"):
+            raise ValueError(
+                "Attempting to convert arbitrary numpy array "
+                "to rdkit bit vector is not supported"
+            )
         return self.rdkit_
 
     def check_init(self):
-        if hasattr(self, 'numpy_') or hasattr(self, 'rdkit_'):
+        if hasattr(self, "numpy_") or hasattr(self, "rdkit_"):
             return True
         return False
 
-    def _set_morgan_fingerprint(self,
-                                molecule_graph,
-                                radius,
-                                n_bits,
-                                **kwargs):
+    def _set_morgan_fingerprint(self, molecule_graph, radius, n_bits, **kwargs):
         """Set the descriptor to a morgan fingerprint.
 
         Parameters
@@ -86,18 +88,15 @@ class Descriptor:
             as count.
 
         """
-        self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(molecule_graph,
-                                                            radius,
-                                                            nBits=n_bits)
-        self.label_ = 'morgan_fingerprint'
-        self.params_ = {'radius': radius,
-                        'n_bits': n_bits}
+        self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(
+            molecule_graph, radius, nBits=n_bits
+        )
+        self.label_ = "morgan_fingerprint"
+        self.params_ = {"radius": radius, "n_bits": n_bits}
 
-    def _set_rdkit_topological_fingerprint(self,
-                                           molecule_graph,
-                                           min_path,
-                                           max_path,
-                                           **kwargs):
+    def _set_rdkit_topological_fingerprint(
+        self, molecule_graph, min_path, max_path, **kwargs
+    ):
         """Set the descriptor to a topological fingerprint.
 
         Parameters
@@ -110,12 +109,11 @@ class Descriptor:
             Maximum path used to generate the topological fingerprint.
 
         """
-        self.rdkit_ = rdmolops.RDKFingerprint(molecule_graph,
-                                              minPath=min_path,
-                                              maxPath=max_path)
-        self.label_ = 'topological_fingerprint'
-        self.params_ = {'min_path': min_path,
-                        'max_path': max_path}
+        self.rdkit_ = rdmolops.RDKFingerprint(
+            molecule_graph, minPath=min_path, maxPath=max_path
+        )
+        self.label_ = "topological_fingerprint"
+        self.params_ = {"min_path": min_path, "max_path": max_path}
 
     def _set_mordred_descriptor(self, molecule_graph, descriptor, **kwargs):
         """Set the value of numpy_ to the descriptor as indicated by descriptor.
@@ -137,13 +135,14 @@ class Descriptor:
         except KeyError:
             raise MordredCalculatorError(
                 """Mordred descriptor calculator unable to calculate descriptor \"{}\",
-                ensure correct name is used (https://mordred-descriptor.github.io/documentation/master/descriptors.html).""" .format(
-                    descriptor))
+                ensure correct name is used (https://mordred-descriptor.github.io/documentation/master/descriptors.html).""".format(
+                    descriptor
+                )
+            )
 
-    def make_fingerprint(self,
-                         molecule_graph,
-                         fingerprint_type,
-                         fingerprint_params=None):
+    def make_fingerprint(
+        self, molecule_graph, fingerprint_type, fingerprint_params=None
+    ):
         """Make fingerprint of a molecule based on a graph representation.
         Set the state of the descriptor to this fingerprint.
 
@@ -162,27 +161,25 @@ class Descriptor:
         """
         if fingerprint_params is None:
             fingerprint_params = {}
-        if fingerprint_type == 'morgan_fingerprint':
-            morgan_params = {'radius': 3,
-                             'n_bits': 1024}
+        if fingerprint_type == "morgan_fingerprint":
+            morgan_params = {"radius": 3, "n_bits": 1024}
             morgan_params.update(fingerprint_params)
-            self._set_morgan_fingerprint(molecule_graph=molecule_graph,
-                                         **morgan_params)
-        elif fingerprint_type == 'topological_fingerprint':
-            topological_params = {'min_path': 1,
-                                  'max_path': 7}
+            self._set_morgan_fingerprint(molecule_graph=molecule_graph, **morgan_params)
+        elif fingerprint_type == "topological_fingerprint":
+            topological_params = {"min_path": 1, "max_path": 7}
             topological_params.update(fingerprint_params)
             self._set_rdkit_topological_fingerprint(
-                                                molecule_graph=molecule_graph,
-                                                **topological_params)
-        elif fingerprint_type.split(":")[0] == 'mordred':
+                molecule_graph=molecule_graph, **topological_params
+            )
+        elif fingerprint_type.split(":")[0] == "mordred":
             mordred_params = {}
             self._set_mordred_descriptor(
                 molecule_graph=molecule_graph,
                 descriptor=fingerprint_type.split(":")[1],
-                **mordred_params)
+                **mordred_params,
+            )
         else:
-            raise ValueError(f'{fingerprint_type} not supported')
+            raise ValueError(f"{fingerprint_type} not supported")
 
     def set_manually(self, arbitrary_descriptor_val):
         """
@@ -193,7 +190,7 @@ class Descriptor:
             Vectorized representation of descriptor values.
 
         """
-        self.label_ = 'arbitrary'
+        self.label_ = "arbitrary"
         self.numpy_ = np.array(arbitrary_descriptor_val)
 
     def get_label(self):
@@ -209,7 +206,7 @@ class Descriptor:
             return self.params_
 
     def is_fingerprint(self):
-        return 'fingerprint' in self.get_label()
+        return "fingerprint" in self.get_label()
 
     @staticmethod
     def get_supported_fprints():
@@ -217,4 +214,4 @@ class Descriptor:
         Returns:
             List: List of strings.
         """
-        return ['morgan_fingerprint', 'topological_fingerprint']
+        return ["morgan_fingerprint", "topological_fingerprint"]

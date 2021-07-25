@@ -13,17 +13,17 @@ from molSim.ops.descriptor import Descriptor
 
 
 class Molecule:
-    """Molecular object defined from RDKIT mol object.
+    """Molecular object defined from RDKIT mol object."""
 
-    """
-
-    def __init__(self,
-                 mol_graph=None,
-                 mol_text=None,
-                 mol_property_val=None,
-                 mol_descriptor_val=None,
-                 mol_src=None,
-                 mol_smiles=None):
+    def __init__(
+        self,
+        mol_graph=None,
+        mol_text=None,
+        mol_property_val=None,
+        mol_descriptor_val=None,
+        mol_src=None,
+        mol_smiles=None,
+    ):
         """Constructor
 
         Parameters
@@ -60,18 +60,21 @@ class Molecule:
         self.mol_graph = mol_graph
         self.mol_text = mol_text
         self.mol_property_val = mol_property_val
-        self.descriptor = Descriptor() if mol_descriptor_val is None \
+        self.descriptor = (
+            Descriptor()
+            if mol_descriptor_val is None
             else Descriptor(value=np.array(mol_descriptor_val))
+        )
         if mol_src is not None:
             self._set_molecule_from_file(mol_src)
             if self.mol_graph is None:
-                raise ValueError('Could not load molecule from file source',
-                                 mol_src)
+                raise ValueError("Could not load molecule from file source", mol_src)
         if mol_smiles is not None:
             self._set_molecule_from_smiles(mol_smiles)
             if self.mol_graph is None:
-                raise ValueError('Could not load molecule from SMILES string',
-                                 mol_smiles)
+                raise ValueError(
+                    "Could not load molecule from SMILES string", mol_smiles
+                )
 
     def _set_molecule_from_smiles(self, mol_smiles):
         """
@@ -102,21 +105,23 @@ class Molecule:
 
         """
         if os.path.isfile(mol_src):
-            mol_fname, extension = os.path.basename(mol_src).split('.')
-            if extension == 'pdb':
+            mol_fname, extension = os.path.basename(mol_src).split(".")
+            if extension == "pdb":
                 # read pdb file
                 self.mol_graph = Chem.MolFromPDBFile(mol_src)
                 if self.mol_text is None:
                     self.mol_text = mol_fname
-            elif extension == 'txt':
+            elif extension == "txt":
                 with open(mol_src, "r") as fp:
                     mol_smiles = fp.readline().split()[0]
                 self._set_molecule_from_smiles(mol_smiles)
 
-    def set_descriptor(self,
-                       arbitrary_descriptor_val=None,
-                       fingerprint_type=None,
-                       fingerprint_params=None):
+    def set_descriptor(
+        self,
+        arbitrary_descriptor_val=None,
+        fingerprint_type=None,
+        fingerprint_params=None,
+    ):
         """Sets molecular descriptor attribute.
 
         Parameters
@@ -134,17 +139,19 @@ class Molecule:
             self.descriptor.set_manually(arbitrary_descriptor_val)
         elif fingerprint_type is not None:
             if self.mol_graph is None:
-                raise ValueError('Molecular graph not present. '
-                                 'Fingerprint cannot be calculated.')
+                raise ValueError(
+                    "Molecular graph not present. " "Fingerprint cannot be calculated."
+                )
             self.descriptor.make_fingerprint(
-                                         self.mol_graph,
-                                         fingerprint_type=fingerprint_type,
-                                         fingerprint_params=fingerprint_params)
+                self.mol_graph,
+                fingerprint_type=fingerprint_type,
+                fingerprint_params=fingerprint_params,
+            )
         else:
-            raise ValueError(f'No descriptor vector were passed.')
-        
+            raise ValueError(f"No descriptor vector were passed.")
+
     def get_descriptor_val(self):
-        """ Get value of molecule descriptor.
+        """Get value of molecule descriptor.
 
         Returns
         -------
@@ -167,12 +174,12 @@ class Molecule:
         -------
         similarity_score: float
             Similarity coefficient by the chosen method.
-        
+
         Note
         ----
-        If self object descriptor is a fingerprint, this method will try 
-        to calculate the fingerprint of the target molecule. 
-        If this fails because of the absence of mol_graph atttribute in 
+        If self object descriptor is a fingerprint, this method will try
+        to calculate the fingerprint of the target molecule.
+        If this fails because of the absence of mol_graph atttribute in
         target_molecule, a ValueError is raised.
 
         Raises
@@ -186,16 +193,17 @@ class Molecule:
         if self.descriptor.is_fingerprint():
             try:
                 target_mol.set_descriptor(
-                                fingerprint_type=self.descriptor.get_label(),
-                                fingerprint_params=self.descriptor.get_params())
+                    fingerprint_type=self.descriptor.get_label(),
+                    fingerprint_params=self.descriptor.get_params(),
+                )
             except ValueError as e:
-                e.message += ' For target molecule'
+                e.message += " For target molecule"
                 raise e
 
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
-            e.message += 'Similarity could not be calculated. '
+            e.message += "Similarity could not be calculated. "
             raise e
 
     def get_name(self):
@@ -220,7 +228,7 @@ class Molecule:
             Draw.MolToImage(self.mol_graph, **kwargs).show()
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
-    
+
     @staticmethod
     def is_same(source_molecule, target_molecule):
         """Check if the target_molecule is a duplicate of source_molecule
@@ -231,7 +239,7 @@ class Molecule:
             Source molecule to compare.
         target_molecule : Molecule object
             Target molecule to compare.
-        
+
         Returns
         -------
         bool

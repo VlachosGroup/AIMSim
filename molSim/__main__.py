@@ -1,5 +1,13 @@
 import sys
 
+try:
+    from rdkit import Chem
+except ImportError:
+    raise BaseException(
+        "RDKit installation not found! Run `conda install -c rdkit rdkit`."
+    )
+    pass
+
 
 def start_molSim():
     if len(sys.argv) > 1:

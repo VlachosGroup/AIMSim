@@ -7,28 +7,21 @@ cwd = pathlib.Path(__file__).parent
 # The text of the README file
 README = (cwd / "README.md").read_text()
 
-try:
-    from rdkit import Chem
-except ImportError:
-    # raise BaseException(
-    #     "RDKit installation not found! Run `conda install -c rdkit rdkit`.")
-    pass
+# short description field
+desc = "Python command line and GUI tool to analyze molecular similarity."
 
 # This call to setup() does all the work
 setup(
     name="molSim",
     version="0.0.1",
-    description="Python command line and GUI tool to analyze molecular similarity.",
+    description=desc,
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/himaghna/molSim",
     author="Himaghna Bhattacharjee, Jackson Burns",
     license="MIT",
-    classifiers=[
-        "Programming Language :: Python :: 3"
-    ],
+    classifiers=["Programming Language :: Python :: 3"],
     install_requires=[
-        "python==3.7.10",
         "scipy==1.5.4",
         "matplotlib==3.3.4",
         "seaborn==0.11.1",
@@ -45,7 +38,8 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     entry_points={
-        'console_scripts': [
-            'molSim=molSim.__main__:start_molSim',
-        ]},
+        "console_scripts": [
+            "molSim=molSim.__main__:start_molSim",
+        ]
+    },
 )

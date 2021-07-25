@@ -9,10 +9,10 @@ class Task(ABC):
         ----------
         configs: dict
             parameters of the task
-        
+
         """
         self.configs = deepcopy(configs)
-    
+
     @abstractmethod
     def _extract_configs(self):
         pass
