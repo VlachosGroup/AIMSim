@@ -18,6 +18,7 @@ setup(
     license="MIT",
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=[
+        "rdkit-pypi",
         "scipy==1.5.4",
         "matplotlib==3.3.4",
         "seaborn==0.11.1",
