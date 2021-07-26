@@ -34,7 +34,7 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 
 ## Installing molSim
 ### Pip _(preferred method)_
-Required dependency _RDKit_ is only available through _conda_. To install using _pip_, first run `conda install -c rdkit rdkit` to install it. To then install molSim using pip, run the following command: `pip install molSim`
+Required dependency _RDKit_ is only available first-party through _conda_. To install molSim using pip, run the following command: `pip install molSim`. You may then need to install `RDKit` using _conda_: run `conda install -c rdkit rdkit` to install it. 
 
 ### Conda
 Install all depedencies at once with:
