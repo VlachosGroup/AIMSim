@@ -110,6 +110,11 @@ class SimilarityMeasure:
             self.metric = 'rogot_goldberg'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
+        
+        elif metric.lower() in ['hawkins-dotson']:
+            self.metric = 'hawkins_dotson'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -188,6 +193,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_forbes(mol1_descriptor, 
                                                mol2_descriptor)
+            except ValueError as e:
+                raise e
+        
+        elif self.metric == 'hawkins_dotson':
+            try:
+                similarity_ = self._get_hawkins_dotson(mol1_descriptor, 
+                                                      mol2_descriptor)
             except ValueError as e:
                 raise e
         
@@ -400,6 +412,36 @@ class SimilarityMeasure:
         similarity_ = (p * a) / ((a + b) * (a + c))
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = p / a
+        return self._normalize(similarity_)
+    
+    def _get_hawkins_dotson(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Hawkins-Dotson similarity between two molecules.
+        This is defined for two binary arrays as:
+        Hawkins-Dotson similarity = 0.5 * (a / (a + b + c)
+                                           + d / (d + b + c))
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Hawkins-Dotson similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Hawkins-Dotson similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        similarity_ = 0.5 * (a/(a + b + c) + d/(d + b + c))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
     
     def _get_jaccard(self, mol1_descriptor, mol2_descriptor):
@@ -798,7 +840,8 @@ class SimilarityMeasure:
             'faith',
             'mountford',
             'michael',
-            'rogot-goldberg'
+            'rogot-goldberg',
+            'hawkins-dotson',
 
 
         ]
