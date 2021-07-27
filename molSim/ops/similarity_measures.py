@@ -232,7 +232,8 @@ class SimilarityMeasure:
                 )
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
-        return (a + d) / (a + 2*b + 2*c + d)
+        p = a + b + c + d
+        return (a + d) / (p + b + c)
     
     def _get_russel_rao(self, mol1_descriptor, mol2_descriptor):
         """Calculate russel-rao similarity between two molecules.
@@ -260,7 +261,8 @@ class SimilarityMeasure:
                 )
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
-        return a / (a + b + c + d)
+        p = a + b + c + d
+        return a / p
 
     def _get_simple_matching(self, mol1_descriptor, mol2_descriptor):
         """Calculate simple matching similarity between two molecules.
@@ -288,7 +290,8 @@ class SimilarityMeasure:
                 )
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
-        return (a + d) / (a + b + c + d)
+        p = a + b + c + d
+        return (a + d) / p
     
     def _get_simpson(self, mol1_descriptor, mol2_descriptor):
         """Calculate simpson similarity between two molecules.
