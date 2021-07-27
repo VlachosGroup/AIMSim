@@ -124,6 +124,16 @@ class SimilarityMeasure:
                                                        mol2_descriptor)
             except ValueError as e:
                 raise e
+        
+        elif self.metric == "cosine":
+            if mol1_descriptor.rdkit_ and mol2_descriptor.rdkit_:
+                similarity_ = DataStructs.CosineSimilarity(
+                    mol1_descriptor.rdkit_, mol2_descriptor.rdkit_
+                )
+            else:
+                similarity_ = scipy_cosine(
+                    mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
+                )
 
         elif self.metric == 'dice':
             try:
@@ -198,16 +208,6 @@ class SimilarityMeasure:
                     "Tanimoto similarity is only useful for bit strings "
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
-                )
-
-        elif self.metric == "cosine":
-            if mol1_descriptor.rdkit_ and mol2_descriptor.rdkit_:
-                similarity_ = DataStructs.CosineSimilarity(
-                    mol1_descriptor.rdkit_, mol2_descriptor.rdkit_
-                )
-            else:
-                similarity_ = scipy_cosine(
-                    mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
                 )
 
         return similarity_
