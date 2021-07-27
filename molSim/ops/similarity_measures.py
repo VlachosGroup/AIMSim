@@ -66,6 +66,11 @@ class SimilarityMeasure:
             self.metric = 'braun_blanquet'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
+        
+        elif metric.lower() in ['baroni-urbani-buser']:
+            self.metric = 'baroni_urbani_buser'
+            self.type_ = 'discrete'
+            self.to_distance = lambda  x: 1 - x
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -97,6 +102,13 @@ class SimilarityMeasure:
                 mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=2
             )
         
+        elif self.metric == 'baroni_urbani_buser':
+            try:
+                similarity_ = self._get_baroni_urbani_buser(mol1_descriptor, 
+                                                            mol2_descriptor)
+            except ValueError as e:
+                raise e
+
         elif self.metric == 'braun_blanquet':
             try:
                 similarity_ = self._get_braun_blanquet(mol1_descriptor, 
@@ -170,6 +182,42 @@ class SimilarityMeasure:
 
         return similarity_
     
+    def _get_baroni_urbani_buser(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Baroni-Urbani-Buser similarity between two molecules.
+        This is defined for two binary arrays as:
+        Baroni-Urbani-Buser similarity = (sqrt(a * d) + a)
+                                         / (sqrt(a * d) + a + b + c), where:
+        a = bits(array 1) and bits(array 2)
+        b = bits(array 1) and bits(~array 2)
+        c = bits(~array 1) and bits(array 2)
+        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        p = a + b + c + d = bits(array 1 or array 2)
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Baroni-Urbani-Buser similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Baroni-Urbani-Buser similarity is only useful for "
+                    "bit strings generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if d == p:
+            return 1.
+        similarity_ = (np.sqrt(a * d) 
+                       + a) / (np.sqrt(a * d) + a + b + c)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+    
     def _get_braun_blanquet(self, mol1_descriptor, mol2_descriptor):
         """Calculate braun-blanquet similarity between two molecules.
         This is defined for two binary arrays as:
@@ -185,7 +233,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): Simple Matching similarity value
+            (float): Braun-Blanquet similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -447,4 +495,6 @@ class SimilarityMeasure:
             'forbes',
             'simpson',
             'braun-blanquet',
+            'baroni-urbani-buser',
+            
         ]
