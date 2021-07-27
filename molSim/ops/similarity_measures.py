@@ -80,6 +80,13 @@ class SimilarityMeasure:
             self.metric = 'sokal_sneath'
             self.type_ = 'discrete'
             self.to_distance = lambda  x: 1 - x
+        
+        elif metric.lower() in ['sokal-sneath_2', 
+                                'sokal-sneath-2', 
+                                'symmetric_sokal_sneath', 
+                                'symmetric-sokal-sneath']:
+            self.metric = 'symmetric_sokal_sneath'
+            self.type_ = 'discrete'
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -193,6 +200,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_sokal_sneath(mol1_descriptor, 
                                                      mol2_descriptor)
+            except ValueError as e:
+                raise e
+        
+        elif self.metric == 'sokal_sneath_2': 
+            try:
+                similarity_ = self._get_symmetric_sokal_sneath(mol1_descriptor, 
+                                                               mol2_descriptor)
             except ValueError as e:
                 raise e
                 
@@ -514,6 +528,38 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
+    
+    def _get_symmetric_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Symmetric Sokal-Sneath similarity between two molecules.
+        This is defined for two binary arrays as:
+        Symmetric Sokal-Sneath similarity = (2*a + 2*d) / (p + a + d) where:
+        a = bits(array 1) and bits(array 2)
+        b = bits(array 1) and bits(~array 2)
+        c = bits(~array 1) and bits(array 2)
+        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        p = a + b + c + d = bits(array 1 or array 2)
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Symmetric Sokal-Sneath similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Symmetric Sokal-Sneath similarity is only useful "
+                    "for bit strings generated from fingerprints. Consider "
+                    "using other similarity measures for arbitrary vectors."
+                )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        p = a + b +c + d
+        similarity_ = (2*a + 2*d) / (p + a + d)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
         
     def _get_abcd(self, arr1, arr2):
         """ Get a, b, c, d, where:
@@ -595,5 +641,9 @@ class SimilarityMeasure:
             'baroni-urbani-buser',
             'kulczynski',
             'sokal-sneath',
+            'sokal-sneath_2', 
+            'sokal-sneath-2', 
+            'symmetric_sokal_sneath', 
+            'symmetric-sokal-sneath'
 
         ]
