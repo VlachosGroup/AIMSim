@@ -33,7 +33,7 @@ class SimilarityMeasure:
             # convert to jaccard for distance
             self.to_distance = lambda x: 1 - x/(2-x)
 
-        elif metric.lower() in ['jaccard', 'tanimoto']:
+        elif metric.lower() in ['tanimoto', 'jaccard-tanimoto']:
             self.metric = 'tanimoto'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
@@ -86,6 +86,10 @@ class SimilarityMeasure:
                                 'symmetric_sokal_sneath', 
                                 'symmetric-sokal-sneath']:
             self.metric = 'symmetric_sokal_sneath'
+            self.type_ = 'discrete'
+        
+        elif metric.lower() in ['jaccard']:
+            self.metric = 'jaccard'
             self.type_ = 'discrete'
 
         else:
@@ -158,6 +162,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_forbes(mol1_descriptor, 
                                                mol2_descriptor)
+            except ValueError as e:
+                raise e
+        
+        elif self.metric == 'jaccard':
+            try:
+                similarity_ = self._get_jaccard(mol1_descriptor, 
+                                                mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -234,7 +245,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -269,7 +280,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -302,7 +313,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
 
         Note
@@ -333,6 +344,39 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = p / a
         return self._normalize(similarity_)
     
+    def _get_jaccard(self, mol1_descriptor, mol2_descriptor):
+        """Calculate jaccard similarity between two molecules.
+        This is defined for two binary arrays as:
+        jaccard similarity = 3*a / (3*a + b + c), where:
+        a = bits(array 1) and bits(array 2)
+        b = bits(array 1) and bits(~array 2)
+        c = bits(~array 1) and bits(array 2)
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
+        p = a + b + c + d = bits(array 1 or array 2)
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): jaccard similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Jaccard similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        if a == 0:
+            return 0.
+        similarity_ = 3*a / (3*a + b + c)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+    
     def _get_kulczynski(self, mol1_descriptor, mol2_descriptor):
         """Calculate kulczynski similarity between two molecules.
         This is defined for two binary arrays as:
@@ -340,7 +384,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -363,7 +407,7 @@ class SimilarityMeasure:
             return 0.
         similarity_ = 0.5 * a / ((a + b) + (a + c))
         self.normalize_fn["shift_"] = 0.
-        self.normalize_fn["scale_"] = p / a
+        self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
     
@@ -374,7 +418,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -406,7 +450,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -438,7 +482,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -470,7 +514,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
 
         Args:
@@ -503,7 +547,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
 
         Args:
@@ -536,7 +580,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
 
         Args:
@@ -566,7 +610,7 @@ class SimilarityMeasure:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -644,6 +688,7 @@ class SimilarityMeasure:
             'sokal-sneath_2', 
             'sokal-sneath-2', 
             'symmetric_sokal_sneath', 
-            'symmetric-sokal-sneath'
+            'symmetric-sokal-sneath',
+            'jaccard'
 
         ]
