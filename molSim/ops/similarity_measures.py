@@ -10,71 +10,61 @@ class SimilarityMeasure:
             self.metric = 'negative_l0'
             self.type_ = 'continuous'
             self.to_distance = lambda x: -x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['negative_l1', 'negative_manhattan']:
             self.metric = 'negative_l1'
             self.type_ = 'continuous'
             self.to_distance = lambda x: -x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['negative_l2', 'negative_euclidean']:
             self.metric = 'negative_l2'
             self.type_ = 'continuous'
             self.to_distance = lambda x: -x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['cosine']:
             self.metric = 'cosine'
             self.type_ = 'continuous'
             # angular distance
             self.to_distance = lambda x: np.arccos(x) / np.pi
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['dice', 'sorenson', 'gleason']:
             self.metric = 'dice'
             self.type_ = 'discrete'
             # convert to jaccard for distance
             self.to_distance = lambda x: 1 - x/(2-x)
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['jaccard', 'tanimoto']:
             self.metric = 'tanimoto'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['simple_matching', 'sokal-michener', 'rand']:
             self.metric = 'simple_matching'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ['rogers-tanimoto']:
             self.metric = 'rogers_tanimoto'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
             
         elif metric.lower() in ['russel-rao']:
             self.metric = 'russel_rao'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
         
         elif metric.lower() in ['forbes']:
             self.metric = 'forbes'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
-        
+            
         elif metric.lower() in ['simpson']:
             self.metric = 'simpson'
             self.type_ = 'discrete'
-            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
+        self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
     def __call__(self, mol1_descriptor, mol2_descriptor):
         """Compare two descriptors.
@@ -233,7 +223,10 @@ class SimilarityMeasure:
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
-        return (a + d) / (p + b + c)
+        similarity_ = (a + d) / (p + b + c)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
     
     def _get_russel_rao(self, mol1_descriptor, mol2_descriptor):
         """Calculate russel-rao similarity between two molecules.
@@ -262,7 +255,10 @@ class SimilarityMeasure:
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
-        return a / p
+        similarity_ = a / p
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
 
     def _get_simple_matching(self, mol1_descriptor, mol2_descriptor):
         """Calculate simple matching similarity between two molecules.
@@ -291,7 +287,10 @@ class SimilarityMeasure:
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
-        return (a + d) / p
+        similarity_ = (a + d) / p
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
     
     def _get_simpson(self, mol1_descriptor, mol2_descriptor):
         """Calculate simpson similarity between two molecules.
