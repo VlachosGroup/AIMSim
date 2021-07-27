@@ -31,11 +31,12 @@ class SimilarityMeasure:
             self.to_distance = lambda x: np.arccos(x) / np.pi
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
-        elif metric.lower() in ["dice", "sorenson", "gleason"]:
-            self.metric = "dice"
-            self.type_ = "discrete"
+        elif metric.lower() in ['dice', 'sorenson', 'gleason']:
+            self.metric = 'dice'
+            self.type_ = 'discrete'
             # convert to jaccard for distance
             self.to_distance = lambda x: 1 - x/(2-x)
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ["jaccard", "tanimoto"]:
             self.metric = "tanimoto"
