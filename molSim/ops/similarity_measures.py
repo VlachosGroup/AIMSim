@@ -50,10 +50,11 @@ class SimilarityMeasure:
             self.to_distance = lambda x: 1 - x
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
-        elif metric.lower() in ["rogers-tanimoto"]:
-            self.metric = "rogers_tanimoto"
-            self.type_ = "discrete"
+        elif metric.lower() in ['rogers-tanimoto']:
+            self.metric = 'rogers_tanimoto'
+            self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
             
         elif metric.lower() in ["russel-rao"]:
             self.metric = "russel_rao"
