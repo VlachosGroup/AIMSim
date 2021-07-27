@@ -769,8 +769,8 @@ class SimilarityMeasure:
         """
 
         def _to_equal_length(arr1, arr2):
-            out_arr = (np.array(arr1), np.array(arr2))
-            max_length = max(arr1.shape, arr2.shape)
+            out_arr = [np.array(arr1), np.array(arr2)]
+            max_length = max(arr1.size, arr2.size)
             for arr_id, arr in enumerate(out_arr):
                 out_arr[arr_id] =  np.pad(arr, 
                                           (0, max_length - arr.size), 
@@ -778,8 +778,8 @@ class SimilarityMeasure:
             return out_arr
 
         arr1, arr2 = _to_equal_length(arr1, arr2)
-        not_arr1 = np.invert(arr1)
-        not_arr2 = np.invert(arr2)
+        not_arr1 = np.logical_not(arr1)
+        not_arr2 = np.logical_not(arr2)
         a = np.sum(arr1 & arr2)
         b = np.sum(arr1 & not_arr2)
         c = np.sum(not_arr1 & arr2)
