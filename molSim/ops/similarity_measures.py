@@ -61,6 +61,13 @@ class SimilarityMeasure:
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
+        
+        elif metric.lower() in ['forbes']:
+            self.metric = 'forbes'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
+
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -103,6 +110,13 @@ class SimilarityMeasure:
                     "other similarity measures for arbitrary vectors."
                 )
         
+        elif self.metric == 'forbes': 
+            try:
+                similarity_ = self._get_forbes(mol1_descriptor, 
+                                               mol2_descriptor)
+            except ValueError as e:
+                raise e
+
         elif self.metric == 'rogers_tanimoto': 
             try:
                 similarity_ = self._get_rogers_tanimoto(mol1_descriptor, 
@@ -149,6 +163,44 @@ class SimilarityMeasure:
                 )
 
         return similarity_
+    
+    def _get_forbes(self, mol1_descriptor, mol2_descriptor):
+        """Calculate forbes similarity between two molecules.
+        This is defined for two binary arrays as:
+        Rogers-Tanimoto = a / p, where:
+        a = bits(array 1) and bits(array 2)
+        b = bits(array 1) and bits(~array 2)
+        c = bits(~array 1) and bits(array 2)
+        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        p = a + b + c + d = bits(array 1 or array 2)
+
+        Note
+        ----
+        The forbes similarity is normalized to [0, 1]
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Simple Matching similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Simple Matching similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        if (a + b) == 0 or (a + c) == 0 or a == 0:
+            return 0.
+        p = a + b + c + d
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = p / a
+        similarity_ = (p * a) / ((a + b) * (a + c))
+        return self._normalize(similarity_)
     
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
@@ -268,6 +320,10 @@ class SimilarityMeasure:
         d = np.sum(not_arr1 & not_arr2)
         assert (a + b + c + d) == arr1.size == arr2.size
         return a, b, c, d
+    
+    def _normalize(self, similarity_):
+        return (similarity_ 
+                + self.normalize_fn['shift_']) / self.normalize_fn['scale']
 
     @staticmethod
     def get_supported_metrics():
