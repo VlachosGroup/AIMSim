@@ -91,6 +91,11 @@ class SimilarityMeasure:
         elif metric.lower() in ['jaccard']:
             self.metric = 'jaccard'
             self.type_ = 'discrete'
+        
+        elif metric.lower() in ['faith']:
+            self.metric = 'faith'
+            self.type_ = 'discrete'
+            self.to_distance = lambda  x: 1 - x
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -157,6 +162,13 @@ class SimilarityMeasure:
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
+        
+        elif self.metric == 'faith': 
+            try:
+                similarity_ = self._get_faith(mol1_descriptor, 
+                                              mol2_descriptor)
+            except ValueError as e:
+                raise e
         
         elif self.metric == 'forbes': 
             try:
@@ -302,6 +314,33 @@ class SimilarityMeasure:
         if a == 0:
             return 0.
         similarity_ = a / max((a + b), (a + c))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+    
+    def _get_faith(self, mol1_descriptor, mol2_descriptor):
+        """Calculate faith similarity between two molecules.
+        This is defined for two binary arrays as:
+        Faith similarity = (a + 0.5*d) / p
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Faith similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Forbes similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        similarity_ = (a + 0.5*d) / p
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
@@ -689,6 +728,8 @@ class SimilarityMeasure:
             'sokal-sneath-2', 
             'symmetric_sokal_sneath', 
             'symmetric-sokal-sneath',
-            'jaccard'
+            'jaccard',
+            'faith',
+            
 
         ]
