@@ -21,7 +21,7 @@ class SimilarityMeasure:
             self.type_ = 'continuous'
             self.to_distance = lambda x: -x
 
-        elif metric.lower() in ['cosine']:
+        elif metric.lower() in ['cosine', 'driver-kroeber', 'ochiai']:
             self.metric = 'cosine'
             self.type_ = 'continuous'
             # angular distance
@@ -426,17 +426,19 @@ class SimilarityMeasure:
             List: List of strings.
         """
         return [
-            "negative_l0",
-            "negative_l1",
-            "negative_manhattan",
-            "negative_l2",
-            "negative_euclidean",
-            "dice",
-            "sorenson",
-            "gleason",
-            "jaccard",
-            "tanimoto",
+            'negative_l0',
+            'negative_l1',
+            'negative_manhattan',
+            'negative_l2',
+            'negative_euclidean',
+            'dice',
+            'sorenson',
+            'gleason',
+            'jaccard',
+            'tanimoto',
             "cosine",
+            'driver-kroeber', 
+            'ochiai'
             "simple_matching", 
             "sokal-michener", 
             "rand",
