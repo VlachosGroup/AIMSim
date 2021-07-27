@@ -367,6 +367,14 @@ class SimilarityMeasure:
     def _normalize(self, similarity_):
         return (similarity_ 
                 + self.normalize_fn['shift_']) / self.normalize_fn['scale_']
+    
+    def is_distance_metric(self):
+        """Check if the similarity measure is a distance metric.
+        
+        Returns:
+            bool: True if it is a distance metric.
+        """
+        return hasattr(self, 'to_distance')
 
     @staticmethod
     def get_supported_metrics():
