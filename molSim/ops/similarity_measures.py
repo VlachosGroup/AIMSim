@@ -96,6 +96,11 @@ class SimilarityMeasure:
             self.metric = 'faith'
             self.type_ = 'discrete'
             self.to_distance = lambda  x: 1 - x
+        
+        elif metric.lower() in ['mountford']:
+            self.metric = 'mountford'
+            self.type_ = 'discrete'
+            self.to_distance = lambda  x: 1 - x
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -188,6 +193,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_kulczynski(mol1_descriptor, 
                                                    mol2_descriptor)
+            except ValueError as e:
+                raise e
+        
+        elif self.metric == 'mountford':
+            try:
+                similarity_ = self._get_mountford(mol1_descriptor, 
+                                                  mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -423,7 +435,35 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
+    
+    def _get_mountford(self, mol1_descriptor, mol2_descriptor):
+        """Calculate mountford similarity between two molecules.
+        This is defined for two binary arrays as:
+        mountford similarity = 2*a / (a*b + a*c + 2*b*c)
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
 
+        Returns:
+            (float): mountford similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Mountford similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a*b + a*c + 2*b*c == 0:
+            return a / p
+        similarity_ = 2*a / (a*b + a*c + 2*b*c)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 2.
+        return self._normalize(similarity_)
     
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
@@ -675,6 +715,7 @@ class SimilarityMeasure:
             'symmetric-sokal-sneath',
             'jaccard',
             'faith',
+            'mountford'
 
 
         ]
