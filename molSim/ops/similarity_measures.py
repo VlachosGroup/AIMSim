@@ -62,6 +62,11 @@ class SimilarityMeasure:
             self.metric = 'simpson'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['braun-blanquet']:
+            self.metric = 'braun_blanquet'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -77,22 +82,29 @@ class SimilarityMeasure:
             similarity_ (float): Similarity value
         """
         similarity_ = None
-        if self.metric == "negative_l0":
+        if self.metric == 'negative_l0':
             similarity_ = -np.linalg.norm(
                 mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=0
             )
 
-        elif self.metric == "negative_l1":
+        elif self.metric == 'negative_l1':
             similarity_ = -np.linalg.norm(
                 mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=1
             )
 
-        elif self.metric == "negative_l2":
+        elif self.metric == 'negative_l2':
             similarity_ = -np.linalg.norm(
                 mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=2
             )
+        
+        elif self.metric == 'braun_blanquet':
+            try:
+                similarity_ = self._get_braun_blanquet(mol1_descriptor, 
+                                                       mol2_descriptor)
+            except ValueError as e:
+                raise e
 
-        elif self.metric == "dice":
+        elif self.metric == 'dice':
             try:
                 similarity_ = DataStructs.DiceSimilarity(
                     mol1_descriptor.to_rdkit(), mol2_descriptor.to_rdkit()
@@ -158,6 +170,39 @@ class SimilarityMeasure:
 
         return similarity_
     
+    def _get_braun_blanquet(self, mol1_descriptor, mol2_descriptor):
+        """Calculate braun-blanquet similarity between two molecules.
+        This is defined for two binary arrays as:
+        Braun-Blanquet Similarity = a / max{(a + b), (a + c)}, where:
+        a = bits(array 1) and bits(array 2)
+        b = bits(array 1) and bits(~array 2)
+        c = bits(~array 1) and bits(array 2)
+        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        p = a + b + c + d = bits(array 1 or array 2)
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Simple Matching similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Braun-Blanquet similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        if a == 0:
+            return 0.
+        similarity_ = a / max((a + b), (a + c))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+        
     def _get_forbes(self, mol1_descriptor, mol2_descriptor):
         """Calculate forbes similarity between two molecules.
         This is defined for two binary arrays as:
@@ -182,7 +227,7 @@ class SimilarityMeasure:
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Simple Matching similarity is only useful for bit strings "
+                    "Forbes similarity is only useful for bit strings "
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
@@ -216,7 +261,7 @@ class SimilarityMeasure:
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Simple Matching similarity is only useful for bit strings "
+                    "Rogers-Tanimoto similarity is only useful for bit strings "
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
@@ -248,7 +293,7 @@ class SimilarityMeasure:
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Simple Matching similarity is only useful for bit strings "
+                    "Russel-Rao similarity is only useful for bit strings "
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
@@ -302,10 +347,6 @@ class SimilarityMeasure:
         d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
 
-        Note
-        ----
-        The forbes similarity is normalized to [0, 1]
-        
         Args:
             mol1_descriptor (molSim.ops Descriptor)
             mol2_descriptor (molSim.ops Descriptor)
@@ -316,11 +357,11 @@ class SimilarityMeasure:
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Simple Matching similarity is only useful for bit strings "
+                    "Simpson similarity is only useful for bit strings "
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
         if (a + b) == 0 or (a + c) == 0 or a == 0:
             return 0.
@@ -403,4 +444,5 @@ class SimilarityMeasure:
             "russel-rao",
             'forbes',
             'simpson',
+            'braun-blanquet',
         ]
