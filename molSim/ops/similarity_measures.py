@@ -7,15 +7,16 @@ from scipy.spatial.distance import cosine as scipy_cosine
 class SimilarityMeasure:
     def __init__(self, metric):
         if metric.lower() in ['negative_l0']:
-            self.metric = "negative_l0"
-            self.type_ = "continuous"
+            self.metric = 'negative_l0'
+            self.type_ = 'continuous'
             self.to_distance = lambda x: -x
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
-        elif metric.lower() in ["negative_l1", "negative_manhattan"]:
-            self.metric = "negative_l1"
-            self.type_ = "continuous"
+        elif metric.lower() in ['negative_l1', 'negative_manhattan']:
+            self.metric = 'negative_l1'
+            self.type_ = 'continuous'
             self.to_distance = lambda x: -x
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ["negative_l2", "negative_euclidean"]:
             self.metric = "negative_l2"
