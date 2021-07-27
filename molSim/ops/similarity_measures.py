@@ -253,12 +253,7 @@ class SimilarityMeasure:
         """Calculate Baroni-Urbani-Buser similarity between two molecules.
         This is defined for two binary arrays as:
         Baroni-Urbani-Buser similarity = (sqrt(a * d) + a)
-                                         / (sqrt(a * d) + a + b + c), where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+                                         / (sqrt(a * d) + a + b + c)
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -288,13 +283,8 @@ class SimilarityMeasure:
     def _get_braun_blanquet(self, mol1_descriptor, mol2_descriptor):
         """Calculate braun-blanquet similarity between two molecules.
         This is defined for two binary arrays as:
-        Braun-Blanquet Similarity = a / max{(a + b), (a + c)}, where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
-        
+        Braun-Blanquet Similarity = a / max{(a + b), (a + c)}
+
         Args:
             mol1_descriptor (molSim.ops Descriptor)
             mol2_descriptor (molSim.ops Descriptor)
@@ -348,16 +338,7 @@ class SimilarityMeasure:
     def _get_forbes(self, mol1_descriptor, mol2_descriptor):
         """Calculate forbes similarity between two molecules.
         This is defined for two binary arrays as:
-        Forbes similarity = (p * a) / ((a + b) * (a + c)), where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
-
-        Note
-        ----
-        The forbes similarity is normalized to [0, 1]
+        Forbes similarity = (p * a) / ((a + b) * (a + c))
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -365,6 +346,10 @@ class SimilarityMeasure:
 
         Returns:
             (float): Forbes similarity value
+        
+        Note:
+    
+            The forbes similarity is normalized to [0, 1]
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -386,12 +371,7 @@ class SimilarityMeasure:
     def _get_jaccard(self, mol1_descriptor, mol2_descriptor):
         """Calculate jaccard similarity between two molecules.
         This is defined for two binary arrays as:
-        jaccard similarity = 3*a / (3*a + b + c), where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        jaccard similarity = 3*a / (3*a + b + c)
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -419,12 +399,7 @@ class SimilarityMeasure:
     def _get_kulczynski(self, mol1_descriptor, mol2_descriptor):
         """Calculate kulczynski similarity between two molecules.
         This is defined for two binary arrays as:
-        kulczynski similarity = 0.5 * a / ((a + b) + (a + c)), where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        kulczynski similarity = 0.5 * a / ((a + b) + (a + c))
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -453,12 +428,7 @@ class SimilarityMeasure:
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
         This is defined for two binary arrays as:
-        Rogers-Tanimoto = (a + d) / (p + b + c), where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        Rogers-Tanimoto = (a + d) / (p + b + c),
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -485,12 +455,7 @@ class SimilarityMeasure:
     def _get_russel_rao(self, mol1_descriptor, mol2_descriptor):
         """Calculate russel-rao similarity between two molecules.
         This is defined for two binary arrays as:
-        Russel-Rao = a / p, where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        Russel-Rao = a / p
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -517,12 +482,7 @@ class SimilarityMeasure:
     def _get_simple_matching(self, mol1_descriptor, mol2_descriptor):
         """Calculate simple matching similarity between two molecules.
         This is defined for two binary arrays as:
-        Simple Matching = (a + d) / p, where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        Simple Matching = (a + d) / p
         
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -549,12 +509,7 @@ class SimilarityMeasure:
     def _get_simpson(self, mol1_descriptor, mol2_descriptor):
         """Calculate simpson similarity between two molecules.
         This is defined for two binary arrays as:
-        Simpson Similarity = a / min{(a + b), (a + c)}, where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        Simpson Similarity = a / min{(a + b), (a + c)}
 
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -582,12 +537,7 @@ class SimilarityMeasure:
     def _get_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
         """Calculate Sokal-Sneath similarity between two molecules.
         This is defined for two binary arrays as:
-        Sokal-Sneath similarity = a / (a + 2*b + 2*c) where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        Sokal-Sneath similarity = a / (a + 2*b + 2*c)
 
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -615,12 +565,7 @@ class SimilarityMeasure:
     def _get_symmetric_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
         """Calculate Symmetric Sokal-Sneath similarity between two molecules.
         This is defined for two binary arrays as:
-        Symmetric Sokal-Sneath similarity = (2*a + 2*d) / (p + a + d) where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
-        p = a + b + c + d = bits(array 1 or array 2)
+        Symmetric Sokal-Sneath similarity = (2*a + 2*d) / (p + a + d)
 
         Args:
             mol1_descriptor (molSim.ops Descriptor)
@@ -730,6 +675,6 @@ class SimilarityMeasure:
             'symmetric-sokal-sneath',
             'jaccard',
             'faith',
-            
+
 
         ]
