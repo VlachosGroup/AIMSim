@@ -172,6 +172,13 @@ class SimilarityMeasure:
             except ValueError as e:
                 raise e
         
+        elif self.metric == 'simpson': 
+            try:
+                similarity_ = self._get_simpson(mol1_descriptor, 
+                                                mol2_descriptor)
+            except ValueError as e:
+                raise e
+        
         elif self.metric == 'sokal_sneath': 
             try:
                 similarity_ = self._get_sokal_sneath(mol1_descriptor, 
