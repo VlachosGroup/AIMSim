@@ -323,7 +323,7 @@ class SimilarityMeasure:
     
     def _normalize(self, similarity_):
         return (similarity_ 
-                + self.normalize_fn['shift_']) / self.normalize_fn['scale']
+                + self.normalize_fn['shift_']) / self.normalize_fn['scale_']
 
     @staticmethod
     def get_supported_metrics():
@@ -349,5 +349,6 @@ class SimilarityMeasure:
             "sokal-michener", 
             "rand",
             "rogers-tanimoto",
-            "russel-rao"
+            "russel-rao",
+            'forbes'
         ]
