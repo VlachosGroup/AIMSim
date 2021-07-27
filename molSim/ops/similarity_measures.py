@@ -18,10 +18,11 @@ class SimilarityMeasure:
             self.to_distance = lambda x: -x
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
-        elif metric.lower() in ["negative_l2", "negative_euclidean"]:
-            self.metric = "negative_l2"
-            self.type_ = "continuous"
+        elif metric.lower() in ['negative_l2', 'negative_euclidean']:
+            self.metric = 'negative_l2'
+            self.type_ = 'continuous'
             self.to_distance = lambda x: -x
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ["cosine"]:
             self.metric = "cosine"
