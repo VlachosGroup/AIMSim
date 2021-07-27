@@ -360,8 +360,7 @@ class SimilarityMeasure:
             (float): Forbes similarity value
         
         Note:
-    
-            The forbes similarity is normalized to [0, 1]
+            The Forbes similarity is normalized to [0, 1]
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -390,7 +389,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): jaccard similarity value
+            (float): Jaccard similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -418,7 +417,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): kulczynski similarity value
+            (float): Kulczynski similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -446,7 +445,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): mountford similarity value
+            (float): Mountford similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -475,7 +474,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): Simple Matching similarity value
+            (float): Rogers-Tanimoto similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -502,7 +501,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): Simple Matching similarity value
+            (float): Russel-Rao similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
