@@ -56,10 +56,11 @@ class SimilarityMeasure:
             self.to_distance = lambda x: 1 - x
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
             
-        elif metric.lower() in ["russel-rao"]:
-            self.metric = "russel_rao"
-            self.type_ = "discrete"
+        elif metric.lower() in ['russel-rao']:
+            self.metric = 'russel_rao'
+            self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
