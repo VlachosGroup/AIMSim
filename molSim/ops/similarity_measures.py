@@ -71,6 +71,10 @@ class SimilarityMeasure:
             self.metric = 'baroni_urbani_buser'
             self.type_ = 'discrete'
             self.to_distance = lambda  x: 1 - x
+        
+        elif metric.lower() in ['kulczynski']:
+            self.metric = 'kulczynski'
+            self.type_ = 'discrete'
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -132,6 +136,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_forbes(mol1_descriptor, 
                                                mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'kulczynski': 
+            try:
+                similarity_ = self._get_kulczynski(mol1_descriptor, 
+                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -254,7 +265,7 @@ class SimilarityMeasure:
     def _get_forbes(self, mol1_descriptor, mol2_descriptor):
         """Calculate forbes similarity between two molecules.
         This is defined for two binary arrays as:
-        Forbes = (p * a) / ((a + b) * (a + c)), where:
+        Forbes similarity = (p * a) / ((a + b) * (a + c)), where:
         a = bits(array 1) and bits(array 2)
         b = bits(array 1) and bits(~array 2)
         c = bits(~array 1) and bits(array 2)
@@ -270,7 +281,7 @@ class SimilarityMeasure:
             mol2_descriptor (molSim.ops Descriptor)
 
         Returns:
-            (float): Simple Matching similarity value
+            (float): Forbes similarity value
         """
         if not(mol1_descriptor.is_fingerprint() 
                and mol2_descriptor.is_fingerprint()):
@@ -288,6 +299,40 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = p / a
         return self._normalize(similarity_)
+    
+    def _get_kulczynski(self, mol1_descriptor, mol2_descriptor):
+        """Calculate kulczynski similarity between two molecules.
+        This is defined for two binary arrays as:
+        kulczynski similarity = 0.5 * a / ((a + b) + (a + c)), where:
+        a = bits(array 1) and bits(array 2)
+        b = bits(array 1) and bits(~array 2)
+        c = bits(~array 1) and bits(array 2)
+        d = bits(~array 1) amd bits(~array 2)   // "~": complement operator
+        p = a + b + c + d = bits(array 1 or array 2)
+        
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): kulczynski similarity value
+        """
+        if not(mol1_descriptor.is_fingerprint() 
+               and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                    "Kulczynski similarity is only useful for bit strings "
+                    "generated from fingerprints. Consider using "
+                    "other similarity measures for arbitrary vectors."
+                )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                                    mol2_descriptor.to_numpy())
+        if a == 0:
+            return 0.
+        similarity_ = 0.5 * a / ((a + b) + (a + c))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = p / a
+        return self._normalize(similarity_)
+
     
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
@@ -496,5 +541,6 @@ class SimilarityMeasure:
             'simpson',
             'braun-blanquet',
             'baroni-urbani-buser',
-            
+            'kulczynski',
+
         ]
