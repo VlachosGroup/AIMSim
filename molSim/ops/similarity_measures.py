@@ -24,11 +24,12 @@ class SimilarityMeasure:
             self.to_distance = lambda x: -x
             self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
-        elif metric.lower() in ["cosine"]:
-            self.metric = "cosine"
-            self.type_ = "continuous"
+        elif metric.lower() in ['cosine']:
+            self.metric = 'cosine'
+            self.type_ = 'continuous'
             # angular distance
             self.to_distance = lambda x: np.arccos(x) / np.pi
+            self.normalize_fn = {'shift_': 0., 'scale_': 1.}
 
         elif metric.lower() in ["dice", "sorenson", "gleason"]:
             self.metric = "dice"
