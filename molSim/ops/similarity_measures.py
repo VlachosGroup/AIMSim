@@ -119,6 +119,7 @@ class SimilarityMeasure:
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
+        self.label_ = metric
 
     def __call__(self, mol1_descriptor, mol2_descriptor):
         """Compare two descriptors.
@@ -842,6 +843,7 @@ class SimilarityMeasure:
             'michael',
             'rogot-goldberg',
             'hawkins-dotson',
-
-
         ]
+    
+    def __str__(self):
+        return self.label_
