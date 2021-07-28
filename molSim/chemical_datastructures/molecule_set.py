@@ -438,27 +438,19 @@ class MoleculeSet:
         ]
         return np.array(target_similarity)
 
-    def get_molecule_most_similar_to(self, target_molecule, exclude_self=True):
+    def get_molecule_most_similar_to(self, target_molecule):
         """
         Get the Molecule in the Set most similar to a Target Molecule.
 
         Args:
             target_molecule (molSim.chemical_datastructures Molecule): Target
                 molecule to compare.
-            exclude_self (bool): If true then a duplicate of the
-                target_molecule in the molecule set (if present) is ignored
-                and the second most similar molecule is retured (since
-                a molecule is trivially most similar to itself).
-                Default is True.
 
         Returns:
             molSim.chemical_datastructures Molecule: Most similar molecule.
         """
         sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
-        if exclude_self and self.is_present(target_molecule):
-            return self.molecule_database[sorted_similarity[-2]]
-        else:
-            return self.molecule_database[sorted_similarity[-1]]
+        return self.molecule_database[sorted_similarity[-1]]
 
     def get_molecule_least_similar_to(self, target_molecule):
         """
@@ -524,7 +516,7 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_most_dissimilar_pairs(self, descriptor=None, similarity_measure=None):
+    def get_most_dissimilar_pairs(self):
         """Get pairs of samples which are least similar.
 
         Returns:
