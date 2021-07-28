@@ -65,11 +65,11 @@ class TaskManager:
             print("molecule_database fields not set in config file")
             print(f"molecule_database: {molecule_database_src}")
             print(f"molecule_database_source_type: {database_src_type}")
-            exit(1)
+            raise IOError
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
         similarity_measure = molecule_set_configs.get(
-            "similarity_measure", "tanimoto_similarity"
+            "similarity_measure", "tanimoto"
         )
         fingerprint_type = molecule_set_configs.get("fingerprint_type", None)
         self.molecule_set = MoleculeSet(
