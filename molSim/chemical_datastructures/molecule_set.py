@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
 from molSim.chemical_datastructures import Molecule
-from molSim.exceptions import NotInitializedError
+from molSim.exceptions import NotInitializedError, InvalidConfigurationError
 from molSim.ops.clustering import Cluster
 from molSim.ops.descriptor import Descriptor
 from molSim.ops.similarity_measures import SimilarityMeasure
@@ -615,6 +615,12 @@ class MoleculeSet:
             cluster_grouped_mol_names (dict): Dictionary of cluster id
                 (key) --> Names of molecules in cluster.
         """
+        if not self.similarity_measure.is_distance_metric():
+            raise InvalidConfigurationError(str(self.similarity_measure) 
+                                            + ' is not a distance metric. '
+                                            'Clustering will not yield '
+                                            'meaningful results.')
+
         if clustering_method is None:
             if self.similarity_measure.type_ == "continuous":
                 clustering_method = "kmedoids"
