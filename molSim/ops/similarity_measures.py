@@ -274,7 +274,7 @@ class SimilarityMeasure:
             except ValueError as e:
                 raise e
         
-        elif self.metric == 'sokal_sneath_2': 
+        elif self.metric == 'symmetric_sokal_sneath': 
             try:
                 similarity_ = self._get_symmetric_sokal_sneath(mol1_descriptor, 
                                                                mol2_descriptor)
@@ -294,6 +294,9 @@ class SimilarityMeasure:
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
+        
+        else:
+            raise ValueError(f'{self.metric} could not be implemented')
 
         return similarity_
     
@@ -615,7 +618,6 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
-    
     def _get_russel_rao(self, mol1_descriptor, mol2_descriptor):
         """Calculate russel-rao similarity between two molecules.
         This is defined for two binary arrays as:
@@ -747,7 +749,7 @@ class SimilarityMeasure:
                 )
         a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
                                     mol2_descriptor.to_numpy())
-        p = a + b +c + d
+        p = a + b + c + d
         similarity_ = (2*a + 2*d) / (p + a + d)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
