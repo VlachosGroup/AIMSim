@@ -4,6 +4,9 @@ from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
 
 
+SMALL_NUMBER = 1e-10
+
+
 class SimilarityMeasure:
     def __init__(self, metric):
         if metric.lower() in ['negative_l0']:
@@ -116,6 +119,11 @@ class SimilarityMeasure:
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
 
+        elif metric.lower() in ['maxwell-pilliner']:
+            self.metric = 'maxwell_pilliner'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -217,7 +225,13 @@ class SimilarityMeasure:
                                                    mol2_descriptor)
             except ValueError as e:
                 raise e
-        
+        elif self.metric == 'maxwell_pilliner':
+            try:
+                similarity_ = self._get_maxwell_pilliner(mol1_descriptor,
+                                                         mol2_descriptor)
+            except ValueError as e:
+                raise e
+
         elif self.metric == 'michael':
             try:
                 similarity_ = self._get_michael(mol1_descriptor, 
@@ -529,6 +543,39 @@ class SimilarityMeasure:
         if a == p or d == p or (b + c) == 0:
             return 1.
         similarity_ =4*(a*d - b*c) / ((a + d)**2 + (b + c)**2)
+        self.normalize_fn["shift_"] = 1.
+        self.normalize_fn["scale_"] = 2.
+        return self._normalize(similarity_)
+
+    def _get_maxwell_pilliner(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Maxwell-Pilliner similarity between two molecules.
+                This is defined for two binary arrays as:
+                Maxwell-Pilliner similarity =
+                    2*(a*d - b*c) / ((a + b)*(c + d) + (a + c)*(b + d))
+
+                Args:
+                    mol1_descriptor (molSim.ops Descriptor)
+                    mol2_descriptor (molSim.ops Descriptor)
+
+                Returns:
+                    (float): Maxwell-Pilliner similarity value
+                """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Maxwell-Pilliner similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if (a + b)*(c + d) + (a + c)*(b + d) < SMALL_NUMBER:
+            return 0.
+
+        similarity_ = 2*(a*d - b*c) / ((a + b)*(c + d) + (a + c)*(b + d))
         self.normalize_fn["shift_"] = 1.
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
@@ -845,6 +892,7 @@ class SimilarityMeasure:
             'michael',
             'rogot-goldberg',
             'hawkins-dotson',
+            'maxwell-pilliner',
         ]
     
     def __str__(self):
