@@ -1018,8 +1018,8 @@ class SimilarityMeasure:
             'hawkins-dotson',
             'maxwell-pilliner',
             'harris-lahey',
-            'consonni-todeschini-1',
-            'consonni-todeschini-2',
+            'consonni−todeschini-1',
+            'consonni−todeschini-2',
         ]
 
     def __str__(self):
