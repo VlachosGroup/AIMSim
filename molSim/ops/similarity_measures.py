@@ -154,6 +154,11 @@ class SimilarityMeasure:
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
 
+        elif metric.lower() in ['austin-colwell']:
+            self.metric = 'austin_colwell'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -184,6 +189,13 @@ class SimilarityMeasure:
             similarity_ = -np.linalg.norm(
                 mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=2
             )
+
+        elif self.metric == 'austin_colwell':
+            try:
+                similarity_ = self._get_austin_colwell(mol1_descriptor,
+                                                       mol2_descriptor)
+            except ValueError as e:
+                raise e
 
         elif self.metric == 'baroni_urbani_buser':
             try:
@@ -385,6 +397,33 @@ class SimilarityMeasure:
             raise ValueError(f'{self.metric} could not be implemented')
 
         return similarity_
+
+    def _get_austin_colwell(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Austin-Colwell similarity between two molecules.
+        This is defined for two binary arrays as:
+        Austin-Colwell similarity = (2 / pi) * arcsin(sqrt( (a + d) / p ))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Austin-Colwell similarity value
+                """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Austin-Colwell similarity is only useful for "
+                "bit strings generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        similarity_ = (2 / np.pi) * np.arcsin(np.sqrt( (a + d) / p ))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
 
     def _get_baroni_urbani_buser(self, mol1_descriptor, mol2_descriptor):
         """Calculate Baroni-Urbani-Buser similarity between two molecules.
@@ -1141,6 +1180,7 @@ class SimilarityMeasure:
             'consonni−todeschini-3',
             'consonni−todeschini-4',
             'consonni−todeschini-5',
+            'austin-colwell',
         ]
 
     def __str__(self):
