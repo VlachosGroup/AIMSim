@@ -148,6 +148,12 @@ class SimilarityMeasure:
             self.metric = 'consonni_todeschini_4'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['consonni−todeschini-5',
+                                'consonni−todeschini_5']:
+            self.metric = 'consonni_todeschini_5'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -227,6 +233,13 @@ class SimilarityMeasure:
         elif self.metric == 'consonni_todeschini_4':
             try:
                 similarity_ = self._get_consonni_todeschini_4(mol1_descriptor,
+                                                              mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'consonni_todeschini_5':
+            try:
+                similarity_ = self._get_consonni_todeschini_5(mol1_descriptor,
                                                               mol2_descriptor)
             except ValueError as e:
                 raise e
@@ -536,6 +549,34 @@ class SimilarityMeasure:
         a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         similarity_ = np.log(1 + a) / np.log(1 + a + b + c)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+
+    def _get_consonni_todeschini_5(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Consonni-Todeschini(5) similarity between two molecules.
+        This is defined for two binary arrays as:
+        Consonni-Todeschini(5) similarity = (ln(1 + a*d) - ln(1 + b*c))
+                                            / ln(1 + p**2 / 4)
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Consonni-Todeschini(5)  similarity value
+                """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Consonni-Todeschini(5) similarity is only useful for "
+                "bit strings generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        similarity_ = (np.log(1 + a*d) - np.log(1 + b*c)) / np.log(1 + p**2 / 4)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
@@ -1099,6 +1140,7 @@ class SimilarityMeasure:
             'consonni−todeschini-2',
             'consonni−todeschini-3',
             'consonni−todeschini-4',
+            'consonni−todeschini-5',
         ]
 
     def __str__(self):
