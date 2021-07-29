@@ -3,7 +3,6 @@ import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
 
-
 SMALL_NUMBER = 1e-10
 
 
@@ -34,7 +33,7 @@ class SimilarityMeasure:
             self.metric = 'dice'
             self.type_ = 'discrete'
             # convert to jaccard for distance
-            self.to_distance = lambda x: 1 - x/(2-x)
+            self.to_distance = lambda x: 1 - x / (2 - x)
 
         elif metric.lower() in ['tanimoto', 'jaccard-tanimoto']:
             self.metric = 'tanimoto'
@@ -50,17 +49,17 @@ class SimilarityMeasure:
             self.metric = 'rogers_tanimoto'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            
+
         elif metric.lower() in ['russel-rao']:
             self.metric = 'russel_rao'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-        
+
         elif metric.lower() in ['forbes']:
             self.metric = 'forbes'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-            
+
         elif metric.lower() in ['simpson']:
             self.metric = 'simpson'
             self.type_ = 'discrete'
@@ -69,51 +68,51 @@ class SimilarityMeasure:
             self.metric = 'braun_blanquet'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-        
+
         elif metric.lower() in ['baroni-urbani-buser']:
             self.metric = 'baroni_urbani_buser'
             self.type_ = 'discrete'
-            self.to_distance = lambda  x: 1 - x
-        
+            self.to_distance = lambda x: 1 - x
+
         elif metric.lower() in ['kulczynski']:
             self.metric = 'kulczynski'
             self.type_ = 'discrete'
-        
+
         elif metric.lower() in ['sokal-sneath', 'sokal-sneath_1']:
             self.metric = 'sokal_sneath'
             self.type_ = 'discrete'
-            self.to_distance = lambda  x: 1 - x
-        
-        elif metric.lower() in ['sokal-sneath_2', 
-                                'sokal-sneath-2', 
-                                'symmetric_sokal_sneath', 
+            self.to_distance = lambda x: 1 - x
+
+        elif metric.lower() in ['sokal-sneath_2',
+                                'sokal-sneath-2',
+                                'symmetric_sokal_sneath',
                                 'symmetric-sokal-sneath']:
             self.metric = 'symmetric_sokal_sneath'
             self.type_ = 'discrete'
-        
+
         elif metric.lower() in ['jaccard']:
             self.metric = 'jaccard'
             self.type_ = 'discrete'
-        
+
         elif metric.lower() in ['faith']:
             self.metric = 'faith'
             self.type_ = 'discrete'
-            self.to_distance = lambda  x: 1 - x
-        
+            self.to_distance = lambda x: 1 - x
+
         elif metric.lower() in ['michael']:
             self.metric = 'michael'
             self.type_ = 'discrete'
-        
+
         elif metric.lower() in ['mountford']:
             self.metric = 'mountford'
             self.type_ = 'discrete'
-            self.to_distance = lambda  x: 1 - x
-        
+            self.to_distance = lambda x: 1 - x
+
         elif metric.lower() in ['rogot-goldberg']:
             self.metric = 'rogot_goldberg'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
-        
+
         elif metric.lower() in ['hawkins-dotson']:
             self.metric = 'hawkins_dotson'
             self.type_ = 'discrete'
@@ -123,6 +122,10 @@ class SimilarityMeasure:
             self.metric = 'maxwell_pilliner'
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
+
+        elif metric.lower() in ['harris-lahey']:
+            self.metric = 'harris_lahey'
+            self.type_ = 'discrete'
 
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
@@ -154,21 +157,21 @@ class SimilarityMeasure:
             similarity_ = -np.linalg.norm(
                 mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=2
             )
-        
+
         elif self.metric == 'baroni_urbani_buser':
             try:
-                similarity_ = self._get_baroni_urbani_buser(mol1_descriptor, 
+                similarity_ = self._get_baroni_urbani_buser(mol1_descriptor,
                                                             mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == 'braun_blanquet':
             try:
-                similarity_ = self._get_braun_blanquet(mol1_descriptor, 
+                similarity_ = self._get_braun_blanquet(mol1_descriptor,
                                                        mol2_descriptor)
             except ValueError as e:
                 raise e
-        
+
         elif self.metric == "cosine":
             if mol1_descriptor.rdkit_ and mol2_descriptor.rdkit_:
                 similarity_ = DataStructs.CosineSimilarity(
@@ -190,38 +193,45 @@ class SimilarityMeasure:
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
-        
-        elif self.metric == 'faith': 
+
+        elif self.metric == 'faith':
             try:
-                similarity_ = self._get_faith(mol1_descriptor, 
+                similarity_ = self._get_faith(mol1_descriptor,
                                               mol2_descriptor)
             except ValueError as e:
                 raise e
-        
-        elif self.metric == 'forbes': 
+
+        elif self.metric == 'forbes':
             try:
-                similarity_ = self._get_forbes(mol1_descriptor, 
+                similarity_ = self._get_forbes(mol1_descriptor,
                                                mol2_descriptor)
             except ValueError as e:
                 raise e
-        
-        elif self.metric == 'hawkins_dotson':
+
+        elif self.metric == 'harris_lahey':
             try:
-                similarity_ = self._get_hawkins_dotson(mol1_descriptor, 
-                                                      mol2_descriptor)
+                similarity_ = self._get_harris_lahey(mol1_descriptor,
+                                                     mol2_descriptor)
             except ValueError as e:
                 raise e
-        
+
+        elif self.metric == 'hawkins_dotson':
+            try:
+                similarity_ = self._get_hawkins_dotson(mol1_descriptor,
+                                                       mol2_descriptor)
+            except ValueError as e:
+                raise e
+
         elif self.metric == 'jaccard':
             try:
-                similarity_ = self._get_jaccard(mol1_descriptor, 
+                similarity_ = self._get_jaccard(mol1_descriptor,
                                                 mol2_descriptor)
             except ValueError as e:
                 raise e
 
-        elif self.metric == 'kulczynski': 
+        elif self.metric == 'kulczynski':
             try:
-                similarity_ = self._get_kulczynski(mol1_descriptor, 
+                similarity_ = self._get_kulczynski(mol1_descriptor,
                                                    mol2_descriptor)
             except ValueError as e:
                 raise e
@@ -234,67 +244,67 @@ class SimilarityMeasure:
 
         elif self.metric == 'michael':
             try:
-                similarity_ = self._get_michael(mol1_descriptor, 
+                similarity_ = self._get_michael(mol1_descriptor,
                                                 mol2_descriptor)
             except ValueError as e:
                 raise e
-        
+
         elif self.metric == 'mountford':
             try:
-                similarity_ = self._get_mountford(mol1_descriptor, 
+                similarity_ = self._get_mountford(mol1_descriptor,
                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
 
-        elif self.metric == 'rogers_tanimoto': 
+        elif self.metric == 'rogers_tanimoto':
             try:
-                similarity_ = self._get_rogers_tanimoto(mol1_descriptor, 
+                similarity_ = self._get_rogers_tanimoto(mol1_descriptor,
                                                         mol2_descriptor)
             except ValueError as e:
                 raise e
-        
+
         elif self.metric == 'rogot_goldberg':
             try:
-                similarity_ = self._get_rogot_goldberg(mol1_descriptor, 
+                similarity_ = self._get_rogot_goldberg(mol1_descriptor,
                                                        mol2_descriptor)
             except ValueError as e:
                 raise e
-        
-        elif self.metric == 'russel_rao': 
+
+        elif self.metric == 'russel_rao':
             try:
-                similarity_ = self._get_russel_rao(mol1_descriptor, 
+                similarity_ = self._get_russel_rao(mol1_descriptor,
                                                    mol2_descriptor)
             except ValueError as e:
                 raise e
 
-        elif self.metric == 'simple_matching': 
+        elif self.metric == 'simple_matching':
             try:
-                similarity_ = self._get_simple_matching(mol1_descriptor, 
+                similarity_ = self._get_simple_matching(mol1_descriptor,
                                                         mol2_descriptor)
             except ValueError as e:
                 raise e
-        
-        elif self.metric == 'simpson': 
+
+        elif self.metric == 'simpson':
             try:
-                similarity_ = self._get_simpson(mol1_descriptor, 
+                similarity_ = self._get_simpson(mol1_descriptor,
                                                 mol2_descriptor)
             except ValueError as e:
                 raise e
-        
-        elif self.metric == 'sokal_sneath': 
+
+        elif self.metric == 'sokal_sneath':
             try:
-                similarity_ = self._get_sokal_sneath(mol1_descriptor, 
+                similarity_ = self._get_sokal_sneath(mol1_descriptor,
                                                      mol2_descriptor)
             except ValueError as e:
                 raise e
-        
-        elif self.metric == 'symmetric_sokal_sneath': 
+
+        elif self.metric == 'symmetric_sokal_sneath':
             try:
-                similarity_ = self._get_symmetric_sokal_sneath(mol1_descriptor, 
+                similarity_ = self._get_symmetric_sokal_sneath(mol1_descriptor,
                                                                mol2_descriptor)
             except ValueError as e:
                 raise e
-                
+
         elif self.metric == "tanimoto":
             try:
                 similarity_ = DataStructs.TanimotoSimilarity(
@@ -308,12 +318,12 @@ class SimilarityMeasure:
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
-        
+
         else:
             raise ValueError(f'{self.metric} could not be implemented')
 
         return similarity_
-    
+
     def _get_baroni_urbani_buser(self, mol1_descriptor, mol2_descriptor):
         """Calculate Baroni-Urbani-Buser similarity between two molecules.
         This is defined for two binary arrays as:
@@ -327,24 +337,24 @@ class SimilarityMeasure:
         Returns:
             (float): Baroni-Urbani-Buser similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Baroni-Urbani-Buser similarity is only useful for "
-                    "bit strings generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Baroni-Urbani-Buser similarity is only useful for "
+                "bit strings generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         if d == p:
             return 1.
-        similarity_ = (np.sqrt(a * d) 
+        similarity_ = (np.sqrt(a * d)
                        + a) / (np.sqrt(a * d) + a + b + c)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_braun_blanquet(self, mol1_descriptor, mol2_descriptor):
         """Calculate braun-blanquet similarity between two molecules.
         This is defined for two binary arrays as:
@@ -357,14 +367,14 @@ class SimilarityMeasure:
         Returns:
             (float): Braun-Blanquet similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Braun-Blanquet similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Braun-Blanquet similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         if a == 0:
             return 0.
@@ -372,7 +382,7 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_faith(self, mol1_descriptor, mol2_descriptor):
         """Calculate faith similarity between two molecules.
         This is defined for two binary arrays as:
@@ -385,21 +395,21 @@ class SimilarityMeasure:
         Returns:
             (float): Faith similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Forbes similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Forbes similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
-        similarity_ = (a + 0.5*d) / p
+        similarity_ = (a + 0.5 * d) / p
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-        
+
     def _get_forbes(self, mol1_descriptor, mol2_descriptor):
         """Calculate forbes similarity between two molecules.
         This is defined for two binary arrays as:
@@ -415,14 +425,14 @@ class SimilarityMeasure:
         Note:
             The Forbes similarity is normalized to [0, 1]
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Forbes similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Forbes similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         if (a + b) == 0 or (a + c) == 0 or a == 0:
             return 0.
@@ -431,7 +441,41 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = p / a
         return self._normalize(similarity_)
-    
+
+    def _get_harris_lahey(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Harris-Lahey similarity between two molecules.
+        This is defined for two binary arrays as:
+        Harris-Lahey similarity =
+            (a/2) * (2*d + b + c)/(a + b + c)
+             + (d/2) * (2*a + b + c)/( b + c + d)
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Harris-Lahey similarity value
+                """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Harris-Lahey similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if (a + b + c) < SMALL_NUMBER or (b + c + d) < SMALL_NUMBER:
+            return 0.
+
+        similarity_ = ((a / 2) * (2 * d + b + c) / (a + b + c)
+                       + (d / 2) * (2 * a + b + c) / (b + c + d))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = p
+        return self._normalize(similarity_)
+
     def _get_hawkins_dotson(self, mol1_descriptor, mol2_descriptor):
         """Calculate Hawkins-Dotson similarity between two molecules.
         This is defined for two binary arrays as:
@@ -445,23 +489,23 @@ class SimilarityMeasure:
         Returns:
             (float): Hawkins-Dotson similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Hawkins-Dotson similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Hawkins-Dotson similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         if a == p or d == p:
             return 1.
-        similarity_ = 0.5 * (a/(a + b + c) + d/(d + b + c))
+        similarity_ = 0.5 * (a / (a + b + c) + d / (d + b + c))
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_jaccard(self, mol1_descriptor, mol2_descriptor):
         """Calculate jaccard similarity between two molecules.
         This is defined for two binary arrays as:
@@ -474,22 +518,22 @@ class SimilarityMeasure:
         Returns:
             (float): Jaccard similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Jaccard similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Jaccard similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         if a == 0:
             return 0.
-        similarity_ = 3*a / (3*a + b + c)
+        similarity_ = 3 * a / (3 * a + b + c)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_kulczynski(self, mol1_descriptor, mol2_descriptor):
         """Calculate kulczynski similarity between two molecules.
         This is defined for two binary arrays as:
@@ -502,14 +546,14 @@ class SimilarityMeasure:
         Returns:
             (float): Kulczynski similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Kulczynski similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Kulczynski similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         if a == 0:
             return 0.
@@ -517,7 +561,7 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_michael(self, mol1_descriptor, mol2_descriptor):
         """Calculate michael similarity between two molecules.
         This is defined for two binary arrays as:
@@ -530,19 +574,19 @@ class SimilarityMeasure:
         Returns:
             (float): Michael similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Michael similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Michael similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         if a == p or d == p or (b + c) == 0:
             return 1.
-        similarity_ =4*(a*d - b*c) / ((a + d)**2 + (b + c)**2)
+        similarity_ = 4 * (a * d - b * c) / ((a + d) ** 2 + (b + c) ** 2)
         self.normalize_fn["shift_"] = 1.
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
@@ -572,14 +616,15 @@ class SimilarityMeasure:
         p = a + b + c + d
         if a == p or d == p:
             return 1.
-        if (a + b)*(c + d) + (a + c)*(b + d) < SMALL_NUMBER:
+        if (a + b) * (c + d) + (a + c) * (b + d) < SMALL_NUMBER:
             return 0.
 
-        similarity_ = 2*(a*d - b*c) / ((a + b)*(c + d) + (a + c)*(b + d))
+        similarity_ = 2 * (a * d - b * c) / (
+                    (a + b) * (c + d) + (a + c) * (b + d))
         self.normalize_fn["shift_"] = 1.
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
-    
+
     def _get_mountford(self, mol1_descriptor, mol2_descriptor):
         """Calculate mountford similarity between two molecules.
         This is defined for two binary arrays as:
@@ -592,23 +637,23 @@ class SimilarityMeasure:
         Returns:
             (float): Mountford similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Mountford similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Mountford similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
-        if a*b + a*c + 2*b*c == 0:
+        if a * b + a * c + 2 * b * c == 0:
             return a / p
-        similarity_ = 2*a / (a*b + a*c + 2*b*c)
+        similarity_ = 2 * a / (a * b + a * c + 2 * b * c)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
-    
+
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
         This is defined for two binary arrays as:
@@ -621,21 +666,21 @@ class SimilarityMeasure:
         Returns:
             (float): Rogers-Tanimoto similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Rogers-Tanimoto similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Rogers-Tanimoto similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         similarity_ = (a + d) / (p + b + c)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_rogot_goldberg(self, mol1_descriptor, mol2_descriptor):
         """Calculate Rogot-Goldberg similarity between two molecules.
         This is defined for two binary arrays as:
@@ -648,19 +693,19 @@ class SimilarityMeasure:
         Returns:
             (float): Rogot-Goldberg  similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Rogot-Goldberg  similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Rogot-Goldberg  similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         if a == p or d == p:
             return 1.
-        similarity_ = (a / (2*a + b + c)) + (d / (2*d + b + c))
+        similarity_ = (a / (2 * a + b + c)) + (d / (2 * d + b + c))
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
@@ -677,14 +722,14 @@ class SimilarityMeasure:
         Returns:
             (float): Russel-Rao similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Russel-Rao similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Russel-Rao similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         similarity_ = a / p
@@ -704,21 +749,21 @@ class SimilarityMeasure:
         Returns:
             (float): Simple Matching similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Simple Matching similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Simple Matching similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
         similarity_ = (a + d) / p
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_simpson(self, mol1_descriptor, mol2_descriptor):
         """Calculate simpson similarity between two molecules.
         This is defined for two binary arrays as:
@@ -731,14 +776,14 @@ class SimilarityMeasure:
         Returns:
             (float): Simpson similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Simpson similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Simpson similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         if (a + b) == 0 or (a + c) == 0 or a == 0:
             return 0.
@@ -746,7 +791,7 @@ class SimilarityMeasure:
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
         """Calculate Sokal-Sneath similarity between two molecules.
         This is defined for two binary arrays as:
@@ -759,22 +804,22 @@ class SimilarityMeasure:
         Returns:
             (float): Sokal-Sneath similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Sokal-Sneath similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Sokal-Sneath similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, _ = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         if a == 0:
             return 0.
-        similarity_ = a / (a + 2*b + 2*c)
+        similarity_ = a / (a + 2 * b + 2 * c)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-    
+
     def _get_symmetric_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
         """Calculate Symmetric Sokal-Sneath similarity between two molecules.
         This is defined for two binary arrays as:
@@ -787,21 +832,21 @@ class SimilarityMeasure:
         Returns:
             (float): Symmetric Sokal-Sneath similarity value
         """
-        if not(mol1_descriptor.is_fingerprint() 
-               and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                    "Symmetric Sokal-Sneath similarity is only useful "
-                    "for bit strings generated from fingerprints. Consider "
-                    "using other similarity measures for arbitrary vectors."
-                )
-        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(), 
+                "Symmetric Sokal-Sneath similarity is only useful "
+                "for bit strings generated from fingerprints. Consider "
+                "using other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
                                     mol2_descriptor.to_numpy())
         p = a + b + c + d
-        similarity_ = (2*a + 2*d) / (p + a + d)
+        similarity_ = (2 * a + 2 * d) / (p + a + d)
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
-        
+
     def _get_abcd(self, arr1, arr2):
         """ Get a, b, c, d, where:
         a = bits(array 1) and bits(array 2)
@@ -822,9 +867,9 @@ class SimilarityMeasure:
             out_arr = [np.array(arr1), np.array(arr2)]
             max_length = max(arr1.size, arr2.size)
             for arr_id, arr in enumerate(out_arr):
-                out_arr[arr_id] =  np.pad(arr, 
-                                          (0, max_length - arr.size), 
-                                          mode='constant')
+                out_arr[arr_id] = np.pad(arr,
+                                         (0, max_length - arr.size),
+                                         mode='constant')
             return out_arr
 
         arr1, arr2 = _to_equal_length(arr1, arr2)
@@ -836,11 +881,11 @@ class SimilarityMeasure:
         d = np.sum(not_arr1 & not_arr2)
         assert (a + b + c + d) == arr1.size == arr2.size
         return a, b, c, d
-    
+
     def _normalize(self, similarity_):
-        return (similarity_ 
+        return (similarity_
                 + self.normalize_fn['shift_']) / self.normalize_fn['scale_']
-    
+
     def is_distance_metric(self):
         """Check if the similarity measure is a distance metric.
         
@@ -869,10 +914,10 @@ class SimilarityMeasure:
             'jaccard',
             'tanimoto',
             "cosine",
-            'driver-kroeber', 
+            'driver-kroeber',
             'ochiai',
-            'simple_matching', 
-            'sokal-michener', 
+            'simple_matching',
+            'sokal-michener',
             'rand',
             'rogers-tanimoto',
             'russel-rao',
@@ -882,9 +927,9 @@ class SimilarityMeasure:
             'baroni-urbani-buser',
             'kulczynski',
             'sokal-sneath',
-            'sokal-sneath_2', 
-            'sokal-sneath-2', 
-            'symmetric_sokal_sneath', 
+            'sokal-sneath_2',
+            'sokal-sneath-2',
+            'symmetric_sokal_sneath',
             'symmetric-sokal-sneath',
             'jaccard',
             'faith',
@@ -893,7 +938,8 @@ class SimilarityMeasure:
             'rogot-goldberg',
             'hawkins-dotson',
             'maxwell-pilliner',
+            'harris-lahey'
         ]
-    
+
     def __str__(self):
         return self.label_
