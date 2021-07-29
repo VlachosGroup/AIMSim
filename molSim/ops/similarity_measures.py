@@ -163,6 +163,11 @@ class SimilarityMeasure:
             self.metric = 'yule_1'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['yule-2', 'yule_2']:
+            self.metric = 'yule_2'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -403,7 +408,12 @@ class SimilarityMeasure:
             except ValueError as e:
                 raise e
 
-
+        elif self.metric == 'yule_2':
+            try:
+                similarity_ = self._get_yule_2(mol1_descriptor,
+                                               mol2_descriptor)
+            except ValueError as e:
+                raise e
 
         else:
             raise ValueError(f'{self.metric} could not be implemented')
@@ -1125,6 +1135,37 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
 
+    def _get_yule_2(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Yule(2) similarity between two molecules.
+        This is defined for two binary arrays as:
+        Symmetric Yule(2) similarity = (sqrt(a*d) - sqrt(b*c))
+                                       / (sqrt(a*d) + sqrt(b*c))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Yule(2) similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Yule(2) similarity is only useful "
+                "for bit strings generated from fingerprints. Consider "
+                "using other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p or b*c < SMALL_NUMBER:
+            return 1.
+        similarity_ = (np.sqrt(a*d)
+                       - np.sqrt(b*c)) / (np.sqrt(a*d) + np.sqrt(b*c))
+        self.normalize_fn["shift_"] = 1.
+        self.normalize_fn["scale_"] = 2.
+        return self._normalize(similarity_)
+
     def _get_abcd(self, arr1, arr2):
         """ Get a, b, c, d, where:
         a = bits(array 1) and bits(array 2)
@@ -1224,6 +1265,8 @@ class SimilarityMeasure:
             'austin-colwell',
             'yule-1',
             'yule_1',
+            'yule_2',
+            'yule_2',
         ]
 
     def __str__(self):
