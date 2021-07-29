@@ -16,7 +16,7 @@ from rdkit import DataStructs
 from rdkit.Chem import AllChem
 from mordred import Calculator, descriptors
 
-from ..exceptions import NotInitializedError, MordredCalculatorError
+from ..exceptions import *#NotInitializedError, MordredCalculatorError, InvalidConfigurationError
 
 
 class Descriptor:
@@ -109,6 +109,14 @@ class Descriptor:
             Maximum path used to generate the topological fingerprint.
 
         """
+        if molecule_graph.GetNumAtoms() <= min_path:
+            raise InvalidConfigurationError(f'# atoms in molecule: '
+                                            f'{molecule_graph.GetNumAtoms()}, '
+                                            f'min_path: {min_path}. '
+                                            f'For topological fingerprint, '
+                                            f'the number of atoms has to be '
+                                            f'greater than the minimum path '
+                                            f'used for fingerprint.')
         self.rdkit_ = rdmolops.RDKFingerprint(
             molecule_graph, minPath=min_path, maxPath=max_path
         )
