@@ -31,8 +31,8 @@ class TestMoleculeSet(unittest.TestCase):
         "CCCCCCC",
         "CCCC",
         "CCC",
-        "O",
-        "N",
+        "CO",
+        "CN",
         "C1=CC=CC=C1",
         "CC1=CC=CC=C1",
         "C(=O)(N)N",
@@ -994,9 +994,8 @@ class TestMoleculeSet(unittest.TestCase):
                         mol.get_similarity_to(
                             closest_mol, molecule_set.similarity_measure
                         ),
-                        "Expected closest mol to have maximum "
-                        "similarity to target molecule")
-
+                        f"Expected closest mol to have maximum "
+                        f"similarity to target molecule {similarity_measure}, {descriptor}, {mol.mol_text}")
 
     def test_get_molecule_least_similar_to(self):
         """Test for get_molecule_least_similar_to functionality."""
