@@ -173,6 +173,11 @@ class SimilarityMeasure:
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
 
+        elif metric.lower() in ['dennis', 'holiday-dennis', 'holiday_dennis']:
+            self.metric = 'dennis'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -267,6 +272,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_consonni_todeschini_5(mol1_descriptor,
                                                               mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'dennis':
+            try:
+                similarity_ = self._get_dennis(mol1_descriptor,
+                                               mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -654,6 +666,37 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
+    def _get_dennis(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Dennis similarity between two molecules.
+        This is defined for two binary arrays as:
+        Dennis similarity = (a*d - b*c) / sqrt(p*(a + b)*(a + c))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Dennis similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Dennis similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if (a + b) < SMALL_NUMBER and (b + c) < SMALL_NUMBER:
+            return 0.
+        similarity_ = (a*d - b*c) / np.sqrt(p*(a + b)*(a + c))
+        self.normalize_fn["shift_"] = np.sqrt(p) / 2
+        self.normalize_fn["scale_"] = np.sqrt(p)
+        return self._normalize(similarity_)
+
     def _get_faith(self, mol1_descriptor, mol2_descriptor):
         """Calculate faith similarity between two molecules.
         This is defined for two binary arrays as:
@@ -669,7 +712,7 @@ class SimilarityMeasure:
         if not (mol1_descriptor.is_fingerprint()
                 and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                "Forbes similarity is only useful for bit strings "
+                "Faith similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
@@ -1314,6 +1357,9 @@ class SimilarityMeasure:
             'fossum',
             'holiday-fossum',
             'holiday_fossum',
+            'dennis',
+            'holiday-dennis',
+            'holiday_dennis'
         ]
 
     def __str__(self):
