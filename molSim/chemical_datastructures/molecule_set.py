@@ -155,7 +155,8 @@ class MoleculeSet:
             mol_names, mol_smiles, responses = None, None, None
             if "feature_name" in feature_cols:
                 mol_names = database_feature_df["feature_name"].values.flatten()
-                database_feature_df = database_feature_df.drop(["feature_name"], axis=1)
+                database_feature_df = database_feature_df.drop(["feature_name"],
+                                                               axis=1)
             if "feature_smiles" in feature_cols:
                 mol_smiles = database_df["feature_smiles"].values.flatten()
                 database_feature_df = database_feature_df.drop(
@@ -418,38 +419,41 @@ class MoleculeSet:
                 return True
         return False
 
-    def compare_to_molecule(self, target_molecule):
+    def compare_against_molecule(self, query_molecule):
         """
-        Compare the molecule set to an arbitrary target molecule.
+        Compare the a query molecule to all molecules of the set.
 
         Args:
-            target_molecule (molSim.chemical_datastructures Molecule): Target
+            query_molecule (molSim.chemical_datastructures Molecule): Target
                 molecule to compare.
 
         Returns:
-            target_similarity (np.ndarray): Similarity scores between target
+            set_similarity (np.ndarray): Similarity scores between query
                 molecule and all other molecules of the molecule set.
         """
-        target_similarity = [
-            set_molecule.get_similarity_to(
-                target_molecule, similarity_measure=self.similarity_measure
+        set_similarity = [
+            query_molecule.get_similarity_to(
+                set_molecule, similarity_measure=self.similarity_measure
             )
             for set_molecule in self.molecule_database
         ]
-        return np.array(target_similarity)
+        return np.array(set_similarity)
 
-    def get_molecule_most_similar_to(self, target_molecule):
+    def get_molecule_most_similar_to(self, query_molecule):
         """
-        Get the Molecule in the Set most similar to a Target Molecule.
+        Get the Molecule in the Set most similar to a query Molecule.
+        This is defined as the molecule of the set with the highest
+        (query_molecule, set_molecule) similarity.
 
         Args:
-            target_molecule (molSim.chemical_datastructures Molecule): Target
+            query_molecule (molSim.chemical_datastructures Molecule): Target
                 molecule to compare.
 
         Returns:
             molSim.chemical_datastructures Molecule: Most similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(
+                                                               query_molecule))
         return self.molecule_database[sorted_similarity[-1]]
 
     def get_molecule_least_similar_to(self, target_molecule):
@@ -462,7 +466,8 @@ class MoleculeSet:
         Returns:
             molSim.chemical_datastructures Molecule: Least similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(
+                                                               target_molecule))
         return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
