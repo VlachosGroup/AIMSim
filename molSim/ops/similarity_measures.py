@@ -225,6 +225,10 @@ class SimilarityMeasure:
             self.metric = 'cohen'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['peirce_1']:
+            self.metric = 'peirce_1'
+            self.type_ = 'discrete'
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -463,6 +467,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_pearson_heron(mol1_descriptor,
                                                       mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'peirce_1':
+            try:
+                similarity_ = self._get_peirce_1(mol1_descriptor,
+                                                 mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -1370,6 +1381,38 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
 
+    def _get_peirce_1(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Peirce(1) similarity between two molecules.
+        This is defined for two binary arrays as:
+        Peirce(1) similarity = (a*d - b*c) / ((a + b)*(c + d))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Peirce(1) similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Peirce(1) similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if b == p or c == p:
+            return 0.
+
+        similarity_ = (a*d - b*c) / ((a + b)*(c + d))
+        self.normalize_fn["shift_"] = 1.
+        self.normalize_fn["scale_"] = 2.
+        return self._normalize(similarity_)
+
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1839,6 +1882,7 @@ class SimilarityMeasure:
             'pearson−heron',
             'sorgenfrei',
             'cohen',
+            'peirce_1'
         ]
 
     def __str__(self):
