@@ -190,6 +190,10 @@ class SimilarityMeasure:
             self.metric = 'dispersion'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['goodman−kruskal']:
+            self.metric = 'goodman_kruskal'
+            self.type_ = 'discrete'
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -242,7 +246,7 @@ class SimilarityMeasure:
             except ValueError as e:
                 raise e
 
-        elif self.metric == "cosine":
+        elif self.metric == 'cosine':
             if mol1_descriptor.rdkit_ and mol2_descriptor.rdkit_:
                 similarity_ = DataStructs.CosineSimilarity(
                     mol1_descriptor.rdkit_, mol2_descriptor.rdkit_
@@ -345,6 +349,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_fossum(mol1_descriptor,
                                                mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'goodman_kruskal':
+            try:
+                similarity_ = self._get_goodman_kruskal(mol1_descriptor,
+                                                        mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -910,6 +921,36 @@ class SimilarityMeasure:
         similarity_ = p * (a - 0.5)**2 / ((a + b) * (a + c))
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = (p - 0.5)**2 / p
+        return self._normalize(similarity_)
+
+    def _get_goodman_kruskal(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Goodman-Kruskal similarity between two molecules.
+        This is defined for two binary arrays as:
+        Goodman-Kruskal similarity =
+            (2 * min(a, d) - b - c) / (2 * min(a, d) + b + c)
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Goodman-Kruskal similarity value
+                """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Goodman-Kruskal similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        min_a_d = np.min([a, d])
+        similarity_ = (2 * min_a_d - b - c) / (2 * min_a_d + b + c)
+        self.normalize_fn["shift_"] = 1.
+        self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
 
     def _get_harris_lahey(self, mol1_descriptor, mol2_descriptor):
@@ -1489,7 +1530,8 @@ class SimilarityMeasure:
             'cole-2',
             'cole_2',
             'dispersion',
-            'choi'
+            'choi',
+            'goodman−kruskal'
         ]
 
     def __str__(self):
