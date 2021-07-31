@@ -95,6 +95,11 @@ class SimilarityMeasure:
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
 
+        elif metric.lower() in ['sokal-sneath-4', 'sokal-sneath_4']:
+            self.metric = 'sokal_sneath_4'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         elif metric.lower() in ['jaccard']:
             self.metric = 'jaccard'
             self.type_ = 'discrete'
@@ -464,6 +469,13 @@ class SimilarityMeasure:
         elif self.metric == 'sokal_sneath_3':
             try:
                 similarity_ = self._get_sokal_sneath_3(mol1_descriptor,
+                                                       mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'sokal_sneath_4':
+            try:
+                similarity_ = self._get_sokal_sneath_4(mol1_descriptor,
                                                        mol2_descriptor)
             except ValueError as e:
                 raise e
@@ -1402,6 +1414,39 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
+    def _get_sokal_sneath_4(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Sokal-Sneath(4) similarity between two molecules.
+        This is defined for two binary arrays as:
+        Sokal-Sneath(4) similarity =
+         a/sqrt((a + b) * (a + c)) * d/sqrt((b + d) *(c + d))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Sokal-Sneath(4) similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Sokal-Sneath(4) similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if a < SMALL_NUMBER and d < SMALL_NUMBER:
+            return 0.
+        similarity_ = (a/np.sqrt((a + b) * (a + c))) * (
+                                                   d/np.sqrt((b + d) * (c + d)))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+
     def _get_yule_1(self, mol1_descriptor, mol2_descriptor):
         """Calculate Yule(1) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1547,6 +1592,8 @@ class SimilarityMeasure:
             'symmetric-sokal-sneath',
             'sokal-sneath-3',
             'sokal-sneath_3',
+            'sokal-sneath-4',
+            'sokal-sneath_4',
             'jaccard',
             'faith',
             'mountford',
