@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
 from molSim.chemical_datastructures import Molecule
-from molSim.exceptions import NotInitializedError
+from molSim.exceptions import NotInitializedError, InvalidConfigurationError
 from molSim.ops.clustering import Cluster
 from molSim.ops.descriptor import Descriptor
 from molSim.ops.similarity_measures import SimilarityMeasure
@@ -155,7 +155,8 @@ class MoleculeSet:
             mol_names, mol_smiles, responses = None, None, None
             if "feature_name" in feature_cols:
                 mol_names = database_feature_df["feature_name"].values.flatten()
-                database_feature_df = database_feature_df.drop(["feature_name"], axis=1)
+                database_feature_df = database_feature_df.drop(["feature_name"],
+                                                               axis=1)
             if "feature_smiles" in feature_cols:
                 mol_smiles = database_df["feature_smiles"].values.flatten()
                 database_feature_df = database_feature_df.drop(
@@ -418,47 +419,42 @@ class MoleculeSet:
                 return True
         return False
 
-    def compare_to_molecule(self, target_molecule):
+    def compare_against_molecule(self, query_molecule):
         """
-        Compare the molecule set to an arbitrary target molecule.
+        Compare the a query molecule to all molecules of the set.
 
         Args:
-            target_molecule (molSim.chemical_datastructures Molecule): Target
+            query_molecule (molSim.chemical_datastructures Molecule): Target
                 molecule to compare.
 
         Returns:
-            target_similarity (np.ndarray): Similarity scores between target
+            set_similarity (np.ndarray): Similarity scores between query
                 molecule and all other molecules of the molecule set.
         """
-        target_similarity = [
-            set_molecule.get_similarity_to(
-                target_molecule, similarity_measure=self.similarity_measure
+        set_similarity = [
+            query_molecule.get_similarity_to(
+                set_molecule, similarity_measure=self.similarity_measure
             )
             for set_molecule in self.molecule_database
         ]
-        return np.array(target_similarity)
+        return np.array(set_similarity)
 
-    def get_molecule_most_similar_to(self, target_molecule, exclude_self=True):
+    def get_molecule_most_similar_to(self, query_molecule):
         """
-        Get the Molecule in the Set most similar to a Target Molecule.
+        Get the Molecule in the Set most similar to a query Molecule.
+        This is defined as the molecule of the set with the highest
+        (query_molecule, set_molecule) similarity.
 
         Args:
-            target_molecule (molSim.chemical_datastructures Molecule): Target
+            query_molecule (molSim.chemical_datastructures Molecule): Target
                 molecule to compare.
-            exclude_self (bool): If true then a duplicate of the
-                target_molecule in the molecule set (if present) is ignored
-                and the second most similar molecule is retured (since
-                a molecule is trivially most similar to itself).
-                Default is True.
 
         Returns:
             molSim.chemical_datastructures Molecule: Most similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
-        if exclude_self and self.is_present(target_molecule):
-            return self.molecule_database[sorted_similarity[-2]]
-        else:
-            return self.molecule_database[sorted_similarity[-1]]
+        sorted_similarity = np.argsort(self.compare_against_molecule(
+                                                               query_molecule))
+        return self.molecule_database[sorted_similarity[-1]]
 
     def get_molecule_least_similar_to(self, target_molecule):
         """
@@ -470,7 +466,8 @@ class MoleculeSet:
         Returns:
             molSim.chemical_datastructures Molecule: Least similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_to_molecule(target_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(
+                                                               target_molecule))
         return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
@@ -524,7 +521,7 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_most_dissimilar_pairs(self, descriptor=None, similarity_measure=None):
+    def get_most_dissimilar_pairs(self):
         """Get pairs of samples which are least similar.
 
         Returns:
@@ -615,6 +612,12 @@ class MoleculeSet:
             cluster_grouped_mol_names (dict): Dictionary of cluster id
                 (key) --> Names of molecules in cluster.
         """
+        if not self.similarity_measure.is_distance_metric():
+            raise InvalidConfigurationError(str(self.similarity_measure) 
+                                            + ' is not a distance metric. '
+                                            'Clustering will not yield '
+                                            'meaningful results.')
+
         if clustering_method is None:
             if self.similarity_measure.type_ == "continuous":
                 clustering_method = "kmedoids"

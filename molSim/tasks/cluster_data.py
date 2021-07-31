@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import yaml
 
 from .task import Task
+from molSim.exceptions import InvalidConfigurationError
 from molSim.utils.plotting_scripts import plot_barchart, plot_scatter
 
 
@@ -43,9 +44,11 @@ class ClusterData(Task):
             makedirs(cluster_dir, exist_ok=True)
 
     def __call__(self, molecule_set):
-        molecule_set.cluster(
-            n_clusters=self.n_clusters, clustering_method=self.clustering_method
-        )
+        try:
+            molecule_set.cluster(n_clusters=self.n_clusters, 
+                                 clustering_method=self.clustering_method)
+        except InvalidConfigurationError as e:
+            raise e
         mol_names = molecule_set.get_mol_names()
         cluster_labels = molecule_set.get_cluster_labels()
         cluster_grouped_mol_names = {}
@@ -92,3 +95,5 @@ class ClusterData(Task):
 
     def __str__(self):
         return "Task: Cluster data"
+    
+

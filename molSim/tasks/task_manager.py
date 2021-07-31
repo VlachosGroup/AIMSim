@@ -1,5 +1,6 @@
 """Class to call al tasks in sequence."""
 from molSim.chemical_datastructures import MoleculeSet
+from molSim.exceptions import InvalidConfigurationError
 from molSim.tasks import *
 
 
@@ -28,7 +29,8 @@ class TaskManager:
                 elif task == "visualize_dataset":
                     loaded_task = VisualizeDataset(task_configs)
                 elif task == "show_property_variation_w_similarity":
-                    loaded_task = ShowPropertyVariationWithSimilarity(task_configs)
+                    loaded_task = ShowPropertyVariationWithSimilarity(
+                                                                   task_configs)
                 elif task == "identify_outliers":
                     loaded_task = IdentifyOutliers(task_configs)
                 elif task == "cluster":
@@ -37,10 +39,10 @@ class TaskManager:
                     print(f"{task} not recognized")
                     continue
                 self.to_do.append(loaded_task)
-            except IOError as e:
+            except InvalidConfigurationError as e:
                 print(f"Error in the config file for task: ", task)
                 print("\n", e)
-                exit(1)
+                raise e
 
         if len(self.to_do) == 0:
             print("No tasks were read. Exiting")
@@ -65,12 +67,11 @@ class TaskManager:
             print("molecule_database fields not set in config file")
             print(f"molecule_database: {molecule_database_src}")
             print(f"molecule_database_source_type: {database_src_type}")
-            exit(1)
+            raise InvalidConfigurationError
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
-        similarity_measure = molecule_set_configs.get(
-            "similarity_measure", "tanimoto_similarity"
-        )
+        similarity_measure = molecule_set_configs.get("similarity_measure", 
+                                                      "tanimoto")
         fingerprint_type = molecule_set_configs.get("fingerprint_type", None)
         self.molecule_set = MoleculeSet(
             molecule_database_src=molecule_database_src,
@@ -86,11 +87,16 @@ class TaskManager:
 
         Args:
             molecule_set_configs (dict): Configurations for the molecule_set.
-        """
+        """        
         self._initialize_molecule_set(molecule_set_configs)
         if self.molecule_set.is_verbose:
             print("Beginning tasks...")
         for task_id, task in enumerate(self.to_do):
             print(f"Task ({task_id + 1} / {len(self.to_do)}) {task}")
-            task(self.molecule_set)
+            try:
+                task(self.molecule_set)
+            except InvalidConfigurationError as e:
+                print(f'{task} could not be performed due to the '
+                      f'following error: {e.message}')
+                continue
         input("Press enter to terminate (plots will be closed).")

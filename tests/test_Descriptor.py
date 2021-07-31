@@ -4,7 +4,7 @@ import numpy as np
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import MolFromSmiles
 from molSim.ops import Descriptor
-from molSim.exceptions import MordredCalculatorError
+from molSim.exceptions import MordredCalculatorError, InvalidConfigurationError
 
 SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 
@@ -77,7 +77,8 @@ class TestDescriptor(unittest.TestCase):
             'arbitrary vector to be "arbitrary"',
         )
         self.assertIsInstance(
-            descriptor.to_numpy(), np.ndarray, "Expected numpy.ndarray from to_numpy()"
+            descriptor.to_numpy(), np.ndarray,
+            "Expected numpy.ndarray from to_numpy()"
         )
         self.assertTrue(
             (descriptor.to_numpy() == descriptor_value).all(),
@@ -85,6 +86,103 @@ class TestDescriptor(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             descriptor.to_rdkit()
+
+    def test_topological_fprint_min_path_lesser_than_atoms(self):
+        atomic_mols = [MolFromSmiles(smiles) for smiles in ['C', 'O', 'N', 'P']]
+        diatomic_mols = [MolFromSmiles(smiles) for smiles in ['CC',
+                                                              'CO',
+                                                              'CN',
+                                                              'CP']]
+        triatomic_mols = [MolFromSmiles(smiles) for smiles in ['CCC',
+                                                               'COO',
+                                                               'CCN',
+                                                               'CCP']]
+        min_path = 1
+        for mol in atomic_mols:
+            with self.assertRaises(InvalidConfigurationError):
+                descriptor = Descriptor()
+                descriptor.make_fingerprint(
+                    molecule_graph=mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+        for diatomic_mol in diatomic_mols:
+            descriptor = Descriptor()
+            try:
+                descriptor.make_fingerprint(
+                    molecule_graph=diatomic_mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+            except InvalidConfigurationError:
+                self.fail("Did not expect Descriptor to raise "
+                          "InvalidConfigurationError")
+        for triatomic_mol in triatomic_mols:
+            descriptor = Descriptor()
+            try:
+                descriptor.make_fingerprint(
+                    molecule_graph=triatomic_mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+            except InvalidConfigurationError:
+                self.fail("Did not expect Descriptor to raise "
+                          "InvalidConfigurationError")
+
+        min_path = 2
+        for mol in atomic_mols:
+            with self.assertRaises(InvalidConfigurationError):
+                descriptor = Descriptor()
+                descriptor.make_fingerprint(
+                    molecule_graph=mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+        for diatomic_mol in diatomic_mols:
+            with self.assertRaises(InvalidConfigurationError):
+                descriptor = Descriptor()
+                descriptor.make_fingerprint(
+                    molecule_graph=diatomic_mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+        for triatomic_mol in triatomic_mols:
+            descriptor = Descriptor()
+            try:
+                descriptor.make_fingerprint(
+                    molecule_graph=triatomic_mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+            except InvalidConfigurationError:
+                self.fail("Did not expect Descriptor to raise "
+                          "InvalidConfigurationError")
+
+        min_path = 3
+        for mol in atomic_mols:
+            with self.assertRaises(InvalidConfigurationError):
+                descriptor = Descriptor()
+                descriptor.make_fingerprint(
+                    molecule_graph=mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+        for diatomic_mol in diatomic_mols:
+            with self.assertRaises(InvalidConfigurationError):
+                descriptor = Descriptor()
+                descriptor.make_fingerprint(
+                    molecule_graph=diatomic_mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
+        for triatomic_mol in triatomic_mols:
+            with self.assertRaises(InvalidConfigurationError):
+                descriptor = Descriptor()
+                descriptor.make_fingerprint(
+                    molecule_graph=triatomic_mol,
+                    fingerprint_type='topological_fingerprint',
+                    fingerprint_params={'min_path': min_path}
+                )
 
     def test_descriptor_make_fingerprint(self):
         """

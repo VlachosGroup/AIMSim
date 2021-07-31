@@ -1,5 +1,5 @@
 class NotInitializedError(AttributeError):
-    """This is used when a class is called without initialization."""
+    """Used when a class is called without initialization."""
 
     def __init__(self, message=None):
         self.message = message
@@ -16,6 +16,13 @@ class MordredCalculatorError(RuntimeError):
 
 class MissingRDKitError(RuntimeError):
     """Used when attempting to start molSim without RDKit installed."""
+
+    def __init__(self, message=None):
+        self.message = message
+        super().__init__(message)
+
+class InvalidConfigurationError(IOError):
+    """Used when a configuration parameter is invalid."""
 
     def __init__(self, message=None):
         self.message = message
