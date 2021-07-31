@@ -186,6 +186,10 @@ class SimilarityMeasure:
             self.metric = 'cole_2'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['dispersion', 'choi']:
+            self.metric = 'dispersion'
+            self.type_ = 'discrete'
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -315,6 +319,13 @@ class SimilarityMeasure:
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
+
+        elif self.metric == 'dispersion':
+            try:
+                similarity_ = self._get_dispersion(mol1_descriptor,
+                                                   mol2_descriptor)
+            except ValueError as e:
+                raise e
 
         elif self.metric == 'faith':
             try:
@@ -779,6 +790,35 @@ class SimilarityMeasure:
         similarity_ = (a*d - b*c) / np.sqrt(p*(a + b)*(a + c))
         self.normalize_fn["shift_"] = np.sqrt(p) / 2
         self.normalize_fn["scale_"] = np.sqrt(p)
+        return self._normalize(similarity_)
+
+    def _get_dispersion(self, mol1_descriptor, mol2_descriptor):
+        """Calculate dispersion similarity in Choi et al (2012)
+         between two molecules. This is defined for two binary arrays as:
+        dispersion similarity = (a*d - b*c) / p**2
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): dispersion similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Dispersion similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        similarity_ = (a*d - b*c) / p**2
+        self.normalize_fn["shift_"] = 1 / 4
+        self.normalize_fn["scale_"] = 1 / 2
         return self._normalize(similarity_)
 
     def _get_faith(self, mol1_descriptor, mol2_descriptor):
@@ -1448,6 +1488,8 @@ class SimilarityMeasure:
             'cole_1',
             'cole-2',
             'cole_2',
+            'dispersion',
+            'choi'
         ]
 
     def __str__(self):
