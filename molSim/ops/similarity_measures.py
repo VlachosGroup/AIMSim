@@ -217,6 +217,10 @@ class SimilarityMeasure:
             self.type_ = 'discrete'
             self.to_distance = lambda x: 1 - x
 
+        elif metric.lower() in ['sorgenfrei']:
+            self.metric = 'sorgenfrei'
+            self.type_ = 'discrete'
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -511,6 +515,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_sokal_sneath_4(mol1_descriptor,
                                                        mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'sorgenfrei':
+            try:
+                similarity_ = self._get_sorgenfrei(mol1_descriptor,
+                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -1573,6 +1584,34 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
+    def _get_sorgenfrei(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Sorgenfrei similarity between two molecules.
+        This is defined for two binary arrays as:
+        Sorgenfrei similarity = a**2 / ((a + b)*(a + c))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Sorgenfrei similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Sorgenfrei similarity is only useful "
+                "for bit strings generated from fingerprints. Consider "
+                "using other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        if a < SMALL_NUMBER:
+            return 0.
+        similarity_ = a**2 / ((a + b)*(a + c))
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+
     def _get_yule_1(self, mol1_descriptor, mol2_descriptor):
         """Calculate Yule(1) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1754,6 +1793,7 @@ class SimilarityMeasure:
             'choi',
             'goodman−kruskal',
             'pearson−heron',
+            'sorgenfrei',
         ]
 
     def __str__(self):
