@@ -204,6 +204,11 @@ class SimilarityMeasure:
             self.metric = 'goodman_kruskal'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['pearson−heron']:
+            self.metric = 'pearson_heron'
+            self.type_ = 'discrete'
+            self.to_distance = lambda x: 1 - x
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -414,6 +419,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_mountford(mol1_descriptor,
                                                   mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'pearson_heron':
+            try:
+                similarity_ = self._get_pearson_heron(mol1_descriptor,
+                                                      mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -1189,6 +1201,41 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
 
+    def _get_pearson_heron(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Pearson-Heron similarity between two molecules.
+        This is defined for two binary arrays as:
+        Pearson-Heron similarity =
+         (a*d - b*c)/sqrt((a + b)*(a + c)*(b + d)*(c + d))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Pearson-Heron similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Pearson-Heron similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if b == p or c == p:
+            return 0.
+        denominator_ = np.sqrt((a + b)*(a + c)*(b + d)*(c + d))
+        if denominator_< SMALL_NUMBER:
+            return 0.
+        similarity_ = (a*d - b*c) / denominator_
+        self.normalize_fn["shift_"] = 1.
+        self.normalize_fn["scale_"] = 2.
+        return self._normalize(similarity_)
+
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1625,6 +1672,7 @@ class SimilarityMeasure:
             'dispersion',
             'choi',
             'goodman−kruskal',
+            'pearson−heron',
         ]
 
     def __str__(self):
