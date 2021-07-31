@@ -221,6 +221,10 @@ class SimilarityMeasure:
             self.metric = 'sorgenfrei'
             self.type_ = 'discrete'
 
+        elif metric.lower() in ['cohen']:
+            self.metric = 'cohen'
+            self.type_ = 'discrete'
+
         else:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
         self.normalize_fn = {'shift_': 0., 'scale_': 1.}
@@ -270,6 +274,13 @@ class SimilarityMeasure:
             try:
                 similarity_ = self._get_braun_blanquet(mol1_descriptor,
                                                        mol2_descriptor)
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'cohen':
+            try:
+                similarity_ = self._get_cohen(mol1_descriptor,
+                                              mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -641,6 +652,39 @@ class SimilarityMeasure:
         similarity_ = a / max((a + b), (a + c))
         self.normalize_fn["shift_"] = 0.
         self.normalize_fn["scale_"] = 1.
+        return self._normalize(similarity_)
+
+    def _get_cohen(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Cohen similarity between two molecules.
+        This is defined for two binary arrays as:
+        Cohen Similarity = 2*(a*d - b*c) / ((a + b)*(b + d) + (a + c)*(c + d))
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Cohen similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Cohen similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        denominator_ = (a + b)*(b + d) + (a + c)*(c + d)
+        if a == p or d == p:
+            return 1.
+        if denominator_ < SMALL_NUMBER:
+            return 0.
+
+        similarity_ = 2*(a*d - b*c) / denominator_
+        self.normalize_fn["shift_"] = 1.
+        self.normalize_fn["scale_"] = 2.
         return self._normalize(similarity_)
 
     def _get_cole_1(self, mol1_descriptor, mol2_descriptor):
@@ -1794,6 +1838,7 @@ class SimilarityMeasure:
             'goodman−kruskal',
             'pearson−heron',
             'sorgenfrei',
+            'cohen',
         ]
 
     def __str__(self):
