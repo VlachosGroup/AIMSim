@@ -35,6 +35,10 @@ class SimilarityMeasure:
             # convert to jaccard for distance
             self.to_distance = lambda x: 1 - x / (2 - x)
 
+        elif metric.lower() in ['dice_2']:
+            self.metric = 'dice_2'
+            self.type_ = 'discrete'
+
         elif metric.lower() in ['tanimoto', 'jaccard-tanimoto']:
             self.metric = 'tanimoto'
             self.type_ = 'discrete'
@@ -338,6 +342,13 @@ class SimilarityMeasure:
                     "generated from fingerprints. Consider using "
                     "other similarity measures for arbitrary vectors."
                 )
+
+        elif self.metric == 'dice_2':
+            try:
+                similarity_ = self._get_dice_2(mol1_descriptor,
+                                               mol2_descriptor)
+            except ValueError as e:
+                raise e
 
         elif self.metric == 'dispersion':
             try:
@@ -837,6 +848,37 @@ class SimilarityMeasure:
         similarity_ = (a*d - b*c) / np.sqrt(p*(a + b)*(a + c))
         self.normalize_fn["shift_"] = np.sqrt(p) / 2
         self.normalize_fn["scale_"] = np.sqrt(p)
+        return self._normalize(similarity_)
+
+    def _get_dice_2(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Dice(2) similarity between two molecules.
+        This is defined for two binary arrays as:
+        Dice(2) similarity = a / (a + b)
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Dice(2) similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Dice(2) similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+            )
+        a, b, c, d = self._get_abcd(mol1_descriptor.to_numpy(),
+                                    mol2_descriptor.to_numpy())
+        p = a + b + c + d
+        if a == p or d == p:
+            return 1.
+        if a < SMALL_NUMBER:
+            return 0.
+        similarity_ = a / (a + b)
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
     def _get_dispersion(self, mol1_descriptor, mol2_descriptor):
@@ -1618,6 +1660,7 @@ class SimilarityMeasure:
             'dice',
             'sorenson',
             'gleason',
+            'dice_2',
             'jaccard',
             'tanimoto',
             "cosine",
