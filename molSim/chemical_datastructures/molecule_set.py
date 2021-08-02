@@ -614,7 +614,14 @@ class MoleculeSet:
                                             + ' is not a distance metric. '
                                             'Clustering will not yield '
                                             'meaningful results.')
-
+        if (clustering_method == 'kmedoids'
+                and self.similarity_measure.type_ == "discrete") or (
+            clustering_method == 'complete_linkage'
+                and self.similarity_measure.type_ == "continuous"):
+            print(f'{clustering_method} cannot be used with '
+                  f'{self.similarity_measure.type_ } '
+                  f'similarity measure. Changing.')
+            clustering_method = None
         if clustering_method is None:
             if self.similarity_measure.type_ == "continuous":
                 clustering_method = "kmedoids"
