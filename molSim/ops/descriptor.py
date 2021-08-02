@@ -16,7 +16,7 @@ from rdkit import DataStructs
 from rdkit.Chem import AllChem
 from mordred import Calculator, descriptors
 
-from ..exceptions import *#NotInitializedError, MordredCalculatorError, InvalidConfigurationError
+from ..exceptions import *
 
 
 class Descriptor:
