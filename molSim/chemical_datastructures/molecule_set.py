@@ -358,7 +358,7 @@ class MoleculeSet:
         else:
             # serial implementation
             for source_mol_id, molecule in enumerate(self.molecule_database):
-                for target_mol_id in range(source_mol_id, n_mols):
+                for target_mol_id in range(n_mols):
                     if self.is_verbose:
                         print(
                             "Computing similarity of molecule num "
@@ -370,10 +370,6 @@ class MoleculeSet:
                         self.molecule_database[target_mol_id],
                         similarity_measure=self.similarity_measure,
                     )
-                    # symmetric matrix entry
-                    similarity_matrix[target_mol_id, source_mol_id] = similarity_matrix[
-                        source_mol_id, target_mol_id
-                    ]
 
         self.similarity_matrix = similarity_matrix
 
@@ -461,7 +457,8 @@ class MoleculeSet:
         Get the Molecule in the Set least similar to a Target Molecule.
 
         Args:
-            target_molecule (molSim.chemical_datastructures Molecule): Target molecule to compare.
+            target_molecule (molSim.chemical_datastructures Molecule):
+                Target molecule to compare.
 
         Returns:
             molSim.chemical_datastructures Molecule: Least similar molecule.
