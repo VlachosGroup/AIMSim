@@ -1802,10 +1802,10 @@ class SimilarityMeasure:
 
     def _get_abcd(self, arr1, arr2):
         """ Get a, b, c, d, where:
-        a = bits(array 1) and bits(array 2)
-        b = bits(array 1) and bits(~array 2)
-        c = bits(~array 1) and bits(array 2)
-        d = bits(~array 1) and bits(~array 2)   // "~": complement operator
+        a = #bits(bits(array 1) and bits(array 2))
+        b = #bits(bits(array 1) and bits(~array 2))
+        c = #bits(bits(~array 1) and bits(array 2))
+        d = #bits(bits(~array 1) and bits(~array 2))   // "~": complement operator
         p = a + b + c + d = bits(array 1 or array 2)
         
         Args:
@@ -1814,11 +1814,18 @@ class SimilarityMeasure:
 
         Returns:
             (tuple): (a, b, c, d)
+
+        Note:
+            If arrays of unequal lengths are passed, the smaller array is post
+            padded with 0 to make it equal in length to the larger array.
+            Ex. if arr1 = [1, 1, 1, 0]
+                   arr2 = [0, 1]
+                   pad(arr2) --> [0, 1, 0, 0]
         """
 
         def _to_equal_length(arr1, arr2):
             out_arr = [np.array(arr1), np.array(arr2)]
-            max_length = max(arr1.size, arr2.size)
+            max_length = max(len(arr1), len(arr2))
             for arr_id, arr in enumerate(out_arr):
                 out_arr[arr_id] = np.pad(arr,
                                          (0, max_length - arr.size),
