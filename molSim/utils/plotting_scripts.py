@@ -182,6 +182,8 @@ def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
         "xticksize": kwargs.pop("xticksize", 24),
         "yticksize": kwargs.pop("yticksize", 24),
     }
+    plt.figure()
+    plt.rcParams["svg.fonttype"] = "none"
     if xtick_labels is None:
         xtick_labels = [_ for _ in range(len(heights))]
     plt.bar(x, height=heights, color=colors, tick_label=xtick_labels, **kwargs)
