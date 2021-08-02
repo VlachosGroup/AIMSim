@@ -73,6 +73,7 @@ class TaskManager:
         similarity_measure = molecule_set_configs.get("similarity_measure", 
                                                       "tanimoto")
         fingerprint_type = molecule_set_configs.get("fingerprint_type", None)
+        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.)
         self.molecule_set = MoleculeSet(
             molecule_database_src=molecule_database_src,
             molecule_database_src_type=database_src_type,
@@ -80,6 +81,7 @@ class TaskManager:
             fingerprint_type=fingerprint_type,
             is_verbose=is_verbose,
             n_threads=n_threads,
+            sampling_ratio=sampling_ratio,
         )
 
     def __call__(self, molecule_set_configs):
