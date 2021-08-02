@@ -65,14 +65,14 @@ class MoleculeSet:
         if features is not None:
             self._set_descriptor(arbitrary_descriptor_vals=features)
         if 0.0 < sampling_ratio < 1.0:
-            self._subsample_database(
-                sampling_ratio=sampling_ratio, random_state=sampling_random_state
-            )
+            if self.is_verbose:
+                print(f'Using {int(sampling_ratio * 100)}% of the database...')
+            self._subsample_database(sampling_ratio=sampling_ratio,
+                                     random_state=sampling_random_state)
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
-            self._set_descriptor(
-                fingerprint_type=fingerprint_type, fingerprint_params=fingerprint_params
-            )
+            self._set_descriptor(fingerprint_type=fingerprint_type,
+                                 fingerprint_params=fingerprint_params)
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
