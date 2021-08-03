@@ -951,8 +951,8 @@ class TestMoleculeSet(unittest.TestCase):
                     similarity_measure=similarity_measure,
                     is_verbose=False,
                 )
-                self.assertTrue(
-                    molecule_set.is_verbose, "Expected is_verbose to be True"
+                self.assertFalse(
+                    molecule_set.is_verbose, "Expected is_verbose to be False"
                 )
                 self.assertIsNotNone(
                     molecule_set.molecule_database,

@@ -17,6 +17,7 @@ from rdkit.Chem import AllChem
 from rdkit.Chem.Fingerprints import FingerprintMols
 from rdkit.Chem import MACCSkeys
 from rdkit.Chem.AtomPairs import Pairs, Torsions
+from rdkit.DataStructs import cDataStructs
 from mordred import Calculator, descriptors
 
 from ..exceptions import *
@@ -162,10 +163,8 @@ class Descriptor:
             Graph of molecule to be fingerprinted.
 
         """
-        fp = FingerprintMols.FingerprintMol(molecule_graph)
-        txt = fp.ToBinary()
-        fp2 = DataStructs.ExplicitBitVect(txt)
-        self.numpy_ = np.array(fp2.GetOnBits())
+        # returns an ExplicitBitVect
+        self.rdkit_ = FingerprintMols.FingerprintMol(molecule_graph)
         self.label_ = "daylight_fingerprint"
         self.params_ = {}
 
@@ -178,6 +177,7 @@ class Descriptor:
             Graph of molecule to be fingerprinted.
 
         """
+        # returns an ExplicitBitVect
         self.rdkit_ = MACCSkeys.GenMACCSKeys(molecule_graph)
         self.label_ = "maccs_keys"
         self.params_ = {}
@@ -191,7 +191,10 @@ class Descriptor:
             Graph of molecule to be fingerprinted.
 
         """
-        self.rdkit_ = Pairs.GetAtomPairFingerprintAsBitVect(molecule_graph)
+        # returns a SparseBitVect
+        fp = Pairs.GetAtomPairFingerprintAsBitVect(molecule_graph)
+        fp2 = cDataStructs.ConvertToExplicit(fp)
+        self.rdkit_ = fp2
         self.label_ = "atom-pair_fingerprint"
         self.params_ = {}
 
@@ -204,7 +207,9 @@ class Descriptor:
             Graph of molecule to be fingerprinted.
 
         """
-        self.rdkit_ = Torsions.GetTopologicalTorsionFingerprintAsIntVect(molecule_graph)
+        # returns a long sparse int vector
+        fp = Torsions.GetTopologicalTorsionFingerprintAsIntVect(molecule_graph)
+        self.rdkit_ = fp
         self.label_ = "torsion_fingerprint"
         self.params_ = {}
 
@@ -301,9 +306,8 @@ class Descriptor:
         return [
             "morgan_fingerprint",
             "topological_fingerprint",
-            # TODO: These should be bit vectors of some kind
-            # "daylight_fingerprint",
+            "daylight_fingerprint",
             # "maccs_keys",
             # "atom-pair_fingerprint",
-            "torsion_fingerprint",
+            # "torsion_fingerprint",
         ]
