@@ -1,6 +1,11 @@
 """Create similarity plots for the dataset."""
 from .task import Task
-from molSim.utils.plotting_scripts import plot_density, plot_heatmap
+from molSim.utils.plotting_scripts import plot_density, plot_heatmap, plt
+
+
+import pylustrator
+
+pylustrator.start()
 
 
 class VisualizeDataset(Task):
@@ -42,6 +47,7 @@ class VisualizeDataset(Task):
         if molecule_set.is_verbose:
             print("Plotting density of pairwise similarities")
         plot_density(pairwise_similarity_vector, **self.plot_settings["pairwise_plot"])
+        plt.show()
 
     def __str__(self):
         return "Task: Visualize a dataset"
