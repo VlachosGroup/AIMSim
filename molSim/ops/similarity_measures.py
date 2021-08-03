@@ -293,14 +293,8 @@ class SimilarityMeasure:
                 raise e
 
         elif self.metric == 'cosine':
-            if mol1_descriptor.rdkit_ and mol2_descriptor.rdkit_:
-                similarity_ = DataStructs.CosineSimilarity(
-                    mol1_descriptor.rdkit_, mol2_descriptor.rdkit_
-                )
-            else:
-                similarity_ = scipy_cosine(
-                    mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-                )
+            similarity_ = scipy_cosine(
+                    mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy())
 
         elif self.metric == 'cole_1':
             try:
