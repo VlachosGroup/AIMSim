@@ -65,8 +65,10 @@ class ShowPropertyVariationWithSimilarity(Task):
             similar_mol_properties,
             xlabel=f'Reference molecule {self.plot_settings["response"]}',
             ylabel=f'Most similar molecule {self.plot_settings["response"]}',
-            **self.plot_settings,
-        )
+            text='Correlation: {:.2f} (p-value {:.2f})'.format(
+                                                pearson_coff_of_responses[0],
+                                                pearson_coff_of_responses[1]),
+            **self.plot_settings)
         if molecule_set.is_verbose:
             print("Plotting Responses of Dissimilar Molecules")
         plot_parity(
@@ -74,8 +76,10 @@ class ShowPropertyVariationWithSimilarity(Task):
             dissimilar_mol_properties,
             xlabel=f'Reference molecule {self.plot_settings["response"]}',
             ylabel=f'Most dissimilar molecule {self.plot_settings["response"]}',
-            **self.plot_settings,
-        )
+            text='Correlation: {:.2f} (p-value {:.2f})'.format(
+                                     pearson_coff_of_dissimilar_responses[0],
+                                     pearson_coff_of_dissimilar_responses[1]),
+            **self.plot_settings)
 
         text_prompt = ("Pearson Correlation in the properties of the "
                        "most similar molecules\n")
