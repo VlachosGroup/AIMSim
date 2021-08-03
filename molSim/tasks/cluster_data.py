@@ -45,8 +45,9 @@ class ClusterData(Task):
 
     def __call__(self, molecule_set):
         try:
-            molecule_set.cluster(n_clusters=self.n_clusters, 
-                                 clustering_method=self.clustering_method)
+            molecule_set.cluster(
+                n_clusters=self.n_clusters, clustering_method=self.clustering_method
+            )
         except InvalidConfigurationError as e:
             raise e
         mol_names = molecule_set.get_mol_names()
@@ -93,7 +94,7 @@ class ClusterData(Task):
             ],
         )
 
+        plt.show()
+
     def __str__(self):
         return "Task: Cluster data"
-    
-

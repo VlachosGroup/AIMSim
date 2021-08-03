@@ -42,7 +42,7 @@ class CompareTargetMolecule(Task):
             molecule_set (molSim.chemical_datastructures Molecule): Target
                 molecule.
         """
-        target_similarity = self.target_molecule.compare_to_molecule_set(molecule_set)
+        target_similarity = molecule_set.compare_against_molecule(self.target_molecule)
         most_similar_mol = molecule_set.molecule_database[np.argmax(target_similarity)]
         least_similar_mol = molecule_set.molecule_database[np.argmin(target_similarity)]
         text_prompt = "***** "
@@ -66,6 +66,7 @@ class CompareTargetMolecule(Task):
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
         plot_density(target_similarity, **self.plot_settings)
+        plt.show()
 
     def __str__(self):
         return "Task: Compare to a target molecule"

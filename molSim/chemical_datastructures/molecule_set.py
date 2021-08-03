@@ -66,13 +66,15 @@ class MoleculeSet:
             self._set_descriptor(arbitrary_descriptor_vals=features)
         if 0.0 < sampling_ratio < 1.0:
             if self.is_verbose:
-                print(f'Using {int(sampling_ratio * 100)}% of the database...')
-            self._subsample_database(sampling_ratio=sampling_ratio,
-                                     random_state=sampling_random_state)
+                print(f"Using {int(sampling_ratio * 100)}% of the database...")
+            self._subsample_database(
+                sampling_ratio=sampling_ratio, random_state=sampling_random_state
+            )
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
-            self._set_descriptor(fingerprint_type=fingerprint_type,
-                                 fingerprint_params=fingerprint_params)
+            self._set_descriptor(
+                fingerprint_type=fingerprint_type, fingerprint_params=fingerprint_params
+            )
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
@@ -155,8 +157,7 @@ class MoleculeSet:
             mol_names, mol_smiles, responses = None, None, None
             if "feature_name" in feature_cols:
                 mol_names = database_feature_df["feature_name"].values.flatten()
-                database_feature_df = database_feature_df.drop(["feature_name"],
-                                                               axis=1)
+                database_feature_df = database_feature_df.drop(["feature_name"], axis=1)
             if "feature_smiles" in feature_cols:
                 mol_smiles = database_df["feature_smiles"].values.flatten()
                 database_feature_df = database_feature_df.drop(
@@ -249,7 +250,7 @@ class MoleculeSet:
                 )
             else:
                 raise ValueError(
-                    "No descriptor vector or fingerprint type " "were passed."
+                    "No descriptor vector or fingerprint type were passed."
                 )
 
     def _set_similarity_matrix(self):
@@ -447,8 +448,7 @@ class MoleculeSet:
         Returns:
             molSim.chemical_datastructures Molecule: Most similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_against_molecule(
-                                                               query_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(query_molecule))
         return self.molecule_database[sorted_similarity[-1]]
 
     def get_molecule_least_similar_to(self, target_molecule):
@@ -462,8 +462,7 @@ class MoleculeSet:
         Returns:
             molSim.chemical_datastructures Molecule: Least similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_against_molecule(
-                                                               target_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(target_molecule))
         return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
@@ -609,17 +608,23 @@ class MoleculeSet:
                 (key) --> Names of molecules in cluster.
         """
         if not self.similarity_measure.is_distance_metric():
-            raise InvalidConfigurationError(str(self.similarity_measure) 
-                                            + ' is not a distance metric. '
-                                            'Clustering will not yield '
-                                            'meaningful results.')
-        if (clustering_method == 'kmedoids'
-                and self.similarity_measure.type_ == "discrete") or (
-            clustering_method == 'complete_linkage'
-                and self.similarity_measure.type_ == "continuous"):
-            print(f'{clustering_method} cannot be used with '
-                  f'{self.similarity_measure.type_ } '
-                  f'similarity measure. Changing.')
+            raise InvalidConfigurationError(
+                str(self.similarity_measure) + " is not a distance metric. "
+                "Clustering will not yield "
+                "meaningful results."
+            )
+        if (
+            clustering_method == "kmedoids"
+            and self.similarity_measure.type_ == "discrete"
+        ) or (
+            clustering_method == "complete_linkage"
+            and self.similarity_measure.type_ == "continuous"
+        ):
+            print(
+                f"{clustering_method} cannot be used with "
+                f"{self.similarity_measure.type_ } "
+                f"similarity measure. Changing."
+            )
             clustering_method = None
         if clustering_method is None:
             if self.similarity_measure.type_ == "continuous":
