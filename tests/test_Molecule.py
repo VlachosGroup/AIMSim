@@ -233,15 +233,15 @@ class TestMolecule(unittest.TestCase):
             tanimoto_similarity, 1.0, "Expected tanimoto similarity to be <= 1."
         )
 
-    def test_molecule_graph_similar_to_itself_morgan_negl0(self):
+    def test_molecule_graph_similar_to_itself_morgan_l0(self):
         """
         Test that the morgan fingerprint of a Molecule object is similar
-        to itself using negative L0 norm similarity.
+        to itself using L0 norm similarity.
 
         """
         test_smiles = "CC"
         fingerprint_type = "morgan_fingerprint"
-        similarity_metric = "negative_l0"
+        similarity_metric = "l0_similarity"
         test_molecule = Molecule()
         test_molecule._set_molecule_from_smiles(test_smiles)
         test_molecule_duplicate = Molecule()
@@ -254,8 +254,8 @@ class TestMolecule(unittest.TestCase):
         )
         self.assertEqual(
             negl0_similarity,
-            0.0,
-            "Expected negative L0 norm to be 0 when comparing "
+            1.0,
+            "Expected l0_norm similarity to be 1. when comparing "
             "molecule graph to itself",
         )
 

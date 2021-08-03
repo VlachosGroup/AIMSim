@@ -676,7 +676,7 @@ class TestMoleculeSet(unittest.TestCase):
         molecule_set = MoleculeSet(
             molecule_database_src=xl_fpath,
             molecule_database_src_type="excel",
-            similarity_measure="negative_l0",
+            similarity_measure="l0_similarity",
             is_verbose=True,
         )
         self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
@@ -852,7 +852,7 @@ class TestMoleculeSet(unittest.TestCase):
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
-            similarity_measure="negative_l0",
+            similarity_measure="l0_similarity",
             is_verbose=True,
         )
         self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
@@ -1099,7 +1099,7 @@ class TestMoleculeSet(unittest.TestCase):
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
-            similarity_measure="negative_l0",
+            similarity_measure="l0_similarity",
             is_verbose=True,
         )
         features = StandardScaler().fit_transform(features)
