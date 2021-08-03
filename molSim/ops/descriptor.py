@@ -307,8 +307,6 @@ class Descriptor:
             "morgan_fingerprint",
             "topological_fingerprint",
             "daylight_fingerprint",
-            # "atom-pair_fingerprint",
-            # "torsion_fingerprint",
         ]
 
     @staticmethod
