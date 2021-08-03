@@ -1,5 +1,6 @@
 from os import makedirs
 from os.path import dirname
+import matplotlib.pyplot as plt
 from molSim.chemical_datastructures import Molecule
 import numpy as np
 from molSim.utils.plotting_scripts import plot_density
