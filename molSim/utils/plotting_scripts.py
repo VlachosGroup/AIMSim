@@ -46,7 +46,6 @@ def plot_density(similarity_vector, **kwargs):
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
     if plot_title is not None:
         plt.title(plot_title, fontsize=plot_title_fontsize)
-    plt.show(block=False)
 
 
 def plot_heatmap(input_matrix, **kwargs):
@@ -96,7 +95,6 @@ def plot_heatmap(input_matrix, **kwargs):
         mask=mask,
         annot=parameters["annotate"],
     )
-    plt.show(block=False)
 
 
 def plot_parity(x, y, **kwargs):
@@ -157,7 +155,7 @@ def plot_parity(x, y, **kwargs):
     axes.yaxis.set_ticks(np.arange(start, end, stepsize))
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter("%0.1f"))
     if kwargs.get("show_plot", True):
-        plt.show(block=False)
+        pass
     else:
         return axes
 
@@ -192,7 +190,6 @@ def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     plt.ylabel(plot_params["ylabel"], fontsize=plot_params["ylabel_fontsize"])
     plt.xticks(fontsize=plot_params["xticksize"])
     plt.yticks(fontsize=plot_params["yticksize"])
-    plt.show()
 
 
 def plot_scatter(x, y, **kwargs):
@@ -248,6 +245,6 @@ def plot_scatter(x, y, **kwargs):
     axes.yaxis.set_ticks(np.arange(start, end, stepsize))
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter("%0.1f"))
     if kwargs.get("show_plot", True):
-        plt.show(block=False)
+        pass
     else:
         return axes

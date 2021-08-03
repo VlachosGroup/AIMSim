@@ -2,7 +2,7 @@
 from os import makedirs
 from os.path import dirname
 from scipy.stats import pearsonr
-from molSim.utils.plotting_scripts import plot_parity
+from molSim.utils.plotting_scripts import plot_parity, plt
 
 from .task import Task
 
@@ -103,6 +103,8 @@ class ShowPropertyVariationWithSimilarity(Task):
             print("Writing to file ", self.log_fpath)
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
+
+        plt.show()
 
     def __str__(self):
         return "Task: show variation of molecule property with similarity"
