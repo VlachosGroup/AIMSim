@@ -8,20 +8,20 @@ SMALL_NUMBER = 1e-10
 
 class SimilarityMeasure:
     def __init__(self, metric):
-        if metric.lower() in ["negative_l0"]:
-            self.metric = "negative_l0"
+        if metric.lower() in ["l0_similarity"]:
+            self.metric = "l0_similarity"
             self.type_ = "continuous"
-            self.to_distance = lambda x: -x
+            self.to_distance = lambda x: 1 - x
 
-        elif metric.lower() in ["negative_l1", "negative_manhattan"]:
-            self.metric = "negative_l1"
+        elif metric.lower() in ["l1_similarity", "manhattan_similarity"]:
+            self.metric = "l1_similarity"
             self.type_ = "continuous"
-            self.to_distance = lambda x: -x
+            self.to_distance = lambda x: 1 - x
 
-        elif metric.lower() in ["negative_l2", "negative_euclidean"]:
-            self.metric = "negative_l2"
+        elif metric.lower() in ["l2_similarity", "euclidean_similarity"]:
+            self.metric = "l2_similarity"
             self.type_ = "continuous"
-            self.to_distance = lambda x: -x
+            self.to_distance = lambda x: 1 - x
 
         elif metric.lower() in ["cosine", "driver-kroeber", "ochiai"]:
             self.metric = "cosine"
@@ -246,24 +246,25 @@ class SimilarityMeasure:
             similarity_ (float): Similarity value
         """
         similarity_ = None
-        if self.metric == "negative_l0":
-            similarity_ = -np.linalg.norm(
-                mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=0
-            )
+        if self.metric == "l0_similarity":
+            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
+                                                           mol2_descriptor,
+                                                           ord=0)
 
-        elif self.metric == "negative_l1":
-            similarity_ = -np.linalg.norm(
-                mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=1
-            )
+        elif self.metric == "l1_similarity":
+            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
+                                                           mol2_descriptor,
+                                                           ord=1)
 
-        elif self.metric == "negative_l2":
-            similarity_ = -np.linalg.norm(
-                mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=2
-            )
+        elif self.metric == "l2_similarity":
+            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
+                                                           mol2_descriptor,
+                                                           ord=2)
 
         elif self.metric == "austin_colwell":
             try:
-                similarity_ = self._get_austin_colwell(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_austin_colwell(mol1_descriptor,
+                                                       mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -277,7 +278,8 @@ class SimilarityMeasure:
 
         elif self.metric == "braun_blanquet":
             try:
-                similarity_ = self._get_braun_blanquet(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_braun_blanquet(mol1_descriptor,
+                                                       mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -561,6 +563,32 @@ class SimilarityMeasure:
             raise ValueError(f"{self.metric} could not be implemented")
 
         return similarity_
+
+    def _get_vector_norm_similarity(self,
+                                    mol1_descriptor,
+                                    mol2_descriptor,
+                                    ord):
+        """Calculate the norm based similarity between two molecules.
+        This is defined as:
+        Norm similarity (order n) = 1 / (1 + n-norm(A - B)
+        where n-norm(A - B) represents the n-th order norm of the difference
+        of two vector A and B.
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+            ord (int): Order of the norm
+
+        Returns:
+            (float): Norm similarity value
+        """
+        norm_ = -np.linalg.norm(
+                    mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(),
+                    ord=ord)
+        similarity_ = 1 / (1 + norm_)
+        self.normalize_fn["shift_"] = 0.0
+        self.normalize_fn["scale_"] = 1.0
+        return self._normalize(similarity_)
 
     def _get_austin_colwell(self, mol1_descriptor, mol2_descriptor):
         """Calculate Austin-Colwell similarity between two molecules.
@@ -1838,11 +1866,11 @@ class SimilarityMeasure:
         """
         return [
             "tanimoto",
-            "negative_l0",
-            "negative_l1",
-            "negative_manhattan",
-            "negative_l2",
-            "negative_euclidean",
+            "l0_similarity",
+            "l1_similarity",
+            "manhattan_similarity",
+            "l2_similarity",
+            "euclidean_similarity",
             "dice",
             "sorenson",
             "gleason",
