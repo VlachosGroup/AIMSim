@@ -78,7 +78,7 @@ def plot_heatmap(input_matrix, **kwargs):
         "xticklabels": False,
         "yticklabels": False,
         "cmap": "autumn",
-        "mask_upper": True,
+        "mask_upper": False,
         "annotate": False,
     }
     parameters.update(**kwargs)
