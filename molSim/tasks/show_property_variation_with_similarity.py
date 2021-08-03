@@ -50,6 +50,12 @@ class ShowPropertyVariationWithSimilarity(Task):
             if mol1_property and mol2_property:
                 dissimilar_reference_mol_properties.append(mol1_property)
                 dissimilar_mol_properties.append(mol2_property)
+        pearson_coff_of_responses = pearsonr(
+            reference_mol_properties, similar_mol_properties
+        )
+        pearson_coff_of_dissimilar_responses = pearsonr(
+            dissimilar_reference_mol_properties, dissimilar_mol_properties
+        )
 
         if molecule_set.is_verbose:
             print("Plotting Responses of Similar Molecules")
@@ -71,12 +77,6 @@ class ShowPropertyVariationWithSimilarity(Task):
             **self.plot_settings,
         )
 
-        pearson_coff_of_responses = pearsonr(
-            reference_mol_properties, similar_mol_properties
-        )
-        pearson_coff_of_dissimilar_responses = pearsonr(
-            dissimilar_reference_mol_properties, dissimilar_mol_properties
-        )
         text_prompt = ("Pearson Correlation in the properties of the "
                        "most similar molecules\n")
         text_prompt += "-" * 60
