@@ -164,6 +164,8 @@ class Molecule:
                     fingerprint_params=reference_mol.descriptor.get_params(),
                 )
             except ValueError as e:
+                if e.message is None:
+                    e.message = ""
                 e.message += f" For {self.mol_text}"
                 raise e
 
@@ -185,11 +187,11 @@ class Molecule:
             NotInitializedError
                 If target_molecule has uninitialized descriptor. See note.
         """
-
-
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
+            if e.message is None:
+                e.message = ""
             e.message += "Similarity could not be calculated. "
             raise e
 
