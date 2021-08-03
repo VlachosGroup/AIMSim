@@ -428,12 +428,11 @@ class MoleculeSet:
             set_similarity (np.ndarray): Similarity scores between query
                 molecule and all other molecules of the molecule set.
         """
+        query_molecule.match_fingerprint_from(self.molecule_database[0])
         set_similarity = [
             query_molecule.get_similarity_to(
-                set_molecule, similarity_measure=self.similarity_measure
-            )
-            for set_molecule in self.molecule_database
-        ]
+                set_molecule, similarity_measure=self.similarity_measure)
+            for set_molecule in self.molecule_database]
         return np.array(set_similarity)
 
     def get_molecule_most_similar_to(self, query_molecule):

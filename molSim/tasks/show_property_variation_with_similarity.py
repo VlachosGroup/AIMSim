@@ -17,10 +17,7 @@ class ShowPropertyVariationWithSimilarity(Task):
         self._extract_configs()
 
     def _extract_configs(self):
-        self.plot_settings = {
-            "xlabel": "Reference Molecule Property",
-            "ylabel": "Most Similar Molecule Property",
-        }
+        self.plot_settings = {"response": "response"}
         self.plot_settings.update(self.configs.get("property_plot_settings", {}))
 
         self.log_fpath = self.configs.get("log_file_path", None)
@@ -56,9 +53,12 @@ class ShowPropertyVariationWithSimilarity(Task):
 
         if molecule_set.is_verbose:
             print("Plotting Responses of Similar Molecules")
+
         plot_parity(
             reference_mol_properties,
             similar_mol_properties,
+            xlabel=f'Reference molecule {self.plot_settings["response"]}',
+            ylabel=f'Most similar molecule {self.plot_settings["response"]}',
             **self.plot_settings,
         )
         if molecule_set.is_verbose:
@@ -66,6 +66,8 @@ class ShowPropertyVariationWithSimilarity(Task):
         plot_parity(
             dissimilar_reference_mol_properties,
             dissimilar_mol_properties,
+            xlabel=f'Reference molecule {self.plot_settings["response"]}',
+            ylabel=f'Most dissimilar molecule {self.plot_settings["response"]}',
             **self.plot_settings,
         )
 
@@ -75,9 +77,8 @@ class ShowPropertyVariationWithSimilarity(Task):
         pearson_coff_of_dissimilar_responses = pearsonr(
             dissimilar_reference_mol_properties, dissimilar_mol_properties
         )
-        text_prompt = (
-            "Pearson Correlation in the properties of the most similar molecules\n"
-        )
+        text_prompt = ("Pearson Correlation in the properties of the "
+                       "most similar molecules\n")
         text_prompt += "-" * 60
         text_prompt += "\n\n"
         text_prompt += f"{pearson_coff_of_responses[0]}"
@@ -92,7 +93,8 @@ class ShowPropertyVariationWithSimilarity(Task):
         text_prompt += "\n\n"
         text_prompt += f"{pearson_coff_of_dissimilar_responses[0]}"
         text_prompt += "\n"
-        text_prompt += "2 tailed p-value: " f"{pearson_coff_of_dissimilar_responses[1]}"
+        text_prompt += "2 tailed p-value: " \
+                       f"{pearson_coff_of_dissimilar_responses[1]}"
         if self.log_fpath is None:
             print(text_prompt)
         else:

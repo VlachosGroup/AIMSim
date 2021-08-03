@@ -143,6 +143,30 @@ class Molecule:
         """
         return self.descriptor.to_numpy()
 
+    def match_fingerprint_from(self, reference_mol):
+        """
+        If target_mol.descriptor is a fingerprint, this method will try
+        to calculate the fingerprint of the self molecules.
+        If this fails because of the absence of mol_graph atttribute in
+        target_molecule, a ValueError is raised.
+
+        Args:
+            reference_mol (molSim.ops Molecule): Target molecule. Fingerprint
+            of this molecule is used as the reference.
+
+        Raises:
+            ValueError
+        """
+        if reference_mol.descriptor.is_fingerprint():
+            try:
+                self.set_descriptor(
+                    fingerprint_type=reference_mol.descriptor.get_label(),
+                    fingerprint_params=reference_mol.descriptor.get_params(),
+                )
+            except ValueError as e:
+                e.message += f" For {self.mol_text}"
+                raise e
+
     def get_similarity_to(self, target_mol, similarity_measure):
         """Get a similarity metric to a target molecule
 
@@ -156,28 +180,12 @@ class Molecule:
             similarity_score (float): Similarity coefficient by the chosen
                 method.
 
-        Note
-        ----
-        If self object descriptor is a fingerprint, this method will try
-        to calculate the fingerprint of the target molecule.
-        If this fails because of the absence of mol_graph atttribute in
-        target_molecule, a ValueError is raised.
-
-        Raises:
-            ValueError
-                See Note.
+        Raises
+        ------
             NotInitializedError
                 If target_molecule has uninitialized descriptor. See note.
         """
-        if self.descriptor.is_fingerprint():
-            try:
-                target_mol.set_descriptor(
-                    fingerprint_type=self.descriptor.get_label(),
-                    fingerprint_params=self.descriptor.get_params(),
-                )
-            except ValueError as e:
-                e.message += " For target molecule"
-                raise e
+
 
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
