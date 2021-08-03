@@ -153,11 +153,9 @@ class TestMoleculeSet(unittest.TestCase):
             MolToPDBFile(mol_graph, pdb_fpath)
         return dir_path
 
-    def smiles_seq_to_xl_or_csv(self, 
-                                ftype, 
-                                property_seq=None, 
-                                name_seq=None, 
-                                feature_arr=None):
+    def smiles_seq_to_xl_or_csv(
+        self, ftype, property_seq=None, name_seq=None, feature_arr=None
+    ):
         """Helper method to convert a SMILES sequence or arbitrary features
         to Excel or CSV files.
 
@@ -184,8 +182,7 @@ class TestMoleculeSet(unittest.TestCase):
         if feature_arr is not None:
             feature_arr = np.array(feature_arr)
             for feature_num in range(feature_arr.shape[1]):
-                data.update({f"feature_{feature_num}": 
-                             feature_arr[:, feature_num]})
+                data.update({f"feature_{feature_num}": feature_arr[:, feature_num]})
         data_df = pd.DataFrame(data)
         fpath = "temp_mol_file"
         if ftype == "excel":
@@ -199,7 +196,7 @@ class TestMoleculeSet(unittest.TestCase):
         else:
             raise ValueError(f"{ftype} not supported")
         return fpath
-    
+
     def test_set_molecule_database_from_textfile(self):
         """
         Test to create MoleculeSet object by reading molecule database
@@ -214,8 +211,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, 
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -905,15 +901,14 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         for similarity_measure in SUPPORTED_SIMILARITIES:
             with self.assertRaises(NotInitializedError):
                 MoleculeSet(
                     molecule_database_src=csv_fpath,
                     molecule_database_src_type="csv",
                     similarity_measure=similarity_measure,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
 
         print(f"Test complete. Deleting file {csv_fpath}...")
@@ -926,15 +921,14 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
             with self.assertRaises(TypeError):
                 MoleculeSet(
                     molecule_database_src=csv_fpath,
                     molecule_database_src_type="csv",
                     fingerprint_type=descriptor,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
 
         print(f"Test complete. Deleting file {csv_fpath}...")
@@ -947,8 +941,7 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
                 molecule_set = MoleculeSet(
@@ -956,7 +949,7 @@ class TestMoleculeSet(unittest.TestCase):
                     molecule_database_src_type="csv",
                     fingerprint_type=descriptor,
                     similarity_measure=similarity_measure,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
                 self.assertTrue(
                     molecule_set.is_verbose, "Expected is_verbose to be True"
@@ -986,23 +979,24 @@ class TestMoleculeSet(unittest.TestCase):
                     molecule_database_src_type="csv",
                     fingerprint_type=descriptor,
                     similarity_measure=similarity_measure,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
                 for mol in molecule_set.molecule_database:
                     mol_similarities = molecule_set.compare_against_molecule(mol)
-                    closest_mol = molecule_set.get_molecule_most_similar_to(
-                        mol)
-                    self.assertEqual(np.max(mol_similarities),
-                                     mol.get_similarity_to(
-                                               closest_mol,
-                                               molecule_set.similarity_measure),
-                                     f"Expected closest mol to have maximum "
-                                     f"similarity to target molecule "
-                                     f"using similarity measure: "
-                                     f"{similarity_measure}, "
-                                     f"descriptor: "
-                                     f"{descriptor}, "
-                                     f"for molecule {mol.mol_text}")
+                    closest_mol = molecule_set.get_molecule_most_similar_to(mol)
+                    self.assertEqual(
+                        np.max(mol_similarities),
+                        mol.get_similarity_to(
+                            closest_mol, molecule_set.similarity_measure
+                        ),
+                        f"Expected closest mol to have maximum "
+                        f"similarity to target molecule "
+                        f"using similarity measure: "
+                        f"{similarity_measure}, "
+                        f"descriptor: "
+                        f"{descriptor}, "
+                        f"for molecule {mol.mol_text}",
+                    )
 
     def test_get_molecule_least_similar_to(self):
         """Test for get_molecule_least_similar_to functionality."""
@@ -1014,7 +1008,7 @@ class TestMoleculeSet(unittest.TestCase):
                     molecule_database_src_type="csv",
                     fingerprint_type=descriptor,
                     similarity_measure=similarity_measure,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
                 for mol in molecule_set.molecule_database:
                     mol_similarities = molecule_set.compare_against_molecule(mol)
@@ -1028,7 +1022,7 @@ class TestMoleculeSet(unittest.TestCase):
                         f"similarity to target molecule "
                         f"using similarity measure: {similarity_measure}, "
                         f"descriptor: {descriptor}, "
-                        f"for molecule {mol.mol_text}"
+                        f"for molecule {mol.mol_text}",
                     )
 
     def test_get_most_similar_pairs(self):
@@ -1045,7 +1039,7 @@ class TestMoleculeSet(unittest.TestCase):
                     molecule_database_src_type="csv",
                     fingerprint_type=descriptor,
                     similarity_measure=similarity_measure,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
                 molecule_pairs = molecule_set.get_most_similar_pairs()
                 self.assertIsInstance(
@@ -1076,7 +1070,7 @@ class TestMoleculeSet(unittest.TestCase):
                     molecule_database_src_type="csv",
                     fingerprint_type=descriptor,
                     similarity_measure=similarity_measure,
-                    is_verbose=True,
+                    is_verbose=False,
                 )
                 molecule_pairs = molecule_set.get_most_dissimilar_pairs()
                 self.assertIsInstance(
@@ -1145,16 +1139,20 @@ class TestMoleculeSet(unittest.TestCase):
                         "Expected number of cluster labels to be "
                         "less than equal to number of clusters",
                     )
-                    if  molecule_set.similarity_measure.type_ == 'continuous':
-                        self.assertEqual(str(molecule_set.clusters_), 
-                                         'kmedoids',
-                                         f'Expected kmedoids clustering for '
-                                         f'similarity: {similarity_measure}')
+                    if molecule_set.similarity_measure.type_ == "continuous":
+                        self.assertEqual(
+                            str(molecule_set.clusters_),
+                            "kmedoids",
+                            f"Expected kmedoids clustering for "
+                            f"similarity: {similarity_measure}",
+                        )
                     else:
-                        self.assertEqual(str(molecule_set.clusters_), 
-                                         'complete_linkage',
-                                         f'Expected complete_linkage clustering' 
-                                         f'for similarity: {similarity_measure}')
+                        self.assertEqual(
+                            str(molecule_set.clusters_),
+                            "complete_linkage",
+                            f"Expected complete_linkage clustering"
+                            f"for similarity: {similarity_measure}",
+                        )
                 else:
                     with self.assertRaises(InvalidConfigurationError):
                         molecule_set.cluster(n_clusters=n_clusters)
@@ -1162,4 +1160,3 @@ class TestMoleculeSet(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -14,6 +14,9 @@ import numpy as np
 from rdkit.Chem import rdmolops
 from rdkit import DataStructs
 from rdkit.Chem import AllChem
+from rdkit.Chem.Fingerprints import FingerprintMols
+from rdkit.Chem import MACCSkeys
+from rdkit.Chem.AtomPairs import Pairs, Torsions
 from mordred import Calculator, descriptors
 
 from ..exceptions import *
@@ -110,13 +113,15 @@ class Descriptor:
 
         """
         if molecule_graph.GetNumAtoms() <= min_path:
-            raise InvalidConfigurationError(f'# atoms in molecule: '
-                                            f'{molecule_graph.GetNumAtoms()}, '
-                                            f'min_path: {min_path}. '
-                                            f'For topological fingerprint, '
-                                            f'the number of atoms has to be '
-                                            f'greater than the minimum path '
-                                            f'used for fingerprint.')
+            raise InvalidConfigurationError(
+                f"# atoms in molecule: "
+                f"{molecule_graph.GetNumAtoms()}, "
+                f"min_path: {min_path}. "
+                f"For topological fingerprint, "
+                f"the number of atoms has to be "
+                f"greater than the minimum path "
+                f"used for fingerprint."
+            )
         self.rdkit_ = rdmolops.RDKFingerprint(
             molecule_graph, minPath=min_path, maxPath=max_path
         )
@@ -148,6 +153,61 @@ class Descriptor:
                 )
             )
 
+    def _set_daylight_fingerprint(self, molecule_graph, **kwargs):
+        """Set the descriptor to a daylight fingerprint.
+
+        Parameters
+        ----------
+        molecule_graph: RDKIT object
+            Graph of molecule to be fingerprinted.
+
+        """
+        fp = FingerprintMols.FingerprintMol(molecule_graph)
+        txt = fp.ToBinary()
+        fp2 = DataStructs.ExplicitBitVect(txt)
+        self.numpy_ = np.array(fp2.GetOnBits())
+        self.label_ = "daylight_fingerprint"
+        self.params_ = {}
+
+    def _set_maccs_keys(self, molecule_graph, **kwargs):
+        """Set the descriptor to MACCS keys.
+
+        Parameters
+        ----------
+        molecule_graph: RDKIT object
+            Graph of molecule to be fingerprinted.
+
+        """
+        self.rdkit_ = MACCSkeys.GenMACCSKeys(molecule_graph)
+        self.label_ = "maccs_keys"
+        self.params_ = {}
+
+    def _set_atom_pair_fingerprint(self, molecule_graph, **kwargs):
+        """Set the descriptor to an atom-pair fingerprint.
+
+        Parameters
+        ----------
+        molecule_graph: RDKIT object
+            Graph of molecule to be fingerprinted.
+
+        """
+        self.rdkit_ = Pairs.GetAtomPairFingerprintAsBitVect(molecule_graph)
+        self.label_ = "atom-pair_fingerprint"
+        self.params_ = {}
+
+    def _set_torsion_fingerprint(self, molecule_graph, **kwargs):
+        """Set the descriptor to a torsion fingerprint.
+
+        Parameters
+        ----------
+        molecule_graph: RDKIT object
+            Graph of molecule to be fingerprinted.
+
+        """
+        self.rdkit_ = Torsions.GetTopologicalTorsionFingerprintAsIntVect(molecule_graph)
+        self.label_ = "torsion_fingerprint"
+        self.params_ = {}
+
     def make_fingerprint(
         self, molecule_graph, fingerprint_type, fingerprint_params=None
     ):
@@ -174,6 +234,28 @@ class Descriptor:
             topological_params.update(fingerprint_params)
             self._set_rdkit_topological_fingerprint(
                 molecule_graph=molecule_graph, **topological_params
+            )
+        elif fingerprint_type == "daylight_fingerprint":
+            daylight_params = {}
+            daylight_params.update(fingerprint_params)
+            self._set_daylight_fingerprint(
+                molecule_graph=molecule_graph, **daylight_params
+            )
+        elif fingerprint_type == "maccs_keys":
+            maccs_params = {}
+            maccs_params.update(fingerprint_params)
+            self._set_maccs_keys(molecule_graph=molecule_graph, **maccs_params)
+        elif fingerprint_type == "atom-pair_fingerprint":
+            atom_pair_fp_params = {}
+            atom_pair_fp_params.update(fingerprint_params)
+            self._set_atom_pair_fingerprint(
+                molecule_graph=molecule_graph, **atom_pair_fp_params
+            )
+        elif fingerprint_type == "torsion_fingerprint":
+            torsion_params = {}
+            torsion_params.update(fingerprint_params)
+            self._set_torsion_fingerprint(
+                molecule_graph=molecule_graph, **torsion_params
             )
         elif fingerprint_type.split(":")[0] == "mordred":
             mordred_params = {}
@@ -216,4 +298,12 @@ class Descriptor:
         Returns:
             List: List of strings.
         """
-        return ["morgan_fingerprint", "topological_fingerprint"]
+        return [
+            "morgan_fingerprint",
+            "topological_fingerprint",
+            # TODO: These should be bit vectors of some kind
+            # "daylight_fingerprint",
+            # "maccs_keys",
+            # "atom-pair_fingerprint",
+            "torsion_fingerprint",
+        ]
