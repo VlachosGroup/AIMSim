@@ -161,7 +161,7 @@ class Molecule:
             try:
                 self.set_descriptor(
                     fingerprint_type=reference_mol.descriptor.get_label(),
-                    fingerprint_params=referencemol.descriptor.get_params(),
+                    fingerprint_params=reference_mol.descriptor.get_params(),
                 )
             except ValueError as e:
                 e.message += f" For {self.mol_text}"
