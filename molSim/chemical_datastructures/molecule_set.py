@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
 from molSim.chemical_datastructures import Molecule
-from molSim.exceptions import NotInitializedError, InvalidConfigurationError
+from molSim.exceptions import *
 from molSim.ops.clustering import Cluster
 from molSim.ops.descriptor import Descriptor
 from molSim.ops.similarity_measures import SimilarityMeasure
@@ -108,12 +108,13 @@ class MoleculeSet:
             if self.is_verbose:
                 print(f"Searching for *.pdb files in {molecule_database_src}")
             for molfile in glob(os.path.join(molecule_database_src, "*.pdb")):
-                mol_graph = Chem.MolFromPDBFile(molfile)
                 mol_text = os.path.basename(molfile).replace(".pdb", "")
-                if mol_graph is None:
+                try:
+                    molecule_database.append(Molecule(mol_src=molfile,
+                                                      mol_text=mol_text,))
+                except LoadingError as e:
                     print(f"{molfile} could not be imported. Skipping")
-                else:
-                    molecule_database.append(Molecule(mol_graph, mol_text))
+
         elif molecule_database_src_type.lower() == "text":
             if self.is_verbose:
                 print(f"Reading SMILES strings from {molecule_database_src}")

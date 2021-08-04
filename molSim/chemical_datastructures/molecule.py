@@ -66,6 +66,25 @@ class Molecule:
             except LoadingError as e:
                 raise e
 
+    def _set_molecule_from_pdb(self, fpath):
+        """Set the mol_graph attribute from a PDB file.
+        If self.mol_text is not set, it is set to the smiles string.
+
+        Args:
+            fpath (str): Path of PDB file.
+
+        Raises:
+             LoadingError: If Molecule cannot be loaded from SMILES string.
+        """
+        try:
+            self.mol_graph = Chem.MolFromPDBFile(fpath)
+        except Exception:
+            raise LoadingError(f'{fpath} could not be loaded')
+        if self.mol_graph is None:
+            raise LoadingError(f'{fpath} could not be loaded')
+        if self.mol_text is None:
+            self.mol_text = Chem.MolToSmiles(self.mol_graph)
+
     def _set_molecule_from_smiles(self, mol_smiles):
         """Set the mol_graph attribute from smiles string.
         If self.mol_text is not set, it is set to the smiles string.
@@ -87,6 +106,7 @@ class Molecule:
         if self.mol_text is None:
             self.mol_text = mol_smiles
 
+
     def _set_molecule_from_file(self, mol_src):
         """Load molecule graph from file.
 
@@ -97,15 +117,15 @@ class Molecule:
                 -> .txt file with SMILE string in first column, first row.
 
         Raises:
-             LoadingError: If Molecule cannot be loaded from SMILES string.
+             LoadingError: If Molecule cannot be loaded from source.
         """
         if os.path.isfile(mol_src):
             mol_fname, extension = os.path.basename(mol_src).split(".")
             if extension == "pdb":
-                # read pdb file
-                self.mol_graph = Chem.MolFromPDBFile(mol_src)
-                if self.mol_text is None:
-                    self.mol_text = mol_fname
+                try:
+                    self._set_molecule_from_pdb(mol_src)
+                except LoadingError as e:
+                    raise e
             elif extension == "txt":
                 with open(mol_src, "r") as fp:
                     mol_smiles = fp.readline().split()[0]
