@@ -81,7 +81,8 @@ class MoleculeSet:
         self.similarity_matrix = None
         self._set_similarity_matrix()
 
-    def _get_molecule_database(self, molecule_database_src,
+    def _get_molecule_database(self,
+                               molecule_database_src,
                                molecule_database_src_type):
         """Load molecular database and return it.
         Optionally return features if found in excel / csv file.
@@ -108,10 +109,12 @@ class MoleculeSet:
             if self.is_verbose:
                 print(f"Searching for *.pdb files in {molecule_database_src}")
             for molfile in glob(os.path.join(molecule_database_src, "*.pdb")):
+                if self.is_verbose:
+                    print(f'Loading {molfile}')
                 mol_text = os.path.basename(molfile).replace(".pdb", "")
                 try:
                     molecule_database.append(Molecule(mol_src=molfile,
-                                                      mol_text=mol_text, ))
+                                                      mol_text=mol_text))
                 except LoadingError as e:
                     print(f"{molfile} could not be imported. Skipping")
 
@@ -128,17 +131,16 @@ class MoleculeSet:
                 if len(line_fields) > 1:
                     mol_property_val = float(line_fields[1])
                 if self.is_verbose:
-                    print(
-                        f"Processing {smile} " f"({count + 1}/{len(smiles_data)})")
-                else:
-                    mol_text = smile
-                    try:
-                        molecule_database.append(Molecule(
-                            mol_smiles=smile,
-                            mol_text=mol_text,
-                            mol_property_val=mol_property_val))
-                    except LoadingError as e:
-                        print(f"{smile} could not be imported. Skipping")
+                    print(f"Processing {smile} " 
+                          f"({count + 1}/{len(smiles_data)})")
+                mol_text = smile
+                try:
+                    molecule_database.append(Molecule(
+                        mol_smiles=smile,
+                        mol_text=mol_text,
+                        mol_property_val=mol_property_val))
+                except LoadingError as e:
+                    print(f"{smile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() in ["excel", "csv"]:
             if self.is_verbose:
@@ -182,20 +184,19 @@ class MoleculeSet:
                         f"({mol_id + 1}/"
                         f"{database_df['feature_smiles'].values.size})"
                     )
-                else:
-                    mol_text = mol_names[mol_id] if mol_names \
-                                                    is not None else smile
+                mol_text = mol_names[mol_id] if mol_names \
+                                                is not None else smile
 
-                    mol_property_val = responses[mol_id] if responses \
-                                                            is not None else None
+                mol_property_val = responses[mol_id] if responses \
+                                                        is not None else None
 
-                    try:
-                        molecule_database.append(Molecule(
-                            mol_smiles=smile,
-                            mol_text=mol_text,
-                            mol_property_val=mol_property_val))
-                    except LoadingError as e:
-                        print(f"{smile} could not be imported. Skipping")
+                try:
+                    molecule_database.append(Molecule(
+                        mol_smiles=smile,
+                        mol_text=mol_text,
+                        mol_property_val=mol_property_val))
+                except LoadingError as e:
+                    print(f"{smile} could not be imported. Skipping")
 
             if len(database_feature_df.columns) > 0:
                 features = database_feature_df.values
