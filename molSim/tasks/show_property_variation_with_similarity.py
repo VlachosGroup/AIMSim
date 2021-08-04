@@ -6,6 +6,10 @@ from molSim.utils.plotting_scripts import plot_parity, plt
 
 from .task import Task
 
+import pylustrator
+
+pylustrator.start()
+
 
 class ShowPropertyVariationWithSimilarity(Task):
     def __init__(self, configs):
@@ -65,10 +69,11 @@ class ShowPropertyVariationWithSimilarity(Task):
             similar_mol_properties,
             xlabel=f'Reference molecule {self.plot_settings["response"]}',
             ylabel=f'Most similar molecule {self.plot_settings["response"]}',
-            text='Correlation: {:.2f} (p-value {:.2f})'.format(
-                                                pearson_coff_of_responses[0],
-                                                pearson_coff_of_responses[1]),
-            **self.plot_settings)
+            text="Correlation: {:.2f} (p-value {:.2f})".format(
+                pearson_coff_of_responses[0], pearson_coff_of_responses[1]
+            ),
+            **self.plot_settings,
+        )
         if molecule_set.is_verbose:
             print("Plotting Responses of Dissimilar Molecules")
         plot_parity(
@@ -76,13 +81,16 @@ class ShowPropertyVariationWithSimilarity(Task):
             dissimilar_mol_properties,
             xlabel=f'Reference molecule {self.plot_settings["response"]}',
             ylabel=f'Most dissimilar molecule {self.plot_settings["response"]}',
-            text='Correlation: {:.2f} (p-value {:.2f})'.format(
-                                     pearson_coff_of_dissimilar_responses[0],
-                                     pearson_coff_of_dissimilar_responses[1]),
-            **self.plot_settings)
+            text="Correlation: {:.2f} (p-value {:.2f})".format(
+                pearson_coff_of_dissimilar_responses[0],
+                pearson_coff_of_dissimilar_responses[1],
+            ),
+            **self.plot_settings,
+        )
 
-        text_prompt = ("Pearson Correlation in the properties of the "
-                       "most similar molecules\n")
+        text_prompt = (
+            "Pearson Correlation in the properties of the " "most similar molecules\n"
+        )
         text_prompt += "-" * 60
         text_prompt += "\n\n"
         text_prompt += f"{pearson_coff_of_responses[0]}"
@@ -97,8 +105,7 @@ class ShowPropertyVariationWithSimilarity(Task):
         text_prompt += "\n\n"
         text_prompt += f"{pearson_coff_of_dissimilar_responses[0]}"
         text_prompt += "\n"
-        text_prompt += "2 tailed p-value: " \
-                       f"{pearson_coff_of_dissimilar_responses[1]}"
+        text_prompt += "2 tailed p-value: " f"{pearson_coff_of_dissimilar_responses[1]}"
         if self.log_fpath is None:
             print(text_prompt)
         else:

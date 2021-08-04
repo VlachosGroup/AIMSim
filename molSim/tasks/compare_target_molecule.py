@@ -7,6 +7,10 @@ from molSim.utils.plotting_scripts import plot_density
 
 from .task import Task
 
+import pylustrator
+
+pylustrator.start()
+
 
 class CompareTargetMolecule(Task):
     def __init__(self, configs):
