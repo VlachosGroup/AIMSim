@@ -83,8 +83,8 @@ class ClusterData(Task):
                 "not implemented."
             )
         plot_scatter(
-            reduced_features[0],
-            reduced_features[1],
+            reduced_features[:, 0],
+            reduced_features[:, 1],
             xlabel=self.plot_settings["xlabel"],
             ylabel=self.plot_settings["ylabel"],
             title=f"2-D projected space",
