@@ -5,7 +5,7 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from molSim.exceptions import NotInitializedError
+from molSim.exceptions import *
 from molSim.ops.descriptor import Descriptor
 
 
@@ -56,18 +56,15 @@ class Molecule:
             else Descriptor(value=np.array(mol_descriptor_val))
         )
         if mol_src is not None:
-            self._set_molecule_from_file(mol_src)
-            if self.mol_graph is None:
-                raise ValueError(
-                    "Could not load molecule from file source",
-                    mol_src,
-                )
+            try:
+                self._set_molecule_from_file(mol_src)
+            except LoadingError as e:
+                raise e
         if mol_smiles is not None:
-            self._set_molecule_from_smiles(mol_smiles)
-            if self.mol_graph is None:
-                raise ValueError(
-                    "Could not load molecule from SMILES string", mol_smiles
-                )
+            try:
+                self._set_molecule_from_smiles(mol_smiles)
+            except LoadingError as e:
+                raise e
 
     def _set_molecule_from_smiles(self, mol_smiles):
         """Set the mol_graph attribute from smiles string.
@@ -77,8 +74,16 @@ class Molecule:
             mol_smiles (str): SMILES string for molecule. If provided,
                 mol_graph is loaded from it. If mol_text not set in keyword
                 argument, this string is used to set it.
+
+        Raises:
+             LoadingError: If Molecule cannot be loaded from SMILES string.
         """
-        self.mol_graph = Chem.MolFromSmiles(mol_smiles)
+        try:
+            self.mol_graph = Chem.MolFromSmiles(mol_smiles)
+        except Exception:
+            raise LoadingError(f'{mol_smiles} could not be loaded')
+        if self.mol_graph is None:
+            raise LoadingError(f'{mol_smiles} could not be loaded')
         if self.mol_text is None:
             self.mol_text = mol_smiles
 
@@ -90,6 +95,9 @@ class Molecule:
                 Acceptable files are
                 -> .pdb file
                 -> .txt file with SMILE string in first column, first row.
+
+        Raises:
+             LoadingError: If Molecule cannot be loaded from SMILES string.
         """
         if os.path.isfile(mol_src):
             mol_fname, extension = os.path.basename(mol_src).split(".")
@@ -101,7 +109,10 @@ class Molecule:
             elif extension == "txt":
                 with open(mol_src, "r") as fp:
                     mol_smiles = fp.readline().split()[0]
-                self._set_molecule_from_smiles(mol_smiles)
+                try:
+                    self._set_molecule_from_smiles(mol_smiles)
+                except LoadingError as e:
+                    raise e
 
     def set_descriptor(
         self,
@@ -124,7 +135,8 @@ class Molecule:
         elif fingerprint_type is not None:
             if self.mol_graph is None:
                 raise ValueError(
-                    "Molecular graph not present. Fingerprint cannot be calculated."
+                    "Molecular graph not present. "
+                    "Fingerprint cannot be calculated."
                 )
             self.descriptor.make_fingerprint(
                 self.mol_graph,
