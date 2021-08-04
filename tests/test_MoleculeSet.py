@@ -84,7 +84,7 @@ class TestMoleculeSet(unittest.TestCase):
                 fp.write(write_txt)
         return smi_fpath
 
-    def smiles_seq_to_SMILES_file(self, property_seq=None):
+    def smiles_seq_to_smiles_file(self, property_seq=None):
         """Helper method to convert a SMILES sequence to a .SMILES file.
 
         Args:
@@ -107,7 +107,7 @@ class TestMoleculeSet(unittest.TestCase):
                 fp.write(write_txt)
         return SMILES_fpath
 
-    def SMARTS_seq_to_SMILES_file(self, property_seq=None):
+    def smarts_seq_to_smiles_file(self, property_seq=None):
         """Helper method to convert a SMARTS sequence to a .SMILES file.
 
         Args:
@@ -182,7 +182,8 @@ class TestMoleculeSet(unittest.TestCase):
         if feature_arr is not None:
             feature_arr = np.array(feature_arr)
             for feature_num in range(feature_arr.shape[1]):
-                data.update({f"feature_{feature_num}": feature_arr[:, feature_num]})
+                data.update({f"feature_{feature_num}":
+                                 feature_arr[:, feature_num]})
         data_df = pd.DataFrame(data)
         fpath = "temp_mol_file"
         if ftype == "excel":
@@ -211,7 +212,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -226,7 +228,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(
                 molecule.mol_text,
                 self.test_smiles[id],
-                "Expected mol_text attribute of Molecule object " "to be smiles",
+                "Expected mol_text attribute of Molecule object to be smiles",
             )
             self.assertIsNone(
                 molecule.mol_property_val,
@@ -255,7 +257,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -270,7 +273,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(
                 molecule.mol_text,
                 self.test_smiles[id],
-                "Expected mol_text attribute of Molecule object " "to be smiles",
+                "Expected mol_text attribute of Molecule object to be smiles",
             )
             self.assertIsNone(
                 molecule.mol_property_val,
@@ -285,13 +288,13 @@ class TestMoleculeSet(unittest.TestCase):
         print(f"Test complete. Deleting file {text_fpath}...")
         remove(text_fpath)
 
-    def test_set_molecule_database_from_SMILES_file(self):
+    def test_set_molecule_database_from_smiles_file(self):
         """
         Test to create MoleculeSet object by reading molecule database
         from a SMILES file.
 
         """
-        text_fpath = self.smiles_seq_to_SMILES_file()
+        text_fpath = self.smiles_seq_to_smiles_file()
         molecule_set = MoleculeSet(
             molecule_database_src=text_fpath,
             molecule_database_src_type="text",
@@ -299,7 +302,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -314,7 +318,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(
                 molecule.mol_text,
                 self.test_smiles[id],
-                "Expected mol_text attribute of Molecule object " "to be smiles",
+                "Expected mol_text attribute of Molecule object to be smiles",
             )
             self.assertIsNone(
                 molecule.mol_property_val,
@@ -329,13 +333,13 @@ class TestMoleculeSet(unittest.TestCase):
         print(f"Test complete. Deleting file {text_fpath}...")
         remove(text_fpath)
 
-    def test_set_molecule_database_from_SMARTS_file(self):
+    def test_set_molecule_database_from_smarts_file(self):
         """
         Test to create MoleculeSet object by reading molecule database
         from a SMILES file containing SMARTS strings.
 
         """
-        text_fpath = self.SMARTS_seq_to_SMILES_file()
+        text_fpath = self.smarts_seq_to_smiles_file()
         molecule_set = MoleculeSet(
             molecule_database_src=text_fpath,
             molecule_database_src_type="text",
@@ -343,7 +347,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -358,7 +363,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(
                 molecule.mol_text,
                 self.test_smarts[id],
-                "Expected mol_text attribute of Molecule object " "to be smiles",
+                "Expected mol_text attribute of Molecule object to be smiles",
             )
             self.assertIsNone(
                 molecule.mol_property_val,
@@ -422,7 +427,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -547,15 +553,16 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
-            "Expected molecule_database to be set from " "excel file",
+            "Expected molecule_database to be set from excel file",
         )
         self.assertEqual(
             len(molecule_set.molecule_database),
             len(self.test_smiles),
-            "Expected the size of database to be equal to number " "of smiles",
+            "Expected the size of database to be equal to number of smiles",
         )
         for id, molecule in enumerate(molecule_set.molecule_database):
             self.assertEqual(
@@ -572,7 +579,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsInstance(
                 molecule,
                 Molecule,
-                "Expected member of molecule_set to " "be Molecule object",
+                "Expected member of molecule_set to be Molecule object",
             )
         print(f"Test complete. Deleting file {xl_fpath}...")
         remove(xl_fpath)
@@ -595,7 +602,7 @@ class TestMoleculeSet(unittest.TestCase):
         )
         self.assertIsNotNone(
             molecule_set.molecule_database,
-            "Expected molecule_database to be set from " "excel file",
+            "Expected molecule_database to be set from excel file",
         )
         self.assertEqual(
             len(molecule_set.molecule_database),
@@ -607,7 +614,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsInstance(
                 molecule,
                 Molecule,
-                "Expected member of molecule_set to " "be Molecule object",
+                "Expected member of molecule_set to be Molecule object",
             )
         print(f"Test complete. Deleting file {xl_fpath}...")
         remove(xl_fpath)
@@ -619,7 +626,8 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype="excel", property_seq=properties)
+        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype="excel",
+                                                property_seq=properties)
         molecule_set = MoleculeSet(
             molecule_database_src=xl_fpath,
             molecule_database_src_type="excel",
@@ -627,10 +635,11 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
-            "Expected molecule_database to be set from " "excel file",
+            "Expected molecule_database to be set from excel file",
         )
         self.assertEqual(
             len(molecule_set.molecule_database),
@@ -656,7 +665,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsInstance(
                 molecule,
                 Molecule,
-                "Expected member of molecule_set to " "be Molecule object",
+                "Expected member of molecule_set to be Molecule object",
             )
             print(f"Test complete. Deleting file {xl_fpath}...")
         remove(xl_fpath)
@@ -679,7 +688,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="l0_similarity",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from " "excel file",
@@ -732,7 +742,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from " "csv file",
@@ -757,7 +768,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsInstance(
                 molecule,
                 Molecule,
-                "Expected member of molecule_set to " "be Molecule object",
+                "Expected member of molecule_set to be Molecule object",
             )
         print(f"Test complete. Deleting file {csv_fpath}...")
         remove(csv_fpath)
@@ -780,7 +791,7 @@ class TestMoleculeSet(unittest.TestCase):
         )
         self.assertIsNotNone(
             molecule_set.molecule_database,
-            "Expected molecule_database to be set from " "csv file",
+            "Expected molecule_database to be set from csv file",
         )
         self.assertEqual(
             len(molecule_set.molecule_database),
@@ -792,7 +803,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertIsInstance(
                 molecule,
                 Molecule,
-                "Expected member of molecule_set to " "be Molecule object",
+                "Expected member of molecule_set to be Molecule object",
             )
         print(f"Test complete. Deleting file {csv_fpath}...")
         remove(csv_fpath)
@@ -804,7 +815,8 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
+                                                 property_seq=properties)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
@@ -812,10 +824,11 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
-            "Expected molecule_database to be set from " "csv file",
+            "Expected molecule_database to be set from csv file",
         )
         for id, molecule in enumerate(molecule_set.molecule_database):
             self.assertEqual(
@@ -855,7 +868,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="l0_similarity",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from " "excel file",
@@ -901,7 +915,8 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
+                                                 property_seq=properties)
         for similarity_measure in SUPPORTED_SIMILARITIES:
             with self.assertRaises(NotInitializedError):
                 MoleculeSet(
@@ -921,7 +936,8 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
+                                                 property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
             with self.assertRaises(TypeError):
                 MoleculeSet(
@@ -941,7 +957,8 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
+                                                 property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
                 molecule_set = MoleculeSet(
@@ -956,7 +973,7 @@ class TestMoleculeSet(unittest.TestCase):
                 )
                 self.assertIsNotNone(
                     molecule_set.molecule_database,
-                    "Expected molecule_database to " "be set from csv file",
+                    "Expected molecule_database to be set from csv file",
                 )
                 for molecule in molecule_set.molecule_database:
                     self.assertTrue(
@@ -1045,7 +1062,7 @@ class TestMoleculeSet(unittest.TestCase):
                 self.assertIsInstance(
                     molecule_pairs,
                     list,
-                    "Expected get_most_similar_pairs() " "to return list",
+                    "Expected get_most_similar_pairs() to return list",
                 )
                 for pair in molecule_pairs:
                     self.assertIsInstance(
