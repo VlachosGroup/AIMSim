@@ -111,7 +111,7 @@ class MoleculeSet:
                 mol_text = os.path.basename(molfile).replace(".pdb", "")
                 try:
                     molecule_database.append(Molecule(mol_src=molfile,
-                                                      mol_text=mol_text,))
+                                                      mol_text=mol_text, ))
                 except LoadingError as e:
                     print(f"{molfile} could not be imported. Skipping")
 
@@ -132,13 +132,13 @@ class MoleculeSet:
                         f"Processing {smile} " f"({count + 1}/{len(smiles_data)})")
                 else:
                     mol_text = smile
-                    molecule_database.append(
-                        Molecule(
+                    try:
+                        molecule_database.append(Molecule(
                             mol_smiles=smile,
                             mol_text=mol_text,
-                            mol_property_val=mol_property_val,
-                        )
-                    )
+                            mol_property_val=mol_property_val))
+                    except LoadingError as e:
+                        print(f"{smile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() in ["excel", "csv"]:
             if self.is_verbose:
@@ -187,14 +187,16 @@ class MoleculeSet:
                                                     is not None else smile
 
                     mol_property_val = responses[mol_id] if responses \
-                                                           is not None else None
-                    molecule_database.append(
-                        Molecule(
+                                                            is not None else None
+
+                    try:
+                        molecule_database.append(Molecule(
                             mol_smiles=smile,
                             mol_text=mol_text,
-                            mol_property_val=mol_property_val,
-                        )
-                    )
+                            mol_property_val=mol_property_val))
+                    except LoadingError as e:
+                        print(f"{smile} could not be imported. Skipping")
+
             if len(database_feature_df.columns) > 0:
                 features = database_feature_df.values
         else:
