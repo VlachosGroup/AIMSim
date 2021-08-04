@@ -145,7 +145,7 @@ class TestMolecule(unittest.TestCase):
         test_pdb_molecule._set_molecule_from_file(test_pdb_filename)
         self.assertEqual(
             test_pdb_molecule.mol_text,
-            os.path.basename(test_pdb_filename).split(".")[0],
+            test_smiles,
             "Expected mol_text attribute to be set "
             "to smiles string when loading from pdb file",
         )
