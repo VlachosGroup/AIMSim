@@ -294,7 +294,7 @@ class TestMoleculeSet(unittest.TestCase):
         from a SMILES file.
 
         """
-        text_fpath = self.smiles_seq_to_SMILES_file()
+        text_fpath = self.smiles_seq_to_smiles_file()
         molecule_set = MoleculeSet(
             molecule_database_src=text_fpath,
             molecule_database_src_type="text",
@@ -339,7 +339,7 @@ class TestMoleculeSet(unittest.TestCase):
         from a SMILES file containing SMARTS strings.
 
         """
-        text_fpath = self.SMARTS_seq_to_SMILES_file()
+        text_fpath = self.smarts_seq_to_smiles_file()
         molecule_set = MoleculeSet(
             molecule_database_src=text_fpath,
             molecule_database_src_type="text",
