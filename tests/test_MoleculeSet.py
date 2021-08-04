@@ -347,7 +347,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -362,7 +363,7 @@ class TestMoleculeSet(unittest.TestCase):
             self.assertEqual(
                 molecule.mol_text,
                 self.test_smarts[id],
-                "Expected mol_text attribute of Molecule object " "to be smiles",
+                "Expected mol_text attribute of Molecule object to be smiles",
             )
             self.assertIsNone(
                 molecule.mol_property_val,
