@@ -83,7 +83,7 @@ class Molecule:
         if self.mol_graph is None:
             raise LoadingError(f'{fpath} could not be loaded')
         if self.mol_text is None:
-            self.mol_text = Chem.MolToSmiles(self.mol_graph)
+            self.mol_text = os.path.basename(fpath).split('.')[0]
 
     def _set_molecule_from_smiles(self, mol_smiles):
         """Set the mol_graph attribute from smiles string.
@@ -105,7 +105,6 @@ class Molecule:
             raise LoadingError(f'{mol_smiles} could not be loaded')
         if self.mol_text is None:
             self.mol_text = mol_smiles
-
 
     def _set_molecule_from_file(self, mol_src):
         """Load molecule graph from file.

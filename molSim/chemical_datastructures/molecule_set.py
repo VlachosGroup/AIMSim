@@ -111,10 +111,8 @@ class MoleculeSet:
             for molfile in glob(os.path.join(molecule_database_src, "*.pdb")):
                 if self.is_verbose:
                     print(f'Loading {molfile}')
-                mol_text = os.path.basename(molfile).replace(".pdb", "")
                 try:
-                    molecule_database.append(Molecule(mol_src=molfile,
-                                                      mol_text=mol_text))
+                    molecule_database.append(Molecule(mol_src=molfile))
                 except LoadingError as e:
                     print(f"{molfile} could not be imported. Skipping")
 
