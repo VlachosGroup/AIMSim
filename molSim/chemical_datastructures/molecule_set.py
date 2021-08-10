@@ -5,6 +5,7 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from scipy.stats import pearsonr
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -59,7 +60,7 @@ class MoleculeSet:
         self.n_threads = n_threads
         self.molecule_database = None
         self.descriptor = Descriptor()
-        self.molecule_database, features = self._get_molecule_database(
+        self.molecule_database, features =  self._get_molecule_database(
             molecule_database_src, molecule_database_src_type
         )
         if features is not None:
@@ -555,6 +556,31 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
+    def get_most_similar_pairs_response_correlation(self, correlation_type):
+        """Get correlation in the responses of pairs of molecule
+        which are most similar to each other.
+        Args:
+            correlation_type (str): Type of correlation to use.
+        """
+        similar_mol_pairs = self.get_most_similar_pairs()
+
+        reference_mol_properties, similar_mol_properties = [], []
+        for mol_pair in similar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                similar_mol_properties.append(mol2_property)
+        if correlation_type.lower() in ['pearson', 'linear']:
+            corr, p_val = pearsonr(reference_mol_properties,
+                                   similar_mol_properties)
+        else:
+            raise InvalidConfigurationError(f'{correlation_type} '
+                                            f'correlation not implemented.')
+        return corr, p_val
+
+
+
     def get_similarity_matrix(self):
         """Get the similarity matrix for the data set.
 
@@ -655,3 +681,4 @@ class MoleculeSet:
     def get_transformed_descriptors(self, method_="pca"):
         if method_.lower() == "pca":
             return self._do_pca()
+
