@@ -5,7 +5,6 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
-from scipy.stats import pearsonr
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -556,13 +555,13 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_response_of_most_similar(self):
-        """Get responses of pairs of molecules
+    def get_property_of_most_similar(self):
+        """Get property of pairs of molecules
         which are most similar to each other.
         Returns:
             (tuple): The first index is an array of reference mol
             properties and the second index is an array of the
-            response of the respective most similar molecule.
+            property of the respective most similar molecule.
 
         """
         similar_mol_pairs = self.get_most_similar_pairs()
@@ -575,13 +574,13 @@ class MoleculeSet:
                 similar_mol_properties.append(mol2_property)
         return reference_mol_properties, similar_mol_properties
 
-    def get_response_of_most_dissimilar(self):
-        """Get responses of pairs of molecules
+    def get_property_of_most_dissimilar(self):
+        """Get property of pairs of molecule
         which are most dissimilar to each other.
         Returns:
             (tuple): The first index is an array of reference mol
             properties and the second index is an array of the
-            response of the respective most dissimilar molecule.
+            property of the respective most dissimilar molecule.
 
         """
         dissimilar_mol_pairs = self.get_most_dissimilar_pairs()
