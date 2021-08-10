@@ -556,7 +556,7 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_most_similar_pairs_response_correlation(self, correlation_type):
+    def get_most_similar_response_correlation(self, correlation_type):
         """Get correlation in the responses of pairs of molecule
         which are most similar to each other.
         Args:
