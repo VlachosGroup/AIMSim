@@ -556,14 +556,16 @@ class MoleculeSet:
             found_samples[index] = 1
         return out_list
 
-    def get_most_similar_response_correlation(self, correlation_type):
-        """Get correlation in the responses of pairs of molecules
+    def get_response_of_most_similar(self):
+        """Get responses of pairs of molecules
         which are most similar to each other.
-        Args:
-            correlation_type (str): Type of correlation to use.
+        Returns:
+            (tuple): The first index is an array of reference mol
+            properties and the second index is an array of the
+            response of the respective most similar molecule.
+
         """
         similar_mol_pairs = self.get_most_similar_pairs()
-
         reference_mol_properties, similar_mol_properties = [], []
         for mol_pair in similar_mol_pairs:
             mol1_property = mol_pair[0].get_mol_property_val()
@@ -571,15 +573,10 @@ class MoleculeSet:
             if mol1_property and mol2_property:
                 reference_mol_properties.append(mol1_property)
                 similar_mol_properties.append(mol2_property)
-        if correlation_type.lower() in ['pearson', 'linear']:
-            corr, p_val = pearsonr(reference_mol_properties,
-                                   similar_mol_properties)
-        else:
-            raise InvalidConfigurationError(f'{correlation_type} '
-                                            f'correlation not implemented.')
-        return corr, p_val
+        return reference_mol_properties, similar_mol_properties
 
-    def get_most_dissimilar_response_correlation(self, correlation_type):
+
+    def get_most_dissimilar_response(self, correlation_type):
         """Get correlation in the responses of pairs of molecules
         which are most dissimilar to each other.
         Args:
