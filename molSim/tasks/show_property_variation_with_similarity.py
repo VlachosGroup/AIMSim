@@ -12,9 +12,10 @@ pylustrator.start()
 
 
 class ShowPropertyVariationWithSimilarity(Task):
-    def __init__(self, configs):
+    def __init__(self, configs=None, **kwargs):
         if configs is None:
             configs = dict()  # all configs are optional
+        configs.update(kwargs)
         super().__init__(configs)
         self.plot_settings = None
         self.log_fpath = None
@@ -22,7 +23,8 @@ class ShowPropertyVariationWithSimilarity(Task):
 
     def _extract_configs(self):
         self.plot_settings = {"response": "response"}
-        self.plot_settings.update(self.configs.get("property_plot_settings", {}))
+        self.plot_settings.update(self.configs.get("property_plot_settings",
+                                                   {}))
 
         self.log_fpath = self.configs.get("log_file_path", None)
         if self.log_fpath is not None:
@@ -89,7 +91,8 @@ class ShowPropertyVariationWithSimilarity(Task):
         )
 
         text_prompt = (
-            "Pearson Correlation in the properties of the " "most similar molecules\n"
+            "Pearson Correlation in the properties of the "
+            "most similar molecules\n"
         )
         text_prompt += "-" * 60
         text_prompt += "\n\n"
@@ -105,7 +108,8 @@ class ShowPropertyVariationWithSimilarity(Task):
         text_prompt += "\n\n"
         text_prompt += f"{pearson_coff_of_dissimilar_responses[0]}"
         text_prompt += "\n"
-        text_prompt += "2 tailed p-value: " f"{pearson_coff_of_dissimilar_responses[1]}"
+        text_prompt += "2 tailed p-value: "
+        text_prompt += f"{pearson_coff_of_dissimilar_responses[1]}"
         if self.log_fpath is None:
             print(text_prompt)
         else:

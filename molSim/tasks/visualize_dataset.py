@@ -9,9 +9,10 @@ pylustrator.start()
 
 
 class VisualizeDataset(Task):
-    def __init__(self, configs):
+    def __init__(self, configs=None, **kwargs):
         if configs is None:
             configs = dict()  # all configs are optional
+        configs.update(kwargs)
         super().__init__(configs)
         self.plot_settings = {}
         self._extract_configs()
@@ -48,6 +49,15 @@ class VisualizeDataset(Task):
             print("Plotting density of pairwise similarities")
         plot_density(pairwise_similarity_vector,
                      **self.plot_settings["pairwise_plot"])
+        #% start: automatic generated code from pylustrator
+        plt.figure(2).ax_dict = {ax.get_label(): ax for ax in plt.figure(2).axes}
+        import matplotlib as mpl
+        plt.figure(2).axes[0].set_position([0.133989, 0.225442, 0.775000, 0.770000])
+        plt.figure(2).text(0.5, 0.5, 'New Text', transform=plt.figure(2).transFigure)  # id=plt.figure(2).texts[0].new
+        plt.figure(2).texts[0].set_color("#ffffffff")
+        plt.figure(2).texts[0].set_position([0.464045, 0.871814])
+        plt.figure(2).texts[0].set_text("Hello")
+        #% end: automatic generated code from pylustrator
         plt.show()
 
     def __str__(self):
