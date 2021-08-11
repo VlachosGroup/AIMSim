@@ -27,7 +27,6 @@ class ShowPropertyVariationWithSimilarity(Task):
         self.plot_settings = {"response": "response"}
         self.plot_settings.update(self.configs.get("property_plot_settings",
                                                    {}))
-
         self.log_fpath = self.configs.get("log_file_path", None)
         self.correlation_type = self.configs.get("correlation_type",
                                                   "pearson").lower()
@@ -48,7 +47,7 @@ class ShowPropertyVariationWithSimilarity(Task):
                 Molecules object of the molecule database.
 
         """
-        ref_prop, similar_prop = molecule_set.get_property_of_most_similar()
+        ref_prop, similar_prop = self._get_ref_neighbor_properties(molecule_set)
         similar_correlation_ = self.correlation_fn(ref_prop, similar_prop)
         if molecule_set.is_verbose:
             print("Plotting Responses of Similar Molecules")
@@ -62,7 +61,9 @@ class ShowPropertyVariationWithSimilarity(Task):
             **self.plot_settings,
         )
 
-        ref_prop, dissimilar_prop = molecule_set.get_property_of_most_dissimilar()
+        ref_prop, dissimilar_prop = self._get_ref_neighbor_properties(
+                                                    molecule_set=molecule_set,
+                                                    nearest=False)
         dissimilar_correlation_ = self.correlation_fn(ref_prop, dissimilar_prop)
         if molecule_set.is_verbose:
             print("Plotting Responses of Dissimilar Molecules")
@@ -107,12 +108,52 @@ class ShowPropertyVariationWithSimilarity(Task):
         plt.show()
 
     def get_property_correlations_in_most_similar(self, molecule_set):
-        ref_prop, similar_prop = molecule_set.get_property_of_most_similar()
+        """Get the correlation between the property of molecules and their
+        nearest (most similar) neighbors
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                Molecules object of the molecule database.
+        Return:
+            (float): Correlation between properties.
+
+        """
+        ref_prop, similar_prop = self._get_ref_neighbor_properties(molecule_set)
         return self.correlation_fn(ref_prop, similar_prop)
 
     def get_property_correlations_in_most_dissimilar(self, molecule_set):
-        ref_prop, dissimilar_prop = molecule_set.get_property_of_most_dissimilar()
+        """Get the correlation between the property of molecules and their
+        furthest (most dissimilar) neighbors
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                Molecules object of the molecule database.
+        Return:
+            (float): Correlation between properties.
+
+        """
+        ref_prop, dissimilar_prop = self._get_ref_neighbor_properties(
+                                                    molecule_set=molecule_set,
+                                                    nearest=False)
         return self.correlation_fn(ref_prop, dissimilar_prop)
+
+    def _get_ref_neighbor_properties(self, molecule_set, nearest=True):
+        """Get the properties of reference molecules and their nearest
+        or furthest neighbors.
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                Molecules object of the molecule database.
+            nearest (bool):
+                If True nearest (most similar) neighbors are used,
+                else furthest (most dissimilar). Default is True.
+        Returns:
+            (tuple): The first index is an array of reference mol
+            properties and the second index is an array of the
+            property of their respective neighbors.
+
+        """
+        if nearest:
+            return molecule_set.get_property_of_most_similar()
+        else:
+            return molecule_set.get_property_of_most_dissimilar()
 
     def __str__(self):
         return "Task: show variation of molecule property with similarity"
