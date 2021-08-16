@@ -57,6 +57,7 @@ class Descriptor:
         if not hasattr(self, "numpy_"):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             DataStructs.ConvertToNumpyArray(self.rdkit_, self.numpy_)
+        self.numpy_ = self.numpy_.flatten()
         return self.numpy_
 
     def to_rdkit(self):
@@ -296,6 +297,35 @@ class Descriptor:
 
     def is_fingerprint(self):
         return "fingerprint" in self.get_label()
+
+    def get_folded_fprint(self, fold_to_length):
+        """
+        Get the folded value of a fingerprint to a specified length.
+        Args:
+            fold_to_length (int): Number of bits to fold to.
+
+        Returns:
+            (np.ndarray): Folded fingerprint.
+        """
+        if not self.is_fingerprint():
+            raise ValueError('Can only fold fingerprints')
+        fingerprint = self.to_numpy()
+        if len(fingerprint) < fold_to_length:
+            raise InvalidConfigurationError(f'Cannot fold fingerprint of '
+                                            f'length {len(fingerprint)}to a '
+                                            f'higher length {fold_to_length}')
+        n_folds = np.log2(len(fingerprint) / fold_to_length)
+        if n_folds - int(n_folds) > 0.:
+            raise InvalidConfigurationError(f'Fingerprint length '
+                                            f'{len(fingerprint)} not '
+                                            f'a 2-multiple of required '
+                                            f'folded length {fold_to_length}')
+        for _ in range(int(n_folds)):
+            mid_point = int(len(fingerprint) / 2)
+            assert mid_point - (len(fingerprint) / 2) == 0.
+            fingerprint = fingerprint[:mid_point] | fingerprint[mid_point:]
+        assert len(fingerprint) == fold_to_length
+        return fingerprint
 
     @staticmethod
     def get_supported_fprints():
