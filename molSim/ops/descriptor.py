@@ -328,6 +328,29 @@ class Descriptor:
         return fingerprint
 
     @staticmethod
+    def fold_to_equal_length(fingerprint1, fingerprint2):
+        """
+        Get back two fingerprint arrays of equal length. The longer fingerprint
+        is folded to the size of the smaller one.
+
+        Args:
+            fingerprint1 (Descriptor): Fingerprint one.
+            fingerprint2 (Descriptor): Fingerprint two.
+
+        Returns:
+            (np.ndarray, np.ndarray)
+
+        """
+        fprint1_arr = fingerprint1.to_numpy()
+        fprint2_arr = fingerprint2.to_numpy()
+        if len(fprint1_arr) > len(fprint2_arr):
+            return fingerprint1.get_folded_fprint(
+                fold_to_length=len(fprint2_arr)), fprint2_arr
+        else:
+            return fprint1_arr, fingerprint2.get_folded_fprint(
+                fold_to_length=len(fprint1_arr))
+
+    @staticmethod
     def get_supported_fprints():
         """Return a list of strings for the currently implemented molecular fingerprints.
         Returns:
