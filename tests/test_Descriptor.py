@@ -300,5 +300,39 @@ class TestDescriptor(unittest.TestCase):
         self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
                           == folded_twice_vector).all()))
 
+        # Case 3
+        arbit_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0])
+        folded_once_vector = np.array([0, 0, 0, 0])
+        folded_twice_vector = np.array([0, 0])
+        arbit_label = 'arbitrary_fingerprint'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=3)
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=10)
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4)
+                          == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
+                          == folded_twice_vector).all()))
+
+        # Case 4
+        arbit_vector = np.array([1, 1, 1, 1, 1, 1, 1, 1])
+        folded_once_vector = np.array([1, 1, 1, 1])
+        folded_twice_vector = np.array([1, 1])
+        arbit_label = 'arbitrary_fingerprint'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=3)
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=10)
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4)
+                          == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
+                          == folded_twice_vector).all()))
+
 
 
