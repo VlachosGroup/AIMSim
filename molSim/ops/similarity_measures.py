@@ -3,6 +3,8 @@ import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
 
+from molSim.ops import Descriptor
+
 SMALL_NUMBER = 1e-10
 
 
@@ -582,9 +584,22 @@ class SimilarityMeasure:
         Returns:
             (float): Norm similarity value
         """
-        norm_ = -np.linalg.norm(
-                    mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(),
-                    ord=ord)
+        arr1 = mol1_descriptor.to_numpy()
+        arr2 = mol2_descriptor.to_numpy()
+        if len(arr1) != len(arr2):
+            try:
+                arr1, arr2 = Descriptor.fold_to_equal_length(mol1_descriptor,
+                                                             mol2_descriptor)
+            except ValueError as e:
+                err_msg = 'Length of two descriptors different. ' \
+                          'Could not be folded. '
+                if e.message is None:
+                    e.message = err_msg
+                else:
+                    e.message = err_msg + e.message
+                raise e
+
+        norm_ = -np.linalg.norm(arr1 - arr2, ord=ord)
         similarity_ = 1 / (1 + norm_)
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0
@@ -608,9 +623,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (2 / np.pi) * np.arcsin(np.sqrt((a + d) / p))
         self.normalize_fn["shift_"] = 0.0
@@ -636,9 +649,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if d == p:
             return 1.0
@@ -665,9 +676,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if a < SMALL_NUMBER:
             return 0.0
         similarity_ = a / max((a + b), (a + c))
@@ -693,9 +702,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         denominator_ = (a + b) * (b + d) + (a + c) * (c + d)
         if a == p or d == p:
@@ -726,9 +733,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -757,9 +762,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -788,9 +791,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = np.log(1 + a + d) / np.log(1 + p)
         self.normalize_fn["shift_"] = 0.0
@@ -816,9 +817,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (np.log(1 + p) - np.log(1 + b + c)) / np.log(1 + p)
         self.normalize_fn["shift_"] = 0.0
@@ -843,9 +842,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = np.log(1 + a) / np.log(1 + p)
         self.normalize_fn["shift_"] = 0.0
@@ -870,9 +867,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         similarity_ = np.log(1 + a) / np.log(1 + a + b + c)
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0
@@ -897,9 +892,7 @@ class SimilarityMeasure:
                 "bit strings generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (np.log(1 + a * d) - np.log(1 + b * c)) / np.log(1 + p ** 2 / 4)
         self.normalize_fn["shift_"] = 0.0
@@ -924,9 +917,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -957,9 +948,7 @@ class SimilarityMeasure:
                     mol1_descriptor.get_label(), mol2_descriptor.get_label()
                 )
             )
-        a, b, _, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, _, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if a < SMALL_NUMBER:
             return 0.0
         similarity_ = a / (a + b)
@@ -985,9 +974,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, _, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, _, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
 
         if a < SMALL_NUMBER:
             return 0.0
@@ -1014,9 +1001,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1043,9 +1028,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (a + 0.5 * d) / p
         self.normalize_fn["shift_"] = 0.0
@@ -1073,9 +1056,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if (a + b) < SMALL_NUMBER or (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
             return 0.0
         p = a + b + c + d
@@ -1105,9 +1086,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if (a + b) < SMALL_NUMBER or (a + c) < SMALL_NUMBER:
             return 0.0
         p = a + b + c + d
@@ -1134,9 +1113,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1165,9 +1142,8 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
+
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1200,9 +1176,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1229,9 +1203,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if a == 0:
             return 0.0
         similarity_ = 3 * a / (3 * a + b + c)
@@ -1257,9 +1229,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if a == 0:
             return 0.0
         similarity_ = 0.5 * a / ((a + b) + (a + c))
@@ -1285,9 +1255,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p or (b + c) == 0:
             return 1.0
@@ -1315,9 +1283,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1347,9 +1313,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a * b + a * c + 2 * b * c == 0:
             return a / p
@@ -1377,9 +1341,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1411,9 +1373,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1442,9 +1402,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1473,9 +1431,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (a + d) / (p + b + c)
         self.normalize_fn["shift_"] = 0.0
@@ -1500,9 +1456,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1529,9 +1483,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = a / p
         self.normalize_fn["shift_"] = 0.0
@@ -1556,9 +1508,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (a + d) / p
         self.normalize_fn["shift_"] = 0.0
@@ -1583,9 +1533,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if (a + b) == 0 or (a + c) == 0 or a == 0:
             return 0.0
         similarity_ = a / min((a + b), (a + c))
@@ -1611,9 +1559,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, _ = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if a == 0:
             return 0.0
         similarity_ = a / (a + 2 * b + 2 * c)
@@ -1639,9 +1585,7 @@ class SimilarityMeasure:
                 "for bit strings generated from fingerprints. Consider "
                 "using other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (2 * a + 2 * d) / (p + a + d)
         self.normalize_fn["shift_"] = 0.0
@@ -1667,9 +1611,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1699,9 +1641,7 @@ class SimilarityMeasure:
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
@@ -1732,9 +1672,7 @@ class SimilarityMeasure:
                 "for bit strings generated from fingerprints. Consider "
                 "using other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         if a < SMALL_NUMBER:
             return 0.0
         similarity_ = a ** 2 / ((a + b) * (a + c))
@@ -1760,9 +1698,7 @@ class SimilarityMeasure:
                 "for bit strings generated from fingerprints. Consider "
                 "using other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p or b * c < SMALL_NUMBER:
             return 1.0
@@ -1790,9 +1726,7 @@ class SimilarityMeasure:
                 "for bit strings generated from fingerprints. Consider "
                 "using other similarity measures for arbitrary vectors."
             )
-        a, b, c, d = self._get_abcd(
-            mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
-        )
+        a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         if a == p or d == p or b * c < SMALL_NUMBER:
             return 1.0
@@ -1803,7 +1737,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
-    def _get_abcd(self, arr1, arr2):
+    def _get_abcd(self, fingerprint1, fingerprint2):
         """Get a, b, c, d, where:
         a = #bits(bits(array 1) and bits(array 2))
         b = #bits(bits(array 1) and bits(~array 2))
@@ -1812,30 +1746,18 @@ class SimilarityMeasure:
         p = a + b + c + d = bits(array 1 or array 2)
 
         Args:
-            arr1 (np.ndarray)
-            arr2 (np.ndarray)
+            fingerprint1 (Descriptor)
+            fingerprint2 (Descriptor)
 
         Returns:
             (tuple): (a, b, c, d)
 
         Note:
-            If arrays of unequal lengths are passed, the smaller array is post
-            padded with 0 to make it equal in length to the larger array.
-            Ex. if arr1 = [1, 1, 1, 0]
-                   arr2 = [0, 1]
-                   pad(arr2) --> [0, 1, 0, 0]
+            If arrays of unequal lengths are passed, the larger array is folded
+            to the length of the smaller array.
+
         """
-
-        def _to_equal_length(arr1, arr2):
-            out_arr = [np.array(arr1), np.array(arr2)]
-            max_length = max(len(arr1), len(arr2))
-            for arr_id, arr in enumerate(out_arr):
-                out_arr[arr_id] = np.pad(
-                    arr, (0, max_length - arr.size), mode="constant"
-                )
-            return out_arr
-
-        arr1, arr2 = _to_equal_length(arr1, arr2)
+        arr1, arr2 = Descriptor.fold_to_equal_length(fingerprint1, fingerprint2)
         not_arr1 = np.logical_not(arr1)
         not_arr2 = np.logical_not(arr2)
         a = np.sum(arr1 & arr2)
