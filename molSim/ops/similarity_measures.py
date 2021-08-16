@@ -249,19 +249,28 @@ class SimilarityMeasure:
         """
         similarity_ = None
         if self.metric == "l0_similarity":
-            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
-                                                           mol2_descriptor,
-                                                           ord=0)
+            try:
+                similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
+                                                               mol2_descriptor,
+                                                               ord=0)
+            except ValueError as e:
+                raise e
 
         elif self.metric == "l1_similarity":
-            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
-                                                           mol2_descriptor,
-                                                           ord=1)
+            try:
+                similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
+                                                               mol2_descriptor,
+                                                               ord=1)
+            except ValueError as e:
+                raise e
 
         elif self.metric == "l2_similarity":
-            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
-                                                           mol2_descriptor,
-                                                           ord=2)
+            try:
+                similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
+                                                               mol2_descriptor,
+                                                               ord=2)
+            except ValueError as e:
+                raise e
 
         elif self.metric == "austin_colwell":
             try:
@@ -290,10 +299,6 @@ class SimilarityMeasure:
                 similarity_ = self._get_cohen(mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
-
-        elif self.metric == 'cosine':
-            similarity_ = scipy_cosine(
-                    mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy())
 
         elif self.metric == "cole_1":
             try:
@@ -344,6 +349,13 @@ class SimilarityMeasure:
                 similarity_ = self._get_consonni_todeschini_5(
                     mol1_descriptor, mol2_descriptor
                 )
+            except ValueError as e:
+                raise e
+
+        elif self.metric == 'cosine':
+            try:
+                similarity_ = self._get_cosine_similarity(mol1_descriptor,
+                                                          mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -895,6 +907,28 @@ class SimilarityMeasure:
         a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (np.log(1 + a * d) - np.log(1 + b * c)) / np.log(1 + p ** 2 / 4)
+        self.normalize_fn["shift_"] = 0.0
+        self.normalize_fn["scale_"] = 1.0
+        return self._normalize(similarity_)
+
+    def _get_cosine_similarity(self, mol1_descriptor, mol2_descriptor):
+        arr1 = mol1_descriptor.to_numpy()
+        arr2 = mol2_descriptor.to_numpy()
+        if len(arr1) != len(arr2):
+            try:
+                arr1, arr2 = Descriptor.fold_to_equal_length(
+                    mol1_descriptor,
+                    mol2_descriptor)
+            except ValueError as e:
+                err_msg = 'Length of two descriptors different. ' \
+                          'Could not be folded. '
+                if e.message is None:
+                    e.message = err_msg
+                else:
+                    e.message = err_msg + e.message
+                raise e
+
+        similarity_ = scipy_cosine(arr1, arr2)
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
