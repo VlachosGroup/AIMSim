@@ -59,7 +59,7 @@ class MoleculeSet:
         self.n_threads = n_threads
         self.molecule_database = None
         self.descriptor = Descriptor()
-        self.molecule_database, features =  self._get_molecule_database(
+        self.molecule_database, features = self._get_molecule_database(
             molecule_database_src, molecule_database_src_type
         )
         if features is not None:
@@ -114,7 +114,8 @@ class MoleculeSet:
                 try:
                     molecule_database.append(Molecule(mol_src=molfile))
                 except LoadingError as e:
-                    print(f"{molfile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{molfile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() == "text":
             if self.is_verbose:
@@ -138,7 +139,8 @@ class MoleculeSet:
                         mol_text=mol_text,
                         mol_property_val=mol_property_val))
                 except LoadingError as e:
-                    print(f"{smile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{smile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() in ["excel", "csv"]:
             if self.is_verbose:
@@ -194,7 +196,8 @@ class MoleculeSet:
                         mol_text=mol_text,
                         mol_property_val=mol_property_val))
                 except LoadingError as e:
-                    print(f"{smile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{smile} could not be imported. Skipping")
 
             if len(database_feature_df.columns) > 0:
                 features = database_feature_df.values
@@ -584,7 +587,7 @@ class MoleculeSet:
 
         """
         dissimilar_mol_pairs = self.get_most_dissimilar_pairs()
-        reference_mol_properties, similar_mol_properties = [], []
+        reference_mol_properties, dissimilar_mol_properties = [], []
         for mol_pair in dissimilar_mol_pairs:
             mol1_property = mol_pair[0].get_mol_property_val()
             mol2_property = mol_pair[1].get_mol_property_val()
