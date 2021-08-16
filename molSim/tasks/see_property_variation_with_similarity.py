@@ -24,13 +24,19 @@ class SeePropertyVariationWithSimilarity(Task):
         self._extract_configs()
 
     def _extract_configs(self):
+        """
+        Raises:
+        InvalidConfigurationError: If correlation_type does not match
+                                   implemented types.
+        """
         self.plot_settings = {"response": "response"}
         self.plot_settings.update(self.configs.get("property_plot_settings",
                                                    {}))
         self.log_fpath = self.configs.get("log_file_path", None)
-        self.correlation_type = self.configs.get("correlation_type",
-                                                 "pearson").lower()
-        if self.correlation_type in ['pearson', 'linear']:
+        self.correlation_type = self.configs.get('correlation_type')
+        if self.correlation_type is None:
+            self.correlation_type = 'pearson'
+        if self.correlation_type.lower() in ['pearson', 'linear']:
             self.correlation_fn = pearsonr
         else:
             raise InvalidConfigurationError(f'{correlation_type} correlation '
@@ -68,8 +74,8 @@ class SeePropertyVariationWithSimilarity(Task):
         if molecule_set.is_verbose:
             print("Plotting Responses of Dissimilar Molecules")
         plot_parity(
-            dissimilar_reference_mol_properties,
-            dissimilar_mol_properties,
+            ref_prop,
+            dissimilar_prop,
             xlabel=f'Reference molecule {self.plot_settings["response"]}',
             ylabel=f'Most dissimilar molecule {self.plot_settings["response"]}',
             text="Correlation: {:.2f} (p-value {:.2f})".format(
