@@ -29,8 +29,7 @@ class TaskManager:
                 elif task == "visualize_dataset":
                     loaded_task = VisualizeDataset(task_configs)
                 elif task == "show_property_variation_w_similarity":
-                    loaded_task = ShowPropertyVariationWithSimilarity(
-                                                                   task_configs)
+                    loaded_task = ShowPropertyVariationWithSimilarity(task_configs)
                 elif task == "identify_outliers":
                     loaded_task = IdentifyOutliers(task_configs)
                 elif task == "cluster":
@@ -70,10 +69,9 @@ class TaskManager:
             raise InvalidConfigurationError
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
-        similarity_measure = molecule_set_configs.get("similarity_measure", 
-                                                      "tanimoto")
+        similarity_measure = molecule_set_configs.get("similarity_measure", "tanimoto")
         fingerprint_type = molecule_set_configs.get("fingerprint_type", None)
-        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.)
+        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.0)
         self.molecule_set = MoleculeSet(
             molecule_database_src=molecule_database_src,
             molecule_database_src_type=database_src_type,
@@ -89,7 +87,7 @@ class TaskManager:
 
         Args:
             molecule_set_configs (dict): Configurations for the molecule_set.
-        """        
+        """
         self._initialize_molecule_set(molecule_set_configs)
         if self.molecule_set.is_verbose:
             print("Beginning tasks...")
@@ -98,7 +96,9 @@ class TaskManager:
             try:
                 task(self.molecule_set)
             except InvalidConfigurationError as e:
-                print(f'{task} could not be performed due to the '
-                      f'following error: {e.message}')
+                print(
+                    f"{task} could not be performed due to the "
+                    f"following error: {e.message}"
+                )
                 continue
-        input("Press enter to terminate (plots will be closed).")
+        input("All tasks complete! Press enter to terminate (plots will be closed).")

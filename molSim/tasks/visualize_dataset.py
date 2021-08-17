@@ -46,8 +46,10 @@ class VisualizeDataset(Task):
         pairwise_similarity_vector = molecule_set.get_pairwise_similarities()
         if molecule_set.is_verbose:
             print("Plotting density of pairwise similarities")
-        plot_density(pairwise_similarity_vector,
-                     **self.plot_settings["pairwise_plot"])
+        plot_density(
+            pairwise_similarity_vector,
+            **self.plot_settings["pairwise_plot"],
+        )
         plt.show()
 
     def __str__(self):
