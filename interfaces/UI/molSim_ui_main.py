@@ -136,6 +136,7 @@ class MolsimUiApp:
             ] = SimilarityMeasure.get_compatible_metrics().get(
                 self.molecularDescriptor.get(), "Error"
             )
+            self.similarityMeasureCombobox.current(0)
             return
 
         # bind this listener to the combobox
