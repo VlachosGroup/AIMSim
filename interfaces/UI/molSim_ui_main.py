@@ -18,6 +18,7 @@ import os
 import tkinter as tk
 import tkinter.ttk as ttk
 import webbrowser
+import pkg_resources
 
 
 class MolsimUiApp:
@@ -32,7 +33,11 @@ class MolsimUiApp:
         # build ui
         self.window = tk.Tk() if master is None else tk.Toplevel(master)
         self.window.title("molSim")
-        self.window.iconphoto(False, tk.PhotoImage(file="molSim-logo.png"))
+        resource_path = pkg_resources.resource_filename(
+            __name__,
+            "molSim-logo.png",
+        )
+        self.window.iconphoto(False, tk.PhotoImage(file=resource_path))
         self.databaseFile = tk.StringVar(self.window)
         self.targetMolecule = tk.StringVar(self.window)
         self.similarityMeasure = tk.StringVar(self.window)

@@ -1,4 +1,7 @@
 # molSim README
+
+![molSim logo](interfaces/UI/molSim-logo.png)
+
 molSim is a tool for visualizing diversity in your molecular data-set using graph theory. 
 
 ## Documentation
