@@ -129,14 +129,14 @@ class MolsimUiApp:
         )
 
         # define the callback for the descriptor
-        def updateCompatibleMetricsListener():
+        def updateCompatibleMetricsListener(self):
             """Show only compatible metrics, given a descriptor."""
             print("showing compatible metrics")
             return
 
         # bind this listener to the combobox
         self.molecularDescriptorCombobox.bind(
-            "<<ComboboxSelected>>", self.updateCompatibleMetricsListener
+            "<<ComboboxSelected>>", updateCompatibleMetricsListener
         )
         self.molecularDescriptorCombobox.place(
             anchor="center", relx="0.55", rely="0.55", x="0", y="0"
