@@ -749,9 +749,10 @@ class SimilarityMeasure:
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
-        if (a + c) < SMALL_NUMBER and (c + d) < SMALL_NUMBER:
+        denominator = (a + c) * (c + d)
+        if denominator < SMALL_NUMBER:
             return 0.0
-        similarity_ = (a * d - b * c) / ((a + c) * (c + d))
+        similarity_ = (a * d - b * c) / denominator
         self.normalize_fn["shift_"] = p - 1
         self.normalize_fn["scale_"] = p
         return self._normalize(similarity_)
