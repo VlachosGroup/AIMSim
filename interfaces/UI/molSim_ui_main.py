@@ -124,6 +124,7 @@ class MolsimUiApp:
             cursor="arrow",
             justify="left",
             takefocus=False,
+            # values=Descriptor.get_all_supported_descriptors(),
             values=Descriptor.get_supported_fprints(),
         )
         self.molecularDescriptorCombobox.place(
@@ -167,6 +168,16 @@ class MolsimUiApp:
 
         # Main widget
         self.mainwindow = self.window
+
+    def showAllDescriptorsCallback(self):
+        """update the descriptors dropdown to show descriptors.
+        """
+        pass
+
+    def updateCompatibleMetricsCallback(self):
+        """Show only compatible metrics, given a descriptor.
+        """
+        pass
 
     def openConfigCallback(self):
         """
