@@ -5,6 +5,7 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from rdkit import RDLogger
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -103,6 +104,9 @@ class MoleculeSet:
                 Second element is array of features of shape
                 (len(molecule_database), n_features) or None if None found.
         """
+        if not self.is_verbose:
+            RDLogger.DisableLog('rdApp.*')
+            
         molecule_database = []
         features = None
         if molecule_database_src_type.lower() in ["folder", "directory"]:
