@@ -30,6 +30,7 @@ class IdentifyOutliers(Task):
             "pairwise_similarity_plot_settings", {}
         )
         self.output = self.configs.get("output", "terminal")
+        self.plot_outlier = self.configs.get("plot_ouliers", True)
 
     def __call__(self, molecule_set):
         """Iterates through all molecules in molecule_set,
@@ -65,15 +66,16 @@ class IdentifyOutliers(Task):
                 else:
                     with open(self.output + ".log", "a") as file:
                         file.write(msg + "\n")
-        reduced_features = molecule_set.get_transformed_descriptors(method_="pca")
-        plot_scatter(
-            reduced_features[0],
-            reduced_features[1],
-            outlier_idxs=outlier_idxs,
-            title=f"2-D projected space",
-            **self.plot_settings["pairwise_plot"],
-        )
-        plt.show()
+        if self.plot_outlier:
+            reduced_features = molecule_set.get_transformed_descriptors(method_="pca")
+            plot_scatter(
+                reduced_features[0],
+                reduced_features[1],
+                outlier_idxs=outlier_idxs,
+                title=f"2-D projected space",
+                **self.plot_settings["pairwise_plot"],
+            )
+            plt.show()
         input("Outlier detection complete (enter to continue).")
 
     def __str__(self):
