@@ -1861,18 +1861,19 @@ class SimilarityMeasure:
             dict: comptabile FP's: metrics
         """
         out = {}
-        fprints = Descriptor.get_supported_fprints()
+        fprints = Descriptor.get_all_supported_descriptors()
         for fp in fprints:
             if fp in [
                 "morgan_fingerprint",
                 "topological_fingerprint",
                 "daylight_fingerprint",
                 "maccs_keys",
-            ]:
+            ]:  # explicit bit vectors
                 out[fp] = SimilarityMeasure.get_supported_binary_metrics()
             elif fp in ["atom-pair_fingerprint", "torsion_fingerprint"]:
+                # int vectors
                 out[fp] = SimilarityMeasure.get_supported_metrics()
-            else:
+            else:  # mordred descriptors, custom descriptors
                 out[fp] = SimilarityMeasure.get_supported_general_metrics()
         return out
 
@@ -1886,8 +1887,8 @@ class SimilarityMeasure:
             List: List of strings.
         """
         return list(
-            set(SimilarityMeasure.get_supported_metrics)
-            - set(SimilarityMeasure.get_supported_binary_metrics)
+            set(SimilarityMeasure.get_supported_metrics())
+            - set(SimilarityMeasure.get_supported_binary_metrics())
         )
 
     @staticmethod

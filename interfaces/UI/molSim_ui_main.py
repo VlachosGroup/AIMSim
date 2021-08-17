@@ -129,9 +129,13 @@ class MolsimUiApp:
         )
 
         # define the callback for the descriptor
-        def updateCompatibleMetricsListener(self):
+        def updateCompatibleMetricsListener(event):
             """Show only compatible metrics, given a descriptor."""
-            print("showing compatible metrics")
+            self.similarityMeasureCombobox[
+                "values"
+            ] = SimilarityMeasure.get_compatible_metrics().get(
+                self.molecularDescriptor.get(), "Error"
+            )
             return
 
         # bind this listener to the combobox
@@ -196,8 +200,15 @@ class MolsimUiApp:
 
     def showAllDescriptorsCallback(self):
         """update the descriptors dropdown to show descriptors."""
-        print("showing all descriptors")
-        pass
+        if "selected" in self.showAllDescriptorsButton.state():
+            self.molecularDescriptorCombobox[
+                "values"
+            ] = Descriptor.get_all_supported_descriptors()
+        else:
+            self.molecularDescriptorCombobox[
+                "values"
+            ] = values = Descriptor.get_supported_fprints()
+        return
 
     def openConfigCallback(self):
         """
