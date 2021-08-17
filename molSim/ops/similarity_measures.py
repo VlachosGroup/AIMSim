@@ -611,7 +611,7 @@ class SimilarityMeasure:
                     e.message = err_msg + e.message
                 raise e
 
-        norm_ = -np.linalg.norm(arr1 - arr2, ord=ord)
+        norm_ = np.linalg.norm(arr1 - arr2, ord=ord)
         similarity_ = 1 / (1 + norm_)
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0
