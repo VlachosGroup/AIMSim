@@ -1413,7 +1413,7 @@ class SimilarityMeasure:
             return 1.0
         if b == p or c == p:
             return 0.0
-        similarity_ = (a * d - b * c) / ((a + b) * (c + d))
+        similarity_ = (a * d - b * c) / ((a + b) * (c + d) + SMALL_NUMBER)
         self.normalize_fn["shift_"] = 1.0
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
@@ -1442,7 +1442,7 @@ class SimilarityMeasure:
             return 1.0
         if b == p or c == p:
             return 0.0
-        similarity_ = (a * d - b * c) / ((a + c) * (b + d))
+        similarity_ = (a * d - b * c) / ((a + c) * (b + d) + SMALL_NUMBER)
         self.normalize_fn["shift_"] = 1.0
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
