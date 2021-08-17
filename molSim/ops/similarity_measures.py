@@ -247,24 +247,23 @@ class SimilarityMeasure:
         """
         similarity_ = None
         if self.metric == "l0_similarity":
-            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
-                                                           mol2_descriptor,
-                                                           ord=0)
+            similarity_ = self._get_vector_norm_similarity(
+                mol1_descriptor, mol2_descriptor, ord=0
+            )
 
         elif self.metric == "l1_similarity":
-            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
-                                                           mol2_descriptor,
-                                                           ord=1)
+            similarity_ = self._get_vector_norm_similarity(
+                mol1_descriptor, mol2_descriptor, ord=1
+            )
 
         elif self.metric == "l2_similarity":
-            similarity_ = self._get_vector_norm_similarity(mol1_descriptor,
-                                                           mol2_descriptor,
-                                                           ord=2)
+            similarity_ = self._get_vector_norm_similarity(
+                mol1_descriptor, mol2_descriptor, ord=2
+            )
 
         elif self.metric == "austin_colwell":
             try:
-                similarity_ = self._get_austin_colwell(mol1_descriptor,
-                                                       mol2_descriptor)
+                similarity_ = self._get_austin_colwell(mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -278,8 +277,7 @@ class SimilarityMeasure:
 
         elif self.metric == "braun_blanquet":
             try:
-                similarity_ = self._get_braun_blanquet(mol1_descriptor,
-                                                       mol2_descriptor)
+                similarity_ = self._get_braun_blanquet(mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -289,9 +287,10 @@ class SimilarityMeasure:
             except ValueError as e:
                 raise e
 
-        elif self.metric == 'cosine':
+        elif self.metric == "cosine":
             similarity_ = scipy_cosine(
-                    mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy())
+                mol1_descriptor.to_numpy(), mol2_descriptor.to_numpy()
+            )
 
         elif self.metric == "cole_1":
             try:
@@ -564,10 +563,7 @@ class SimilarityMeasure:
 
         return similarity_
 
-    def _get_vector_norm_similarity(self,
-                                    mol1_descriptor,
-                                    mol2_descriptor,
-                                    ord):
+    def _get_vector_norm_similarity(self, mol1_descriptor, mol2_descriptor, ord):
         """Calculate the norm based similarity between two molecules.
         This is defined as:
         Norm similarity (order n) = 1 / (1 + n-norm(A - B)
@@ -583,8 +579,8 @@ class SimilarityMeasure:
             (float): Norm similarity value
         """
         norm_ = -np.linalg.norm(
-                    mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(),
-                    ord=ord)
+            mol1_descriptor.to_numpy() - mol2_descriptor.to_numpy(), ord=ord
+        )
         similarity_ = 1 / (1 + norm_)
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0
@@ -1855,6 +1851,15 @@ class SimilarityMeasure:
             bool: True if it is a distance metric.
         """
         return hasattr(self, "to_distance")
+
+    @staticmethod
+    def get_compatible_metrics():
+        """Return a dictionary with which types of metrics each fingerprint supports.
+
+        Returns:
+            dict: comptabile FP's: metrics
+        """
+        return
 
     @staticmethod
     def get_supported_metrics():
