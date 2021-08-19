@@ -95,7 +95,8 @@ def plot_heatmap(input_matrix, **kwargs):
         yticklabels=parameters["yticklabels"],
         cmap=parameters["cmap"],
         mask=mask,
-        annot=parameters["annotate"])
+        annot=parameters["annotate"],
+    )
 
 
 def plot_parity(x, y, **kwargs):
@@ -136,16 +137,13 @@ def plot_parity(x, y, **kwargs):
         color=plot_params.get("linecolor", "black"),
     )
     plt.title(
-        plot_params.get("title", ""),
-        fontsize=plot_params.get("title_fontsize", 24)
+        plot_params.get("title", ""), fontsize=plot_params.get("title_fontsize", 24)
     )
     plt.xlabel(
-        plot_params.get("xlabel", ""),
-        fontsize=plot_params.get("xlabel_fontsize", 20)
+        plot_params.get("xlabel", ""), fontsize=plot_params.get("xlabel_fontsize", 20)
     )
     plt.ylabel(
-        plot_params.get("ylabel", ""),
-        fontsize=plot_params.get("ylabel_fontsize", 20)
+        plot_params.get("ylabel", ""), fontsize=plot_params.get("ylabel_fontsize", 20)
     )
     plt.xticks(fontsize=plot_params.get("xticksize", 24))
     plt.yticks(fontsize=plot_params.get("yticksize", 24))
@@ -159,9 +157,12 @@ def plot_parity(x, y, **kwargs):
     axes.yaxis.set_ticks(np.arange(start, end, stepsize))
     axes.yaxis.set_major_formatter(ticker.FormatStrFormatter("%0.1f"))
     plt.text(
-        plot_params.pop('text_x', 0.05), plot_params.pop('text_y', 0.9),
-        plot_params.pop('text', None), transform=axes.transAxes,
-        fontsize=plot_params.pop('text_fontsize', 16))
+        plot_params.pop("text_x", 0.05),
+        plot_params.pop("text_y", 0.9),
+        plot_params.pop("text", None),
+        transform=axes.transAxes,
+        fontsize=plot_params.pop("text_fontsize", 16),
+    )
     if kwargs.get("show_plot", True):
         pass
     else:
@@ -302,6 +303,13 @@ def plot_scatter(x, y, **kwargs):
         s=plot_params["s"],
         c=plot_params["plot_color"],
     )
+    if outlier_idxs is not None:
+        plt.scatter(
+            x=[x[i] for i in outlier_idxs],
+            y=[y[i] for i in outlier_idxs],
+            s=plot_params["s"],
+            c="r",
+        )
     max_entry = max(max(x), max(y)) + plot_params.get("offset", 5.0)
     min_entry = min(min(x), min(y)) - plot_params.get("offset", 5.0)
     axes = plt.gca()
