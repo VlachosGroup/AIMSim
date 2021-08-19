@@ -57,6 +57,7 @@ class Descriptor:
         if not hasattr(self, "numpy_"):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             DataStructs.ConvertToNumpyArray(self.rdkit_, self.numpy_)
+        self.numpy_ = self.numpy_.flatten()
         return self.numpy_
 
     def to_rdkit(self):
@@ -297,9 +298,87 @@ class Descriptor:
     def is_fingerprint(self):
         return "fingerprint" in self.get_label()
 
+    def get_folded_fprint(self, fold_to_length):
+        """
+        Get the folded value of a fingerprint to a specified length.
+        Args:
+            fold_to_length (int): Number of bits to fold to.
+
+        Returns:
+            (np.ndarray): Folded fingerprint.
+        """
+        if not self.is_fingerprint():
+            raise ValueError('Can only fold fingerprints')
+        fingerprint = self.to_numpy()
+        if len(fingerprint) < fold_to_length:
+            raise InvalidConfigurationError(f'Cannot fold fingerprint of '
+                                            f'length {len(fingerprint)}to a '
+                                            f'higher length {fold_to_length}')
+        n_folds = np.log2(len(fingerprint) / fold_to_length)
+        if n_folds - int(n_folds) > 0.:
+            raise InvalidConfigurationError(f'Fingerprint length '
+                                            f'{len(fingerprint)} not '
+                                            f'a 2-multiple of required '
+                                            f'folded length {fold_to_length}')
+        for _ in range(int(n_folds)):
+            mid_point = int(len(fingerprint) / 2)
+            assert mid_point - (len(fingerprint) / 2) == 0.
+            fingerprint = fingerprint[:mid_point] | fingerprint[mid_point:]
+        assert len(fingerprint) == fold_to_length
+        return fingerprint
+
+    @staticmethod
+    def shorten_label(label):
+        """Shorten the label of a fingerprint. Useful for plotting purposes.
+
+        Args:
+            label (str): Label of fingerprint to shorten.
+
+        Returns:
+            (str): Shortened label.
+
+        Raises:
+            InvalidConfigurationError: if label not in
+                get_supported_descriptors()
+
+        Currently implemented shortening strategies:
+            1. Fingerprints: remove '_fingerprint' from the label
+
+        """
+        if label not in Descriptor.get_all_supported_descriptors():
+            raise InvalidConfigurationError(f'{label} not a '
+                                            f'supported descriptor')
+        if label in Descriptor.get_supported_fprints():
+            return label.replace('_fingerprint', '')
+        return label
+
+    @staticmethod
+    def fold_to_equal_length(fingerprint1, fingerprint2):
+        """
+        Get back two fingerprint arrays of equal length. The longer fingerprint
+        is folded to the size of the smaller one.
+
+        Args:
+            fingerprint1 (Descriptor): Fingerprint one.
+            fingerprint2 (Descriptor): Fingerprint two.
+
+        Returns:
+            (np.ndarray, np.ndarray)
+
+        """
+        fprint1_arr = fingerprint1.to_numpy()
+        fprint2_arr = fingerprint2.to_numpy()
+        if len(fprint1_arr) > len(fprint2_arr):
+            return fingerprint1.get_folded_fprint(
+                fold_to_length=len(fprint2_arr)), fprint2_arr
+        else:
+            return fprint1_arr, fingerprint2.get_folded_fprint(
+                fold_to_length=len(fprint1_arr))
+
     @staticmethod
     def get_supported_fprints():
-        """Return a list of strings for the currently implemented molecular fingerprints.
+        """Return a list of strings for the currently implemented
+        molecular fingerprints.
         Returns:
             List: List of strings.
         """
