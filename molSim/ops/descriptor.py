@@ -328,6 +328,31 @@ class Descriptor:
         return fingerprint
 
     @staticmethod
+    def shorten_label(label):
+        """Shorten the label of a fingerprint. Useful for plotting purposes.
+
+        Args:
+            label (str): Label of fingerprint to shorten.
+
+        Returns:
+            (str): Shortened label.
+
+        Raises:
+            InvalidConfigurationError: if label not in
+                get_supported_descriptors()
+
+        Currently implemented shortening strategies:
+            1. Fingerprints: remove '_fingerprint' from the label
+
+        """
+        if label not in Descriptor.get_all_supported_descriptors():
+            raise InvalidConfigurationError(f'{label} not a '
+                                            f'supported descriptor')
+        if label in Descriptor.get_supported_fprints():
+            return label.replace('_fingerprint', '')
+        return label
+
+    @staticmethod
     def fold_to_equal_length(fingerprint1, fingerprint2):
         """
         Get back two fingerprint arrays of equal length. The longer fingerprint
@@ -352,7 +377,8 @@ class Descriptor:
 
     @staticmethod
     def get_supported_fprints():
-        """Return a list of strings for the currently implemented molecular fingerprints.
+        """Return a list of strings for the currently implemented
+        molecular fingerprints.
         Returns:
             List: List of strings.
         """
