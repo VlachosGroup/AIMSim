@@ -3,6 +3,8 @@ evaluating the response of the nearest and furthest neighbors. This is called
 measure choice for brevity (although both measure and features are chosen)"""
 from collections import namedtuple
 
+from matplotlib.pyplot import get_cmap
+import numpy as np
 import pylustrator
 
 from molSim.chemical_datastructures import MoleculeSet
@@ -33,7 +35,14 @@ class MeasureSearch(Task):
         InvalidConfigurationError: If correlation_type does not match
                                    implemented types.
         """
-        self.plot_settings = {'cmap': 'tab20'}
+        self.plot_settings = {'cmap': 'tab20',
+                              'xticksize': 10,
+                              'yticksize': 20,
+                              'title': "",
+                              'title_fontsize': 24,
+                              'xlabel_fontsize': 20,
+                              'ylabel_fontsize': 20,
+                              }
         self.plot_settings.update(self.configs.get("plot_settings",
                                                    {}))
         try:
@@ -85,15 +94,17 @@ class MeasureSearch(Task):
                 'max': The measure choice which maximizes correlation
                     of properties between nearest neighbors (most similar).
                     This is the default.
-                'min': The measure choice which minimizes property correlation
+                'min': The measure choice which minimizes the absolute value
+                    of property correlation
                     between furthest neighbors (most dissimilar).
                 'max_min': The measure choice which maximizes correlation
                     of properties between nearest neighbors (most similar)
-                    and minimizes property correlation between furthest
-                    neighbors (most dissimilar). This is the default.
+                    and minimizes he absolute value of property correlation
+                    between furthest neighbors (most dissimilar).
+                    This is the default.
             show_top (int): Number of top performing measures to show in plot.
                 If 0, no plots are generated and the top performer is returned.
-            only_metrics (bool): If True only similarity measures satisfying
+            only_metric (bool): If True only similarity measures satisfying
                 the metricity property
                 (i.e. can be converted to distance metrics) are selected.
 
@@ -151,12 +162,13 @@ class MeasureSearch(Task):
                 furthest_corr, furthest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_dissimilar(
                         molecule_set)
+
                 if optim_algo == 'max_min':
-                    score_ = nearest_corr - furthest_corr
+                    score_ = nearest_corr - abs(furthest_corr)
                 elif optim_algo == 'max':
                     score_ = nearest_corr
                 elif optim_algo == 'min':
-                    score_ = -furthest_corr
+                    score_ = -abs(furthest_corr)
                 else:
                     raise InvalidConfigurationError(f'{optim_algo} '
                                                     f'not implemented')
@@ -172,34 +184,106 @@ class MeasureSearch(Task):
             top_performers = all_scores[:show_top]
             all_nearest_neighbor_correlations = []
             all_furthest_neighbor_correlations = []
-            all_scores = []
+            top_scores = []
             all_measures = []
             for trial in top_performers:
                 all_nearest_neighbor_correlations.append(
                     trial.nearest_neighbor_correlation)
                 all_furthest_neighbor_correlations.append(
-                    rial.furthest_neighbor_correlation)
-                all_scores.append(trial.score_)
-                all_measures.append(trial.fingerprint_type
-                                    + ' '
+                    trial.furthest_neighbor_correlation)
+                top_scores.append(trial.score_)
+                all_measures.append(Descriptor.shorten_label(
+                                        trial.fingerprint_type)
+                                    + '\n'
                                     + trial.similarity_measure)
-            bar_heights = [all_scores,
-                           all_nearest_neighbor_correlations,
-                           all_furthest_neighbor_correlations]
-            plot_multiple_barchart(x=[_ for _ in range(top_performers)],
+            bar_heights = np.array([top_scores,
+                                    all_nearest_neighbor_correlations,
+                                    all_furthest_neighbor_correlations])
+            cmap = self.plot_settings.pop('cmap')
+            plot_multiple_barchart(x=[_ for _ in range(len(top_performers))],
                                    heights=bar_heights,
                                    legend_labels=['Overall scores',
                                                   'Nearest neighbor property '
                                                   'correlation',
                                                   'Furthest neighbor property '
                                                   'correlations'],
-                                   colors=[plt.cm.get_cmap(
-                                               self.plot_settings['cmap'],
-                                               len(bar_heights))(bar_id)
-                                           for bar_id in range(bar_heights)])
+                                   colors=[get_cmap(cmap,
+                                                    len(bar_heights))(bar_id)
+                                           for bar_id in range(
+                                               len(bar_heights))],
+                                   xtick_labels=all_measures,
+                                   ylabel='Value',
+                                   xlabel='Measure',
+                                   **self.plot_settings)
 
         return all_scores[0]
 
     def __str__(self):
         return "Task: determine appropriate fingerprint type and " \
                "similarity measure for property of interest"
+
+    def get_best_measure(self,
+                         fingerprint_type=None,
+                         similarity_measure=None,
+                         subsample_subset_size=0.01,
+                         optim_algo='max_min',
+                         only_metric=False,
+                         **molecule_set_configs):
+        """Get the best measure for quantity of interest.
+
+        Args:
+            molecule_set_configs (dict): All configurations (except
+                fingerprint_type and similarity_measure) needed to form
+                the moleculeSet.
+            fingerprint_type (str): Label to indicate which fingerprint to
+                use. If supplied, fingerprint is fixed and optimization
+                carried out over similarity measures. Use None to indicate
+                that optimization needs to be carried out over fingerprints.
+                Default is None.
+            similarity_measure (str): Label to indicate which similarity
+                measure to use. If supplied, similarity measure is fixed
+                and optimization carried out over similarity measures.
+                Use None to indicate that optimization needs to be carried
+                out over fingerprints. Default is None.
+            subsample_subset_size (float): Fraction of molecule_set to
+                subsample. This is separate from the sample_ratio parameter
+                used when creating a moleculeSet since it is recommended
+                to have an more aggressive subsampling strategy for this task
+                due to the combinatorial explosion of looking at multiple
+                fingerprints and similarity measures. Default is 0.01.
+            optim_algo (str): Label to indicate the optimization algorithm
+                chosen. Options are:
+                'max': The measure choice which maximizes correlation
+                    of properties between nearest neighbors (most similar).
+                    This is the default.
+                'min': The measure choice which minimizes the absolute value of
+                    property correlation between furthest neighbors
+                    (most dissimilar).
+                'max_min': The measure choice which maximizes correlation
+                    of properties between nearest neighbors (most similar)
+                    and minimizes he absolute value of property correlation
+                    between furthest neighbors (most dissimilar).
+                    This is the default.
+            only_metric (bool): If True only similarity measures satisfying
+                the metricity property
+                (i.e. can be converted to distance metrics) are selected.
+
+        Returns:
+            (NamedTuple): Top performer with fields:
+                fingerprint_type (str): Label for fingerprint type
+               similarity_measure (str): Label for similarity measure
+               nearest_neighbor_correlation (float): Correlation of property
+                   of molecule and its nearest neighbor.
+               furthest_neighbor_correlation (float): Correlation of property
+                   of molecule and its furthest neighbor.
+               score_ (float): Overall score based on optimization strategy.
+                   More is better.
+
+        """
+        return self.__call__(fingerprint_type=fingerprint_type,
+                             similarity_measure=similarity_measure,
+                             subsample_subset_size=subsample_subset_size,
+                             optim_algo=optim_algo,
+                             only_metric=only_metric,
+                             show_top=0,
+                             **molecule_set_configs)
