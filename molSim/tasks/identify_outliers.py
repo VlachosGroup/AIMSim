@@ -11,9 +11,10 @@ class IdentifyOutliers(Task):
         Task (abstract class): Parent abstract class.
     """
 
-    def __init__(self, configs):
+    def __init__(self, configs=None, **kwargs):
         if configs is None:
             configs = dict()  # all configs are optional
+        configs.update(kwargs)
         super().__init__(configs)
         self._extract_configs()
 

@@ -129,7 +129,24 @@ class MolsimUiApp:
             cursor="arrow",
             justify="left",
             takefocus=False,
+            # values=Descriptor.get_all_supported_descriptors(),
             values=Descriptor.get_supported_fprints(),
+        )
+
+        # define the callback for the descriptor
+        def updateCompatibleMetricsListener(event):
+            """Show only compatible metrics, given a descriptor."""
+            self.similarityMeasureCombobox[
+                "values"
+            ] = SimilarityMeasure.get_compatible_metrics().get(
+                self.molecularDescriptor.get(), "Error"
+            )
+            self.similarityMeasureCombobox.current(0)
+            return
+
+        # bind this listener to the combobox
+        self.molecularDescriptorCombobox.bind(
+            "<<ComboboxSelected>>", updateCompatibleMetricsListener
         )
         self.molecularDescriptorCombobox.place(
             anchor="center", relx="0.55", rely="0.55", x="0", y="0"
@@ -145,6 +162,20 @@ class MolsimUiApp:
             anchor="center", relx="0.5", rely="0.85", x="0", y="0"
         )
         self.openConfigButton.configure(command=self.openConfigCallback)
+        self.showAllDescriptorsButton = ttk.Checkbutton(self.mainframe)
+        self.showAllDescriptorsButton.configure(
+            compound="top",
+            cursor="arrow",
+            offvalue="False",
+            onvalue="True",
+            command=self.showAllDescriptorsCallback,
+        )
+        self.showAllDescriptorsButton.configure(
+            state="normal", text="Show experimental descriptors"
+        )
+        self.showAllDescriptorsButton.place(
+            anchor="center", relx="0.45", rely="0.65", x="0", y="0"
+        )
         self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
         self.multiprocessingCheckbutton.configure(
             compound="top", cursor="arrow", offvalue="False", onvalue="True"
@@ -172,6 +203,18 @@ class MolsimUiApp:
 
         # Main widget
         self.mainwindow = self.window
+
+    def showAllDescriptorsCallback(self):
+        """update the descriptors dropdown to show descriptors."""
+        if "selected" in self.showAllDescriptorsButton.state():
+            self.molecularDescriptorCombobox[
+                "values"
+            ] = Descriptor.get_all_supported_descriptors()
+        else:
+            self.molecularDescriptorCombobox[
+                "values"
+            ] = values = Descriptor.get_supported_fprints()
+        return
 
     def openConfigCallback(self):
         """

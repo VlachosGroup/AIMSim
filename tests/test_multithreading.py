@@ -20,7 +20,7 @@ class TestMultithreading(unittest.TestCase):
         """Create a SMILES database to use for comparisons and
         find the similarity matrices and execution times.
         """
-        if exists(".no-speedup-test"):
+        if not exists(".speedup-test"):
             print("Speedup and Efficiency tests DISABLED.")
             self.NO_SPEEDUP_TEST = True
         else:
