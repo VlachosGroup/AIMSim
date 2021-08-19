@@ -20,7 +20,11 @@ from rdkit.Chem.AtomPairs import Pairs, Torsions
 from rdkit.DataStructs import cDataStructs
 from mordred import Calculator, descriptors
 
-from ..exceptions import *
+from ..exceptions import (
+    InvalidConfigurationError,
+    NotInitializedError,
+    MordredCalculatorError,
+)
 
 
 class Descriptor:
@@ -308,21 +312,25 @@ class Descriptor:
             (np.ndarray): Folded fingerprint.
         """
         if not self.is_fingerprint():
-            raise ValueError('Can only fold fingerprints')
+            raise ValueError("Can only fold fingerprints")
         fingerprint = self.to_numpy()
         if len(fingerprint) < fold_to_length:
-            raise InvalidConfigurationError(f'Cannot fold fingerprint of '
-                                            f'length {len(fingerprint)}to a '
-                                            f'higher length {fold_to_length}')
+            raise InvalidConfigurationError(
+                f"Cannot fold fingerprint of "
+                f"length {len(fingerprint)}to a "
+                f"higher length {fold_to_length}"
+            )
         n_folds = np.log2(len(fingerprint) / fold_to_length)
-        if n_folds - int(n_folds) > 0.:
-            raise InvalidConfigurationError(f'Fingerprint length '
-                                            f'{len(fingerprint)} not '
-                                            f'a 2-multiple of required '
-                                            f'folded length {fold_to_length}')
+        if n_folds - int(n_folds) > 0.0:
+            raise InvalidConfigurationError(
+                f"Fingerprint length "
+                f"{len(fingerprint)} not "
+                f"a 2-multiple of required "
+                f"folded length {fold_to_length}"
+            )
         for _ in range(int(n_folds)):
             mid_point = int(len(fingerprint) / 2)
-            assert mid_point - (len(fingerprint) / 2) == 0.
+            assert mid_point - (len(fingerprint) / 2) == 0.0
             fingerprint = fingerprint[:mid_point] | fingerprint[mid_point:]
         assert len(fingerprint) == fold_to_length
         return fingerprint
@@ -346,10 +354,9 @@ class Descriptor:
 
         """
         if label not in Descriptor.get_all_supported_descriptors():
-            raise InvalidConfigurationError(f'{label} not a '
-                                            f'supported descriptor')
+            raise InvalidConfigurationError(f"{label} not a " f"supported descriptor")
         if label in Descriptor.get_supported_fprints():
-            return label.replace('_fingerprint', '')
+            return label.replace("_fingerprint", "")
         return label
 
     @staticmethod
@@ -369,11 +376,14 @@ class Descriptor:
         fprint1_arr = fingerprint1.to_numpy()
         fprint2_arr = fingerprint2.to_numpy()
         if len(fprint1_arr) > len(fprint2_arr):
-            return fingerprint1.get_folded_fprint(
-                fold_to_length=len(fprint2_arr)), fprint2_arr
+            return (
+                fingerprint1.get_folded_fprint(fold_to_length=len(fprint2_arr)),
+                fprint2_arr,
+            )
         else:
             return fprint1_arr, fingerprint2.get_folded_fprint(
-                fold_to_length=len(fprint1_arr))
+                fold_to_length=len(fprint1_arr)
+            )
 
     @staticmethod
     def get_supported_fprints():
@@ -404,6 +414,15 @@ class Descriptor:
             "maccs_keys",
             "atom-pair_fingerprint",
             "torsion_fingerprint",
+            "ccbmlib:atom_pairs",
+            "ccbmlib:hashed_atom_pairs",
+            "ccbmlib:avalon",
+            "ccbmlib:maccs_keys",
+            "ccbmlib:morgan",
+            "ccbmlib:hashed_morgan",
+            "ccbmlib:rdkit_fingerprint",
+            "ccbmlib:torsions",
+            "ccbmlib:hashed_torsions",
             "mordred:ABC",
             "mordred:ABCGG",
             "mordred:nAcid",
