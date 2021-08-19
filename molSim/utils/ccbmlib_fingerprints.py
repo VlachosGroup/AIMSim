@@ -62,7 +62,12 @@ def morgan(mol, **kwargs):
 
 
 def hashed_atom_pairs(mol, **kwargs):
-    return list(GetHashedAtomPairFingerprint(mol, **kwargs).GetNonzeroElements())
+    return list(
+        GetHashedAtomPairFingerprint(
+            mol,
+            **kwargs,
+        ).GetNonzeroElements()
+    )
 
 
 def hashed_torsions(mol, **kwargs):
@@ -75,14 +80,19 @@ def hashed_torsions(mol, **kwargs):
 
 
 def hashed_morgan(mol, **kwargs):
-    return list(GetHashedMorganFingerprint(mol, **kwargs).GetNonzeroElements())
+    return list(
+        GetHashedMorganFingerprint(
+            mol,
+            **kwargs,
+        ).GetNonzeroElements()
+    )
 
 
 def avalon(mol, **kwargs):
     return list(GetAvalonFP(mol, **kwargs).GetOnBits())
 
 
-def generate_fingerprints(mol_suppl, fp, pars):
+def generate_fingerprints(mol_suppl, fp, **pars):
     for mol in mol_suppl:
         if mol:
             yield fp(mol, **pars)

@@ -19,6 +19,7 @@ from rdkit.Chem import MACCSkeys
 from rdkit.Chem.AtomPairs import Pairs, Torsions
 from rdkit.DataStructs import cDataStructs
 from mordred import Calculator, descriptors
+from molSim.utils.ccbmlib_fingerprints import generate_fingerprints
 
 from ..exceptions import (
     InvalidConfigurationError,
@@ -218,6 +219,21 @@ class Descriptor:
         self.label_ = "torsion_fingerprint"
         self.params_ = {}
 
+    def _set_ccbmlib_fingerprint(self, molecule_graph, descriptor, **kwargs):
+        """Set the descriptor to fingerprint from ccbmlib.
+
+        Parameters
+        ----------
+        molecule_graph: RDKIT object
+            Graph of molecule to be fingerprinted.
+
+        """
+        # returns a list of ints which represent the on bits (features)
+        fp = generate_fingerprints(molecule_graph, descriptor, **kwargs)
+        self.numpy_ = fp
+        self.label_ = descriptor
+        self.params_ = {}
+
     def make_fingerprint(
         self, molecule_graph, fingerprint_type, fingerprint_params=None
     ):
@@ -273,6 +289,13 @@ class Descriptor:
                 molecule_graph=molecule_graph,
                 descriptor=fingerprint_type.split(":")[1],
                 **mordred_params,
+            )
+        elif fingerprint_type.split(":")[0] == "ccbmlib":
+            ccbmlib_params = {}
+            self._set_ccbmlib_fingerprint(
+                molecule_graph=molecule_graph,
+                descriptor=fingerprint_type.split(":")[1],
+                **ccbmlib_params,
             )
         else:
             raise ValueError(f"{fingerprint_type} not supported")
