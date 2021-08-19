@@ -9,10 +9,9 @@ pylustrator.start()
 
 
 class VisualizeDataset(Task):
-    def __init__(self, configs=None, **kwargs):
+    def __init__(self, configs):
         if configs is None:
             configs = dict()  # all configs are optional
-        configs.update(kwargs)
         super().__init__(configs)
         self.plot_settings = {}
         self._extract_configs()

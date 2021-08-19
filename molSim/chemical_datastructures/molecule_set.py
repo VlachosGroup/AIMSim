@@ -5,6 +5,7 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from rdkit import RDLogger
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -103,6 +104,9 @@ class MoleculeSet:
                 Second element is array of features of shape
                 (len(molecule_database), n_features) or None if None found.
         """
+        if not self.is_verbose:
+            RDLogger.DisableLog('rdApp.*')
+
         molecule_database = []
         features = None
         if molecule_database_src_type.lower() in ["folder", "directory"]:
@@ -114,7 +118,8 @@ class MoleculeSet:
                 try:
                     molecule_database.append(Molecule(mol_src=molfile))
                 except LoadingError as e:
-                    print(f"{molfile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{molfile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() == "text":
             if self.is_verbose:
@@ -138,7 +143,8 @@ class MoleculeSet:
                         mol_text=mol_text,
                         mol_property_val=mol_property_val))
                 except LoadingError as e:
-                    print(f"{smile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{smile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() in ["excel", "csv"]:
             if self.is_verbose:
@@ -194,7 +200,8 @@ class MoleculeSet:
                         mol_text=mol_text,
                         mol_property_val=mol_property_val))
                 except LoadingError as e:
-                    print(f"{smile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{smile} could not be imported. Skipping")
 
             if len(database_feature_df.columns) > 0:
                 features = database_feature_df.values
@@ -388,8 +395,8 @@ class MoleculeSet:
 
     def _do_pca(self, get_component_info=False):
         pca = PCA()
-        X = [molecule.get_descriptor_val() for molecule in
-             self.molecule_database]
+        X = np.array([molecule.get_descriptor_val()
+                      for molecule in self.molecule_database])
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
         X = pca.fit_transform(X)
@@ -486,13 +493,9 @@ class MoleculeSet:
                 "initialized with descriptor and "
                 "similarity measure"
             )
-        n_samples = self.similarity_matrix.shape[0]
-        found_samples = [0 for _ in range(n_samples)]
         out_list = []
+        n_samples = self.similarity_matrix.shape[0]
         for index, row in enumerate(self.similarity_matrix):
-            if found_samples[index]:
-                # if  species has been identified before
-                continue
             post_diag_closest_index = (
                 np.argmax(row[(index + 1):]) + index + 1
                 if index < n_samples - 1
@@ -519,9 +522,6 @@ class MoleculeSet:
                 (self.molecule_database[index],
                  self.molecule_database[closest_index])
             )
-            # update list
-            found_samples[closest_index] = 1
-            found_samples[index] = 1
         return out_list
 
     def get_most_dissimilar_pairs(self):
@@ -538,22 +538,52 @@ class MoleculeSet:
                 "similarity measure"
             )
 
-        n_samples = self.similarity_matrix.shape[0]
-        found_samples = [0 for _ in range(n_samples)]
         out_list = []
         for index, row in enumerate(self.similarity_matrix):
-            if found_samples[index]:
-                # if  species has been identified before
-                continue
             furthest_index = np.argmin(row)
             out_list.append(
                 (self.molecule_database[index],
                  self.molecule_database[furthest_index])
             )
-            # update list
-            found_samples[furthest_index] = 1
-            found_samples[index] = 1
         return out_list
+
+    def get_property_of_most_similar(self):
+        """Get property of pairs of molecules
+        which are most similar to each other.
+        Returns:
+            (tuple): The first index is an array of reference mol
+            properties and the second index is an array of the
+            property of the respective most similar molecule.
+
+        """
+        similar_mol_pairs = self.get_most_similar_pairs()
+        reference_mol_properties, similar_mol_properties = [], []
+        for mol_pair in similar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                similar_mol_properties.append(mol2_property)
+        return reference_mol_properties, similar_mol_properties
+
+    def get_property_of_most_dissimilar(self):
+        """Get property of pairs of molecule
+        which are most dissimilar to each other.
+        Returns:
+            (tuple): The first index is an array of reference mol
+            properties and the second index is an array of the
+            property of the respective most dissimilar molecule.
+
+        """
+        dissimilar_mol_pairs = self.get_most_dissimilar_pairs()
+        reference_mol_properties, dissimilar_mol_properties = [], []
+        for mol_pair in dissimilar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                dissimilar_mol_properties.append(mol2_property)
+        return reference_mol_properties, dissimilar_mol_properties
 
     def get_similarity_matrix(self):
         """Get the similarity matrix for the data set.
@@ -655,3 +685,4 @@ class MoleculeSet:
     def get_transformed_descriptors(self, method_="pca"):
         if method_.lower() == "pca":
             return self._do_pca()
+

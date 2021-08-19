@@ -1,7 +1,7 @@
 """Test the SimilarityMEasure class"""
 import unittest
 
-from molSim.ops.similarity_measures import SimilarityMeasure
+from molSim.ops import SimilarityMeasure, Descriptor
 
 
 class TestSimilarityMeasure(unittest.TestCase):
@@ -18,7 +18,11 @@ class TestSimilarityMeasure(unittest.TestCase):
         similarity_measure = SimilarityMeasure('tanimoto')
 
         def _check_abcd(true_vals, arr1, arr2):
-            abcd_calc = similarity_measure._get_abcd(arr1, arr2)
+            fp1 = Descriptor(arr1)
+            fp1.label_ = 'arbitrary_fingerprint'
+            fp2 = Descriptor(arr2)
+            fp2.label_ = 'arbitrary_fingerprint'
+            abcd_calc = similarity_measure._get_abcd(fp1, fp2)
             for var_id, var in enumerate(['a', 'b', 'c', 'd']):
                 self.assertEqual(true_vals[var], abcd_calc[var_id],
                                  f'Expected true {var} to match calculated val '
@@ -33,7 +37,7 @@ class TestSimilarityMeasure(unittest.TestCase):
         # Case 2
         arr1 = [1, 1, 1, 0]
         arr2 = [0, 1]
-        true_vals = {'a': 1, 'b': 2, 'c': 0, 'd': 1}
+        true_vals = {'a': 1, 'b': 1, 'c': 0, 'd': 0}
         _check_abcd(true_vals, arr1=arr1, arr2=arr2)
 
         # Case 3
