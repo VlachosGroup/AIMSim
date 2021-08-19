@@ -106,7 +106,7 @@ class MoleculeSet:
         """
         if not self.is_verbose:
             RDLogger.DisableLog('rdApp.*')
-            
+
         molecule_database = []
         features = None
         if molecule_database_src_type.lower() in ["folder", "directory"]:
@@ -395,8 +395,8 @@ class MoleculeSet:
 
     def _do_pca(self, get_component_info=False):
         pca = PCA()
-        X = [molecule.get_descriptor_val() for molecule in
-             self.molecule_database]
+        X = np.array([molecule.get_descriptor_val()
+                      for molecule in self.molecule_database])
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
         X = pca.fit_transform(X)
@@ -493,13 +493,9 @@ class MoleculeSet:
                 "initialized with descriptor and "
                 "similarity measure"
             )
-        n_samples = self.similarity_matrix.shape[0]
-        found_samples = [0 for _ in range(n_samples)]
         out_list = []
+        n_samples = self.similarity_matrix.shape[0]
         for index, row in enumerate(self.similarity_matrix):
-            if found_samples[index]:
-                # if  species has been identified before
-                continue
             post_diag_closest_index = (
                 np.argmax(row[(index + 1):]) + index + 1
                 if index < n_samples - 1
@@ -526,9 +522,6 @@ class MoleculeSet:
                 (self.molecule_database[index],
                  self.molecule_database[closest_index])
             )
-            # update list
-            found_samples[closest_index] = 1
-            found_samples[index] = 1
         return out_list
 
     def get_most_dissimilar_pairs(self):
@@ -545,21 +538,13 @@ class MoleculeSet:
                 "similarity measure"
             )
 
-        n_samples = self.similarity_matrix.shape[0]
-        found_samples = [0 for _ in range(n_samples)]
         out_list = []
         for index, row in enumerate(self.similarity_matrix):
-            if found_samples[index]:
-                # if  species has been identified before
-                continue
             furthest_index = np.argmin(row)
             out_list.append(
                 (self.molecule_database[index],
                  self.molecule_database[furthest_index])
             )
-            # update list
-            found_samples[furthest_index] = 1
-            found_samples[index] = 1
         return out_list
 
     def get_property_of_most_similar(self):
