@@ -2,6 +2,7 @@
 import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
+from molSim.ops import Descriptor
 
 from molSim.ops import Descriptor
 
@@ -274,8 +275,7 @@ class SimilarityMeasure:
 
         elif self.metric == "austin_colwell":
             try:
-                similarity_ = self._get_austin_colwell(mol1_descriptor,
-                                                       mol2_descriptor)
+                similarity_ = self._get_austin_colwell(mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -289,8 +289,7 @@ class SimilarityMeasure:
 
         elif self.metric == "braun_blanquet":
             try:
-                similarity_ = self._get_braun_blanquet(mol1_descriptor,
-                                                       mol2_descriptor)
+                similarity_ = self._get_braun_blanquet(mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -578,10 +577,7 @@ class SimilarityMeasure:
 
         return similarity_
 
-    def _get_vector_norm_similarity(self,
-                                    mol1_descriptor,
-                                    mol2_descriptor,
-                                    ord):
+    def _get_vector_norm_similarity(self, mol1_descriptor, mol2_descriptor, ord):
         """Calculate the norm based similarity between two molecules.
         This is defined as:
         Norm similarity (order n) = 1 / (1 + n-norm(A - B)
@@ -1812,6 +1808,119 @@ class SimilarityMeasure:
             bool: True if it is a distance metric.
         """
         return hasattr(self, "to_distance")
+
+    @staticmethod
+    def get_compatible_metrics():
+        """Return a dictionary with which types of metrics each fingerprint supports.
+
+        Returns:
+            dict: comptabile FP's: metrics
+        """
+        out = {}
+        fprints = Descriptor.get_all_supported_descriptors()
+        for fp in fprints:
+            if fp in [
+                "morgan_fingerprint",
+                "topological_fingerprint",
+                "daylight_fingerprint",
+                "maccs_keys",
+            ]:  # explicit bit vectors
+                out[fp] = SimilarityMeasure.get_supported_binary_metrics()
+            elif fp in ["atom-pair_fingerprint", "torsion_fingerprint"]:
+                # int vectors
+                out[fp] = SimilarityMeasure.get_supported_metrics()
+            else:  # mordred descriptors, custom descriptors
+                out[fp] = SimilarityMeasure.get_supported_general_metrics()
+        return out
+
+    @staticmethod
+    def get_supported_general_metrics():
+        """Return a list of strings for the currently implemented
+        similarity measures, aka metrics, which support vectors other
+        then binary vectors.
+
+        Returns:
+            List: List of strings.
+        """
+        return list(
+            set(SimilarityMeasure.get_supported_metrics())
+            - set(SimilarityMeasure.get_supported_binary_metrics())
+        )
+
+    @staticmethod
+    def get_supported_binary_metrics():
+        """Return a list of strings for the currently implemented
+        similarity measures, aka metrics, which only support binary
+        vectors.
+
+        Returns:
+            List: List of strings.
+        """
+        return [
+            "tanimoto",
+            "dice",
+            "austin-colwell",
+            "sorenson",
+            "gleason",
+            "dice_2",
+            "dice_3",
+            "jaccard",
+            "cosine",
+            "driver-kroeber",
+            "ochiai",
+            "simple_matching",
+            "sokal-michener",
+            "rand",
+            "rogers-tanimoto",
+            "russel-rao",
+            "forbes",
+            "simpson",
+            "braun-blanquet",
+            "baroni-urbani-buser",
+            "kulczynski",
+            "sokal-sneath",
+            "sokal-sneath-2",
+            "symmetric_sokal_sneath",
+            "symmetric-sokal-sneath",
+            "sokal-sneath-3",
+            "sokal-sneath_3",
+            "sokal-sneath-4",
+            "sokal-sneath_4",
+            "faith",
+            "mountford",
+            "michael",
+            "rogot-goldberg",
+            "hawkins-dotson",
+            "maxwell-pilliner",
+            "harris-lahey",
+            "consonni−todeschini-1",
+            "consonni−todeschini-2",
+            "consonni−todeschini-3",
+            "consonni−todeschini-4",
+            "consonni−todeschini-5",
+            "-yule1",
+            "yule_1",
+            "yule_2",
+            "yule_2",
+            "fossum",
+            "holiday-fossum",
+            "holiday_fossum",
+            "dennis",
+            "holiday-dennis",
+            "holiday_dennis",
+            "cole-1",
+            "cole_1",
+            "cole-2",
+            "cole_2",
+            "dispersion",
+            "choi",
+            "goodman−kruskal",
+            "pearson−heron",
+            "sorgenfrei",
+            "cohen",
+            "peirce_1",
+            "peirce_2",
+        ]
 
     @staticmethod
     def get_supported_metrics():
