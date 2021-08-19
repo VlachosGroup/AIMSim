@@ -28,8 +28,9 @@ class TaskManager:
                     loaded_task = CompareTargetMolecule(task_configs)
                 elif task == "visualize_dataset":
                     loaded_task = VisualizeDataset(task_configs)
-                elif task == "show_property_variation_w_similarity":
-                    loaded_task = ShowPropertyVariationWithSimilarity(task_configs)
+                elif task == "see_property_variation_w_similarity":
+                    loaded_task = SeePropertyVariationWithSimilarity(
+                                                                   task_configs)
                 elif task == "identify_outliers":
                     loaded_task = IdentifyOutliers(task_configs)
                 elif task == "cluster":
@@ -69,9 +70,32 @@ class TaskManager:
             raise InvalidConfigurationError
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
-        similarity_measure = molecule_set_configs.get("similarity_measure", "tanimoto")
-        fingerprint_type = molecule_set_configs.get("fingerprint_type", None)
-        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.0)
+        similarity_measure = molecule_set_configs.get("similarity_measure", 
+                                                      'determine')
+        fingerprint_type = molecule_set_configs.get("fingerprint_type",
+                                                    'determine')
+        if similarity_measure == 'determine' or fingerprint_type == 'determine':
+            if is_verbose:
+                print('Determining best fingerprint_type / similarity_measure')
+            measure_search = MeasureSearch(correlation_typ='pearson')
+            if similarity_measure == 'determine':
+                similarity_measure = None
+            if fingerprint_type == 'determine':
+                fingerprint_type = None
+            best_measure = measure_search.get_best_measure(
+                similarity_measure=similarity_measure,
+                fingerprint_type=fingerprint_type,
+                molecule_database_src=molecule_database_src,
+                molecule_database_src_type=database_src_type,
+                is_verbose=is_verbose,
+                n_threads=n_threads,
+                subsample_subset_size=0.01,)
+            similarity_measure = best_measure.similarity_measure
+            fingerprint_type = best_measure.fingerprint_type
+            print(f'Chosen measure: {fingerprint_type} '
+                  f'and {similarity_measure}.')
+
+        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.)
         self.molecule_set = MoleculeSet(
             molecule_database_src=molecule_database_src,
             molecule_database_src_type=database_src_type,

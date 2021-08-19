@@ -10,9 +10,13 @@ from molSim.utils.plotting_scripts import plot_barchart, plot_scatter
 
 
 class ClusterData(Task):
-    def __init__(self, configs):
+    def __init__(self, configs=None, **kwargs):
         if configs is None:
-            raise IOError(f"No config supplied for {str(self)}")
+            if kwargs == {}:
+                raise IOError(f"No config supplied for {str(self)}")
+            else:
+                configs = {}
+                configs.update(kwargs)
         super().__init__(configs)
         self.n_clusters = None
         self.plot_settings = None
@@ -46,7 +50,8 @@ class ClusterData(Task):
     def __call__(self, molecule_set):
         try:
             molecule_set.cluster(
-                n_clusters=self.n_clusters, clustering_method=self.clustering_method
+                n_clusters=self.n_clusters,
+                clustering_method=self.clustering_method
             )
         except InvalidConfigurationError as e:
             raise e
@@ -75,7 +80,8 @@ class ClusterData(Task):
         )
 
         if self.plot_settings["embedding"]["method"].lower() == "pca":
-            reduced_features = molecule_set.get_transformed_descriptors(method_="pca")
+            reduced_features = molecule_set.get_transformed_descriptors(
+                                                                  method_="pca")
         else:
             raise ValueError(
                 "Embedding method "
@@ -83,8 +89,8 @@ class ClusterData(Task):
                 "not implemented."
             )
         plot_scatter(
-            reduced_features[0],
-            reduced_features[1],
+            reduced_features[:, 0],
+            reduced_features[:, 1],
             xlabel=self.plot_settings["xlabel"],
             ylabel=self.plot_settings["ylabel"],
             title=f"2-D projected space",
@@ -94,7 +100,17 @@ class ClusterData(Task):
             ],
         )
 
+        self._plot_cluster_property_distributions(molecule_set)
+
         plt.show()
+
+    def _plot_cluster_property_distributions(self, molecule_set):
+        """Plot the molecular property density distribution of
+        different clusters. This is intended to give an
+        idea about how properties are distributed across clusters.
+        Args:
+            molecule_set (
+        """
 
     def __str__(self):
         return "Task: Cluster data"

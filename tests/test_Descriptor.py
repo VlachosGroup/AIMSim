@@ -248,7 +248,7 @@ class TestDescriptor(unittest.TestCase):
                 descriptor.to_rdkit()
 
     def test_nonexistent_mordred_descriptors(self):
-        """Test ability to passthrough descriptors to Mordred."""
+        """Test ability to pass through descriptors to Mordred."""
         mol_graph = MolFromSmiles("C")
         for desc in ["", "ReallyInvalidDescriptorName"]:
             descriptor = Descriptor()
@@ -257,3 +257,82 @@ class TestDescriptor(unittest.TestCase):
                     molecule_graph=mol_graph,
                     fingerprint_type="mordred:" + desc,
                 )
+
+    def test_fingerprint_folding(self):
+        """Create arbitrary fingerprint vector to check fold method"""
+        # Case 1
+        arbit_vector = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+        arbit_label = 'arbitrary'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(ValueError):
+            desc.get_folded_fprint(fold_to_length=2)
+
+        # Case 2
+        arbit_vector = np.array([1, 0, 1, 0, 1, 0])
+        folded_vector = np.array([1, 1, 1])
+        arbit_label = 'arbitrary_fingerprint'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=4)
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=10)
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=3)
+                          == folded_vector).all()))
+
+        # Case 3
+        arbit_vector = np.array([1, 0, 1, 0, 0, 0, 0, 0])
+        folded_once_vector = np.array([1, 0, 1, 0])
+        folded_twice_vector = np.array([1, 0])
+        arbit_label = 'arbitrary_fingerprint'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=3)
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=10)
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4)
+                          == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
+                          == folded_twice_vector).all()))
+
+        # Case 3
+        arbit_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0])
+        folded_once_vector = np.array([0, 0, 0, 0])
+        folded_twice_vector = np.array([0, 0])
+        arbit_label = 'arbitrary_fingerprint'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=3)
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=10)
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4)
+                          == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
+                          == folded_twice_vector).all()))
+
+        # Case 4
+        arbit_vector = np.array([1, 1, 1, 1, 1, 1, 1, 1])
+        folded_once_vector = np.array([1, 1, 1, 1])
+        folded_twice_vector = np.array([1, 1])
+        arbit_label = 'arbitrary_fingerprint'
+        desc = Descriptor()
+        desc.label_ = arbit_label
+        desc.numpy_ = arbit_vector
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=3)
+        with self.assertRaises(InvalidConfigurationError):
+            desc.get_folded_fprint(fold_to_length=10)
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4)
+                          == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
+                          == folded_twice_vector).all()))
+
+
+

@@ -1,4 +1,7 @@
 # molSim README
+
+![molSim logo](interfaces/UI/molSim-logo.png)
+
 molSim is a tool for visualizing diversity in your molecular data-set using graph theory. 
 
 ## Documentation
@@ -85,8 +88,10 @@ Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate 
 ### Currently Implemented Fingerprints
 
 1. Morgan Fingerprint (Equivalent to the ECFP-6)
-2. RDKIT Topological Fingerprint
-3. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_only available through command-line. In `fingerprint_type`, specify 'mordred:desciptorname'._).
+2. RDKit Topological Fingerprint
+3. RDKit Daylight Fingerprint
+4. All fingerprints available from the [ccbmlib](https://github.com/vogt-m/ccbmlib) package (_specify 'ccbmlib:descriptorname' for command line input_).
+5. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._).
 
 ### Currently Implemented Similarity Scores
 

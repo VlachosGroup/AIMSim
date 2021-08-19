@@ -5,6 +5,7 @@ import multiprocess
 import numpy as np
 import pandas as pd
 from rdkit import Chem
+from rdkit import RDLogger
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
@@ -37,16 +38,16 @@ class MoleculeSet:
     """
 
     def __init__(
-            self,
-            molecule_database_src,
-            molecule_database_src_type,
-            is_verbose,
-            similarity_measure,
-            n_threads=1,
-            fingerprint_type=None,
-            fingerprint_params=None,
-            sampling_ratio=1.0,
-            sampling_random_state=42,
+        self,
+        molecule_database_src,
+        molecule_database_src_type,
+        is_verbose,
+        similarity_measure,
+        n_threads=1,
+        fingerprint_type=None,
+        fingerprint_params=None,
+        sampling_ratio=1.0,
+        sampling_random_state=42,
     ):
         """
         Args:
@@ -68,22 +69,18 @@ class MoleculeSet:
             if self.is_verbose:
                 print(f"Using {int(sampling_ratio * 100)}% of the database...")
             self._subsample_database(
-                sampling_ratio=sampling_ratio,
-                random_state=sampling_random_state
+                sampling_ratio=sampling_ratio, random_state=sampling_random_state
             )
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
             self._set_descriptor(
-                fingerprint_type=fingerprint_type,
-                fingerprint_params=fingerprint_params
+                fingerprint_type=fingerprint_type, fingerprint_params=fingerprint_params
             )
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
 
-    def _get_molecule_database(self,
-                               molecule_database_src,
-                               molecule_database_src_type):
+    def _get_molecule_database(self, molecule_database_src, molecule_database_src_type):
         """Load molecular database and return it.
         Optionally return features if found in excel / csv file.
 
@@ -103,6 +100,9 @@ class MoleculeSet:
                 Second element is array of features of shape
                 (len(molecule_database), n_features) or None if None found.
         """
+        if not self.is_verbose:
+            RDLogger.DisableLog('rdApp.*')
+
         molecule_database = []
         features = None
         if molecule_database_src_type.lower() in ["folder", "directory"]:
@@ -110,11 +110,12 @@ class MoleculeSet:
                 print(f"Searching for *.pdb files in {molecule_database_src}")
             for molfile in glob(os.path.join(molecule_database_src, "*.pdb")):
                 if self.is_verbose:
-                    print(f'Loading {molfile}')
+                    print(f"Loading {molfile}")
                 try:
                     molecule_database.append(Molecule(mol_src=molfile))
                 except LoadingError as e:
-                    print(f"{molfile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{molfile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() == "text":
             if self.is_verbose:
@@ -129,16 +130,19 @@ class MoleculeSet:
                 if len(line_fields) > 1:
                     mol_property_val = float(line_fields[1])
                 if self.is_verbose:
-                    print(f"Processing {smile} " 
-                          f"({count + 1}/{len(smiles_data)})")
+                    print(f"Processing {smile} " f"({count + 1}/{len(smiles_data)})")
                 mol_text = smile
                 try:
-                    molecule_database.append(Molecule(
-                        mol_smiles=smile,
-                        mol_text=mol_text,
-                        mol_property_val=mol_property_val))
+                    molecule_database.append(
+                        Molecule(
+                            mol_smiles=smile,
+                            mol_text=mol_text,
+                            mol_property_val=mol_property_val,
+                        )
+                    )
                 except LoadingError as e:
-                    print(f"{smile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{smile} could not be imported. Skipping")
 
         elif molecule_database_src_type.lower() in ["excel", "csv"]:
             if self.is_verbose:
@@ -159,8 +163,7 @@ class MoleculeSet:
             mol_names, mol_smiles, responses = None, None, None
             if "feature_name" in feature_cols:
                 mol_names = database_feature_df["feature_name"].values.flatten()
-                database_feature_df = database_feature_df.drop(["feature_name"],
-                                                               axis=1)
+                database_feature_df = database_feature_df.drop(["feature_name"], axis=1)
             if "feature_smiles" in feature_cols:
                 mol_smiles = database_df["feature_smiles"].values.flatten()
                 database_feature_df = database_feature_df.drop(
@@ -182,19 +185,21 @@ class MoleculeSet:
                         f"({mol_id + 1}/"
                         f"{database_df['feature_smiles'].values.size})"
                     )
-                mol_text = mol_names[mol_id] if mol_names \
-                                                is not None else smile
+                mol_text = mol_names[mol_id] if mol_names is not None else smile
 
-                mol_property_val = responses[mol_id] if responses \
-                                                        is not None else None
+                mol_property_val = responses[mol_id] if responses is not None else None
 
                 try:
-                    molecule_database.append(Molecule(
-                        mol_smiles=smile,
-                        mol_text=mol_text,
-                        mol_property_val=mol_property_val))
+                    molecule_database.append(
+                        Molecule(
+                            mol_smiles=smile,
+                            mol_text=mol_text,
+                            mol_property_val=mol_property_val,
+                        )
+                    )
                 except LoadingError as e:
-                    print(f"{smile} could not be imported. Skipping")
+                    if self.is_verbose:
+                        print(f"{smile} could not be imported. Skipping")
 
             if len(database_feature_df.columns) > 0:
                 features = database_feature_df.values
@@ -218,10 +223,10 @@ class MoleculeSet:
         )
 
     def _set_descriptor(
-            self,
-            arbitrary_descriptor_vals=None,
-            fingerprint_type=None,
-            fingerprint_params=None,
+        self,
+        arbitrary_descriptor_vals=None,
+        fingerprint_type=None,
+        fingerprint_params=None,
     ):
         """Sets molecule.descriptor attribute for each molecule object in
         MoleculeSet. Either use arbitrary_descriptor_vals to pass descriptor
@@ -246,8 +251,7 @@ class MoleculeSet:
                 )
             elif arbitrary_descriptor_vals is not None:
                 molecule.set_descriptor(
-                    arbitrary_descriptor_val=arbitrary_descriptor_vals[
-                        molecule_id]
+                    arbitrary_descriptor_val=arbitrary_descriptor_vals[molecule_id]
                 )
             else:
                 raise ValueError(
@@ -283,11 +287,11 @@ class MoleculeSet:
                         end_idx - start_idx,
                         "total)",
                     )
-                # same iteration as serial implementation, but only compute source molecules in the specified range
-                for source_mol_id, molecule in enumerate(
-                        self.molecule_database):
+                # same iteration as serial implementation, but only compute
+                # source molecules in the specified range
+                for source_mol_id, molecule in enumerate(self.molecule_database):
                     if source_mol_id >= start_idx and source_mol_id < end_idx:
-                        for target_mol_id in range(source_mol_id, n_mols):
+                        for target_mol_id in range(0, n_mols):
                             if self.is_verbose:
                                 print(
                                     f"thread {thread_idx} computing similarity of molecule num "
@@ -352,13 +356,6 @@ class MoleculeSet:
             for _ in range(self.n_threads):
                 thread_results.append(q.get())
             similarity_matrix = sum(thread_results)
-            # reflect over the diagonal
-            for i in range(n_mols):
-                for j in range(n_mols):
-                    # skip diagonal entries
-                    if i == j:
-                        continue
-                    similarity_matrix[j, i] = similarity_matrix[i, j]
         else:
             # serial implementation
             for source_mol_id, molecule in enumerate(self.molecule_database):
@@ -388,8 +385,8 @@ class MoleculeSet:
 
     def _do_pca(self, get_component_info=False):
         pca = PCA()
-        X = [molecule.get_descriptor_val() for molecule in
-             self.molecule_database]
+        X = np.array([molecule.get_descriptor_val()
+                      for molecule in self.molecule_database])
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
         X = pca.fit_transform(X)
@@ -435,8 +432,10 @@ class MoleculeSet:
         query_molecule.match_fingerprint_from(self.molecule_database[0])
         set_similarity = [
             query_molecule.get_similarity_to(
-                set_molecule, similarity_measure=self.similarity_measure)
-            for set_molecule in self.molecule_database]
+                set_molecule, similarity_measure=self.similarity_measure
+            )
+            for set_molecule in self.molecule_database
+        ]
         return np.array(set_similarity)
 
     def get_molecule_most_similar_to(self, query_molecule):
@@ -452,8 +451,7 @@ class MoleculeSet:
         Returns:
             molSim.chemical_datastructures Molecule: Most similar molecule.
         """
-        sorted_similarity = np.argsort(
-            self.compare_against_molecule(query_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(query_molecule))
         return self.molecule_database[sorted_similarity[-1]]
 
     def get_molecule_least_similar_to(self, target_molecule):
@@ -467,8 +465,7 @@ class MoleculeSet:
         Returns:
             molSim.chemical_datastructures Molecule: Least similar molecule.
         """
-        sorted_similarity = np.argsort(
-            self.compare_against_molecule(target_molecule))
+        sorted_similarity = np.argsort(self.compare_against_molecule(target_molecule))
         return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
@@ -486,15 +483,11 @@ class MoleculeSet:
                 "initialized with descriptor and "
                 "similarity measure"
             )
-        n_samples = self.similarity_matrix.shape[0]
-        found_samples = [0 for _ in range(n_samples)]
         out_list = []
+        n_samples = self.similarity_matrix.shape[0]
         for index, row in enumerate(self.similarity_matrix):
-            if found_samples[index]:
-                # if  species has been identified before
-                continue
             post_diag_closest_index = (
-                np.argmax(row[(index + 1):]) + index + 1
+                np.argmax(row[(index + 1) :]) + index + 1
                 if index < n_samples - 1
                 else -1
             )
@@ -511,17 +504,12 @@ class MoleculeSet:
                 # choose the index which has max correlation
                 closest_index = (
                     post_diag_closest_index
-                    if row[post_diag_closest_index] >= row[
-                        pre_diag_closest_index]
+                    if row[post_diag_closest_index] >= row[pre_diag_closest_index]
                     else pre_diag_closest_index
                 )
             out_list.append(
-                (self.molecule_database[index],
-                 self.molecule_database[closest_index])
+                (self.molecule_database[index], self.molecule_database[closest_index])
             )
-            # update list
-            found_samples[closest_index] = 1
-            found_samples[index] = 1
         return out_list
 
     def get_most_dissimilar_pairs(self):
@@ -538,22 +526,51 @@ class MoleculeSet:
                 "similarity measure"
             )
 
-        n_samples = self.similarity_matrix.shape[0]
-        found_samples = [0 for _ in range(n_samples)]
         out_list = []
         for index, row in enumerate(self.similarity_matrix):
-            if found_samples[index]:
-                # if  species has been identified before
-                continue
             furthest_index = np.argmin(row)
             out_list.append(
-                (self.molecule_database[index],
-                 self.molecule_database[furthest_index])
+                (self.molecule_database[index], self.molecule_database[furthest_index])
             )
-            # update list
-            found_samples[furthest_index] = 1
-            found_samples[index] = 1
         return out_list
+
+    def get_property_of_most_similar(self):
+        """Get property of pairs of molecules
+        which are most similar to each other.
+        Returns:
+            (tuple): The first index is an array of reference mol
+            properties and the second index is an array of the
+            property of the respective most similar molecule.
+
+        """
+        similar_mol_pairs = self.get_most_similar_pairs()
+        reference_mol_properties, similar_mol_properties = [], []
+        for mol_pair in similar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                similar_mol_properties.append(mol2_property)
+        return reference_mol_properties, similar_mol_properties
+
+    def get_property_of_most_dissimilar(self):
+        """Get property of pairs of molecule
+        which are most dissimilar to each other.
+        Returns:
+            (tuple): The first index is an array of reference mol
+            properties and the second index is an array of the
+            property of the respective most dissimilar molecule.
+
+        """
+        dissimilar_mol_pairs = self.get_most_dissimilar_pairs()
+        reference_mol_properties, dissimilar_mol_properties = [], []
+        for mol_pair in dissimilar_mol_pairs:
+            mol1_property = mol_pair[0].get_mol_property_val()
+            mol2_property = mol_pair[1].get_mol_property_val()
+            if mol1_property and mol2_property:
+                reference_mol_properties.append(mol1_property)
+                dissimilar_mol_properties.append(mol2_property)
+        return reference_mol_properties, dissimilar_mol_properties
 
     def get_similarity_matrix(self):
         """Get the similarity matrix for the data set.
@@ -619,15 +636,15 @@ class MoleculeSet:
         if not self.similarity_measure.is_distance_metric():
             raise InvalidConfigurationError(
                 str(self.similarity_measure) + " is not a distance metric. "
-                                               "Clustering will not yield "
-                                               "meaningful results."
+                "Clustering will not yield "
+                "meaningful results."
             )
         if (
-                clustering_method == "kmedoids"
-                and self.similarity_measure.type_ == "discrete"
+            clustering_method == "kmedoids"
+            and self.similarity_measure.type_ == "discrete"
         ) or (
-                clustering_method == "complete_linkage"
-                and self.similarity_measure.type_ == "continuous"
+            clustering_method == "complete_linkage"
+            and self.similarity_measure.type_ == "continuous"
         ):
             print(
                 f"{clustering_method} cannot be used with "
@@ -655,3 +672,4 @@ class MoleculeSet:
     def get_transformed_descriptors(self, method_="pca"):
         if method_.lower() == "pca":
             return self._do_pca()
+
