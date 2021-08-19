@@ -257,7 +257,7 @@ class MolsimUiApp:
                 "identify_closest_furthest": {"out_file_path": "molSim-ui_output.txt"},
             }
         if "selected" in self.propertySimilarityCheckbutton.state():
-            tasks_dict["show_property_variation_w_similarity"] = {
+            tasks_dict["see_property_variation_w_similarity"] = {
                 "property_file": self.databaseFile.get(),
                 "most_dissimilar": True,
                 "similarity_plot_settings": {"plot_color": "red"},
