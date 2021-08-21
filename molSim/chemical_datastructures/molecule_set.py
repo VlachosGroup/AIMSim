@@ -618,6 +618,20 @@ class MoleculeSet:
                 mol_names.append(mol_name)
         return np.array(mol_names)
 
+    def get_mol_properties(self):
+        """Get properties of all the molecules in the dataset.
+            If all molecules don't have properties, None is returned.
+         Returns:
+            np.ndarray or None: Array with molecules properties or None.
+        """
+        mol_properties = []
+        for mol in self.molecule_database:
+            mol_property = mol.get_mol_property_val()
+            if mol_property is None:
+                return None
+            mol_properties.append(mol_property)
+        return np.array(mol_properties)
+
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
         """Cluster the molecules of the MoleculeSet.
 
