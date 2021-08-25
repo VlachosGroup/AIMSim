@@ -653,13 +653,9 @@ class MoleculeSet:
                 "Clustering will not yield "
                 "meaningful results."
             )
-        if (
-            clustering_method == "kmedoids"
-            and self.similarity_measure.type_ == "discrete"
-        ) or (
-            clustering_method == "complete_linkage"
-            and self.similarity_measure.type_ == "continuous"
-        ):
+        if ((clustering_method == "kmedoids"
+                or clustering_method == 'ward')
+                and self.similarity_measure.type_ == "discrete"):
             print(
                 f"{clustering_method} cannot be used with "
                 f"{self.similarity_measure.type_} "
@@ -671,9 +667,9 @@ class MoleculeSet:
                 clustering_method = "kmedoids"
             else:
                 clustering_method = "complete_linkage"
-        self.clusters_ = Cluster(
-            n_clusters=n_clusters, clustering_method=clustering_method, **kwargs
-        ).fit(self.get_distance_matrix())
+        self.clusters_ = Cluster(n_clusters=n_clusters,
+                                 clustering_method=clustering_method,
+                                 **kwargs).fit(self.get_distance_matrix())
 
     def get_cluster_labels(self):
         try:
