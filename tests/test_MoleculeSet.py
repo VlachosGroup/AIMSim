@@ -1000,7 +1000,8 @@ class TestMoleculeSet(unittest.TestCase):
                 )
                 for mol in molecule_set.molecule_database:
                     mol_similarities = molecule_set.compare_against_molecule(mol)
-                    closest_mol = molecule_set.get_molecule_most_similar_to(mol)
+                    closest_mol = molecule_set.molecule_database[
+                        molecule_set.get_molecule_most_similar_to(mol)]
                     self.assertEqual(
                         np.max(mol_similarities),
                         mol.get_similarity_to(
@@ -1029,7 +1030,8 @@ class TestMoleculeSet(unittest.TestCase):
                 )
                 for mol in molecule_set.molecule_database:
                     mol_similarities = molecule_set.compare_against_molecule(mol)
-                    furthest_mol = molecule_set.get_molecule_least_similar_to(mol)
+                    furthest_mol = molecule_set.molecule_database[
+                        molecule_set.get_molecule_least_similar_to(mol)]
                     self.assertEqual(
                         np.min(mol_similarities),
                         mol.get_similarity_to(
