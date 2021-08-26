@@ -438,6 +438,50 @@ class MoleculeSet:
         ]
         return np.array(set_similarity)
 
+    def get_hits_similar_to(self, query_molecule, num_hits=1):
+        """Get sorted list of num_hits Molecule in the Set most
+        similar to a query Molecule.This is defined as the sorted set
+        (decreasing similarity)  of molecules with the highest
+        (query_molecule, set_molecule) similarity.
+
+        Args:
+            query_molecule (molSim.chemical_datastructures Molecule): Target
+                molecule to compare.
+            num_hits (int): Number of molecules that are returned.
+                Molecules are returned in sorted order
+                (the first molecule is most similar, etc.). Default is 1.
+
+        Returns:
+            list(int): Ids of most similar
+                molecules in decreasing order of similarity.
+
+        """
+        sorted_similarity = np.argsort(
+            self.compare_against_molecule(query_molecule))
+        return [sorted_similarity[-1 - hit_id] for hit_id in range(num_hits)]
+
+    def get_hits_dissimilar_to(self, query_molecule, num_hits=1):
+        """Get sorted list of num_hits Molecule in the Set most
+        dissimilar to a query Molecule.This is defined as the sorted set
+        (decreasing dissimilarity)  of molecules with the highest
+        (query_molecule, set_molecule) dissimilarity.
+
+        Args:
+            query_molecule (molSim.chemical_datastructures Molecule): Target
+                molecule to compare.
+            num_hits (int): Number of molecules that are returned.
+                Molecules are returned in sorted order
+                (the first molecule is most dissimilar, etc.). Default is 1.
+
+        Returns:
+            list(int): Ids of most similar molecules in decreasing
+                order of dissimilarity.
+
+        """
+        sorted_similarity = np.argsort(
+            self.compare_against_molecule(query_molecule))
+        return [sorted_similarity[hit_id] for hit_id in range(num_hits)]
+
     def get_molecule_most_similar_to(self, query_molecule):
         """
         Get the Molecule in the Set most similar to a query Molecule.
@@ -449,24 +493,23 @@ class MoleculeSet:
                 molecule to compare.
 
         Returns:
-            molSim.chemical_datastructures Molecule: Most similar molecule.
+            np.int64: ID of most similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_against_molecule(query_molecule))
-        return self.molecule_database[sorted_similarity[-1]]
 
-    def get_molecule_least_similar_to(self, target_molecule):
+        return self.get_hits_similar_to(query_molecule, num_hits=1)[-1]
+
+    def get_molecule_least_similar_to(self, query_molecule):
         """
         Get the Molecule in the Set least similar to a Target Molecule.
 
         Args:
-            target_molecule (molSim.chemical_datastructures Molecule):
+            query_molecule (molSim.chemical_datastructures Molecule):
                 Target molecule to compare.
 
         Returns:
-            molSim.chemical_datastructures Molecule: Least similar molecule.
+            np.int64: ID of least similar molecule.
         """
-        sorted_similarity = np.argsort(self.compare_against_molecule(target_molecule))
-        return self.molecule_database[sorted_similarity[0]]
+        return self.get_hits_dissimilar_to(query_molecule, num_hits=1)[0]
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
@@ -508,7 +551,8 @@ class MoleculeSet:
                     else pre_diag_closest_index
                 )
             out_list.append(
-                (self.molecule_database[index], self.molecule_database[closest_index])
+                (self.molecule_database[index],
+                 self.molecule_database[closest_index])
             )
         return out_list
 
