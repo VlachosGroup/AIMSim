@@ -987,62 +987,7 @@ class TestMoleculeSet(unittest.TestCase):
         print(f"Test complete. Deleting file {csv_fpath}...")
         remove(csv_fpath)
 
-    def test_get_molecule_most_similar_to(self):
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv")
-        for descriptor in SUPPORTED_FPRINTS:
-            for similarity_measure in SUPPORTED_SIMILARITIES:
-                molecule_set = MoleculeSet(
-                    molecule_database_src=csv_fpath,
-                    molecule_database_src_type="csv",
-                    fingerprint_type=descriptor,
-                    similarity_measure=similarity_measure,
-                    is_verbose=False,
-                )
-                for mol in molecule_set.molecule_database:
-                    mol_similarities = molecule_set.compare_against_molecule(mol)
-                    closest_mol = molecule_set.molecule_database[
-                        molecule_set.get_molecule_most_similar_to(mol)]
-                    self.assertEqual(
-                        np.max(mol_similarities),
-                        mol.get_similarity_to(
-                            closest_mol, molecule_set.similarity_measure
-                        ),
-                        f"Expected closest mol to have maximum "
-                        f"similarity to target molecule "
-                        f"using similarity measure: "
-                        f"{similarity_measure}, "
-                        f"descriptor: "
-                        f"{descriptor}, "
-                        f"for molecule {mol.mol_text}",
-                    )
 
-    def test_get_molecule_least_similar_to(self):
-        """Test for get_molecule_least_similar_to functionality."""
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv")
-        for descriptor in SUPPORTED_FPRINTS:
-            for similarity_measure in SUPPORTED_SIMILARITIES:
-                molecule_set = MoleculeSet(
-                    molecule_database_src=csv_fpath,
-                    molecule_database_src_type="csv",
-                    fingerprint_type=descriptor,
-                    similarity_measure=similarity_measure,
-                    is_verbose=False,
-                )
-                for mol in molecule_set.molecule_database:
-                    mol_similarities = molecule_set.compare_against_molecule(mol)
-                    furthest_mol = molecule_set.molecule_database[
-                        molecule_set.get_molecule_least_similar_to(mol)]
-                    self.assertEqual(
-                        np.min(mol_similarities),
-                        mol.get_similarity_to(
-                            furthest_mol, molecule_set.similarity_measure
-                        ),
-                        f"Expected furthest mol to have minimum "
-                        f"similarity to target molecule "
-                        f"using similarity measure: {similarity_measure}, "
-                        f"descriptor: {descriptor}, "
-                        f"for molecule {mol.mol_text}",
-                    )
 
     def test_get_most_similar_pairs(self):
         """
