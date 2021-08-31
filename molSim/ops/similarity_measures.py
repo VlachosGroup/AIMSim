@@ -914,9 +914,9 @@ class SimilarityMeasure:
         a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (np.log(1 + a * d) - np.log(1 + b * c)) / np.log(
-                                                                1 + p ** 2 / 4)
-        self.normalize_fn["shift_"] = 0.0
-        self.normalize_fn["scale_"] = 1.0
+                                                                1 + (p ** 2)/4)
+        self.normalize_fn["shift_"] = 1.0
+        self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
     def _get_cosine_similarity(self, mol1_descriptor, mol2_descriptor):
@@ -968,7 +968,7 @@ class SimilarityMeasure:
             return 0.0
         similarity_ = (a * d - b * c) / denominator
         self.normalize_fn["shift_"] = np.sqrt(p) / 2
-        self.normalize_fn["scale_"] = np.sqrt(p)
+        self.normalize_fn["scale_"] = 3 * np.sqrt(p) / 2
         return self._normalize(similarity_)
 
     def _get_dice_2(self, mol1_descriptor, mol2_descriptor):
