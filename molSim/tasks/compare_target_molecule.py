@@ -3,8 +3,9 @@ from os.path import dirname
 import matplotlib.pyplot as plt
 from molSim.chemical_datastructures import Molecule
 import numpy as np
-from molSim.utils.plotting_scripts import plot_density
 
+from molSim.utils.plotting_scripts import plot_density
+from molSim.exceptions import InvalidConfigurationError
 from .task import Task
 
 import pylustrator
@@ -42,6 +43,7 @@ class CompareTargetMolecule(Task):
             makedirs(log_dir, exist_ok=True)
 
         self.plot_settings = self.configs.get("similarity_plot_settings", {})
+        self.n_hits = self.configs.get("n_hits", 1)
 
     def __call__(self, molecule_set):
         """
@@ -51,21 +53,30 @@ class CompareTargetMolecule(Task):
             molecule_set (molSim.chemical_datastructures Molecule): Target
                 molecule.
         """
-        target_similarity = molecule_set.compare_against_molecule(self.target_molecule)
-        most_similar_mol = molecule_set.molecule_database[np.argmax(target_similarity)]
-        least_similar_mol = molecule_set.molecule_database[np.argmin(target_similarity)]
+        most_similar_mols, sims = self.get_hits_similar_to(
+            molecule_set=molecule_set)
+        most_dissimilar_mols, dissims = self.get_hits_dissimilar_to(
+            molecule_set=molecule_set)
+        most_similar_mols = [molecule_set.molecule_database[mol_id]
+                             for mol_id in most_similar_mols]
+        most_dissimilar_mols = [molecule_set.molecule_database[mol_id]
+                             for mol_id in most_dissimilar_mols]
         text_prompt = "***** "
         text_prompt += f"FOR MOLECULE {self.target_molecule.mol_text} *****"
         text_prompt += "\n\n"
-        text_prompt += "****Maximum Similarity Molecule ****\n"
-        text_prompt += f"Molecule: {most_similar_mol.mol_text}\n"
-        text_prompt += "Similarity: "
-        text_prompt += str(max(target_similarity))
-        text_prompt += "\n"
-        text_prompt += "****Minimum Similarity Molecule ****\n"
-        text_prompt += f"Molecule: {least_similar_mol.mol_text}\n"
-        text_prompt += "Similarity: "
-        text_prompt += str(min(target_similarity))
+        text_prompt += "****Maximum Similarity Molecules ****\n"
+        for molecule, similarity in zip(most_similar_mols, sims):
+            text_prompt += f"Molecule: {molecule.mol_text}\n"
+            text_prompt += "Similarity: "
+            text_prompt += str(similarity)
+
+        text_prompt += "\n\n"
+        text_prompt += "****Minimum Similarity Molecules ****\n"
+        for molecule, similarity in zip(most_dissimilar_mols, dissims):
+            text_prompt += f"Molecule: {molecule.mol_text}\n"
+            text_prompt += "Similarity: "
+            text_prompt += str(similarity)
+        text_prompt += "\n\n\n"
         if self.log_fpath is None:
             print(text_prompt)
         else:
@@ -74,8 +85,74 @@ class CompareTargetMolecule(Task):
             print("Writing to file ", self.log_fpath)
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
-        plot_density(target_similarity, **self.plot_settings)
+        plot_density(self.similarities_, **self.plot_settings)
         plt.show()
 
     def __str__(self):
         return "Task: Compare to a target molecule"
+
+    def get_hits_similar_to(self, molecule_set=None):
+        """Get sorted list of num_hits Molecule in the Set most
+        similar to a query Molecule.This is defined as the sorted set
+        (decreasing similarity)  of molecules with the highest
+        (query_molecule, set_molecule) similarity.
+
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                MoleculeSet object used to calculate sorted similarities.
+                Only used if self.similarities or
+                self.sorted_similarities not set.
+
+        Returns:
+            np.ndarray(int): Ids of most similar
+                molecules in decreasing order of similarity.
+            np.ndarray(float): Corresponding similarity values.
+
+        """
+        if not hasattr(self, 'sorted_similarities_'):
+            if not hasattr(self, 'similarities_'):
+                if molecule_set is None:
+                    raise InvalidConfigurationError('MoleculeSet object not '
+                                                    'passed for task')
+                else:
+                    self.similarities_ = molecule_set.compare_against_molecule(
+                        self.target_molecule)
+            self.sorted_similarities_ = np.argsort(self.similarities_)
+        ids = np.array([self.sorted_similarities_[-1 - hit_id]
+                        for hit_id in range(self.n_hits)])
+
+        return ids, self.similarities_[ids]
+
+    def get_hits_dissimilar_to(self, molecule_set=None):
+        """Get sorted list of num_hits Molecule in the Set most
+        dissimilar to a query Molecule.This is defined as the sorted set
+        (decreasing dissimilarity)  of molecules with the highest
+        (query_molecule, set_molecule) dissimilarity.
+
+        Args:
+            molecule_set (molSim.chemical_datastructures MoleculeSet):
+                MoleculeSet object used to calculate sorted similarities.
+                Only used if self.similarities or
+                self.sorted_similarities not set.
+
+        Returns:
+            np.ndarray(int): Ids of most similar molecules in decreasing
+                order of dissimilarity.
+            np.ndarray(float): Corresponding similarity values.
+
+        """
+        if not hasattr(self, 'sorted_similarities_'):
+            if not hasattr(self, 'similarities_'):
+                if molecule_set is None:
+                    raise InvalidConfigurationError('MoleculeSet object not '
+                                                    'passed for task')
+                else:
+                    self.similarities_ = molecule_set.compare_against_molecule(
+                        self.target_molecule)
+            self.sorted_similarities_ = np.argsort(self.similarities_)
+        ids = np.array([self.sorted_similarities_[hit_id]
+                        for hit_id in range(self.n_hits)])
+        return ids, self.similarities_[ids]
+
+
+
