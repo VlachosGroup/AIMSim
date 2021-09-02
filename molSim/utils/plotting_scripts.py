@@ -311,7 +311,7 @@ def plot_multiple_barchart(x,
         plt.legend(bars, legend_labels)
 
 
-def plot_scatter(x, y, **kwargs):
+def plot_scatter(x, y, outlier_idxs=None, **kwargs):
     """Plot scatter plot of x vs y.
 
     Args:
