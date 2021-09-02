@@ -7,6 +7,7 @@ import pandas as pd
 from rdkit import Chem
 from rdkit import RDLogger
 from sklearn.decomposition import PCA
+from sklearn.manifold import MDS
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
@@ -383,7 +384,7 @@ class MoleculeSet:
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
-    def _do_pca(self, get_component_info=False):
+    def _do_pca(self, get_component_info=False, **kwargs):
         pca = PCA()
         X = np.array([molecule.get_descriptor_val()
                       for molecule in self.molecule_database])
@@ -401,13 +402,35 @@ class MoleculeSet:
             }
             return X, component_info
 
+    def _do_mds(self, get_component_info=False, **kwargs):
+        params = {'n_components': kwargs.get('n_components', 2),
+                  'metric': kwargs.get('metric', True),
+                  'n_init': kwargs.get('n_init', 4),
+                  'max_iter': kwargs.get('max_iter', 3000),
+                  'verbose': kwargs.get('verbose', 0),
+                  'eps': kwargs.get('eps', 1e-3),
+                  'random_state': kwargs.get('random_state', 42),
+                  }
+        embedding = MDS(dissimilarity='precomputed', **params)
+        dissimilarity_matrix = self.get_distance_matrix()
+        X = embedding.fit_transform(dissimilarity_matrix)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'stress_': embedding.stress_,
+                'n_iter_': embedding.n_iter_
+            }
+            return X, component_info
+
     def is_present(self, target_molecule):
         """
         Searches the name of a target molecule in the molecule set to
         determine if the target molecule is present in the molecule set.
 
         Args:
-            target_molecule_name (str): Name of the target molecule to search.
+            target_molecule (molSim.chemical_datastructures.Molecule):
+                Target molecule to search.
 
         Returns:
             bool: If the molecule is present in the molecule set or not.
@@ -650,7 +673,9 @@ class MoleculeSet:
                 "Molecule set not clustered. " "Use cluster() to cluster."
             )
 
-    def get_transformed_descriptors(self, method_="pca"):
+    def get_transformed_descriptors(self, method_="pca", **kwargs):
         if method_.lower() == "pca":
-            return self._do_pca()
+            return self._do_pca(**kwargs)
+        if method_.lower() == "mds":
+            return self._do_mds(**kwargs)
 
