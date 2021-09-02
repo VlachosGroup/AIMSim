@@ -9,6 +9,7 @@ import yaml
 from .task import Task
 from molSim.exceptions import InvalidConfigurationError
 from molSim.utils.plotting_scripts import plot_barchart, plot_density
+from molSim.utils.plotting_scripts import plot_scatter
 
 
 class ClusterData(Task):
@@ -34,6 +35,10 @@ class ClusterData(Task):
                 for cluster_id in range(self.n_clusters)
             ],
             "response": "Response",
+            "xlabel": "Dimension 1",
+            "ylabel": "Dimension 2",
+            "embedding": {"method": "mds",
+                          "random_state": 42},
         }
         self.plot_settings.update(self.configs.get("cluster_plot_settings", {}))
 
@@ -100,6 +105,31 @@ class ClusterData(Task):
                          ylabel='Density',
                          shade=True)
 
+        plt.show()
+
+        if self.plot_settings["embedding"]["method"].lower() == "mds":
+            reduced_features = molecule_set.get_transformed_descriptors(
+                method_="mds", n_components=2)
+            dimension_1 = reduced_features[:, 0]
+            dimension_2 = reduced_features[:, 1]
+        else:
+            raise InvalidConfigurationError(
+                "Embedding method "
+                f'{self.plot_settings["embedding"]["method"]} '
+                "not implemented."
+            )
+        plot_scatter(
+            dimension_1,
+            dimension_2,
+            xlabel=self.plot_settings["xlabel"],
+            ylabel=self.plot_settings["ylabel"],
+            title=f"2-D projected space",
+            plot_color=[
+                self.plot_settings["cluster_colors"][cluster_num]
+                for cluster_num in cluster_labels
+            ],
+            offset=0,
+        )
         plt.show()
 
     def __str__(self):
