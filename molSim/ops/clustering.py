@@ -22,7 +22,7 @@ class Cluster:
             self.model_ = self._get_linkage_model(linkage_method="ward",
                                                   **kwargs)
         else:
-            raise ValueError("{clustering_method} not implemented")
+            raise ValueError(f"{clustering_method} not implemented")
 
     def _get_kmedoids_model_(self, **kwargs):
         max_iter = kwargs.get("max_iter", 300)
