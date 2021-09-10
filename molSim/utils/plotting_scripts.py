@@ -46,6 +46,7 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
     ylabel_fontsize = int(kwargs.pop("ylabel_fontsize", 20))
     legend_fontsize = int(kwargs.pop("legend_fontsize", 20))
     color = kwargs.pop("plot_color", None)
+    shade = kwargs.pop("shade", False)
 
     if n_densities == 1:
         valid_number_types = (np.float, np.int64, int, float)
@@ -73,11 +74,10 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
     plt.figure()
     plt.rcParams["svg.fonttype"] = "none"
     for density_id, density in enumerate(densities):
-
         kdeplot(density,
                 color=color[density_id],
                 label=legends[density_id],
-                **kwargs)
+                shade=shade)
     plt.xlabel(xlabel, fontsize=xlabel_fontsize)
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
     if legends is not None:
@@ -118,6 +118,7 @@ def plot_heatmap(input_matrix, **kwargs):
         "cmap": "autumn",
         "mask_upper": False,
         "annotate": False,
+        "plot_title": "",
     }
     parameters.update(**kwargs)
     plt.figure()
@@ -133,6 +134,7 @@ def plot_heatmap(input_matrix, **kwargs):
         mask=mask,
         annot=parameters["annotate"],
     )
+    plt.title(parameters["plot_title"], fontsize=24)
 
 
 def plot_parity(x, y, **kwargs):
@@ -162,8 +164,8 @@ def plot_parity(x, y, **kwargs):
         s=plot_params["s"],
         c=plot_params["plot_color"],
     )
-    max_entry = max(max(x), max(y)) + plot_params.get("offset", 5.0)
-    min_entry = min(min(x), min(y)) - plot_params.get("offset", 5.0)
+    max_entry = max(max(x), max(y)) + plot_params.get("offset", 1.0)
+    min_entry = min(min(x), min(y)) - plot_params.get("offset", 1.0)
     axes = plt.gca()
     axes.set_xlim([min_entry, max_entry])
     axes.set_ylim([min_entry, max_entry])
@@ -173,13 +175,16 @@ def plot_parity(x, y, **kwargs):
         color=plot_params.get("linecolor", "black"),
     )
     plt.title(
-        plot_params.get("title", ""), fontsize=plot_params.get("title_fontsize", 24)
+        plot_params.get("title", ""),
+        fontsize=plot_params.get("title_fontsize", 24)
     )
     plt.xlabel(
-        plot_params.get("xlabel", ""), fontsize=plot_params.get("xlabel_fontsize", 20)
+        plot_params.get("xlabel", ""),
+        fontsize=plot_params.get("xlabel_fontsize", 20)
     )
     plt.ylabel(
-        plot_params.get("ylabel", ""), fontsize=plot_params.get("ylabel_fontsize", 20)
+        plot_params.get("ylabel", ""),
+        fontsize=plot_params.get("ylabel_fontsize", 20)
     )
     plt.xticks(fontsize=plot_params.get("xticksize", 24))
     plt.yticks(fontsize=plot_params.get("yticksize", 24))
