@@ -225,11 +225,11 @@ class SimilarityMeasure:
             self.metric = "cohen"
             self.type_ = "discrete"
 
-        elif metric.lower() in ["peirce_1"]:
+        elif metric.lower() in ["peirce_1", "peirce-1"]:
             self.metric = "peirce_1"
             self.type_ = "discrete"
 
-        elif metric.lower() in ["peirce_2"]:
+        elif metric.lower() in ["peirce_2", "peirce-2"]:
             self.metric = "peirce_2"
             self.type_ = "discrete"
 
@@ -1977,6 +1977,7 @@ class SimilarityMeasure:
         """
         return [
             "tanimoto",
+            "jaccard-tanimoto",
             "l0_similarity",
             "l1_similarity",
             "manhattan_similarity",
@@ -1987,7 +1988,6 @@ class SimilarityMeasure:
             "gleason",
             "dice_2",
             "dice_3",
-            "jaccard",
             "cosine",
             "driver-kroeber",
             "ochiai",
@@ -2002,6 +2002,7 @@ class SimilarityMeasure:
             "baroni-urbani-buser",
             "kulczynski",
             "sokal-sneath",
+            "sokal-sneath_1",
             "sokal-sneath-2",
             "symmetric_sokal_sneath",
             "symmetric-sokal-sneath",
@@ -2022,6 +2023,11 @@ class SimilarityMeasure:
             "consonni−todeschini-3",
             "consonni−todeschini-4",
             "consonni−todeschini-5",
+            "consonni−todeschini_1",
+            "consonni−todeschini_2",
+            "consonni−todeschini_3",
+            "consonni−todeschini_4",
+            "consonni−todeschini_5",
             "austin-colwell",
             "yule-1",
             "yule_1",
@@ -2044,7 +2050,68 @@ class SimilarityMeasure:
             "sorgenfrei",
             "cohen",
             "peirce_1",
+            "peirce-1"
             "peirce_2",
+            "peirce-2"
+        ]
+
+    @staticmethod
+    def get_uniq_metrics():
+        """Return a list of strings for the currently implemented
+        similarity measures, aka metrics. Each unique similarity metric is
+        uniquely represented with redundant tags removed.
+
+        Returns:
+            List: List of strings.
+        """
+        return [
+            "tanimoto",
+            "l0_similarity",
+            "l1_similarity",
+            "l2_similarity",
+            "dice",
+            "dice_2",
+            "dice_3",
+            "cosine",
+            "simple_matching",
+            "rogers-tanimoto",
+            "russel-rao",
+            "forbes",
+            "simpson",
+            "braun-blanquet",
+            "baroni-urbani-buser",
+            "kulczynski",
+            "sokal-sneath",
+            "sokal-sneath-2",
+            "sokal-sneath-3",
+            "sokal-sneath-4",
+            "jaccard",
+            "faith",
+            "mountford",
+            "michael",
+            "rogot-goldberg",
+            "hawkins-dotson",
+            "maxwell-pilliner",
+            "harris-lahey",
+            "consonni−todeschini-1",
+            "consonni−todeschini-2",
+            "consonni−todeschini-3",
+            "consonni−todeschini-4",
+            "consonni−todeschini-5",
+            "austin-colwell",
+            "yule-1",
+            "yule_2",
+            "fossum",
+            "dennis",
+            "cole-1",
+            "cole-2",
+            "dispersion",
+            "goodman−kruskal",
+            "pearson−heron",
+            "sorgenfrei",
+            "cohen",
+            "peirce-1",
+            "peirce-2",
         ]
 
     def __str__(self):
