@@ -82,6 +82,14 @@ class ClusterData(Task):
                     yaml.dump('Properties By Cluster', fp)
                     yaml.dump(cluster_grouped_mol_properties, fp)
 
+        if self.log_fpath is not None:
+            print("Writing to file ", self.log_fpath)
+            with open(self.log_fpath, "w") as fp:
+                fp.write(f'Embedding method '
+                         f'{self.plot_settings["embedding"]["method"]}. '
+                         f'random seed '
+                         f'{self.plot_settings["embedding"]["random_state"]}')
+
         plot_barchart(
             [_ for _ in range(self.n_clusters)],
             heights=[
