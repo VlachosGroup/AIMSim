@@ -35,7 +35,7 @@ class MeasureSearch(Task):
         InvalidConfigurationError: If correlation_type does not match
                                    implemented types.
         """
-        self.plot_settings = {'cmap': 'tab20',
+        self.plot_settings = {'colors': ['#78DEC7', '#FB7AFC', '#FBC7F7'],
                               'xticksize': 10,
                               'yticksize': 20,
                               'title': "",
@@ -130,7 +130,7 @@ class MeasureSearch(Task):
         else:
             all_fingerprint_types = [fingerprint_type]
         if similarity_measure is None:
-            all_similarity_measures = SimilarityMeasure.get_supported_metrics()
+            all_similarity_measures = SimilarityMeasure.get_uniq_metrics()
         else:
             all_similarity_measures = [similarity_measure]
         is_verbose = molecule_set_configs.get("is_verbose", False)
@@ -199,7 +199,7 @@ class MeasureSearch(Task):
             bar_heights = np.array([top_scores,
                                     all_nearest_neighbor_correlations,
                                     all_furthest_neighbor_correlations])
-            cmap = self.plot_settings.pop('cmap')
+            colors = self.plot_settings.pop('colors')
             plot_multiple_barchart(x=[_ for _ in range(len(top_performers))],
                                    heights=bar_heights,
                                    legend_labels=['Overall scores',
@@ -207,10 +207,7 @@ class MeasureSearch(Task):
                                                   'correlation',
                                                   'Furthest neighbor property '
                                                   'correlations'],
-                                   colors=[get_cmap(cmap,
-                                                    len(bar_heights))(bar_id)
-                                           for bar_id in range(
-                                               len(bar_heights))],
+                                   colors=colors,
                                    xtick_labels=all_measures,
                                    ylabel='Value',
                                    xlabel='Measure',
