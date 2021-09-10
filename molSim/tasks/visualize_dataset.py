@@ -22,7 +22,7 @@ class VisualizeDataset(Task):
             "heatmap_plot_settings", {}
         )
         self.plot_settings["pairwise_plot"] = self.configs.get(
-            "pairwise_similarity_plot_settings", {}
+            "similarity_plot_settings", {}
         )
 
     def __call__(self, molecule_set):
