@@ -107,7 +107,7 @@ class ClusterData(Task):
                 densities.append(cluster_grouped_mol_properties[cluster_id])
             plot_density(densities=densities,
                          n_densities=self.n_clusters,
-                         legends=['Cluster'+str(_+1)
+                         legends=['Cluster'+str(_)
                                   for _ in range(self.n_clusters)],
                          plot_color=self.plot_settings["cluster_colors"],
                          legend_fontsize=20,
