@@ -74,12 +74,21 @@ class ClusterData(Task):
                     cluster_labels == cluster_id
                     ].tolist()
 
-        if molecule_set.is_verbose:
+        if self.cluster_fpath is not None:
             print("Writing to file ", self.cluster_fpath)
-        with open(self.cluster_fpath, "w") as fp:
-            yaml.dump(cluster_grouped_mol_names, fp)
-            if cluster_grouped_mol_properties != {}:
-                yaml.dump(cluster_grouped_mol_properties, fp)
+            with open(self.cluster_fpath, "w") as fp:
+                yaml.dump(cluster_grouped_mol_names, fp)
+                if cluster_grouped_mol_properties != {}:
+                    yaml.dump('Properties By Cluster', fp)
+                    yaml.dump(cluster_grouped_mol_properties, fp)
+
+        if self.log_fpath is not None:
+            print("Writing to file ", self.log_fpath)
+            with open(self.log_fpath, "w") as fp:
+                fp.write(f'Embedding method '
+                         f'{self.plot_settings["embedding"]["method"]}. '
+                         f'random seed '
+                         f'{self.plot_settings["embedding"]["random_state"]}')
 
         plot_barchart(
             [_ for _ in range(self.n_clusters)],
@@ -98,8 +107,9 @@ class ClusterData(Task):
                 densities.append(cluster_grouped_mol_properties[cluster_id])
             plot_density(densities=densities,
                          n_densities=self.n_clusters,
-                         legends=['Cluster'+str(_+1)
+                         legends=['Cluster'+str(_)
                                   for _ in range(self.n_clusters)],
+                         plot_color=self.plot_settings["cluster_colors"],
                          legend_fontsize=20,
                          xlabel=self.plot_settings['response'],
                          ylabel='Density',

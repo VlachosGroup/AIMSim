@@ -60,7 +60,7 @@ class CompareTargetMolecule(Task):
         most_similar_mols = [molecule_set.molecule_database[mol_id]
                              for mol_id in most_similar_mols]
         most_dissimilar_mols = [molecule_set.molecule_database[mol_id]
-                             for mol_id in most_dissimilar_mols]
+                                for mol_id in most_dissimilar_mols]
         text_prompt = "***** "
         text_prompt += f"FOR MOLECULE {self.target_molecule.mol_text} *****"
         text_prompt += "\n\n"
