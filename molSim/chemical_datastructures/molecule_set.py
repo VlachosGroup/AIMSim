@@ -542,7 +542,7 @@ class MoleculeSet:
         for mol_pair in similar_mol_pairs:
             mol1_property = mol_pair[0].get_mol_property_val()
             mol2_property = mol_pair[1].get_mol_property_val()
-            if mol1_property and mol2_property:
+            if mol1_property is not None and mol2_property is not None:
                 reference_mol_properties.append(mol1_property)
                 similar_mol_properties.append(mol2_property)
         return reference_mol_properties, similar_mol_properties
@@ -561,7 +561,7 @@ class MoleculeSet:
         for mol_pair in dissimilar_mol_pairs:
             mol1_property = mol_pair[0].get_mol_property_val()
             mol2_property = mol_pair[1].get_mol_property_val()
-            if mol1_property and mol2_property:
+            if mol1_property is not None and mol2_property is not None:
                 reference_mol_properties.append(mol1_property)
                 dissimilar_mol_properties.append(mol2_property)
         return reference_mol_properties, dissimilar_mol_properties
