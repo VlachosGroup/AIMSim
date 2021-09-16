@@ -2,9 +2,9 @@
 import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
-from molSim.ops import Descriptor
 
 from molSim.ops import Descriptor
+from molSim.exceptions import InvalidConfigurationError
 
 SMALL_NUMBER = 1e-10
 
@@ -248,6 +248,9 @@ class SimilarityMeasure:
         Returns:
             similarity_ (float): Similarity value
         """
+        if sum(mol1_descriptor.to_numpy()) == 0 \
+                or sum(mol1_descriptor.to_numpy()):
+            raise ValueError('Molecule descriptor has no active bits')
         similarity_ = None
         if self.metric == "l0_similarity":
             try:
@@ -886,6 +889,8 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
+        if np.log(1 + a + b + c) == 0:
+            raise InvalidConfigurationError('Empty string supplied')
         similarity_ = np.log(1 + a) / np.log(1 + a + b + c)
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0
