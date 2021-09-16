@@ -156,12 +156,12 @@ class MeasureSearch(Task):
                         is_verbose=is_verbose,
                         n_threads=n_threads,
                         sampling_ratio=subsample_subset_size)
-                except InvalidConfigurationError as e:
+                except (InvalidConfigurationError, ValueError) as e:
                     if is_verbose:
                         print(f'Could not try {fingerprint_type} with '
                               f'similarity measure {similarity_measure} due to'
-                              f'{e.message}')
-                        continue
+                              f'{e}')
+                    continue
                 nearest_corr, nearest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_similar(
                          molecule_set)
