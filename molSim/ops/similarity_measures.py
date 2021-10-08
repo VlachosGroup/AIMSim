@@ -249,7 +249,7 @@ class SimilarityMeasure:
             similarity_ (float): Similarity value
         """
         if sum(mol1_descriptor.to_numpy()) == 0 \
-                or sum(mol1_descriptor.to_numpy()):
+                or sum(mol1_descriptor.to_numpy()) == 0:
             raise ValueError('Molecule descriptor has no active bits')
         similarity_ = None
         if self.metric == "l0_similarity":
