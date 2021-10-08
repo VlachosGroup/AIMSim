@@ -393,7 +393,8 @@ class SimilarityMeasure:
 
         elif self.metric == "dispersion":
             try:
-                similarity_ = self._get_dispersion(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_dispersion(mol1_descriptor,
+                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -431,7 +432,8 @@ class SimilarityMeasure:
 
         elif self.metric == "hawkins_dotson":
             try:
-                similarity_ = self._get_hawkins_dotson(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_hawkins_dotson(mol1_descriptor,
+                                                       mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -443,7 +445,8 @@ class SimilarityMeasure:
 
         elif self.metric == "kulczynski":
             try:
-                similarity_ = self._get_kulczynski(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_kulczynski(mol1_descriptor,
+                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
         elif self.metric == "maxwell_pilliner":
@@ -456,31 +459,36 @@ class SimilarityMeasure:
 
         elif self.metric == "michael":
             try:
-                similarity_ = self._get_michael(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_michael(mol1_descriptor,
+                                                mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "mountford":
             try:
-                similarity_ = self._get_mountford(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_mountford(mol1_descriptor,
+                                                  mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "pearson_heron":
             try:
-                similarity_ = self._get_pearson_heron(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_pearson_heron(mol1_descriptor,
+                                                      mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "peirce_1":
             try:
-                similarity_ = self._get_peirce_1(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_peirce_1(mol1_descriptor,
+                                                 mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "peirce_2":
             try:
-                similarity_ = self._get_peirce_2(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_peirce_2(mol1_descriptor,
+                                                 mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -494,13 +502,15 @@ class SimilarityMeasure:
 
         elif self.metric == "rogot_goldberg":
             try:
-                similarity_ = self._get_rogot_goldberg(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_rogot_goldberg(mol1_descriptor,
+                                                       mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "russel_rao":
             try:
-                similarity_ = self._get_russel_rao(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_russel_rao(mol1_descriptor,
+                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -514,13 +524,15 @@ class SimilarityMeasure:
 
         elif self.metric == "simpson":
             try:
-                similarity_ = self._get_simpson(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_simpson(mol1_descriptor,
+                                                mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "sokal_sneath":
             try:
-                similarity_ = self._get_sokal_sneath(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_sokal_sneath(mol1_descriptor,
+                                                     mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -541,13 +553,15 @@ class SimilarityMeasure:
 
         elif self.metric == "sokal_sneath_4":
             try:
-                similarity_ = self._get_sokal_sneath_4(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_sokal_sneath_4(mol1_descriptor,
+                                                       mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "sorgenfrei":
             try:
-                similarity_ = self._get_sorgenfrei(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_sorgenfrei(mol1_descriptor,
+                                                   mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -579,7 +593,10 @@ class SimilarityMeasure:
 
         return similarity_
 
-    def _get_vector_norm_similarity(self, mol1_descriptor, mol2_descriptor, ord):
+    def _get_vector_norm_similarity(self,
+                                    mol1_descriptor,
+                                    mol2_descriptor,
+                                    ord):
         """Calculate the norm based similarity between two molecules.
         This is defined as:
         Norm similarity (order n) = 1 / (1 + n-norm(A - B)
@@ -654,7 +671,8 @@ class SimilarityMeasure:
         Returns:
             (float): Baroni-Urbani-Buser similarity value
         """
-        if not (mol1_descriptor.is_fingerprint() and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                  and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Baroni-Urbani-Buser similarity is only useful for "
                 "bit strings generated from fingerprints. Consider using "
@@ -958,7 +976,8 @@ class SimilarityMeasure:
         Returns:
             (float): Dennis similarity value
         """
-        if not (mol1_descriptor.is_fingerprint() and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                  and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Dennis similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1073,7 +1092,8 @@ class SimilarityMeasure:
         Returns:
             (float): Faith similarity value
         """
-        if not (mol1_descriptor.is_fingerprint() and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                  and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Faith similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1101,7 +1121,8 @@ class SimilarityMeasure:
         Note:
             The Forbes similarity is normalized to [0, 1]
         """
-        if not (mol1_descriptor.is_fingerprint() and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                  and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Forbes similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1281,7 +1302,8 @@ class SimilarityMeasure:
         Returns:
             (float): Kulczynski similarity value
         """
-        if not (mol1_descriptor.is_fingerprint() and mol2_descriptor.is_fingerprint()):
+        if not (mol1_descriptor.is_fingerprint()
+                  and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Kulczynski similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
