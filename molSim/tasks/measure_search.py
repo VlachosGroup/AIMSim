@@ -159,7 +159,7 @@ class MeasureSearch(Task):
                 except (InvalidConfigurationError, ValueError) as e:
                     if is_verbose:
                         print(f'Could not try {fingerprint_type} with '
-                              f'similarity measure {similarity_measure} due to'
+                              f'similarity measure {similarity_measure} due to '
                               f'{e}')
                     continue
                 nearest_corr, nearest_p_val = self.prop_var_w_similarity. \
