@@ -64,7 +64,7 @@ Tests:
 
 `python -m unittest discover`
 
-_Note: Multiprocessing speedup and efficiency tests take more than 30 minutes to execute. To run all other tests and ignore these, create a file called `.no-speedup-test` in the `molSim` directory and execute the above command as shown._
+_Note: Multiprocessing speedup and efficiency tests take more than 10 hours to run due to the number of replicates required. To run these tests, create a file called `.speedup-test` in the `molSim` directory and execute the above command as shown._
 
 To build the docs, execute the following with `sphinx` and `m2r` installed and from the `/docs` directory:
 
