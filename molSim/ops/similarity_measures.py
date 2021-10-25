@@ -2050,7 +2050,7 @@ class SimilarityMeasure:
             "sorgenfrei",
             "cohen",
             "peirce_1",
-            "peirce-1"
+            "peirce-1",
             "peirce_2",
             "peirce-2"
         ]
