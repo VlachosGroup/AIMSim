@@ -7,6 +7,7 @@ import pandas as pd
 from rdkit import Chem
 from rdkit import RDLogger
 from sklearn.decomposition import PCA
+from sklearn.manifold import MDS
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
@@ -383,7 +384,7 @@ class MoleculeSet:
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
-    def _do_pca(self, get_component_info=False):
+    def _do_pca(self, get_component_info=False, **kwargs):
         pca = PCA()
         X = np.array([molecule.get_descriptor_val()
                       for molecule in self.molecule_database])
@@ -401,13 +402,35 @@ class MoleculeSet:
             }
             return X, component_info
 
+    def _do_mds(self, get_component_info=False, **kwargs):
+        params = {'n_components': kwargs.get('n_components', 2),
+                  'metric': kwargs.get('metric', True),
+                  'n_init': kwargs.get('n_init', 4),
+                  'max_iter': kwargs.get('max_iter', 3000),
+                  'verbose': kwargs.get('verbose', 0),
+                  'eps': kwargs.get('eps', 1e-3),
+                  'random_state': kwargs.get('random_state', 42),
+                  }
+        embedding = MDS(dissimilarity='precomputed', **params)
+        dissimilarity_matrix = self.get_distance_matrix()
+        X = embedding.fit_transform(dissimilarity_matrix)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'stress_': embedding.stress_,
+                'n_iter_': embedding.n_iter_
+            }
+            return X, component_info
+
     def is_present(self, target_molecule):
         """
         Searches the name of a target molecule in the molecule set to
         determine if the target molecule is present in the molecule set.
 
         Args:
-            target_molecule_name (str): Name of the target molecule to search.
+            target_molecule (molSim.chemical_datastructures.Molecule):
+                Target molecule to search.
 
         Returns:
             bool: If the molecule is present in the molecule set or not.
@@ -437,36 +460,6 @@ class MoleculeSet:
             for set_molecule in self.molecule_database
         ]
         return np.array(set_similarity)
-
-    def get_molecule_most_similar_to(self, query_molecule):
-        """
-        Get the Molecule in the Set most similar to a query Molecule.
-        This is defined as the molecule of the set with the highest
-        (query_molecule, set_molecule) similarity.
-
-        Args:
-            query_molecule (molSim.chemical_datastructures Molecule): Target
-                molecule to compare.
-
-        Returns:
-            molSim.chemical_datastructures Molecule: Most similar molecule.
-        """
-        sorted_similarity = np.argsort(self.compare_against_molecule(query_molecule))
-        return self.molecule_database[sorted_similarity[-1]]
-
-    def get_molecule_least_similar_to(self, target_molecule):
-        """
-        Get the Molecule in the Set least similar to a Target Molecule.
-
-        Args:
-            target_molecule (molSim.chemical_datastructures Molecule):
-                Target molecule to compare.
-
-        Returns:
-            molSim.chemical_datastructures Molecule: Least similar molecule.
-        """
-        sorted_similarity = np.argsort(self.compare_against_molecule(target_molecule))
-        return self.molecule_database[sorted_similarity[0]]
 
     def get_most_similar_pairs(self):
         """Get pairs of samples which are most similar.
@@ -508,7 +501,8 @@ class MoleculeSet:
                     else pre_diag_closest_index
                 )
             out_list.append(
-                (self.molecule_database[index], self.molecule_database[closest_index])
+                (self.molecule_database[index],
+                 self.molecule_database[closest_index])
             )
         return out_list
 
@@ -618,6 +612,20 @@ class MoleculeSet:
                 mol_names.append(mol_name)
         return np.array(mol_names)
 
+    def get_mol_properties(self):
+        """Get properties of all the molecules in the dataset.
+            If all molecules don't have properties, None is returned.
+         Returns:
+            np.ndarray or None: Array with molecules properties or None.
+        """
+        mol_properties = []
+        for mol in self.molecule_database:
+            mol_property = mol.get_mol_property_val()
+            if mol_property is None:
+                return None
+            mol_properties.append(mol_property)
+        return np.array(mol_properties)
+
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
         """Cluster the molecules of the MoleculeSet.
 
@@ -639,13 +647,9 @@ class MoleculeSet:
                 "Clustering will not yield "
                 "meaningful results."
             )
-        if (
-            clustering_method == "kmedoids"
-            and self.similarity_measure.type_ == "discrete"
-        ) or (
-            clustering_method == "complete_linkage"
-            and self.similarity_measure.type_ == "continuous"
-        ):
+        if ((clustering_method == "kmedoids"
+                or clustering_method == 'ward')
+                and self.similarity_measure.type_ == "discrete"):
             print(
                 f"{clustering_method} cannot be used with "
                 f"{self.similarity_measure.type_} "
@@ -657,9 +661,9 @@ class MoleculeSet:
                 clustering_method = "kmedoids"
             else:
                 clustering_method = "complete_linkage"
-        self.clusters_ = Cluster(
-            n_clusters=n_clusters, clustering_method=clustering_method, **kwargs
-        ).fit(self.get_distance_matrix())
+        self.clusters_ = Cluster(n_clusters=n_clusters,
+                                 clustering_method=clustering_method,
+                                 **kwargs).fit(self.get_distance_matrix())
 
     def get_cluster_labels(self):
         try:
@@ -669,7 +673,9 @@ class MoleculeSet:
                 "Molecule set not clustered. " "Use cluster() to cluster."
             )
 
-    def get_transformed_descriptors(self, method_="pca"):
+    def get_transformed_descriptors(self, method_="pca", **kwargs):
         if method_.lower() == "pca":
-            return self._do_pca()
+            return self._do_pca(**kwargs)
+        if method_.lower() == "mds":
+            return self._do_mds(**kwargs)
 

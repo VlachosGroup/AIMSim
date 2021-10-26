@@ -7,12 +7,16 @@ from seaborn import kdeplot, heatmap
 from molSim.exceptions import InvalidConfigurationError
 
 
-def plot_density(similarity_vector, **kwargs):
+def plot_density(densities, n_densities=1, legends=None, **kwargs):
     """Plot the similarity density.
 
     Args:
-        similarity_vector (list or numpy ndarray): Vector of similarity scores
-            to be plotted.
+        densities (list or numpy ndarray): Vector(s) of densities to plot.
+            Shape (n_densities, n_points_per_density). n_densities can be 1.
+        n_densities (int): Number of densities.
+        Pass this if passing more than one densities.
+        legends (list): Optional list of legends for annotating
+            different densities.
 
     kwargs: dict
         Keyword arguments to modify plot. Some common ones:
@@ -28,8 +32,9 @@ def plot_density(similarity_vector, **kwargs):
             Plot title. Default is None.
         plot_title_fontsize: int
             Fontsize of the title. Default is 24.
-        plot_color: str
-            Color of the plot.
+        color: str or list
+            Color of the plot. Multiple colors can be passed as list
+            if multiple densities are plotted.
         shade: bool
             To shade the plot or not.
     """
@@ -39,13 +44,44 @@ def plot_density(similarity_vector, **kwargs):
     plot_title_fontsize = kwargs.pop("plot_title_fontsize", 24)
     xlabel_fontsize = int(kwargs.pop("xlabel_fontsize", 20))
     ylabel_fontsize = int(kwargs.pop("ylabel_fontsize", 20))
-    plot_color = kwargs.pop("plot_color", None)
+    legend_fontsize = int(kwargs.pop("legend_fontsize", 20))
+    color = kwargs.pop("plot_color", None)
+    shade = kwargs.pop("shade", False)
+
+    if n_densities == 1:
+        valid_number_types = (np.float, np.int64, int, float)
+        for density in densities:
+            is_number = isinstance(density, valid_number_types)
+            if not is_number:
+                raise InvalidConfigurationError(f'Element of type '
+                                                f'{type(density)} passed when '
+                                                f'expecting types '
+                                                f'{valid_number_types}')
+        densities = [densities]  # converting to 2D array for uniform processing
+    if color is None or isinstance(color, str):
+        color = [color] * n_densities
+    if legends is None:
+        legends = [None] * n_densities
+    if len(color) < n_densities:
+        raise InvalidConfigurationError(f'{len(color)} colors supplied '
+                                        f'for {n_densities} '
+                                        f'densities')
+    if len(legends) < n_densities:
+        raise InvalidConfigurationError(f'{len(legends)} colors supplied '
+                                        f'for {n_densities} '
+                                        f'densities')
 
     plt.figure()
     plt.rcParams["svg.fonttype"] = "none"
-    kdeplot(similarity_vector, color=plot_color, **kwargs)
+    for density_id, density in enumerate(densities):
+        kdeplot(density,
+                color=color[density_id],
+                label=legends[density_id],
+                shade=shade)
     plt.xlabel(xlabel, fontsize=xlabel_fontsize)
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
+    if legends is not None:
+        plt.legend(fontsize=legend_fontsize)
     if plot_title is not None:
         plt.title(plot_title, fontsize=plot_title_fontsize)
 
@@ -82,6 +118,7 @@ def plot_heatmap(input_matrix, **kwargs):
         "cmap": "autumn",
         "mask_upper": False,
         "annotate": False,
+        "plot_title": "",
     }
     parameters.update(**kwargs)
     plt.figure()
@@ -97,6 +134,7 @@ def plot_heatmap(input_matrix, **kwargs):
         mask=mask,
         annot=parameters["annotate"],
     )
+    plt.title(parameters["plot_title"], fontsize=24)
 
 
 def plot_parity(x, y, **kwargs):
@@ -126,8 +164,8 @@ def plot_parity(x, y, **kwargs):
         s=plot_params["s"],
         c=plot_params["plot_color"],
     )
-    max_entry = max(max(x), max(y)) + plot_params.get("offset", 5.0)
-    min_entry = min(min(x), min(y)) - plot_params.get("offset", 5.0)
+    max_entry = max(max(x), max(y)) + plot_params.get("offset", 1.0)
+    min_entry = min(min(x), min(y)) - plot_params.get("offset", 1.0)
     axes = plt.gca()
     axes.set_xlim([min_entry, max_entry])
     axes.set_ylim([min_entry, max_entry])
@@ -137,13 +175,16 @@ def plot_parity(x, y, **kwargs):
         color=plot_params.get("linecolor", "black"),
     )
     plt.title(
-        plot_params.get("title", ""), fontsize=plot_params.get("title_fontsize", 24)
+        plot_params.get("title", ""),
+        fontsize=plot_params.get("title_fontsize", 24)
     )
     plt.xlabel(
-        plot_params.get("xlabel", ""), fontsize=plot_params.get("xlabel_fontsize", 20)
+        plot_params.get("xlabel", ""),
+        fontsize=plot_params.get("xlabel_fontsize", 20)
     )
     plt.ylabel(
-        plot_params.get("ylabel", ""), fontsize=plot_params.get("ylabel_fontsize", 20)
+        plot_params.get("ylabel", ""),
+        fontsize=plot_params.get("ylabel_fontsize", 20)
     )
     plt.xticks(fontsize=plot_params.get("xticksize", 24))
     plt.yticks(fontsize=plot_params.get("yticksize", 24))
@@ -275,7 +316,7 @@ def plot_multiple_barchart(x,
         plt.legend(bars, legend_labels)
 
 
-def plot_scatter(x, y, **kwargs):
+def plot_scatter(x, y, outlier_idxs=None, **kwargs):
     """Plot scatter plot of x vs y.
 
     Args:

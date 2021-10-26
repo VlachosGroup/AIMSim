@@ -9,10 +9,20 @@ class Cluster:
         self.n_clusters = n_clusters
         if self.clustering_method == "kmedoids":
             self.model_ = self._get_kmedoids_model_(**kwargs)
-        elif clustering_method == "complete_linkage":
-            self.model_ = self._get_linkage_model(linkage_method="complete", **kwargs)
+        elif clustering_method in ["complete_linkage", "complete"]:
+            self.model_ = self._get_linkage_model(linkage_method="complete",
+                                                  **kwargs)
+        elif clustering_method in ["average", "average_linkage"]:
+            self.model_ = self._get_linkage_model(linkage_method="average",
+                                                  **kwargs)
+        elif clustering_method in ["single", "single_linkage"]:
+            self.model_ = self._get_linkage_model(linkage_method="single",
+                                                  **kwargs)
+        elif clustering_method == "ward":
+            self.model_ = self._get_linkage_model(linkage_method="ward",
+                                                  **kwargs)
         else:
-            raise ValueError("{clustering_method} not implemented")
+            raise ValueError(f"{clustering_method} not implemented")
 
     def _get_kmedoids_model_(self, **kwargs):
         max_iter = kwargs.get("max_iter", 300)

@@ -82,14 +82,15 @@ class TaskManager:
                 similarity_measure = None
             if fingerprint_type == 'determine':
                 fingerprint_type = None
-            best_measure = measure_search.get_best_measure(
+            best_measure = measure_search(
                 similarity_measure=similarity_measure,
                 fingerprint_type=fingerprint_type,
                 molecule_database_src=molecule_database_src,
                 molecule_database_src_type=database_src_type,
                 is_verbose=is_verbose,
                 n_threads=n_threads,
-                subsample_subset_size=0.01,)
+                subsample_subset_size=0.01,
+                show_top=5)
             similarity_measure = best_measure.similarity_measure
             fingerprint_type = best_measure.fingerprint_type
             print(f'Chosen measure: {fingerprint_type} '
