@@ -28,7 +28,7 @@ class MoleculeSet:
             pairwise similarity scores.
         is_verbose (bool): Controls how much information is displayed during
             plotting.
-        sample_ratio (float): Fraction of dataset to keep for analysis.
+        sampling_ratio (float): Fraction of dataset to keep for analysis.
             Default is 1.
 
     Methods:
@@ -70,18 +70,22 @@ class MoleculeSet:
             if self.is_verbose:
                 print(f"Using {int(sampling_ratio * 100)}% of the database...")
             self._subsample_database(
-                sampling_ratio=sampling_ratio, random_state=sampling_random_state
+                sampling_ratio=sampling_ratio,
+                random_state=sampling_random_state
             )
         if fingerprint_type is not None:
             # overrides if descriptor set in self._set_molecule_database
             self._set_descriptor(
-                fingerprint_type=fingerprint_type, fingerprint_params=fingerprint_params
+                fingerprint_type=fingerprint_type,
+                fingerprint_params=fingerprint_params
             )
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         self.similarity_matrix = None
         self._set_similarity_matrix()
 
-    def _get_molecule_database(self, molecule_database_src, molecule_database_src_type):
+    def _get_molecule_database(self,
+                               molecule_database_src,
+                               molecule_database_src_type):
         """Load molecular database and return it.
         Optionally return features if found in excel / csv file.
 
@@ -131,7 +135,8 @@ class MoleculeSet:
                 if len(line_fields) > 1:
                     mol_property_val = float(line_fields[1])
                 if self.is_verbose:
-                    print(f"Processing {smile} " f"({count + 1}/{len(smiles_data)})")
+                    print(f"Processing {smile} " f"({count + 1}/"
+                          f"{len(smiles_data)})")
                 mol_text = smile
                 try:
                     molecule_database.append(
@@ -295,8 +300,10 @@ class MoleculeSet:
                         for target_mol_id in range(0, n_mols):
                             if self.is_verbose:
                                 print(
-                                    f"thread {thread_idx} computing similarity of molecule num "
-                                    f"{target_mol_id + 1} against {source_mol_id + 1}"
+                                    f"thread {thread_idx} computing similarity "
+                                    f"of molecule num "
+                                    f"{target_mol_id + 1} "
+                                    f"against {source_mol_id + 1}"
                                 )
                             # diagonal entry
                             if target_mol_id == source_mol_id:
