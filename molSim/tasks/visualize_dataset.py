@@ -5,7 +5,7 @@ from molSim.utils.plotting_scripts import plot_density, plot_heatmap, plt
 
 import pylustrator
 
-pylustrator.start()
+# pylustrator.start()
 
 
 class VisualizeDataset(Task):
