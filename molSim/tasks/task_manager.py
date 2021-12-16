@@ -89,7 +89,7 @@ class TaskManager:
                 molecule_database_src_type=database_src_type,
                 is_verbose=is_verbose,
                 n_threads=n_threads,
-                subsample_subset_size=0.01,
+                subsample_subset_size=0.5,
                 show_top=5)
             similarity_measure = best_measure.similarity_measure
             fingerprint_type = best_measure.fingerprint_type
