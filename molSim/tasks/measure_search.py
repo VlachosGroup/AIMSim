@@ -120,6 +120,7 @@ class MeasureSearch(Task):
                    More is better.
 
         """
+        print(f'Using subsample size {subsample_subset_size} for measure search')
         trial_ = namedtuple('trial_', ['fingerprint_type',
                                        'similarity_measure',
                                        'nearest_neighbor_correlation',

@@ -72,9 +72,12 @@ class TaskManager:
         n_threads = molecule_set_configs.get("n_workers", 1)
         similarity_measure = molecule_set_configs.get("similarity_measure", 
                                                       'determine')
-        fingerprint_type = molecule_set_configs.get("fingerprint_type",
+        fingerprint_type = molecule_set_configs.get('fingerprint_type',
                                                     'determine')
         if similarity_measure == 'determine' or fingerprint_type == 'determine':
+            subsample_subset_size = molecule_set_configs.get(
+                'measure_id_subsample',
+                0.05)
             if is_verbose:
                 print('Determining best fingerprint_type / similarity_measure')
             measure_search = MeasureSearch(correlation_typ='pearson')
@@ -89,7 +92,7 @@ class TaskManager:
                 molecule_database_src_type=database_src_type,
                 is_verbose=is_verbose,
                 n_threads=n_threads,
-                subsample_subset_size=0.5,
+                subsample_subset_size=subsample_subset_size,
                 show_top=5)
             similarity_measure = best_measure.similarity_measure
             fingerprint_type = best_measure.fingerprint_type
@@ -126,4 +129,5 @@ class TaskManager:
                     f"following error: {e.message}"
                 )
                 continue
-        input("All tasks complete! Press enter to terminate (plots will be closed).")
+        input("All tasks complete! Press enter to terminate "
+              "(plots will be closed).")
