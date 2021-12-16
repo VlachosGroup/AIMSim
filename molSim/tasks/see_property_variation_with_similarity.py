@@ -10,7 +10,7 @@ from molSim.exceptions import InvalidConfigurationError
 from .task import Task
 
 
-pylustrator.start()
+# pylustrator.start()
 
 
 class SeePropertyVariationWithSimilarity(Task):

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 import pylustrator
 
-pylustrator.start()
+# pylustrator.start()
 
 
 class IdentifyOutliers(Task):

@@ -178,7 +178,7 @@ class Molecule:
         """
         If target_mol.descriptor is a fingerprint, this method will try
         to calculate the fingerprint of the self molecules.
-        If this fails because of the absence of mol_graph atttribute in
+        If this fails because of the absence of mol_graph attribute in
         target_molecule, a ValueError is raised.
 
         Args:

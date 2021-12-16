@@ -16,7 +16,7 @@ from .see_property_variation_with_similarity \
     import SeePropertyVariationWithSimilarity
 
 
-pylustrator.start()
+# pylustrator.start()
 
 
 class MeasureSearch(Task):
@@ -145,24 +145,29 @@ class MeasureSearch(Task):
             for fingerprint_type in all_fingerprint_types:
                 if is_verbose:
                     print(f'Trying {fingerprint_type} fingerprint')
-                molecule_set = MoleculeSet(
-                    molecule_database_src=molecule_set_configs[
-                        'molecule_database_src'],
-                    molecule_database_src_type=molecule_set_configs[
-                        'molecule_database_src_type'],
-                    similarity_measure=similarity_measure,
-                    fingerprint_type=fingerprint_type,
-                    is_verbose=is_verbose,
-                    n_threads=n_threads,
-                    sampling_ratio=subsample_subset_size)
-
+                try:
+                    molecule_set = MoleculeSet(
+                        molecule_database_src=molecule_set_configs[
+                            'molecule_database_src'],
+                        molecule_database_src_type=molecule_set_configs[
+                            'molecule_database_src_type'],
+                        similarity_measure=similarity_measure,
+                        fingerprint_type=fingerprint_type,
+                        is_verbose=is_verbose,
+                        n_threads=n_threads,
+                        sampling_ratio=subsample_subset_size)
+                except (InvalidConfigurationError, ValueError) as e:
+                    if is_verbose:
+                        print(f'Could not try {fingerprint_type} with '
+                              f'similarity measure {similarity_measure} due to '
+                              f'{e}')
+                    continue
                 nearest_corr, nearest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_similar(
                          molecule_set)
                 furthest_corr, furthest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_dissimilar(
                         molecule_set)
-
                 if optim_algo == 'max_min':
                     score_ = nearest_corr - abs(furthest_corr)
                 elif optim_algo == 'max':
@@ -172,7 +177,6 @@ class MeasureSearch(Task):
                 else:
                     raise InvalidConfigurationError(f'{optim_algo} '
                                                     f'not implemented')
-
                 all_scores.append(trial_(
                     fingerprint_type=fingerprint_type,
                     similarity_measure=similarity_measure,

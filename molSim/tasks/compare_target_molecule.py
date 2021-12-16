@@ -10,7 +10,7 @@ from .task import Task
 
 import pylustrator
 
-pylustrator.start()
+# pylustrator.start()
 
 
 class CompareTargetMolecule(Task):
