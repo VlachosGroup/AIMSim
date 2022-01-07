@@ -11,7 +11,7 @@ molSim is a tool for visualizing diversity in your molecular data-set using stru
 
 __Why Do We Need To Visualize Molecular Similarity / Diversity?__
 
-There are two broad contexts where it is helpful to visualize the diversity of a molecular dataset:
+There are several contexts where it is helpful to visualize the diversity of a molecular dataset:
 
 _Exploratory Experimental Synthesis_
 
