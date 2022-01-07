@@ -104,7 +104,22 @@ Additional L0, L1 and L2 norm based similarities are also implemented. [View our
 
 ### Currently Implemented Functionalities
 
-1. compare_target_molecule: Compare a proposed molecules to existing molecular database. The outputs are a similarity density plot
+1. Measure Search: Automate the search of fingerprint and similarity metric (called a "measure") using the following algorithm:
+    Step 1: Select an arbitrary featurization scheme. 
+    Step 2: Using the selected scheme, Ffeaturize the molecule set using the selected scheme..  
+    Step 3: Choose an arbitrary similarity measure. 
+    Step 4: Using the similarity measure, select each molecule’s nearest neighbor in the setSelect             each molecule’s nearest neighbor in the set using the similarity measure. 
+    Step 5: Use a chosen mMeasure the of correlation to quantify the correlation between a       molecule’s QoI and its nearest neighbor’s QoI. 
+    Step 6: Iterate Ssteps 1 – 5 to select the featurization scheme and similarity measure which to maximizes the result from of Step 5. 
+
+2. See Property Variation with Similarity:
+
+3. Visualize Dataset:
+
+4. Compare Target Molecule to a Molecule :
+5. 
+6. Set
+7. compare_target_molecule: Compare a proposed molecules to existing molecular database. The outputs are a similarity density plot
 and/ or the least similar and most similar molecules in the database (to the proposed molecule)
 
 2. visualize_dataset: Visualize the diversity of molecules in existing database. The outputs are a heatmap of similarity scores and/or
