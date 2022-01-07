@@ -2,7 +2,7 @@
 
 ![molSim logo](interfaces/UI/molSim-logo.png)
 
-molSim is a tool for visualizing diversity in your molecular data-set using graph theory. 
+molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
 
 ## Documentation
 [View our Online Documentation](https://himaghna.github.io/molSim/)
@@ -13,14 +13,17 @@ __Why Do We Need To Visualize Molecular Similarity / Diversity?__
 
 There are two broad contexts where it is helpful to visualize the diversity of a molecular dataset:
 
-_Experimental Synthesis_
+_Exploratory Experimental Synthesis_
 
 For a chemist, synthesizing new molecules with targeted properties is often a laborious and time consuming task.
 In such a case, it becomes useful to check the similarity of a newly proposed (un-synthesized) molecule to the ones already synthesized.
 If the proposed molecule is too similar to the existing repertoire of molecules, it will probably not yield not enough new information /
-property and thus need not be synthesized. On the other hand, if the aim is to replicate the properties of a high performing molecule,
-it is useful to ensure that each new proposed molecule is similar to the high performing one. In both cases, a chemist can avoid spending
+property and thus need not be synthesized. Thus, a chemist can avoid spending
 time and effort synthesizing molecules not useful for the project.
+
+_Lead Optimization and Virtual Screening_
+
+This application is the converse of exploratory synthesis where the interest is to find molecules in a database which are structurally similar to an "active" molecule. In this context, "active" might refer to pharmocological activity (drug discover campaigns) or desirable chemical properties (for example, to discover alternative chemicals and solvents for an application). In such a case, molSim helps to run virtual screenings over a molecular database and visualize the results.
 
 _Machine Learning Molecular Properties_
 
