@@ -98,9 +98,9 @@ Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate 
 
 ### Currently Implemented Similarity Scores
 
-1. Tanomito Similarity (0 for completely dissimilar and 1 for identical molecules)
-2. Negative L0, L1 and L2 norms
-3. Cosine Similarity
+44 commonly used similarity scores are implemented in molSim.
+Additional L0, L1 and L2 norm based similarities are also implemented. [View our Online Documentation](https://himaghna.github.io/molSim/) for a complete list of implemented similarity scores.
+
 
 ### Currently Implemented Functionalities
 
