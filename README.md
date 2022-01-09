@@ -81,13 +81,6 @@ For packaging on conda:
 
 `conda build .; conda upload /path/to/.bz2`
 
-## Notes
-
-### General Workflow
-
-Molecular Structure Information (SMILES strings, *.pdb files etc.) --> Generate a Molecular Graph / Environment Fingerprint
---> Calculate a "similarity score" between moelcules based on some distance between their fingerprints.
-
 ### Currently Implemented Fingerprints
 
 1. Morgan Fingerprint (Equivalent to the ECFP fingerprints)
@@ -104,36 +97,31 @@ Additional L0, L1 and L2 norm based similarities are also implemented. [View our
 
 ### Currently Implemented Functionalities
 
-1. Measure Search: Automate the search of fingerprint and similarity metric (called a "measure") using the following algorithm:
-    Step 1: Select an arbitrary featurization scheme. 
-    Step 2: Using the selected scheme, Ffeaturize the molecule set using the selected scheme..  
-    Step 3: Choose an arbitrary similarity measure. 
-    Step 4: Using the similarity measure, select each molecule’s nearest neighbor in the setSelect             each molecule’s nearest neighbor in the set using the similarity measure. 
-    Step 5: Use a chosen mMeasure the of correlation to quantify the correlation between a       molecule’s QoI and its nearest neighbor’s QoI. 
-    Step 6: Iterate Ssteps 1 – 5 to select the featurization scheme and similarity measure which to maximizes the result from of Step 5. 
+1. <b> Measure Search</b>: Automate the search of fingerprint and similarity metric (called a "measure") using the following algorithm: \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 1</b></i>: Select an arbitrary featurization scheme. \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 2</b></i>: Featurize the molecule set using the selected scheme.  \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 3</b></i>: Choose an arbitrary similarity measure. \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 4</b></i>: Select each molecule’s nearest and furthest neighbors in the set using the similarity measure. \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 5</b></i>: Measure the correlation between a molecule’s QoI and its nearest neighbor’s QoI. \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 6</b></i>: Measure the correlation between a molecule’s QoI and its further neighbor’s QoI. \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 7</b></i>: Define a score which maximizes the value in Step 5 and minimizes the value in Step 6. \
+&nbsp;&nbsp;&nbsp;&nbsp;    <b><i>Step 8</b></i>: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7. 
+2. <b>See Property Variation with Similarity</b>: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
-2. See Property Variation with Similarity:
+3. <b>Visualize Dataset</b>: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
 
-3. Visualize Dataset:
+4. <b>Compare Target Molecule to Molecule Set</b>: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
 
-4. Compare Target Molecule to a Molecule :
-5. 
-6. Set
-7. compare_target_molecule: Compare a proposed molecules to existing molecular database. The outputs are a similarity density plot
-and/ or the least similar and most similar molecules in the database (to the proposed molecule)
+5. <b>Cluster Data</b>: Cluster the molecule set. The following alogirthms are implemented: \
+&nbsp;&nbsp;&nbsp;&nbsp;    <i>For arbitrary molecular features or similarity metrics with defined Euclidean distances</i>: K-Medoids[3] and Ward[4] (hierarchical clustering). \
+&nbsp;&nbsp;&nbsp;&nbsp;    <i>For binary fingerprints </i>: Complete, single and average linkage hierarchical clustering[4]. \
+The clustered data is plotted in two dimensions using multi-dimensional scaling[5].
 
-2. visualize_dataset: Visualize the diversity of molecules in existing database. The outputs are a heatmap of similarity scores and/or
-a density plot of similarity scores and /or a parity plot showing some molecular property (e.g. boiling point) between 
-pairs of most similar molecules. The last output requires the input of the molecular property for each molecule.
-This can be inputted as a .txt file containing rows of name property pairs. An example of such a file with fictitious properties is
-provided in the file smiles_responses.txt. This option is typically used to check the suitability of the fingerprint / similarity measure
-for a property of interest. If they do a good job for the particular property then the parity plot should be scattered around the diagonal.
-
-3. identify_outliers: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying `output` to be `terminal` or to a text file by instead providing a filename.
+6. <b>Outlier Detection</b>: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying `output` to be `terminal` or to a text file by instead providing a filename.
 
 ## Credits and Licensing
 
-Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)
+Developer: Himaghna Bhattacharjee, Vlachos Research Lab. ([LinkedIn](www.linkedin.com/in/himaghna-bhattacharjee))
 
 Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
@@ -141,8 +129,15 @@ Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwa
 MIT Open
 
 ## Works Cited
-Collins, K., Glorius, F. A robustness screen for the rapid assessment of chemical reactions. Nature Chem 5, 597–601 (2013). https://doi.org/10.1038/nchem.1669
+[1] Collins, K. and Glorius, F., A robustness screen for the rapid assessment of chemical reactions. Nature Chem 5, 597–601 (2013). https://doi.org/10.1038/nchem.1669
 
-Yiding Chen, Philip R. D. Murray, Alyn T. Davies, and Michael C. Willis
-Journal of the American Chemical Society 2018 140 (28), 8781-8787
-DOI: 10.1021/jacs.8b04532
+[2] Chen, Y., Murray, P.R.D., Davies, A.T., and Willis M.C., J. Am. Chem. Soc. 140 (28), 8781-8787 (2018). https://doi.org/10.1021/jacs.8b04532
+
+[3] Hastie, T., Tibshirani R. and Friedman J., The Elements of statistical Learning: Data Mining, Inference, and Prediction, 2nd Ed.  (Springer Series in Statistics). 2009.
+
+[4] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). https://doi.org/10.1002/widm.53
+
+[5]Borg, I. and Groenen, P.J.F., Modern Multidimensional Scaling: Theory and Applications (Springer Series in Statistics). 2005.
+
+
+
