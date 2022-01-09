@@ -137,7 +137,7 @@ MIT Open
 
 [4] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). https://doi.org/10.1002/widm.53
 
-[5]Borg, I. and Groenen, P.J.F., Modern Multidimensional Scaling: Theory and Applications (Springer Series in Statistics). 2005.
+[5] Borg, I. and Groenen, P.J.F., Modern Multidimensional Scaling: Theory and Applications (Springer Series in Statistics). 2005.
 
 
 
