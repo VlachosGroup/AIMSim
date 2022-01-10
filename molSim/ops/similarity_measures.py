@@ -212,11 +212,11 @@ class SimilarityMeasure:
             self.metric = "dispersion"
             self.type_ = "discrete"
 
-        elif metric.lower() in ["goodman−kruskal"]:
+        elif metric.lower() in ["goodman−kruskal", "goodman_kruskal"]:
             self.metric = "goodman_kruskal"
             self.type_ = "discrete"
 
-        elif metric.lower() in ["pearson−heron"]:
+        elif metric.lower() in ["pearson−heron", "pearson_heron"]:
             self.metric = "pearson_heron"
             self.type_ = "discrete"
             self.to_distance = lambda x: 1 - x
@@ -1133,7 +1133,7 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
-        if (a + b) < SMALL_NUMBER or (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
+        if (a + b) * (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
             return 0.0
         p = a + b + c + d
         similarity_ = (p * a) / ((a + b) * (a + c) + SMALL_NUMBER)
