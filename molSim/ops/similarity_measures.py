@@ -1287,7 +1287,7 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
-        if a == 0:
+        if a < SMALL_NUMBER:
             return 0.0
         similarity_ = 3 * a / (3 * a + b + c)
         self.normalize_fn["shift_"] = 0.0
