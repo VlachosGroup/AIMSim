@@ -1,5 +1,4 @@
-""" Test multithreading to ensure consistent behavior with
-serial implementation."""
+""" Test multithreading to ensure consistent behavior with serial implementation."""
 import unittest
 import warnings
 from os import remove
@@ -25,16 +24,16 @@ class TestMultithreading(unittest.TestCase):
             self.NO_SPEEDUP_TEST = True
         else:
             self.NO_SPEEDUP_TEST = False
-            self.N_REPLICATES = 3
+            self.N_REPLICATES = 2
             warnings.warn(
                 "Speedup and Efficiency tests ENABLED, expect long runtime.",
                 ResourceWarning,
             )
-        print(" ~ ~ Testing Multithreading ~ ~ ")
+        print(" ~ ~ Testing Multithreading ~ ~ ", flush=True)
 
         # basic consistency tests
         self.text_fpath = "temp_multithread_smiles_seq.txt"
-        print(f"Creating text file {self.text_fpath}")
+        print(f"Creating text file {self.text_fpath}", flush=True)
         with open(self.text_fpath, "w") as file:
             for smiles in ["C", "CC", "CCC", "O", "CCCC", "CO", "CCOCC"]:
                 file.write(smiles + "\n")
@@ -61,11 +60,11 @@ class TestMultithreading(unittest.TestCase):
 
         # data used for speedup and efficiency tests
         self._100_molecules_fpath = "temp_multithread_speedup_100.txt"
-        print(f"Creating text file {self._100_molecules_fpath}")
+        print(f"Creating text file {self._100_molecules_fpath}", flush=True)
         with open(self._100_molecules_fpath, "w") as file:
             for smiles in _100_molecules:
                 file.write(smiles)
-        print("Running 100 molecules with 1 process.")
+        print("Running 100 molecules with 1 process.", flush=True)
         self._100_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -80,11 +79,11 @@ class TestMultithreading(unittest.TestCase):
             self._100_molecules_serial_time += (time() - start) / self.N_REPLICATES
 
         self._500_molecules_fpath = "temp_multithread_speedup_500.txt"
-        print(f"Creating text file {self._500_molecules_fpath}")
+        print(f"Creating text file {self._500_molecules_fpath}", flush=True)
         with open(self._500_molecules_fpath, "w") as file:
             for smiles in _500_molecules:
                 file.write(smiles)
-        print("Running 500 molecules with 1 process.")
+        print("Running 500 molecules with 1 process.", flush=True)
         self._500_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -99,11 +98,11 @@ class TestMultithreading(unittest.TestCase):
             self._500_molecules_serial_time += (time() - start) / self.N_REPLICATES
 
         self._1000_molecules_fpath = "temp_multithread_speedup_1000.txt"
-        print(f"Creating text file {self._1000_molecules_fpath}")
+        print(f"Creating text file {self._1000_molecules_fpath}", flush=True)
         with open(self._1000_molecules_fpath, "w") as file:
             for smiles in _1000_molecules:
                 file.write(smiles)
-        print("Running 1000 molecules with 1 process.")
+        print("Running 1000 molecules with 1 process.", flush=True)
         self._1000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -118,11 +117,11 @@ class TestMultithreading(unittest.TestCase):
             self._1000_molecules_serial_time += (time() - start) / self.N_REPLICATES
 
         self._5000_molecules_fpath = "temp_multithread_speedup_5000.txt"
-        print(f"Creating text file {self._5000_molecules_fpath}")
+        print(f"Creating text file {self._5000_molecules_fpath}", flush=True)
         with open(self._5000_molecules_fpath, "w") as file:
             for smiles in _5000_molecules:
                 file.write(smiles)
-        print("Running 5000 molecules with 1 process.")
+        print("Running 5000 molecules with 1 process.", flush=True)
         self._5000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -137,11 +136,11 @@ class TestMultithreading(unittest.TestCase):
             self._5000_molecules_serial_time += (time() - start) / self.N_REPLICATES
 
         self._10000_molecules_fpath = "temp_multithread_speedup_10000.txt"
-        print(f"Creating text file {self._10000_molecules_fpath}")
+        print(f"Creating text file {self._10000_molecules_fpath}", flush=True)
         with open(self._10000_molecules_fpath, "w") as file:
             for smiles in _10000_molecules:
                 file.write(smiles)
-        print("Running 10000 molecules with 1 process.")
+        print("Running 10000 molecules with 1 process.", flush=True)
         self._10000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -156,11 +155,11 @@ class TestMultithreading(unittest.TestCase):
             self._10000_molecules_serial_time += (time() - start) / self.N_REPLICATES
 
         self._15000_molecules_fpath = "temp_multithread_speedup_15000.txt"
-        print(f"Creating text file {self._15000_molecules_fpath}")
+        print(f"Creating text file {self._15000_molecules_fpath}", flush=True)
         with open(self._15000_molecules_fpath, "w") as file:
             for smiles in _15000_molecules:
                 file.write(smiles)
-        print("Running 15000 molecules with 1 process.")
+        print("Running 15000 molecules with 1 process.", flush=True)
         self._15000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -175,7 +174,7 @@ class TestMultithreading(unittest.TestCase):
             self._15000_molecules_serial_time += (time() - start) / self.N_REPLICATES
 
         # data used for speedup and efficiency test 2
-        print("Running 100 molecules with 1 process.")
+        print("Running 100 molecules with 1 process.", flush=True)
         self._100_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -189,7 +188,7 @@ class TestMultithreading(unittest.TestCase):
             )
             self._100_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
 
-        print("Running 500 molecules with 1 process.")
+        print("Running 500 molecules with 1 process.", flush=True)
         self._500_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -203,7 +202,7 @@ class TestMultithreading(unittest.TestCase):
             )
             self._500_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
 
-        print("Running 1000 molecules with 1 process.")
+        print("Running 1000 molecules with 1 process.", flush=True)
         self._1000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -217,7 +216,7 @@ class TestMultithreading(unittest.TestCase):
             )
             self._1000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
 
-        print("Running 5000 molecules with 1 process.")
+        print("Running 5000 molecules with 1 process.", flush=True)
         self._5000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -231,7 +230,7 @@ class TestMultithreading(unittest.TestCase):
             )
             self._5000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
 
-        print("Running 10000 molecules with 1 process.")
+        print("Running 10000 molecules with 1 process.", flush=True)
         self._10000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -245,7 +244,7 @@ class TestMultithreading(unittest.TestCase):
             )
             self._10000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
 
-        print("Running 15000 molecules with 1 process.")
+        print("Running 15000 molecules with 1 process.", flush=True)
         self._15000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -412,9 +411,9 @@ class TestMultithreading(unittest.TestCase):
         """
         if self.NO_SPEEDUP_TEST:
             return
-        print("~" * 10, "\n", "Speedup and Efficiency Test\n", "~" * 10)
+        print("~" * 10, "\n", "Speedup and Efficiency Test 1\n", "~" * 10, flush=True)
         # 100 molecules
-        print("Running 100 molecules with 2 processes.")
+        print("Running 100 molecules with 2 processes.", flush=True)
         _100_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -432,7 +431,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _100_molecules_2_process_efficiency = _100_molecules_2_process_speedup / 2
 
-        print("Running 100 molecules with 5 processes.")
+        print("Running 100 molecules with 5 processes.", flush=True)
         _100_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -450,7 +449,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _100_molecules_5_process_efficiency = _100_molecules_5_process_speedup / 5
 
-        print("Running 100 molecules with 10 processes.")
+        print("Running 100 molecules with 10 processes.", flush=True)
         _100_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -469,7 +468,7 @@ class TestMultithreading(unittest.TestCase):
         _100_molecules_10_process_efficiency = _100_molecules_10_process_speedup / 10
 
         # 500 molecules
-        print("Running 500 molecules with 2 processes.")
+        print("Running 500 molecules with 2 processes.", flush=True)
         _500_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -487,7 +486,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _500_molecules_2_process_efficiency = _500_molecules_2_process_speedup / 2
 
-        print("Running 500 molecules with 5 processes.")
+        print("Running 500 molecules with 5 processes.", flush=True)
         _500_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -505,7 +504,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _500_molecules_5_process_efficiency = _500_molecules_5_process_speedup / 5
 
-        print("Running 500 molecules with 10 processes.")
+        print("Running 500 molecules with 10 processes.", flush=True)
         _500_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -524,7 +523,7 @@ class TestMultithreading(unittest.TestCase):
         _500_molecules_10_process_efficiency = _500_molecules_10_process_speedup / 10
 
         # 1000 molecules
-        print("Running 1000 molecules with 2 processes.")
+        print("Running 1000 molecules with 2 processes.", flush=True)
         _1000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -542,7 +541,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _1000_molecules_2_process_efficiency = _1000_molecules_2_process_speedup / 2
 
-        print("Running 1000 molecules with 5 processes.")
+        print("Running 1000 molecules with 5 processes.", flush=True)
         _1000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -560,7 +559,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _1000_molecules_5_process_efficiency = _1000_molecules_5_process_speedup / 5
 
-        print("Running 1000 molecules with 10 processes.")
+        print("Running 1000 molecules with 10 processes.", flush=True)
         _1000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -578,7 +577,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _1000_molecules_10_process_efficiency = _1000_molecules_10_process_speedup / 10
 
-        print("Running 5000 molecules with 2 processes.")
+        print("Running 5000 molecules with 2 processes.", flush=True)
         # 5000 molecules
         _5000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
@@ -597,7 +596,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _5000_molecules_2_process_efficiency = _5000_molecules_2_process_speedup / 2
 
-        print("Running 5000 molecules with 5 processes.")
+        print("Running 5000 molecules with 5 processes.", flush=True)
         _5000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -615,7 +614,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _5000_molecules_5_process_efficiency = _5000_molecules_5_process_speedup / 5
 
-        print("Running 5000 molecules with 10 processes.")
+        print("Running 5000 molecules with 10 processes.", flush=True)
         _5000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -634,7 +633,7 @@ class TestMultithreading(unittest.TestCase):
         _5000_molecules_10_process_efficiency = _5000_molecules_10_process_speedup / 10
 
         # 10000 molecules
-        print("Running 10000 molecules with 2 processes.")
+        print("Running 10000 molecules with 2 processes.", flush=True)
         _10000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -652,7 +651,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _10000_molecules_2_process_efficiency = _10000_molecules_2_process_speedup / 2
 
-        print("Running 10000 molecules with 5 processes.")
+        print("Running 10000 molecules with 5 processes.", flush=True)
         _10000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -670,7 +669,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _10000_molecules_5_process_efficiency = _10000_molecules_5_process_speedup / 5
 
-        print("Running 10000 molecules with 10 processes.")
+        print("Running 10000 molecules with 10 processes.", flush=True)
         _10000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -691,7 +690,7 @@ class TestMultithreading(unittest.TestCase):
         )
 
         # 15000 molecules
-        print("Running 15000 molecules with 2 processes.")
+        print("Running 15000 molecules with 2 processes.", flush=True)
         _15000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -709,7 +708,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _15000_molecules_2_process_efficiency = _15000_molecules_2_process_speedup / 2
 
-        print("Running 15000 molecules with 5 processes.")
+        print("Running 15000 molecules with 5 processes.", flush=True)
         _15000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -727,7 +726,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _15000_molecules_5_process_efficiency = _15000_molecules_5_process_speedup / 5
 
-        print("Running 15000 molecules with 10 processes.")
+        print("Running 15000 molecules with 10 processes.", flush=True)
         _15000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -746,7 +745,7 @@ class TestMultithreading(unittest.TestCase):
         _15000_molecules_10_process_efficiency = (
             _15000_molecules_10_process_speedup / 10
         )
-        print("Speedup:")
+        print("Speedup:", flush=True)
         print(
             tabulate(
                 [
@@ -791,7 +790,7 @@ class TestMultithreading(unittest.TestCase):
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Efficiency:")
+        print("Efficiency:", flush=True)
         print(
             tabulate(
                 [
@@ -836,7 +835,7 @@ class TestMultithreading(unittest.TestCase):
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Execution Time in seconds (serial/parallel):")
+        print("Execution Time in seconds (serial/parallel):", flush=True)
         print(
             tabulate(
                 [
@@ -943,9 +942,9 @@ class TestMultithreading(unittest.TestCase):
         """
         if self.NO_SPEEDUP_TEST:
             return
-        print("~" * 10, "\n", "Speedup and Efficiency Test 2\n", "~" * 10)
+        print("~" * 10, "\n", "Speedup and Efficiency Test 2\n", "~" * 10, flush=True)
         # 100 molecules
-        print("Running 100 molecules with 2 processes.")
+        print("Running 100 molecules with 2 processes.", flush=True)
         _100_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -963,7 +962,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _100_molecules_2_process_efficiency = _100_molecules_2_process_speedup / 2
 
-        print("Running 100 molecules with 5 processes.")
+        print("Running 100 molecules with 5 processes.", flush=True)
         _100_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -981,7 +980,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _100_molecules_5_process_efficiency = _100_molecules_5_process_speedup / 5
 
-        print("Running 100 molecules with 10 processes.")
+        print("Running 100 molecules with 10 processes.", flush=True)
         _100_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1000,7 +999,7 @@ class TestMultithreading(unittest.TestCase):
         _100_molecules_10_process_efficiency = _100_molecules_10_process_speedup / 10
 
         # 500 molecules
-        print("Running 500 molecules with 2 processes.")
+        print("Running 500 molecules with 2 processes.", flush=True)
         _500_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1018,7 +1017,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _500_molecules_2_process_efficiency = _500_molecules_2_process_speedup / 2
 
-        print("Running 500 molecules with 5 processes.")
+        print("Running 500 molecules with 5 processes.", flush=True)
         _500_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1036,7 +1035,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _500_molecules_5_process_efficiency = _500_molecules_5_process_speedup / 5
 
-        print("Running 500 molecules with 10 processes.")
+        print("Running 500 molecules with 10 processes.", flush=True)
         _500_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1055,7 +1054,7 @@ class TestMultithreading(unittest.TestCase):
         _500_molecules_10_process_efficiency = _500_molecules_10_process_speedup / 10
 
         # 1000 molecules
-        print("Running 1000 molecules with 2 processes.")
+        print("Running 1000 molecules with 2 processes.", flush=True)
         _1000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1073,7 +1072,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _1000_molecules_2_process_efficiency = _1000_molecules_2_process_speedup / 2
 
-        print("Running 1000 molecules with 5 processes.")
+        print("Running 1000 molecules with 5 processes.", flush=True)
         _1000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1091,7 +1090,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _1000_molecules_5_process_efficiency = _1000_molecules_5_process_speedup / 5
 
-        print("Running 1000 molecules with 10 processes.")
+        print("Running 1000 molecules with 10 processes.", flush=True)
         _1000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1110,7 +1109,7 @@ class TestMultithreading(unittest.TestCase):
         _1000_molecules_10_process_efficiency = _1000_molecules_10_process_speedup / 10
 
         # 5000 molecules
-        print("Running 5000 molecules with 2 processes.")
+        print("Running 5000 molecules with 2 processes.", flush=True)
         _5000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1128,7 +1127,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _5000_molecules_2_process_efficiency = _5000_molecules_2_process_speedup / 2
 
-        print("Running 5000 molecules with 5 processes.")
+        print("Running 5000 molecules with 5 processes.", flush=True)
         _5000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1146,7 +1145,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _5000_molecules_5_process_efficiency = _5000_molecules_5_process_speedup / 5
 
-        print("Running 5000 molecules with 10 processes.")
+        print("Running 5000 molecules with 10 processes.", flush=True)
         _5000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1165,7 +1164,7 @@ class TestMultithreading(unittest.TestCase):
         _5000_molecules_10_process_efficiency = _5000_molecules_10_process_speedup / 10
 
         # 10000 molecules
-        print("Running 10000 molecules with 2 processes.")
+        print("Running 10000 molecules with 2 processes.", flush=True)
         _10000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1183,7 +1182,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _10000_molecules_2_process_efficiency = _10000_molecules_2_process_speedup / 2
 
-        print("Running 10000 molecules with 5 processes.")
+        print("Running 10000 molecules with 5 processes.", flush=True)
         _10000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1201,7 +1200,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _10000_molecules_5_process_efficiency = _10000_molecules_5_process_speedup / 5
 
-        print("Running 10000 molecules with 10 processes.")
+        print("Running 10000 molecules with 10 processes.", flush=True)
         _10000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1222,7 +1221,7 @@ class TestMultithreading(unittest.TestCase):
         )
 
         # 15000 molecules
-        print("Running 15000 molecules with 2 processes.")
+        print("Running 15000 molecules with 2 processes.", flush=True)
         _15000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1240,7 +1239,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _15000_molecules_2_process_efficiency = _15000_molecules_2_process_speedup / 2
 
-        print("Running 15000 molecules with 5 processes.")
+        print("Running 15000 molecules with 5 processes.", flush=True)
         _15000_molecules_5_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1258,7 +1257,7 @@ class TestMultithreading(unittest.TestCase):
         )
         _15000_molecules_5_process_efficiency = _15000_molecules_5_process_speedup / 5
 
-        print("Running 15000 molecules with 10 processes.")
+        print("Running 15000 molecules with 10 processes.", flush=True)
         _15000_molecules_10_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1277,7 +1276,7 @@ class TestMultithreading(unittest.TestCase):
         _15000_molecules_10_process_efficiency = (
             _15000_molecules_10_process_speedup / 10
         )
-        print("Speedup:")
+        print("Speedup:", flush=True)
         print(
             tabulate(
                 [
@@ -1322,7 +1321,7 @@ class TestMultithreading(unittest.TestCase):
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Efficiency:")
+        print("Efficiency:", flush=True)
         print(
             tabulate(
                 [
@@ -1367,7 +1366,7 @@ class TestMultithreading(unittest.TestCase):
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Execution Time in seconds (serial/parallel):")
+        print("Execution Time in seconds (serial/parallel):", flush=True)
         print(
             tabulate(
                 [
@@ -1470,7 +1469,7 @@ class TestMultithreading(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         """Delete temporary files used in testing."""
-        print("Deleting smiles database files.")
+        print("Deleting smiles database files.", flush=True)
         remove(self.text_fpath)
         if not self.NO_SPEEDUP_TEST:
             remove(self._100_molecules_fpath)
@@ -1479,7 +1478,7 @@ class TestMultithreading(unittest.TestCase):
             remove(self._5000_molecules_fpath)
             remove(self._10000_molecules_fpath)
             remove(self._15000_molecules_fpath)
-        print(" ~ ~ Multithreading Test Complete ~ ~ ")
+        print(" ~ ~ Multithreading Test Complete ~ ~ ", flush=True)
 
 
 if __name__ == "__main__":
