@@ -16,7 +16,11 @@ class SimilarityMeasure:
             self.type_ = "continuous"
             self.to_distance = lambda x: 1 - x
 
-        elif metric.lower() in ["l1_similarity", "manhattan_similarity"]:
+        elif metric.lower() in ["l1_similarity",
+                                "manhattan_similarity",
+                                "taxicab_similarity",
+                                "city_block_similarity",
+                                "snake_similarity"]:
             self.metric = "l1_similarity"
             self.type_ = "continuous"
             self.to_distance = lambda x: 1 - x
