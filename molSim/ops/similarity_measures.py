@@ -1631,7 +1631,7 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
-        if (a + b) < SMALL_NUMBER or (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
+        if min((a + b), (a + c)) < SMALL_NUMBER or a < SMALL_NUMBER:
             return 0.0
         similarity_ = a / min((a + b), (a + c))
         self.normalize_fn["shift_"] = 0.0
