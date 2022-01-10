@@ -1749,7 +1749,7 @@ class SimilarityMeasure:
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
-        if a < SMALL_NUMBER and d < SMALL_NUMBER:
+        if a < SMALL_NUMBER or d < SMALL_NUMBER:
             return 0.0
         similarity_ = a / (np.sqrt((a + b) * (a + c)) + SMALL_NUMBER) \
                       * d / (np.sqrt((b + d) * (c + d) + SMALL_NUMBER))
