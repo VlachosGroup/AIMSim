@@ -22,7 +22,7 @@ setup(
         "matplotlib==3.3.4",
         "seaborn==0.11.1",
         "tabulate==0.8.9",
-        "numpy==1.19.5",
+        "numpy==1.21.0",
         "multiprocess==0.70.12.2",
         "scikit_learn_extra==0.2.0",
         "pandas==1.1.5",
