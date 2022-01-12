@@ -3,11 +3,6 @@ from .task import Task
 from molSim.utils.plotting_scripts import plot_density, plot_heatmap, plt
 
 
-import pylustrator
-
-# pylustrator.start()
-
-
 class VisualizeDataset(Task):
     def __init__(self, configs=None, **kwargs):
         if configs is None:

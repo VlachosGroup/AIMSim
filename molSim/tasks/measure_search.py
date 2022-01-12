@@ -16,9 +16,6 @@ from .see_property_variation_with_similarity \
     import SeePropertyVariationWithSimilarity
 
 
-# pylustrator.start()
-
-
 class MeasureSearch(Task):
     def __init__(self, configs=None, **kwargs):
         if configs is None:
@@ -120,7 +117,8 @@ class MeasureSearch(Task):
                    More is better.
 
         """
-        print(f'Using subsample size {subsample_subset_size} for measure search')
+        print(
+            f'Using subsample size {subsample_subset_size} for measure search')
         trial_ = namedtuple('trial_', ['fingerprint_type',
                                        'similarity_measure',
                                        'nearest_neighbor_correlation',
@@ -165,7 +163,7 @@ class MeasureSearch(Task):
                     continue
                 nearest_corr, nearest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_similar(
-                         molecule_set)
+                        molecule_set)
                 furthest_corr, furthest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_dissimilar(
                         molecule_set)
@@ -198,9 +196,9 @@ class MeasureSearch(Task):
                     trial.furthest_neighbor_correlation)
                 top_scores.append(trial.score_)
                 all_measures.append(Descriptor.shorten_label(
-                                        trial.fingerprint_type)
-                                    + '\n'
-                                    + trial.similarity_measure)
+                    trial.fingerprint_type)
+                    + '\n'
+                    + trial.similarity_measure)
             bar_heights = np.array([top_scores,
                                     all_nearest_neighbor_correlations,
                                     all_furthest_neighbor_correlations])
