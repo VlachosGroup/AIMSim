@@ -16,7 +16,11 @@ class SimilarityMeasure:
             self.type_ = "continuous"
             self.to_distance = lambda x: 1 - x
 
-        elif metric.lower() in ["l1_similarity", "manhattan_similarity"]:
+        elif metric.lower() in ["l1_similarity",
+                                "manhattan_similarity",
+                                "taxicab_similarity",
+                                "city_block_similarity",
+                                "snake_similarity"]:
             self.metric = "l1_similarity"
             self.type_ = "continuous"
             self.to_distance = lambda x: 1 - x
@@ -208,11 +212,11 @@ class SimilarityMeasure:
             self.metric = "dispersion"
             self.type_ = "discrete"
 
-        elif metric.lower() in ["goodman−kruskal"]:
+        elif metric.lower() in ["goodman−kruskal", "goodman_kruskal"]:
             self.metric = "goodman_kruskal"
             self.type_ = "discrete"
 
-        elif metric.lower() in ["pearson−heron"]:
+        elif metric.lower() in ["pearson−heron", "pearson_heron"]:
             self.metric = "pearson_heron"
             self.type_ = "discrete"
             self.to_distance = lambda x: 1 - x
@@ -1129,7 +1133,7 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
-        if (a + b) < SMALL_NUMBER or (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
+        if (a + b) * (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
             return 0.0
         p = a + b + c + d
         similarity_ = (p * a) / ((a + b) * (a + c) + SMALL_NUMBER)
@@ -1283,7 +1287,7 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
-        if a == 0:
+        if a < SMALL_NUMBER:
             return 0.0
         similarity_ = 3 * a / (3 * a + b + c)
         self.normalize_fn["shift_"] = 0.0
@@ -1627,7 +1631,7 @@ class SimilarityMeasure:
                 "other similarity measures for arbitrary vectors."
             )
         a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
-        if (a + b) < SMALL_NUMBER or (a + c) < SMALL_NUMBER or a < SMALL_NUMBER:
+        if min((a + b), (a + c)) < SMALL_NUMBER or a < SMALL_NUMBER:
             return 0.0
         similarity_ = a / min((a + b), (a + c))
         self.normalize_fn["shift_"] = 0.0
@@ -1745,7 +1749,7 @@ class SimilarityMeasure:
         p = a + b + c + d
         if a == p or d == p:
             return 1.0
-        if a < SMALL_NUMBER and d < SMALL_NUMBER:
+        if a < SMALL_NUMBER or d < SMALL_NUMBER:
             return 0.0
         similarity_ = a / (np.sqrt((a + b) * (a + c)) + SMALL_NUMBER) \
                       * d / (np.sqrt((b + d) * (c + d) + SMALL_NUMBER))
