@@ -168,8 +168,10 @@ class MoleculeSet:
             database_feature_df = database_df[feature_cols]
             mol_names, mol_smiles, responses = None, None, None
             if "feature_name" in feature_cols:
-                mol_names = database_feature_df["feature_name"].values.flatten()
-                database_feature_df = database_feature_df.drop(["feature_name"], axis=1)
+                mol_names = database_feature_df["feature_name"].values.flatten(
+                )
+                database_feature_df = database_feature_df.drop(
+                    ["feature_name"], axis=1)
             if "feature_smiles" in feature_cols:
                 mol_smiles = database_df["feature_smiles"].values.flatten()
                 database_feature_df = database_feature_df.drop(
@@ -328,7 +330,7 @@ class MoleculeSet:
             remainder = n_mols % (self.n_threads)
             bulk = n_mols // (self.n_threads)
             threads = []
-            for i in range(self.n_threads):
+            for i in range(int(self.n_threads)):
                 # last thread
                 if i == self.n_threads - 1:
                     thread = multiprocess.Process(
@@ -361,7 +363,7 @@ class MoleculeSet:
             for thread in threads:
                 thread.join()
             thread_results = []
-            for _ in range(self.n_threads):
+            for _ in range(int(self.n_threads)):
                 thread_results.append(q.get())
             similarity_matrix = sum(thread_results)
         else:
@@ -487,11 +489,12 @@ class MoleculeSet:
         n_samples = self.similarity_matrix.shape[0]
         for index, row in enumerate(self.similarity_matrix):
             post_diag_closest_index = (
-                np.argmax(row[(index + 1) :]) + index + 1
+                np.argmax(row[(index + 1):]) + index + 1
                 if index < n_samples - 1
                 else -1
             )
-            pre_diag_closest_index = np.argmax(row[:index]) if index > 0 else -1
+            pre_diag_closest_index = np.argmax(
+                row[:index]) if index > 0 else -1
             # if either (pre_) post_diag_closest_index not set, the
             # closest_index is set to the (post_) pre_diag_closest_index
             if pre_diag_closest_index == -1:
@@ -531,7 +534,8 @@ class MoleculeSet:
         for index, row in enumerate(self.similarity_matrix):
             furthest_index = np.argmin(row)
             out_list.append(
-                (self.molecule_database[index], self.molecule_database[furthest_index])
+                (self.molecule_database[index],
+                 self.molecule_database[furthest_index])
             )
         return out_list
 
@@ -685,4 +689,3 @@ class MoleculeSet:
             return self._do_pca(**kwargs)
         if method_.lower() == "mds":
             return self._do_mds(**kwargs)
-

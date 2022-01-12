@@ -9,7 +9,7 @@ desc = "Python command line and GUI tool to analyze molecular similarity."
 
 setup(
     name="molSim",
-    version="0.0.1",
+    version="0.0.3",
     description=desc,
     long_description=README,
     long_description_content_type="text/markdown",

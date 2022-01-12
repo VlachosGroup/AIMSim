@@ -73,7 +73,7 @@ To build the docs, execute the following with `sphinx` and `m2r` installed and f
 
 `m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .`
 
-For packaging on Pypi:
+For packaging on PyPI:
 
 `python -m build; twine upload dist/*`
 
