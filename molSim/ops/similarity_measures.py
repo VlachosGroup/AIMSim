@@ -373,15 +373,9 @@ class SimilarityMeasure:
 
         elif self.metric == "dice":
             try:
-                similarity_ = DataStructs.DiceSimilarity(
-                    mol1_descriptor.to_rdkit(), mol2_descriptor.to_rdkit()
-                )
+                similarity_ = self._get_dice(mol1_descriptor, mol2_descriptor)
             except ValueError as e:
-                raise ValueError(
-                    "Dice similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
+                raise e
 
         elif self.metric == "dice_2":
             try:
@@ -997,6 +991,35 @@ class SimilarityMeasure:
         similarity_ = (a * d - b * c) / denominator
         self.normalize_fn["shift_"] = np.sqrt(p) / 2
         self.normalize_fn["scale_"] = 3 * np.sqrt(p) / 2
+        return self._normalize(similarity_)
+
+    def _get_dice(self, mol1_descriptor, mol2_descriptor):
+        """Calculate Dice similarity between two molecules.
+        This is defined for two binary arrays as:
+        Dice similarity = 2a / (2a + b + c)
+
+        Args:
+            mol1_descriptor (molSim.ops Descriptor)
+            mol2_descriptor (molSim.ops Descriptor)
+
+        Returns:
+            (float): Dice similarity value
+        """
+        if not (mol1_descriptor.is_fingerprint()
+                and mol2_descriptor.is_fingerprint()):
+            raise ValueError(
+                "Dice similarity is only useful for bit strings "
+                "generated from fingerprints, not {} and {}. Consider using "
+                "other similarity measures for arbitrary vectors.".format(
+                    mol1_descriptor.get_label(), mol2_descriptor.get_label()
+                )
+            )
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
+        if a < SMALL_NUMBER:
+            return 0.0
+        similarity_ = 2*a / (2*a + b + c)
+        self.normalize_fn["shift_"] = 0.0
+        self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
     def _get_dice_2(self, mol1_descriptor, mol2_descriptor):
