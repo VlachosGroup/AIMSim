@@ -5,7 +5,6 @@ from collections import namedtuple
 
 from matplotlib.pyplot import get_cmap
 import numpy as np
-import pylustrator
 
 from molSim.chemical_datastructures import MoleculeSet
 from molSim.exceptions import InvalidConfigurationError
