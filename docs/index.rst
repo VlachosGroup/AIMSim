@@ -11,7 +11,7 @@ molSim documentation
    :caption: Contents:
 
    README
-   Implemented Metrics
+   implemented_metrics
    modules
 
 

@@ -28,7 +28,6 @@ molSim.ops.similarity\_measures module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

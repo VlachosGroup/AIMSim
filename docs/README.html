@@ -1,73 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>molSim README &mdash; molSim 1.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>molSim README &mdash; molSim 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="molSim" href="modules.html" />
+    <link rel="next" title="Supported Similarity Metrics" href="implemented_metrics.html" />
     <link rel="prev" title="molSim documentation" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> molSim
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,31 +36,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">molSim README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-molsim">Installing molSim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pip-preferred-method">Pip <em>(preferred method)</em></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conda">Conda</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pip">Pip</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#running-molsim">Running molSim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#general-workflow">General Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-molsim">Running molSim</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#currently-implemented-fingerprints">Currently Implemented Fingerprints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#currently-implemented-similarity-scores">Currently Implemented Similarity Scores</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#currently-implemented-functionalities">Currently Implemented Functionalities</a></li>
@@ -110,92 +58,54 @@
 <li class="toctree-l2"><a class="reference internal" href="#works-cited">Works Cited</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="implemented_metrics.html">Supported Similarity Metrics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">molSim</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">molSim</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>molSim README</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="molsim-readme">
-<h1>molSim README<a class="headerlink" href="#molsim-readme" title="Permalink to this headline">¶</a></h1>
-<p>molSim is a tool for visualizing diversity in your molecular data-set using graph theory.</p>
-<div class="section" id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="molsim-readme">
+<h1>molSim README<a class="headerlink" href="#molsim-readme" title="Permalink to this headline"></a></h1>
+<a class="reference external image-reference" href="interfaces/UI/molSim-logo.png"><img alt="molSim logo" src="interfaces/UI/molSim-logo.png" /></a>
+<p>molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints.</p>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h2>
 <p><a class="reference external" href="https://himaghna.github.io/molSim/">View our Online Documentation</a></p>
-</div>
-<div class="section" id="purpose">
-<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline"></a></h2>
 <p><strong>Why Do We Need To Visualize Molecular Similarity / Diversity?</strong></p>
-<p>There are two broad contexts where it is helpful to visualize the diversity of a molecular dataset:</p>
-<p><em>Experimental Synthesis</em></p>
+<p>There are several contexts where it is helpful to visualize the diversity of a molecular dataset:</p>
+<p><em>Exploratory Experimental Synthesis</em></p>
 <p>For a chemist, synthesizing new molecules with targeted properties is often a laborious and time consuming task.
 In such a case, it becomes useful to check the similarity of a newly proposed (un-synthesized) molecule to the ones already synthesized.
 If the proposed molecule is too similar to the existing repertoire of molecules, it will probably not yield not enough new information /
-property and thus need not be synthesized. On the other hand, if the aim is to replicate the properties of a high performing molecule,
-it is useful to ensure that each new proposed molecule is similar to the high performing one. In both cases, a chemist can avoid spending
+property and thus need not be synthesized. Thus, a chemist can avoid spending
 time and effort synthesizing molecules not useful for the project.</p>
+<p><em>Lead Optimization and Virtual Screening</em></p>
+<p>This application is the converse of exploratory synthesis where the interest is to find molecules in a database which are structurally similar to an “active” molecule. In this context, “active” might refer to pharmocological activity (drug discover campaigns) or desirable chemical properties (for example, to discover alternative chemicals and solvents for an application). In such a case, molSim helps to run virtual screenings over a molecular database and visualize the results.</p>
 <p><em>Machine Learning Molecular Properties</em></p>
 <p>In the context of machine learning, visualizing the diversity of the training set gives a good idea about its information quality.
 A more diverse training data-set yields a more robust model, which generalizes well to unseen data. Additionally, such a visualization can
@@ -204,141 +114,113 @@ identify “clusters of similarity” indicating the need for separately trained
 <p>When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation’s tolerance of diverse functional groups and substrates (Glorius, 2013). Using <code class="docutils literal notranslate"><span class="pre">molSim</span></code>, one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).</p>
 <a class="reference external image-reference" href="tests/sulfonamide-substrate-scope.png"><img alt="Image of sulfonamide substrate scope" src="tests/sulfonamide-substrate-scope.png" /></a>
 <p>Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.</p>
-</div>
-<div class="section" id="installing-molsim">
-<h2>Installing molSim<a class="headerlink" href="#installing-molsim" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="conda">
-<h3>Conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
-<p>Use the following command with conda to create an environment:
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">--name</span> <span class="pre">your-env-name</span> <span class="pre">--file</span> <span class="pre">spec-file.txt</span></code></p>
-<ol class="arabic simple">
-<li><p>Python 3+</p></li>
-<li><p>Matplotlib</p></li>
-<li><p>Numpy</p></li>
-<li><p>RDKIT</p></li>
-<li><p>SEABORN</p></li>
-<li><p>PyYAML</p></li>
-<li><p>Pandas 1.0.1+</p></li>
-<li><p>openpyxl</p></li>
-</ol>
-</div>
-<div class="section" id="pip">
-<h3>Pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
-<p><em>coming soon</em>
-<span class="raw-html-m2r"><del>To install molSim using pip, run the following command: ``pip install molSim`</span>&lt;/del&gt;`</p>
-</div>
-</div>
-<div class="section" id="running-molsim">
-<h2>Running molSim<a class="headerlink" href="#running-molsim" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="installing-molsim">
+<h2>Installing molSim<a class="headerlink" href="#installing-molsim" title="Permalink to this headline"></a></h2>
+<section id="pip-preferred-method">
+<h3>Pip <em>(preferred method)</em><a class="headerlink" href="#pip-preferred-method" title="Permalink to this headline"></a></h3>
+<p>Required dependency <em>RDKit</em> is only available first-party through <em>conda</em>. To install molSim using pip, run the following command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">molSim</span></code>. You may then need to install <code class="docutils literal notranslate"><span class="pre">RDKit</span></code> using <em>conda</em>: run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">rdkit</span> <span class="pre">rdkit</span></code> to install it.</p>
+</section>
+<section id="conda">
+<h3>Conda<a class="headerlink" href="#conda" title="Permalink to this headline"></a></h3>
+<p>Install all depedencies at once with:</p>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">jacksonburns</span> <span class="pre">molsim</span></code></p>
+<p>Or build everything manually, using the following command with conda to create an environment:
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">--name</span> <span class="pre">your-env-name</span> <span class="pre">--file</span> <span class="pre">requirements.txt</span></code></p>
+</section>
+</section>
+<section id="running-molsim">
+<h2>Running molSim<a class="headerlink" href="#running-molsim" title="Permalink to this headline"></a></h2>
+<p>Start <code class="docutils literal notranslate"><span class="pre">molSim</span></code> with a graphical user interface:</p>
+<p><code class="docutils literal notranslate"><span class="pre">molSim</span></code></p>
 <p>Example Run:</p>
-<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">molSim</span> <span class="pre">config.yaml</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">molSim</span> <span class="pre">config.yaml</span></code></p>
+<p>Using multiprocessing:</p>
+<p><code class="docutils literal notranslate"><span class="pre">molSim</span></code> includes support for multiprocessing to split up the work of molecular comparisons across multiple CPU cores, speeding up execution. Because there is a cost associated with creating and destroying these processes, setting <code class="docutils literal notranslate"><span class="pre">n_workers</span></code> to any number larger than 1 is <em>not</em> reccomended for datasets smaller than ~5000 molecules.</p>
 <p>Tests:</p>
 <p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">unittest</span> <span class="pre">discover</span></code></p>
-<p>User interface:</p>
-<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">molSim-ui-main</span></code></p>
-<p>To build the docs, execute the following with <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> installed and from the <code class="docutils literal notranslate"><span class="pre">/docs</span></code> directory:</p>
-<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span> <span class="pre">|</span> <span class="pre">cp</span> <span class="pre">_build/html/*</span> <span class="pre">source</span></code></p>
-</div>
-<div class="section" id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="general-workflow">
-<h3>General Workflow<a class="headerlink" href="#general-workflow" title="Permalink to this headline">¶</a></h3>
-<p>Molecular Structure Information (SMILES strings, <a href="#id1"><span class="problematic" id="id2">*</span></a>.pdb files etc.) –&gt; Generate a Molecular Graph / Environment Fingerprint
-–&gt; Calculate a “similarity score” between moelcules based on some distance between their fingerprints.</p>
-</div>
-<div class="section" id="currently-implemented-fingerprints">
-<h3>Currently Implemented Fingerprints<a class="headerlink" href="#currently-implemented-fingerprints" title="Permalink to this headline">¶</a></h3>
+<p><em>Note: Multiprocessing speedup and efficiency tests take more than 10 hours to run due to the number of replicates required. To run these tests, create a file called ``.speedup-test`` in the ``molSim`` directory and execute the above command as shown.</em></p>
+<p>To build the docs, execute the following with <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> and <code class="docutils literal notranslate"><span class="pre">m2r</span></code> installed and from the <code class="docutils literal notranslate"><span class="pre">/docs</span></code> directory:</p>
+<p><code class="docutils literal notranslate"><span class="pre">m2r</span> <span class="pre">../README.md</span> <span class="pre">|</span> <span class="pre">mv</span> <span class="pre">../README.rst</span> <span class="pre">.</span> <span class="pre">|</span> <span class="pre">sphinx-apidoc</span> <span class="pre">-f</span> <span class="pre">-o</span> <span class="pre">.</span> <span class="pre">..</span> <span class="pre">|</span> <span class="pre">make</span> <span class="pre">html</span> <span class="pre">|</span> <span class="pre">cp</span> <span class="pre">_build/html/*</span> <span class="pre">.</span></code></p>
+<p>For packaging on PyPI:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">build;</span> <span class="pre">twine</span> <span class="pre">upload</span> <span class="pre">dist/*</span></code></p>
+<p>For packaging on conda:</p>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">build</span> <span class="pre">.;</span> <span class="pre">conda</span> <span class="pre">upload</span> <span class="pre">/path/to/.bz2</span></code></p>
+<section id="currently-implemented-fingerprints">
+<h3>Currently Implemented Fingerprints<a class="headerlink" href="#currently-implemented-fingerprints" title="Permalink to this headline"></a></h3>
 <ol class="arabic simple">
-<li><p>Morgan Fingerprint (Equivalent to the ECFP-6)</p></li>
-<li><p>RDKIT Topological Fingerprint</p></li>
+<li><p>Morgan Fingerprint (Equivalent to the ECFP fingerprints)</p></li>
+<li><p>RDKit Topological Fingerprint</p></li>
+<li><p>RDKit Daylight Fingerprint</p></li>
+<li><p>All fingerprints available from the <a class="reference external" href="https://github.com/vogt-m/ccbmlib">ccbmlib</a> package (<em>specify ‘ccbmlib:descriptorname’ for command line input</em>).</p></li>
+<li><p>All descriptors available through the <a class="reference external" href="https://github.com/mordred-descriptor/mordred">Mordred</a> library (<em>specify ‘mordred:desciptorname’ for command line input.</em>).</p></li>
 </ol>
-</div>
-<div class="section" id="currently-implemented-similarity-scores">
-<h3>Currently Implemented Similarity Scores<a class="headerlink" href="#currently-implemented-similarity-scores" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="currently-implemented-similarity-scores">
+<h3>Currently Implemented Similarity Scores<a class="headerlink" href="#currently-implemented-similarity-scores" title="Permalink to this headline"></a></h3>
+<p>44 commonly used similarity scores are implemented in molSim.
+Additional L0, L1 and L2 norm based similarities are also implemented. <a class="reference external" href="https://himaghna.github.io/molSim/">View our Online Documentation</a> for a complete list of implemented similarity scores.</p>
+</section>
+<section id="currently-implemented-functionalities">
+<h3>Currently Implemented Functionalities<a class="headerlink" href="#currently-implemented-functionalities" title="Permalink to this headline"></a></h3>
 <ol class="arabic simple">
-<li><p>Tanomito Similarity (0 for completely dissimilar and 1 for identical molecules)</p></li>
-<li><p>Negative L0, L1 and L2 norms</p></li>
-<li><p>Cosine Similarity</p></li>
+<li><p><span class="raw-html-m2r"><b> Measure Search</b></span>: Automate the search of fingerprint and similarity metric (called a “measure”) using the following algorithm: &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 1</b></span>&lt;/i&gt;: Select an arbitrary featurization scheme. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 2</b></span>&lt;/i&gt;: Featurize the molecule set using the selected scheme.  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 3</b></span>&lt;/i&gt;: Choose an arbitrary similarity measure. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 4</b></span>&lt;/i&gt;: Select each molecule’s nearest and furthest neighbors in the set using the similarity measure. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 5</b></span>&lt;/i&gt;: Measure the correlation between a molecule’s QoI and its nearest neighbor’s QoI. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 6</b></span>&lt;/i&gt;: Measure the correlation between a molecule’s QoI and its further neighbor’s QoI. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 7</b></span>&lt;/i&gt;: Define a score which maximizes the value in Step 5 and minimizes the value in Step 6. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><b><i>Step 8</b></span>&lt;/i&gt;: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7.</p></li>
+<li><p><span class="raw-html-m2r"><b>See Property Variation with Similarity</b></span>: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.</p></li>
+<li><p><span class="raw-html-m2r"><b>Visualize Dataset</b></span>: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.</p></li>
+<li><p><span class="raw-html-m2r"><b>Compare Target Molecule to Molecule Set</b></span>: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.</p></li>
+<li><p><span class="raw-html-m2r"><b>Cluster Data</b></span>: Cluster the molecule set. The following alogirthms are implemented: &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><i>For arbitrary molecular features or similarity metrics with defined Euclidean distances</i></span>: K-Medoids[3] and Ward[4] (hierarchical clustering). &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    <span class="raw-html-m2r"><i>For binary fingerprints </i></span>: Complete, single and average linkage hierarchical clustering[4]. The clustered data is plotted in two dimensions using multi-dimensional scaling[5].</p></li>
+<li><p><span class="raw-html-m2r"><b>Outlier Detection</b></span>: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying <code class="docutils literal notranslate"><span class="pre">output</span></code> to be <code class="docutils literal notranslate"><span class="pre">terminal</span></code> or to a text file by instead providing a filename.</p></li>
 </ol>
-</div>
-<div class="section" id="currently-implemented-functionalities">
-<h3>Currently Implemented Functionalities<a class="headerlink" href="#currently-implemented-functionalities" title="Permalink to this headline">¶</a></h3>
-<ol class="arabic simple">
-<li><p>compare_target_molecule: Compare a proposed molecules to existing molecular database. The outputs are a similarity density plot
-and/ or the least similar and most similar molecules in the database (to the proposed molecule)</p></li>
-<li><p>visualize_dataset: Visualize the diversity of molecules in existing database. The outputs are a heatmap of similarity scores and/or
-a density plot of similarity scores and /or a parity plot showing some molecular property (e.g. boiling point) between
-pairs of most similar molecules. The last output requires the input of the molecular property for each molecule.
-This can be inputted as a .txt file containing rows of name property pairs. An example of such a file with fictitious properties is
-provided in the file smiles_responses.txt. This option is typically used to check the suitability of the fingerprint / similarity measure
-for a property of interest. If they do a good job for the particular property then the parity plot should be scattered around the diagonal.</p></li>
-</ol>
-</div>
-</div>
-<div class="section" id="credits-and-licensing">
-<h2>Credits and Licensing<a class="headerlink" href="#credits-and-licensing" title="Permalink to this headline">¶</a></h2>
-<p>Lead Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (www.linkedin.com/in/himaghna-bhattacharjee)</p>
+</section>
+</section>
+<section id="credits-and-licensing">
+<h2>Credits and Licensing<a class="headerlink" href="#credits-and-licensing" title="Permalink to this headline"></a></h2>
+<p>Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (<a class="reference external" href="www.linkedin.com/in/himaghna-bhattacharjee">LinkedIn</a>)</p>
 <p>Developer: Jackson Burns, Don Watson Lab. (<a class="reference external" href="https://www.jacksonwarnerburns.com/">Personal Site</a>)</p>
-</div>
-<div class="section" id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h2>
 <p>MIT Open</p>
-</div>
-<div class="section" id="works-cited">
-<h2>Works Cited<a class="headerlink" href="#works-cited" title="Permalink to this headline">¶</a></h2>
-<p>Collins, K., Glorius, F. A robustness screen for the rapid assessment of chemical reactions. Nature Chem 5, 597–601 (2013). <a class="reference external" href="https://doi.org/10.1038/nchem.1669">https://doi.org/10.1038/nchem.1669</a></p>
-<p>Yiding Chen, Philip R. D. Murray, Alyn T. Davies, and Michael C. Willis
-Journal of the American Chemical Society 2018 140 (28), 8781-8787
-DOI: 10.1021/jacs.8b04532</p>
-</div>
-</div>
+</section>
+<section id="works-cited">
+<h2>Works Cited<a class="headerlink" href="#works-cited" title="Permalink to this headline"></a></h2>
+<p>[1] Collins, K. and Glorius, F., A robustness screen for the rapid assessment of chemical reactions. Nature Chem 5, 597–601 (2013). <a class="reference external" href="https://doi.org/10.1038/nchem.1669">https://doi.org/10.1038/nchem.1669</a></p>
+<p>[2] Chen, Y., Murray, P.R.D., Davies, A.T., and Willis M.C., J. Am. Chem. Soc. 140 (28), 8781-8787 (2018). <a class="reference external" href="https://doi.org/10.1021/jacs.8b04532">https://doi.org/10.1021/jacs.8b04532</a></p>
+<p>[3] Hastie, T., Tibshirani R. and Friedman J., The Elements of statistical Learning: Data Mining, Inference, and Prediction, 2nd Ed.  (Springer Series in Statistics). 2009.</p>
+<p>[4] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). <a class="reference external" href="https://doi.org/10.1002/widm.53">https://doi.org/10.1002/widm.53</a></p>
+<p>[5] Borg, I. and Groenen, P.J.F., Modern Multidimensional Scaling: Theory and Applications (Springer Series in Statistics). 2005.</p>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="modules.html" class="btn btn-neutral float-right" title="molSim" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="molSim documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="implemented_metrics.html" class="btn btn-neutral float-right" title="Supported Similarity Metrics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Himaghna Bhattacharjee, Jackson Burns.
-
-    </p>
+    <p>&#169; Copyright 2021, Himaghna Bhattacharjee, Jackson Burns.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

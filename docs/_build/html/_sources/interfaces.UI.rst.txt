@@ -12,7 +12,6 @@ interfaces.UI.molSim\_ui\_main module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 
