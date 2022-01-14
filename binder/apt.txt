@@ -1,3 +1,0 @@
-freeglut3-dev
-xserver-xephyr
-x11-utils

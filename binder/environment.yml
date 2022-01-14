@@ -1,9 +1,0 @@
-name: null 
-channels:
-  - conda-forge
-  - defaults 
-dependencies:
-  - jupyterlab=2.0
-  - matplotlib=3.3.4
-  - python=3.7
-  - pyvirtualdisplay
