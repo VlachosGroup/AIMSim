@@ -4,7 +4,6 @@ channels:
   - defaults 
 dependencies:
   - jupyterlab=2.0
-  - matplotlib=3.2
   - pip
   - pip:
     - -r file:requirements.txt
