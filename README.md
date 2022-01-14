@@ -5,7 +5,7 @@
 molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
 
 ## Documentation and Tutorial
-[View our Online Documentation](https://himaghna.github.io/molSim/) or try _molSim_ in your browser: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/himaghna/molSim/master?labpath=molSim-demo.ipynb)
+[View our Online Documentation](https://himaghna.github.io/molSim/) or try _molSim_ in your browser: [![Binder](https://mybinder.org/badge_logo.svg)](https://gesis.mybinder.org/binder/v2/gh/himaghna/molSim/892e5909938e6f212059680c31fb85544fbc67a0)
 
 ## Purpose
 
