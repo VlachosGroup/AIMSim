@@ -596,6 +596,10 @@ class MoleculeSet:
         Returns:
             np.ndarray: Distance matrix of the dataset.
         """
+        if not hasattr(self.similarity_measure, 'to_distance'):
+            raise InvalidConfigurationError(f'{self.similarity_measure.metric} '
+                                            f'does not have an equivalent '
+                                            f'distance')
         return self.similarity_measure.to_distance(self.similarity_matrix)
 
     def get_pairwise_similarities(self):
