@@ -60,7 +60,7 @@ class MeasureSearch(Task):
                  subsample_subset_size=0.01,
                  optim_algo='max_min',
                  show_top=0,
-                 only_metric=False,
+                 only_metric=True,
                  **molecule_set_configs):
         """
         Calculate the correlation in the properties of molecules in set
@@ -138,7 +138,7 @@ class MeasureSearch(Task):
         n_threads = molecule_set_configs.get("n_workers", 1)
         all_scores = []
         for similarity_measure in all_similarity_measures:
-            if only_metric and SimilarityMeasure(
+            if only_metric and not SimilarityMeasure(
                     metric=similarity_measure).is_distance_metric():
                 continue
             if is_verbose:
