@@ -1,0 +1,2 @@
+PyOpenGL==3.1.*
+PyOpenGL-accelerate==3.1.*

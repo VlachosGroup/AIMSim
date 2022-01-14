@@ -1,0 +1,3 @@
+freeglut3-dev
+xvfb
+x11-utils
