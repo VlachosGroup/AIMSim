@@ -4,8 +4,6 @@ channels:
   - defaults 
 dependencies:
   - jupyterlab=2.0
-  - pip
-  - pip:
-    - -r file:requirements.txt
+  - matplotlib=3.3.4
   - python=3.7
   - pyvirtualdisplay
