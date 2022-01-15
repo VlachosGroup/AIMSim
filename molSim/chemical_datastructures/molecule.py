@@ -236,12 +236,14 @@ class Molecule:
         """Draw or molecule graph.
 
         Args:
-            fpath (str): Path of file to store image. If None, image is
-                displayed in io. Default is None.
+            fpath (str): Path of file to store image. If None, PIL image is
+                returned. Default is None.
             kwargs (keyword arguments): Arguments to modify plot properties.
+        Returns:
+            PIL Image of the molecule.
         """
         if fpath is None:
-            Draw.MolToImage(self.mol_graph, **kwargs).show()
+            Draw.MolToImage(self.mol_graph, **kwargs)
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
 
