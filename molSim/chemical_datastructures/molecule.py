@@ -241,7 +241,7 @@ class Molecule:
             kwargs (keyword arguments): Arguments to modify plot properties.
         """
         if fpath is None:
-            Draw.MolToImage(self.mol_graph, **kwargs).show()
+            Draw.ShowMol(self.mol_graph, **kwargs)
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
 
