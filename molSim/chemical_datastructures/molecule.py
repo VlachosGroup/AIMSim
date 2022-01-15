@@ -243,7 +243,7 @@ class Molecule:
             PIL Image of the molecule.
         """
         if fpath is None:
-            Draw.MolToImage(self.mol_graph, **kwargs)
+            return Draw.MolToImage(self.mol_graph, **kwargs)
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
 
