@@ -1,11 +1,10 @@
 """Create similarity plots for the dataset."""
+import matplotlib.pyplot as plt
+
 from .task import Task
-from molSim.utils.plotting_scripts import plot_density, plot_heatmap, plt
-
-
-import pylustrator
-
-# pylustrator.start()
+from molSim.utils.plotting_scripts import plot_density, plot_heatmap, \
+    plot_scatter
+from molSim.exceptions import InvalidConfigurationError
 
 
 class VisualizeDataset(Task):
@@ -24,6 +23,20 @@ class VisualizeDataset(Task):
         self.plot_settings["pairwise_plot"] = self.configs.get(
             "similarity_plot_settings", {}
         )
+        self.plot_settings["embeddings"] = {"method": "mds",
+                                            "random_state": 42}
+        self.plot_settings["embedding_plot"] = {
+            "plot_color": 'red',
+            "plot_title": f"2-D projected space",
+            "xlabel": "Dimension 1",
+            "ylabel": "Dimension 2",
+            "embedding": {"method": "mds",
+                          "params": {"random_state": 42,}
+                          },
+        }
+        self.plot_settings["embedding_plot"].update(self.configs.get(
+                                                "embedding_plot_settings",
+                                                {}))
 
     def __call__(self, molecule_set):
         """Visualize essential properties of the dataset.
@@ -50,6 +63,32 @@ class VisualizeDataset(Task):
         plot_density(
             pairwise_similarity_vector,
             **self.plot_settings["pairwise_plot"],
+        )
+        plt.show()
+
+        if self.plot_settings["embedding_plot"]["embedding"]["method"].lower() \
+                == "mds":
+            reduced_features = molecule_set.get_transformed_descriptors(
+                method_="mds",
+                n_components=2,
+                **self.plot_settings["embedding_plot"]["embedding"]["params"])
+            dimension_1 = reduced_features[:, 0]
+            dimension_2 = reduced_features[:, 1]
+        else:
+            raise InvalidConfigurationError(
+                "Embedding method "
+                f'{self.plot_settings["embedding_plot"]["embedding"]["method"]}'
+                " not implemented."
+            )
+
+        plot_scatter(
+            dimension_1,
+            dimension_2,
+            xlabel=self.plot_settings["embedding_plot"]["xlabel"],
+            ylabel=self.plot_settings["embedding_plot"]["ylabel"],
+            title=self.plot_settings["embedding_plot"]["plot_title"],
+            plot_color=self.plot_settings["embedding_plot"]["plot_color"],
+            offset=0,
         )
         plt.show()
 
