@@ -8,10 +8,6 @@ from molSim.utils.plotting_scripts import plot_density
 from molSim.exceptions import InvalidConfigurationError
 from .task import Task
 
-import pylustrator
-
-# pylustrator.start()
-
 
 class CompareTargetMolecule(Task):
     def __init__(self, configs=None, **kwargs):
@@ -153,6 +149,3 @@ class CompareTargetMolecule(Task):
         ids = np.array([self.sorted_similarities_[hit_id]
                         for hit_id in range(self.n_hits)])
         return ids, self.similarities_[ids]
-
-
-

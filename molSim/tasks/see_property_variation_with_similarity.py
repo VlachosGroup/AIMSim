@@ -2,15 +2,11 @@
 from os import makedirs
 from os.path import dirname
 
-import pylustrator
 from scipy.stats import pearsonr
 
 from molSim.utils.plotting_scripts import plot_parity, plt
 from molSim.exceptions import InvalidConfigurationError
 from .task import Task
-
-
-# pylustrator.start()
 
 
 class SeePropertyVariationWithSimilarity(Task):
@@ -53,7 +49,8 @@ class SeePropertyVariationWithSimilarity(Task):
                 Molecules object of the molecule database.
 
         """
-        ref_prop, similar_prop = self._get_ref_neighbor_properties(molecule_set)
+        ref_prop, similar_prop = self._get_ref_neighbor_properties(
+            molecule_set)
         similar_correlation_ = self.correlation_fn(ref_prop, similar_prop)
         if molecule_set.is_verbose:
             print("Plotting Responses of Similar Molecules")
@@ -68,9 +65,10 @@ class SeePropertyVariationWithSimilarity(Task):
         )
 
         ref_prop, dissimilar_prop = self._get_ref_neighbor_properties(
-                                                    molecule_set=molecule_set,
-                                                    nearest=False)
-        dissimilar_correlation_ = self.correlation_fn(ref_prop, dissimilar_prop)
+            molecule_set=molecule_set,
+            nearest=False)
+        dissimilar_correlation_ = self.correlation_fn(
+            ref_prop, dissimilar_prop)
         if molecule_set.is_verbose:
             print("Plotting Responses of Dissimilar Molecules")
         plot_parity(
@@ -123,7 +121,8 @@ class SeePropertyVariationWithSimilarity(Task):
             (float): Correlation between properties.
 
         """
-        ref_prop, similar_prop = self._get_ref_neighbor_properties(molecule_set)
+        ref_prop, similar_prop = self._get_ref_neighbor_properties(
+            molecule_set)
         return self.correlation_fn(ref_prop, similar_prop)
 
     def get_property_correlations_in_most_dissimilar(self, molecule_set):
@@ -137,8 +136,8 @@ class SeePropertyVariationWithSimilarity(Task):
 
         """
         ref_prop, dissimilar_prop = self._get_ref_neighbor_properties(
-                                                    molecule_set=molecule_set,
-                                                    nearest=False)
+            molecule_set=molecule_set,
+            nearest=False)
         return self.correlation_fn(ref_prop, dissimilar_prop)
 
     def _get_ref_neighbor_properties(self, molecule_set, nearest=True):
@@ -163,5 +162,3 @@ class SeePropertyVariationWithSimilarity(Task):
 
     def __str__(self):
         return "Task: see variation of molecule property with similarity"
-
-

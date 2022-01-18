@@ -6,11 +6,6 @@ from molSim.utils.plotting_scripts import plot_scatter
 import matplotlib.pyplot as plt
 
 
-import pylustrator
-
-# pylustrator.start()
-
-
 class IdentifyOutliers(Task):
     """Subclass of Task to identify outliers via an IsolationForest.
 
@@ -68,7 +63,8 @@ class IdentifyOutliers(Task):
                     with open(self.output + ".log", "a") as file:
                         file.write(msg + "\n")
         if self.plot_outlier:
-            reduced_features = molecule_set.get_transformed_descriptors(method_="pca")
+            reduced_features = molecule_set.get_transformed_descriptors(
+                method_="pca")
             plot_scatter(
                 reduced_features[0],
                 reduced_features[1],

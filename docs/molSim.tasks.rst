@@ -28,10 +28,18 @@ molSim.tasks.identify\_outliers module
    :undoc-members:
    :show-inheritance:
 
-molSim.tasks.show\_property\_variation\_with\_similarity module
----------------------------------------------------------------
+molSim.tasks.measure\_search module
+-----------------------------------
 
-.. automodule:: molSim.tasks.show_property_variation_with_similarity
+.. automodule:: molSim.tasks.measure_search
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+molSim.tasks.see\_property\_variation\_with\_similarity module
+--------------------------------------------------------------
+
+.. automodule:: molSim.tasks.see_property_variation_with_similarity
    :members:
    :undoc-members:
    :show-inheritance:
@@ -59,7 +67,6 @@ molSim.tasks.visualize\_dataset module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------
