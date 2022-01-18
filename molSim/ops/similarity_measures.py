@@ -32,7 +32,7 @@ class SimilarityMeasure:
 
         elif metric.lower() in ["cosine", "driver-kroeber", "ochiai"]:
             self.metric = "cosine"
-            self.type_ = "continuous"
+            self.type_ = "discrete"
             # angular distance
             self.to_distance = lambda x: np.arccos(x) / np.pi
 
@@ -941,25 +941,13 @@ class SimilarityMeasure:
         return self._normalize(similarity_)
 
     def _get_cosine_similarity(self, mol1_descriptor, mol2_descriptor):
-        arr1 = mol1_descriptor.to_numpy()
-        arr2 = mol2_descriptor.to_numpy()
-        if len(arr1) != len(arr2):
-            try:
-                arr1, arr2 = Descriptor.fold_to_equal_length(
-                    mol1_descriptor,
-                    mol2_descriptor)
-            except ValueError as e:
-                err_msg = 'Length of two descriptors different. ' \
-                          'Could not be folded. '
-                if e.message is None:
-                    e.message = err_msg
-                else:
-                    e.message = err_msg + e.message
-                raise e
-
-        similarity_ = scipy_cosine(arr1, arr2)
-        self.normalize_fn["shift_"] = 0.0
-        self.normalize_fn["scale_"] = 1.0
+        a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
+        denominator = np.sqrt((a+b)*(a+c))
+        if denominator < SMALL_NUMBER:
+            return 0.
+        similarity_ = a / denominator
+        self.normalize_fn["shift_"] = 0.
+        self.normalize_fn["scale_"] = 1.
         return self._normalize(similarity_)
 
     def _get_dennis(self, mol1_descriptor, mol2_descriptor):

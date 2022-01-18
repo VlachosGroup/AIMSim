@@ -237,11 +237,11 @@ class Molecule:
 
         Args:
             fpath (str): Path of file to store image. If None, image is
-                displayed in io. Default is None.
+                displayed in io as a Tkinter windows. Default is None.
             kwargs (keyword arguments): Arguments to modify plot properties.
         """
         if fpath is None:
-            Draw.MolToImage(self.mol_graph, **kwargs).show()
+            Draw.ShowMol(self.mol_graph, **kwargs)
         else:
             Draw.MolToFile(self.mol_graph, fpath, **kwargs)
 
