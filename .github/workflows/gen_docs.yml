@@ -28,7 +28,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup and Run
         run: |
-          conda install python=3.7
+          conda create --name temp-env python=3.7
+          conda activate temp-env
           conda install -c rdkit rdkit
           python3 -m pip install networkx==2.1
           python3 -m pip install -r requirements.txt
