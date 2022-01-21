@@ -1,33 +1,17 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Generate Docs
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          auto-activate-base: true
-          activate-environment: ""
-      # Runs a set of commands using the runners shell
       - name: Install Dependencies
         run: |
           git config user.name github-actions
@@ -44,8 +28,11 @@ jobs:
       
       - name: Generate Documentation
         run: |
-          # regen rst files
-          m2r README.md 
+          rm README.rst || true
+          rm docs/README.rst || true
+          rm implemented_metrics.rst || true
+          rm docs/implemented_metrics.rst || true
+          m2r README.md
           m2r implemented_metrics.md
           mv README.rst docs
           mv implemented_metrics.rst docs
@@ -55,15 +42,6 @@ jobs:
           mv _build/html/* .
           mv _build/doctrees/* .
           echo "" > .nojekyll
-        
-          # add and commit but DO NOT push changes to rst and html files
           git add .
-          git commit -m "temp commit" -a || true
-          
-      - uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-      - name: Push to gh-pages
-        run: |
-          git rebase -X ours origin/master
+          git commit -m "Automated Docs Update" -a || true
           git push -f
