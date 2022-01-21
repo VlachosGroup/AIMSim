@@ -670,7 +670,7 @@ class SimilarityMeasure:
             (float): Baroni-Urbani-Buser similarity value
         """
         if not (mol1_descriptor.is_fingerprint()
-                  and mol2_descriptor.is_fingerprint()):
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Baroni-Urbani-Buser similarity is only useful for "
                 "bit strings generated from fingerprints. Consider using "
@@ -935,7 +935,7 @@ class SimilarityMeasure:
         a, b, c, d = self._get_abcd(mol1_descriptor, mol2_descriptor)
         p = a + b + c + d
         similarity_ = (np.log(1 + a * d) - np.log(1 + b * c)) / np.log(
-                                                                1 + (p ** 2)/4)
+            1 + (p ** 2)/4)
         self.normalize_fn["shift_"] = 1.0
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
@@ -963,7 +963,7 @@ class SimilarityMeasure:
             (float): Dennis similarity value
         """
         if not (mol1_descriptor.is_fingerprint()
-                  and mol2_descriptor.is_fingerprint()):
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Dennis similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1108,7 +1108,7 @@ class SimilarityMeasure:
             (float): Faith similarity value
         """
         if not (mol1_descriptor.is_fingerprint()
-                  and mol2_descriptor.is_fingerprint()):
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Faith similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1137,7 +1137,7 @@ class SimilarityMeasure:
             The Forbes similarity is normalized to [0, 1]
         """
         if not (mol1_descriptor.is_fingerprint()
-                  and mol2_descriptor.is_fingerprint()):
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Forbes similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1318,7 +1318,7 @@ class SimilarityMeasure:
             (float): Kulczynski similarity value
         """
         if not (mol1_descriptor.is_fingerprint()
-                  and mol2_descriptor.is_fingerprint()):
+                and mol2_descriptor.is_fingerprint()):
             raise ValueError(
                 "Kulczynski similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
@@ -1763,7 +1763,7 @@ class SimilarityMeasure:
         if a < SMALL_NUMBER or d < SMALL_NUMBER:
             return 0.0
         similarity_ = a / (np.sqrt((a + b) * (a + c)) + SMALL_NUMBER) \
-                      * d / (np.sqrt((b + d) * (c + d) + SMALL_NUMBER))
+            * d / (np.sqrt((b + d) * (c + d) + SMALL_NUMBER))
 
         self.normalize_fn["shift_"] = 0.0
         self.normalize_fn["scale_"] = 1.0

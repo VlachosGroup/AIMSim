@@ -156,14 +156,3 @@ class TestSimilarityMeasure(unittest.TestCase):
                                              f"for molecule {mol1.mol_text}, "
                                              f"{mol2.mol_text}"
                                              )
-
-
-
-
-
-
-
-
-
-
-

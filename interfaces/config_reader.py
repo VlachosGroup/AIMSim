@@ -23,5 +23,6 @@ def main():
     task_manager = TaskManager(tasks=tasks)
     task_manager(molecule_set_configs=configs)
 
+
 if __name__ == "__main__":
     main()
