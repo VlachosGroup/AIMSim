@@ -62,7 +62,7 @@ Example Run:
 ### Currently Implemented Similarity Scores
 
 44 commonly used similarity scores are implemented in molSim.
-Additional L0, L1 and L2 norm based similarities are also implemented. [View our Online Documentation](https://himaghna.github.io/molSim/) for a complete list of implemented similarity scores.
+Additional L0, L1 and L2 norm based similarities are also implemented. [View our Online Documentation](https://vlachosgroup.github.io/molSim/implemented_metrics.html) for a complete list of implemented similarity scores.
 
 
 ### Currently Implemented Functionalities
@@ -116,6 +116,8 @@ Documentation should manually build on push to master branch via an automated Gi
 For packaging on PyPI:
 
 `python -m build; twine upload dist/*`
+
+Be sure to bump the version in both the docs/conf.py and in setup.py
 
 ## License
 This code is made available under the terms of the _MIT Open License_:
