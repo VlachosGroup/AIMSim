@@ -66,7 +66,7 @@ jobs:
           git add .
           git commit -m "temp commit" -a || true
           
-          git rebase -s theirs --allow-unrelated-histories origin/gh-pages
+          git rebase -s theirs origin/gh-pages
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
