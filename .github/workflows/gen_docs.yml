@@ -33,11 +33,11 @@ jobs:
         run: |
           conda install python=3.7
           conda install -c rdkit rdkit
-          python3 -m pip install networkx==2.1
-          python3 -m pip install -r requirements.txt
-          python3 -m pip install -e .
-          python3 -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
-          python3 -m m2r README.md implemented_metrics.md
+          python -m pip install networkx==2.1
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
+          python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
+          python -m m2r README.md implemented_metrics.md
           mv README.rst implemented_metrics.rst docs
           cd docs
           sphinx-apidoc -f -o . ..
