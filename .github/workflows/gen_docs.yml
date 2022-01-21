@@ -22,8 +22,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
           auto-activate-base: true
@@ -31,6 +29,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup and Run
         run: |
+          # checkout the respoitory
+          git clone https://github.com/VlachosGroup/molSim
           # install our dependencies
           conda install python=3.7
           conda install -c rdkit rdkit
@@ -50,15 +50,14 @@ jobs:
           sphinx-apidoc -f -o . ..
           make html
           mv _build/* .
-      - uses: actions/checkout@v2
-        with:
-         ref: gh-pages
-      - name: Push Changes
-        run: |
-         git diff
-         echo "" > .nojekyll
-         git config --local user.email "action@github.com"
-         git config --local user.name "GitHub Action"
-         git add .
-         git commit -m "Update documentation" -a || true
-         git push
+          echo "" > .nojekyll
+          
+          # push these changes
+          git stash
+          git checkout gh-pages
+          git stash apply
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update documentation" -a || true
+          git push
