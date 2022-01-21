@@ -72,4 +72,6 @@ jobs:
           ref: gh-pages
       - name: Push Changes
         run:
+          git add .
+          git commit -m "Automated Update" -a || true
           git push
