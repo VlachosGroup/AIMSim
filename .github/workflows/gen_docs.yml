@@ -38,6 +38,10 @@ jobs:
           mv implemented_metrics.rst docs
           cd docs
           rm *.html
+          rm _sources/*
+          rmdir _sources
+          rm _static/*
+          rmdir _static
           sphinx-apidoc -f -o . ..
           make html
           mv _build/html/* .
