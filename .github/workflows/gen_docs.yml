@@ -53,14 +53,16 @@ jobs:
           mv _build/html/* .
           mv _build/doctrees/* .
           echo "" > .nojekyll
-          
-          # configure git
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+        
           # add and commit but DO NOT push changes to rst and html files
           git add .
           git commit -m "temp commit" -a || true
           
           git merge -s ours origin/gh-pages
           git checkout gh-pages
+          
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
           git push
