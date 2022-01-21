@@ -29,4 +29,5 @@ jobs:
       
       - name: Check Errors
         run: |
-          pycodestyle --statistics --count --max-line-length=150 --show-source .
+          MYVARIABLE="$(pycodestyle --statistics --count --max-line-length=150 --show-source . 2>&1 > /dev/null)"
+          echo "$MYVARIABLE"
