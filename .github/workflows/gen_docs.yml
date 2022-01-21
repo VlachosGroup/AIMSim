@@ -28,7 +28,7 @@ jobs:
           auto-activate-base: true
           activate-environment: ""
       # Runs a set of commands using the runners shell
-      - name: Setup and Run
+      - name: Install Dependencies
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
@@ -44,7 +44,9 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -e .
           python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
-          
+      
+      - name: Generate Documentation
+        run: |
           # regen rst files
           m2r README.md 
           m2r implemented_metrics.md
@@ -61,10 +63,10 @@ jobs:
           git add .
           git commit -m "temp commit" -a || true
           
-          git merge -s ours origin/gh-pages
+          git merge -s ours gh-pages
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
-      - name: push changes
+      - name: Push Changes
         run:
           git push
