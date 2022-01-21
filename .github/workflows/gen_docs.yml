@@ -46,7 +46,7 @@ jobs:
           mv _build/* .
       - uses: actions/checkout@v2
         with:
-         ref: my-branch
+         ref: gh-pages
       - name: Push Changes
         run: |
          echo "" > .nojekyll
