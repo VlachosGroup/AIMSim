@@ -47,7 +47,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
          ref: my-branch
-      - run:
+      - name: Push Changes
+        run: |
          echo "" > .nojekyll
          git config --local user.email "action@github.com"
          git config --local user.name "GitHub Action"
