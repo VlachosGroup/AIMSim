@@ -61,6 +61,6 @@ jobs:
           git add .
           git commit -m "temp commit" -a || true
           
-          git merge origin/gh-pages
+          git merge -s ours origin/gh-pages
           git checkout gh-pages
           git push
