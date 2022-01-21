@@ -31,6 +31,7 @@ jobs:
         run: |
           # checkout the respoitory
           git clone https://github.com/VlachosGroup/molSim
+          cd molSim
           # install our dependencies
           conda install python=3.7
           conda install -c rdkit rdkit
