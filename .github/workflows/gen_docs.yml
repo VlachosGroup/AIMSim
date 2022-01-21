@@ -28,7 +28,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup and Run
         run: |
-          python3 -m pip install networkx
+          python3 -m pip install networkx==2.1
           python3 -m pip install -r requirements.txt
           python3 -m pip install -e .
           python3 -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
