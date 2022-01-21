@@ -43,7 +43,7 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 Required dependency _RDKit_ is only available first-party through _conda_. To install molSim using pip, run the following command: `pip install molSim`. You may then need to install `RDKit` using _conda_: run `conda install -c rdkit rdkit` to install it. 
 
 ### Conda
-Install all depedencies at once with:
+Install all dependencies at once with:
 
 `conda install -c jacksonburns molsim`
 
@@ -73,7 +73,7 @@ To manually build the docs, execute the following with `sphinx` and `m2r` instal
 
 `m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .`
 
-Docs should manually build on push or PR to master branch.
+Documentation should manually build on push or PR to master branch.
 
 For packaging on PyPI:
 
