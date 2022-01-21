@@ -28,6 +28,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup and Run
         run: |
+          conda install -c rdkit rdkit
           python3 -m pip install networkx==2.1
           python3 -m pip install -r requirements.txt
           python3 -m pip install -e .
