@@ -54,7 +54,7 @@ jobs:
           echo "" > .nojekyll
           
           # push these changes
-          git stash
+          git stash --include-untracked
           git checkout gh-pages
           git stash apply
           git config --local user.email "action@github.com"
