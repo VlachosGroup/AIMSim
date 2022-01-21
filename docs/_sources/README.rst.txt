@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 
 molSim README
 =============
@@ -16,9 +13,9 @@ molSim is a tool for visualizing diversity in your molecular data-set using stru
 Documentation and Tutorial
 --------------------------
 
-`View our Online Documentation <https://himaghna.github.io/molSim/>`_ or try the *molSim* comprehensive tutorial in your browser: 
+`View our Online Documentation <https://vlachosgroup.github.io/molSim/>`_ or try the *molSim* comprehensive tutorial in your browser: 
 .. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/himaghna/molSim/master?labpath=molSim-demo.ipynb
+   :target: https://mybinder.org/v2/gh/VlachosGroup/molSim/master?labpath=molSim-demo.ipynb
    :alt: Binder
 
 
@@ -61,20 +58,8 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 Installing molSim
 -----------------
 
-Pip *(preferred method)*
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Required dependency *RDKit* is only available first-party through *conda*. To install molSim using pip, run the following command: ``pip install molSim``. You may then need to install ``RDKit`` using *conda*\ : run ``conda install -c rdkit rdkit`` to install it. 
-
-Conda
-^^^^^
-
-Install all dependencies at once with:
-
-``conda install -c jacksonburns molsim``
-
-Or build everything manually, using the following command with conda to create an environment:
-``conda create --name your-env-name --file requirements.txt``
+``molSim`` can be installed with a single command:
+``pip install molSim``
 
 Running molSim
 --------------
@@ -86,30 +71,6 @@ Start ``molSim`` with a graphical user interface:
 Example Run:
 
 ``molSim config.yaml``
-
-Using multiprocessing:
-
-``molSim`` includes support for multiprocessing to split up the work of molecular comparisons across multiple CPU cores, speeding up execution. Because there is a cost associated with creating and destroying these processes, setting ``n_workers`` to any number larger than 1 is *not* reccomended for datasets smaller than ~5000 molecules.
-
-Tests:
-
-``python -m unittest discover``
-
-*Note: Multiprocessing speedup and efficiency tests take more than 10 hours to run due to the number of replicates required. To run these tests, create a file called ``.speedup-test`` in the ``molSim`` directory and execute the above command as shown.*
-
-To manually build the docs, execute the following with ``sphinx`` and ``m2r`` installed and from the ``/docs`` directory:
-
-``m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .``
-
-Documentation should manually build on push or PR to master branch.
-
-For packaging on PyPI:
-
-``python -m build; twine upload dist/*``
-
-For packaging on conda:
-
-``conda build .; conda upload /path/to/.bz2``
 
 Currently Implemented Fingerprints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -125,50 +86,96 @@ Currently Implemented Similarity Scores
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 44 commonly used similarity scores are implemented in molSim.
-Additional L0, L1 and L2 norm based similarities are also implemented. `View our Online Documentation <https://himaghna.github.io/molSim/>`_ for a complete list of implemented similarity scores.
+Additional L0, L1 and L2 norm based similarities are also implemented. `View our Online Documentation <https://vlachosgroup.github.io/molSim/implemented_metrics.html>`_ for a complete list of implemented similarity scores.
 
 Currently Implemented Functionalities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-#. :raw-html-m2r:`<b> Measure Search</b>`\ : Automate the search of fingerprint and similarity metric (called a "measure") using the following algorithm: \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 1</b>`\ </i>: Select an arbitrary featurization scheme. \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 2</b>`\ </i>: Featurize the molecule set using the selected scheme.  \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 3</b>`\ </i>: Choose an arbitrary similarity measure. \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 4</b>`\ </i>: Select each molecule’s nearest and furthest neighbors in the set using the similarity measure. \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 5</b>`\ </i>: Measure the correlation between a molecule’s QoI and its nearest neighbor’s QoI. \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 6</b>`\ </i>: Measure the correlation between a molecule’s QoI and its further neighbor’s QoI. \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 7</b>`\ </i>: Define a score which maximizes the value in Step 5 and minimizes the value in Step 6. \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<b><i>Step 8</b>`\ </i>: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7. 
+#. Measure Search: Automate the search of fingerprint and similarity metric (called a "measure") using the following algorithm:
+   Step 1: Select an arbitrary featurization scheme.
+   Step 2: Featurize the molecule set using the selected scheme.
+   Step 3: Choose an arbitrary similarity measure.
+   Step 4: Select each molecule’s nearest and furthest neighbors in the set using the similarity measure.
+   Step 5: Measure the correlation between a molecule’s QoI and its nearest neighbor’s QoI.
+   Step 6: Measure the correlation between a molecule’s QoI and its further neighbor’s QoI.
+   Step 7: Define a score which maximizes the value in Step 5 and minimizes the value in Step 6.
+   Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7. 
 #. 
-   :raw-html-m2r:`<b>See Property Variation with Similarity</b>`\ : Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
+   See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
 #. 
-   :raw-html-m2r:`<b>Visualize Dataset</b>`\ : Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
+   Visualize Dataset<: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
 
 #. 
-   :raw-html-m2r:`<b>Compare Target Molecule to Molecule Set</b>`\ : Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
+   Compare Target Molecule to Molecule Set<: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
 
 #. 
-   :raw-html-m2r:`<b>Cluster Data</b>`\ : Cluster the molecule set. The following alogirthms are implemented: \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<i>For arbitrary molecular features or similarity metrics with defined Euclidean distances</i>`\ : K-Medoids[3] and Ward[4] (hierarchical clustering). \
-   &nbsp;&nbsp;&nbsp;&nbsp;    :raw-html-m2r:`<i>For binary fingerprints </i>`\ : Complete, single and average linkage hierarchical clustering[4]. \
-   The clustered data is plotted in two dimensions using multi-dimensional scaling[5].
+   Cluster Data: Cluster the molecule set. The following algorithms are implemented: 
 
-#. 
-   :raw-html-m2r:`<b>Outlier Detection</b>`\ : Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying ``output`` to be ``terminal`` or to a text file by instead providing a filename.
+For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[4] (hierarchical clustering).
 
-Credits and Licensing
----------------------
+For binary fingerprints: Complete, single and average linkage hierarchical clustering[4].
+
+The clustered data is plotted in two dimensions using multi-dimensional scaling[5].
+
+
+#. Outlier Detection: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying ``output`` to be ``terminal`` or to a text file by instead providing a filename.
+
+Contributors
+------------
 
 Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (\ `LinkedIn <www.linkedin.com/in/himaghna-bhattacharjee>`_\ )
 
 Developer: Jackson Burns, Don Watson Lab. (\ `Personal Site <https://www.jacksonwarnerburns.com/>`_\ )
 
+Developer Notes
+---------------
+
+Issues and Pull Requests are welcomed! To propose an addition to ``molSim`` open an issue and the developers will tag it as an *enhancement* and start discussion.
+
+``molSim`` includes an automated testing apparatus operated by Python's *unittest* built-in package. To execute tests related to the core functionality of ``molSim``\ , run this command:
+
+``python -m unittest discover``
+
+Full multiprocessing speedup and efficiency tests take more than 10 hours to run due to the number of replicates required. To run these tests, create a file called ``.speedup-test`` in the ``molSim`` directory and execute the above command as shown.
+
+To manually build the docs, execute the following with ``sphinx`` and ``m2r`` installed and from the ``/docs`` directory:
+
+``m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .``
+
+Documentation should manually build on push to master branch via an automated GitHub action.
+
+For packaging on PyPI:
+
+``python -m build; twine upload dist/*``
+
+Be sure to bump the version in both the docs/conf.py and in setup.py
+
 License
 -------
 
-MIT Open
+This code is made available under the terms of the *MIT Open License*\ :
+
+Copyright (c) 2020 Himaghna Bhattacharjee & Jackson Burns
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 Works Cited
 -----------
