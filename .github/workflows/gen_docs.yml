@@ -60,10 +60,7 @@ jobs:
           # add and commit but DO NOT push changes to rst and html files
           git add .
           git commit -m "temp commit" -a || true
-          git stash
-          # switch branches and bring them there
+          
+          git merge gh-pages
           git checkout gh-pages
-          git stash apply
-          git add .
-          git commit -m "Update documentation" -a || true
           git push
