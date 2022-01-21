@@ -34,6 +34,7 @@ jobs:
           conda install python=3.7
           conda install -c rdkit rdkit
           conda list
+          python -m pip install rdkit-pypi
           python -m pip install networkx==2.1
           python -m pip install -r requirements.txt
           python -m pip install -e .
