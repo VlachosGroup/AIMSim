@@ -30,6 +30,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup and Run
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           # checkout the respoitory
           # git clone https://github.com/VlachosGroup/molSim
           # cd molSim
