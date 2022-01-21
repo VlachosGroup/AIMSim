@@ -30,6 +30,7 @@ jobs:
       - name: Check Errors
         run: |
           ERR_COUNT=$(pycodestyle -qq --statistics --count --max-line-length=150 --show-source . | tail -1)
+          echo "Count of errors before auto-formatting: $ERR_COUNT"
           
       - name: Attempt Autoformat
         run: |
@@ -38,6 +39,7 @@ jobs:
       - name: Re-Check Errors
         run: |
           NEW_ERR_COUNT=$(pycodestyle -qq --statistics --count --max-line-length=150 --show-source . | tail -1)
+          echo "Count of errors after auto-formatting: $NEW_ERR_COUNT"
           if [[ $NEW_ERR_COUNT -lt $ERR_COUNT ]]
           then
             echo "had $ERR_COUNT errors, after autoformatting has $NEW_ERR_COUNT errors. passed."
