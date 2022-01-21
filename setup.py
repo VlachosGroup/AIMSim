@@ -30,7 +30,7 @@ setup(
         "PyYAML==5.4.1",
         "scikit_learn==0.24.2",
         "networkx==2.1",
-		"rdkit-pypi",
+        "rdkit-pypi",
     ],
     packages=find_packages(),
     include_package_data=True,
