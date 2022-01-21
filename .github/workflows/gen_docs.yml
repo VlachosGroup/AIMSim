@@ -37,6 +37,7 @@ jobs:
           mv README.rst docs
           mv implemented_metrics.rst docs
           cd docs
+          rm *.html
           sphinx-apidoc -f -o . ..
           make html
           mv _build/html/* .
