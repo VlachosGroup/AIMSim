@@ -24,11 +24,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-activate-base: true
+          activate-environment: ""
       # Runs a set of commands using the runners shell
       - name: Setup and Run
         run: |
-          conda create --name temp-env python=3.7
+          conda install python=3.7
           conda install -c rdkit rdkit
           python3 -m pip install networkx==2.1
           python3 -m pip install -r requirements.txt
