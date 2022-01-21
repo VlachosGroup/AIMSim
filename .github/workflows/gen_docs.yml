@@ -69,4 +69,4 @@ jobs:
       - name: Push to gh-pages
         run: |
           git rebase -X theirs origin/master
-          git push
+          git push -f
