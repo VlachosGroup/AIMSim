@@ -44,11 +44,12 @@ jobs:
           sphinx-apidoc -f -o . ..
           make html
           mv _build/* .
-          git stash
-          git checkout gh-pages
-          git stash apply
-          echo "" > .nojekyll
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Update documentation" -a || true
+      - uses: actions/checkout@v2
+        with:
+         ref: my-branch
+      - run:
+         echo "" > .nojekyll
+         git config --local user.email "action@github.com"
+         git config --local user.name "GitHub Action"
+         git add .
+         git commit -m "Update documentation" -a || true
