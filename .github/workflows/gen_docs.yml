@@ -47,13 +47,12 @@ jobs:
           sphinx-apidoc -f -o . ..
           make html
           mv _build/* .
-          git stash
       - uses: actions/checkout@v2
         with:
          ref: gh-pages
       - name: Push Changes
         run: |
-         git stash apply
+         touch this_file_is_new.txt
          echo "" > .nojekyll
          git config --local user.email "action@github.com"
          git config --local user.name "GitHub Action"
