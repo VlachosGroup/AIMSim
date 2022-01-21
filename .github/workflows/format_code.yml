@@ -29,7 +29,8 @@ jobs:
       
       - name: Check Errors
         run: |
-          ERR_COUNT=$(pycodestyle -qq --statistics --count --max-line-length=150 --show-source . 2>&1 >/dev/null)
+          pycodestyle -qq --statistics --count --max-line-length=150 --show-source . || true
+          ERR_COUNT=$?
           echo "Count of errors before auto-formatting: $ERR_COUNT"
           if [[ $ERR_COUNT -eq 0 ]]
           then
@@ -43,7 +44,8 @@ jobs:
 
       - name: Re-Check Errors
         run: |
-          NEW_ERR_COUNT=$(pycodestyle -qq --statistics --count --max-line-length=150 --show-source . 2>&1 >/dev/null)
+          pycodestyle -qq --statistics --count --max-line-length=150 --show-source . || true
+          NEW_ERR_COUNT=$?
           echo "Count of errors after auto-formatting: $NEW_ERR_COUNT"
           if [[ $NEW_ERR_COUNT -lt $ERR_COUNT ]]
           then
