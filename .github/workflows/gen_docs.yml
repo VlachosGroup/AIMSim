@@ -50,7 +50,8 @@ jobs:
           cd docs
           sphinx-apidoc -f -o . ..
           make html
-          mv _build/* .
+          mv _build/html/* .
+          mv _build/doctrees/* .
           echo "" > .nojekyll
           
           # configure git
