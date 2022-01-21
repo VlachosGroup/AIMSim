@@ -60,7 +60,7 @@ jobs:
           git add .
           git commit -m "temp commit" -a || true
           git stash
-          switch branches and bring them there
+          # switch branches and bring them there
           git checkout gh-pages
           git stash apply
           git add .
