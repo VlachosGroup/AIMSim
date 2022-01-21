@@ -73,6 +73,8 @@ To manually build the docs, execute the following with `sphinx` and `m2r` instal
 
 `m2r ../README.md | mv ../README.rst . | sphinx-apidoc -f -o . .. | make html | cp _build/html/* .`
 
+Docs should manually build on push or PR to master branch.
+
 For packaging on PyPI:
 
 `python -m build; twine upload dist/*`
