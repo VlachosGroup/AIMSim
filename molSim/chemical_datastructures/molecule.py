@@ -1,4 +1,4 @@
-"""Abstraction of a molecule with relevant property manipulation methods."""
+"""Abstraction of RDKit molecule with relevant property manipulation methods."""
 import os.path
 
 import numpy as np
