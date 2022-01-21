@@ -1,0 +1,46 @@
+name: Generate Docs
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          # install our dependencies
+          conda install python=3.7
+          conda install -c rdkit rdkit
+          conda list
+          python -m pip install rdkit-pypi
+          python -m pip install networkx==2.1
+          python -m pip install pycodestyle autopep8
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
+          python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
+      
+      - name: Check Errors
+        run: |
+          ERR_COUNT=$(pycodestyle -qq --statistics --count --max-line-length=150 --show-source . | tail -1)
+          
+      - name: Attempt Autoformat
+        run: |
+          autopep8 --max-line-length 150 --in-place -r .
+
+      - name: Re-Check Errors
+        run: |
+          NEW_ERR_COUNT=$(pycodestyle -qq --statistics --count --max-line-length=150 --show-source . | tail -1)
+          if [[ $NEW_ERR_COUNT -lt $ERR_COUNT ]]
+          then
+            echo "had $ERR_COUNT errors, after autoformatting has $NEW_ERR_COUNT errors. failed."
+          else
+            echo "had $ERR_COUNT errors, after autoformatting has $NEW_ERR_COUNT errors. failed."
+          fi
