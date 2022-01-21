@@ -44,7 +44,6 @@ jobs:
           make html
           mv _build/* .
           git clone https://github.com/VlachosGroup/molSim.git --branch gh-pages --single-branch gh-pages
-          cd docs
           echo "" > .nojekyll
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
