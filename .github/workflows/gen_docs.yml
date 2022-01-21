@@ -1,0 +1,72 @@
+# This is a basic workflow to help you get started with Actions
+
+name: "Build Documentation"
+
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  gen_docs:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v1
+      # Build the documentation
+      - uses: ammaraskar/sphinx-action@master
+        with:
+          pre-build-command: "$CONDA/bin/conda env update -c rdkit rdkit --name base && python3 -m pip install -r requirements.txt && python3 -m pip install -e ."
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          docs-folder: "/"
+      # Build PDF using custom depedencies
+      #- uses: ammaraskar/sphinx-action@master
+      #  with:
+      #    repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      #    pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
+      #    build-command: "make latexpdf"
+      #    docsrc-folder: "docsrc/"
+      # Create an artifact of the html output.
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: DocumentationHTML
+      #    path: docsrc/_build/html/
+      # Create an artifact out of the previously built pdf.
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Documentation
+      #    path: docsrc/_build/latex/pdfexample.pdf
+      # Publish built docsrc to docsrc branch.
+      # ===============================
+      - name: Commit documentation changes
+        run: |
+          git clone https://github.com/VlachosGroup/molSim --branch master
+          pip install sphinx
+          sphinx -f -o . .
+          git stash
+          git checkout docs
+          git stash apply
+          git rm -r examples interfaces molSim tests
+          echo "" > .nojekyll
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update documentation" -a || true
+          # The above command will fail if no changes were present, so we ignore
+          # that.
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: docs
+          directory: docs
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      # ===============================
