@@ -55,3 +55,4 @@ jobs:
          git config --local user.name "GitHub Action"
          git add .
          git commit -m "Update documentation" -a || true
+         git push
