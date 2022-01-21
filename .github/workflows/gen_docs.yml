@@ -61,8 +61,8 @@ jobs:
           git merge -s ours origin/gh-pages
           git checkout gh-pages
           
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
           git add .
           git commit -m "generated"
           git push
