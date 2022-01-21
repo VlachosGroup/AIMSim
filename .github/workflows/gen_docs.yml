@@ -23,9 +23,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-      - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
           auto-activate-base: true
@@ -66,12 +63,10 @@ jobs:
           git add .
           git commit -m "temp commit" -a || true
           
-          git rebase -X theirs origin/gh-pages master
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
-      - name: Push Changes
+      - name: Push to gh-pages
         run: |
-          git add .
-          git commit -m "Automated Update" -a || true
+          git rebase -X theirs master
           git push
