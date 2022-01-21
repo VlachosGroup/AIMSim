@@ -25,7 +25,7 @@ jobs:
       # Build the documentation
       - uses: ammaraskar/sphinx-action@master
         with:
-          pre-build-command: "mkdir tmp && touch tmp/sphinx-log && $CONDA/bin/conda env update -c rdkit rdkit --name base && python3 -m pip install -r requirements.txt && python3 -m pip install -e ."
+          pre-build-command: "touch /tmp/sphinx-log && $CONDA/bin/conda env update -c rdkit rdkit --name base && python3 -m pip install -r requirements.txt && python3 -m pip install -e ."
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           docs-folder: "/"
       # Build PDF using custom depedencies
