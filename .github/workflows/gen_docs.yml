@@ -43,7 +43,9 @@ jobs:
           sphinx-apidoc -f -o . ..
           make html
           mv _build/* .
-          git clone https://github.com/VlachosGroup/molSim.git --branch gh-pages --single-branch gh-pages
+          git stash
+          git checkout gh-pages
+          git stash apply
           echo "" > .nojekyll
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
