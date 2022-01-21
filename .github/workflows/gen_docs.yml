@@ -25,7 +25,7 @@ jobs:
       # Build the documentation
       - uses: ammaraskar/sphinx-action@master
         with:
-          pre-build-command: "$CONDA/bin/conda env update -c rdkit rdkit --name base && python3 -m pip install -r requirements.txt && python3 -m pip install -e ."
+          pre-build-command: "mkdir tmp && touch tmp/sphinx-log && $CONDA/bin/conda env update -c rdkit rdkit --name base && python3 -m pip install -r requirements.txt && python3 -m pip install -e ."
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           docs-folder: "/"
       # Build PDF using custom depedencies
@@ -49,15 +49,7 @@ jobs:
       # ===============================
       - name: Commit documentation changes
         run: |
-          mkdir tmp
-          touch tmp/sphinx-log
-          git clone https://github.com/VlachosGroup/molSim --branch master
-          pip install sphinx
-          sphinx -f -o . .
-          git stash
-          git checkout docs
-          git stash apply
-          git rm -r examples interfaces molSim tests
+          git clone https://github.com/VlachosGroup/molSim --branch docs --single-branch docs
           echo "" > .nojekyll
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -69,6 +61,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: docs
-          directory: docs
+          directory: /
           github_token: ${{ secrets.GITHUB_TOKEN }}
       # ===============================
