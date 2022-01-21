@@ -183,7 +183,7 @@ class TestMoleculeSet(unittest.TestCase):
             feature_arr = np.array(feature_arr)
             for feature_num in range(feature_arr.shape[1]):
                 data.update({f"feature_{feature_num}":
-                                 feature_arr[:, feature_num]})
+                             feature_arr[:, feature_num]})
         data_df = pd.DataFrame(data)
         fpath = "temp_mol_file"
         if ftype == "excel":
@@ -986,8 +986,6 @@ class TestMoleculeSet(unittest.TestCase):
                 )
         print(f"Test complete. Deleting file {csv_fpath}...")
         remove(csv_fpath)
-
-
 
     def test_get_most_similar_pairs(self):
         """

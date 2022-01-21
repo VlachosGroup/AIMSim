@@ -1,7 +1,7 @@
 """Reads a configuration file from the command line input and calls molSim.
 
 Raises:
-    IOError: If the tasks field is empty in the input file, 
+    IOError: If the tasks field is empty in the input file,
     an IOError will be raised.
 """
 from argparse import ArgumentParser
@@ -22,6 +22,7 @@ def main():
 
     task_manager = TaskManager(tasks=tasks)
     task_manager(molecule_set_configs=configs)
+
 
 if __name__ == "__main__":
     main()
