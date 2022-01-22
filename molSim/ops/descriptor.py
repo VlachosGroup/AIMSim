@@ -254,7 +254,8 @@ class Descriptor:
         if fingerprint_type == "morgan_fingerprint":
             morgan_params = {"radius": 3, "n_bits": 1024}
             morgan_params.update(fingerprint_params)
-            self._set_morgan_fingerprint(molecule_graph=molecule_graph, **morgan_params)
+            self._set_morgan_fingerprint(molecule_graph=molecule_graph,
+                                         **morgan_params)
         elif fingerprint_type == "topological_fingerprint":
             topological_params = {"min_path": 1, "max_path": 7}
             topological_params.update(fingerprint_params)

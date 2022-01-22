@@ -15,11 +15,9 @@ def main():
     parser.add_argument("config", help="Path to config yaml file.")
     args = parser.parse_args()
     configs = yaml.load(open(args.config, "r"), Loader=yaml.FullLoader)
-
     tasks = configs.pop("tasks", None)
     if tasks is None:
         raise IOError('"tasks" field not set in config file')
-
     task_manager = TaskManager(tasks=tasks)
     task_manager(molecule_set_configs=configs)
 
