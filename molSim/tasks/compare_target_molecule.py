@@ -44,6 +44,7 @@ class CompareTargetMolecule(Task):
 
         self.plot_settings = self.configs.get("similarity_plot_settings", {})
         self.n_hits = self.configs.get("n_hits", 1)
+        self.draw_molecules = self.configs.get("draw_molecules", False)
 
     def __call__(self, molecule_set):
         """
@@ -52,6 +53,7 @@ class CompareTargetMolecule(Task):
         Args:
             molecule_set (molSim.chemical_datastructures Molecule): Target
                 molecule.
+
         """
         most_similar_mols, sims = self.get_hits_similar_to(
             molecule_set=molecule_set)
@@ -69,6 +71,8 @@ class CompareTargetMolecule(Task):
             text_prompt += f"Molecule: {molecule.mol_text}\n"
             text_prompt += "Similarity: "
             text_prompt += str(similarity)
+            if self.draw_molecules:
+                molecule.draw(title=molecule.mol_text)
 
         text_prompt += "\n\n"
         text_prompt += "****Minimum Similarity Molecules ****\n"
@@ -76,6 +80,8 @@ class CompareTargetMolecule(Task):
             text_prompt += f"Molecule: {molecule.mol_text}\n"
             text_prompt += "Similarity: "
             text_prompt += str(similarity)
+            if self.draw_molecules:
+                molecule.draw(title=molecule.mol_text)
         text_prompt += "\n\n\n"
         if self.log_fpath is None:
             print(text_prompt)
