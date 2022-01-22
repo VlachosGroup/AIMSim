@@ -56,6 +56,7 @@ class MeasureSearch(Task):
 
     def __call__(self,
                  fingerprint_type=None,
+                 fingerprint_params=None,
                  similarity_measure=None,
                  subsample_subset_size=0.01,
                  optim_algo='max_min',
@@ -78,6 +79,9 @@ class MeasureSearch(Task):
                 carried out over similarity measures. Use None to indicate
                 that optimization needs to be carried out over fingerprints.
                 Default is None.
+            fingerprint_params (dict): Hyper-parameters for fingerprints.
+                Passed to the MoleculeSet constructor. If None is passed,
+                set to empty dictionary before passing to MoleculeSet.
             similarity_measure (str): Label to indicate which similarity
                 measure to use. If supplied, similarity measure is fixed
                 and optimization carried out over similarity measures.
@@ -120,7 +124,8 @@ class MeasureSearch(Task):
                    More is better.
 
         """
-        print(f'Using subsample size {subsample_subset_size} for measure search')
+        print(f'Using subsample size {subsample_subset_size} for '
+              f'measure search')
         trial_ = namedtuple('trial_', ['fingerprint_type',
                                        'similarity_measure',
                                        'nearest_neighbor_correlation',
@@ -128,15 +133,20 @@ class MeasureSearch(Task):
                                        'score_'])
         if fingerprint_type is None:
             all_fingerprint_types = Descriptor.get_supported_fprints()
+            fingerprint_params = None
         else:
             all_fingerprint_types = [fingerprint_type]
         if similarity_measure is None:
+            if only_metric:
+                print('Only trying measures with valid distance metrics')
             all_similarity_measures = SimilarityMeasure.get_uniq_metrics()
         else:
             all_similarity_measures = [similarity_measure]
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
         all_scores = []
+        if fingerprint_params is None:
+            fingerprint_params = {}
         for similarity_measure in all_similarity_measures:
             if only_metric and not SimilarityMeasure(
                     metric=similarity_measure).is_distance_metric():
@@ -154,6 +164,7 @@ class MeasureSearch(Task):
                             'molecule_database_src_type'],
                         similarity_measure=similarity_measure,
                         fingerprint_type=fingerprint_type,
+                        fingerprint_params=fingerprint_params,
                         is_verbose=is_verbose,
                         n_threads=n_threads,
                         sampling_ratio=subsample_subset_size)
