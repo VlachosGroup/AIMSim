@@ -1,5 +1,4 @@
-""" Test multithreading to ensure consistent behavior with
-serial implementation."""
+""" Test multithreading to ensure consistent behavior with serial implementation."""
 import unittest
 import warnings
 from os import remove
@@ -25,16 +24,16 @@ class TestMultithreading(unittest.TestCase):
             self.NO_SPEEDUP_TEST = True
         else:
             self.NO_SPEEDUP_TEST = False
-            self.N_REPLICATES = 3
+            self.N_REPLICATES = 2
             warnings.warn(
                 "Speedup and Efficiency tests ENABLED, expect long runtime.",
                 ResourceWarning,
             )
-        print(" ~ ~ Testing Multithreading ~ ~ ")
+        print(" ~ ~ Testing Multithreading ~ ~ ", flush=True)
 
         # basic consistency tests
         self.text_fpath = "temp_multithread_smiles_seq.txt"
-        print(f"Creating text file {self.text_fpath}")
+        print(f"Creating text file {self.text_fpath}", flush=True)
         with open(self.text_fpath, "w") as file:
             for smiles in ["C", "CC", "CCC", "O", "CCCC", "CO", "CCOCC"]:
                 file.write(smiles + "\n")
@@ -61,11 +60,11 @@ class TestMultithreading(unittest.TestCase):
 
         # data used for speedup and efficiency tests
         self._100_molecules_fpath = "temp_multithread_speedup_100.txt"
-        print(f"Creating text file {self._100_molecules_fpath}")
+        print(f"Creating text file {self._100_molecules_fpath}", flush=True)
         with open(self._100_molecules_fpath, "w") as file:
             for smiles in _100_molecules:
                 file.write(smiles)
-        print("Running 100 molecules with 1 process.")
+        print("Running 100 molecules with 1 process.", flush=True)
         self._100_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -77,14 +76,16 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="morgan_fingerprint",
             )
-            self._100_molecules_serial_time += (time() - start) / self.N_REPLICATES
+            # This creates a running average across all of the replicates.
+            self._100_molecules_serial_time += (time() -
+                                                start) / self.N_REPLICATES
 
         self._500_molecules_fpath = "temp_multithread_speedup_500.txt"
-        print(f"Creating text file {self._500_molecules_fpath}")
+        print(f"Creating text file {self._500_molecules_fpath}", flush=True)
         with open(self._500_molecules_fpath, "w") as file:
             for smiles in _500_molecules:
                 file.write(smiles)
-        print("Running 500 molecules with 1 process.")
+        print("Running 500 molecules with 1 process.", flush=True)
         self._500_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -96,14 +97,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="morgan_fingerprint",
             )
-            self._500_molecules_serial_time += (time() - start) / self.N_REPLICATES
+            self._500_molecules_serial_time += (time() -
+                                                start) / self.N_REPLICATES
 
         self._1000_molecules_fpath = "temp_multithread_speedup_1000.txt"
-        print(f"Creating text file {self._1000_molecules_fpath}")
+        print(f"Creating text file {self._1000_molecules_fpath}", flush=True)
         with open(self._1000_molecules_fpath, "w") as file:
             for smiles in _1000_molecules:
                 file.write(smiles)
-        print("Running 1000 molecules with 1 process.")
+        print("Running 1000 molecules with 1 process.", flush=True)
         self._1000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -115,14 +117,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="morgan_fingerprint",
             )
-            self._1000_molecules_serial_time += (time() - start) / self.N_REPLICATES
+            self._1000_molecules_serial_time += (
+                time() - start) / self.N_REPLICATES
 
         self._5000_molecules_fpath = "temp_multithread_speedup_5000.txt"
-        print(f"Creating text file {self._5000_molecules_fpath}")
+        print(f"Creating text file {self._5000_molecules_fpath}", flush=True)
         with open(self._5000_molecules_fpath, "w") as file:
             for smiles in _5000_molecules:
                 file.write(smiles)
-        print("Running 5000 molecules with 1 process.")
+        print("Running 5000 molecules with 1 process.", flush=True)
         self._5000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -134,14 +137,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="morgan_fingerprint",
             )
-            self._5000_molecules_serial_time += (time() - start) / self.N_REPLICATES
+            self._5000_molecules_serial_time += (
+                time() - start) / self.N_REPLICATES
 
         self._10000_molecules_fpath = "temp_multithread_speedup_10000.txt"
-        print(f"Creating text file {self._10000_molecules_fpath}")
+        print(f"Creating text file {self._10000_molecules_fpath}", flush=True)
         with open(self._10000_molecules_fpath, "w") as file:
             for smiles in _10000_molecules:
                 file.write(smiles)
-        print("Running 10000 molecules with 1 process.")
+        print("Running 10000 molecules with 1 process.", flush=True)
         self._10000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -153,14 +157,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="morgan_fingerprint",
             )
-            self._10000_molecules_serial_time += (time() - start) / self.N_REPLICATES
+            self._10000_molecules_serial_time += (
+                time() - start) / self.N_REPLICATES
 
         self._15000_molecules_fpath = "temp_multithread_speedup_15000.txt"
-        print(f"Creating text file {self._15000_molecules_fpath}")
+        print(f"Creating text file {self._15000_molecules_fpath}", flush=True)
         with open(self._15000_molecules_fpath, "w") as file:
             for smiles in _15000_molecules:
                 file.write(smiles)
-        print("Running 15000 molecules with 1 process.")
+        print("Running 15000 molecules with 1 process.", flush=True)
         self._15000_molecules_serial_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -172,10 +177,11 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="morgan_fingerprint",
             )
-            self._15000_molecules_serial_time += (time() - start) / self.N_REPLICATES
+            self._15000_molecules_serial_time += (
+                time() - start) / self.N_REPLICATES
 
         # data used for speedup and efficiency test 2
-        print("Running 100 molecules with 1 process.")
+        print("Running 100 molecules with 1 process.", flush=True)
         self._100_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -187,9 +193,10 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="topological_fingerprint",
             )
-            self._100_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
+            self._100_molecules_serial_time_2 += (
+                time() - start) / self.N_REPLICATES
 
-        print("Running 500 molecules with 1 process.")
+        print("Running 500 molecules with 1 process.", flush=True)
         self._500_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -201,9 +208,10 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="topological_fingerprint",
             )
-            self._500_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
+            self._500_molecules_serial_time_2 += (
+                time() - start) / self.N_REPLICATES
 
-        print("Running 1000 molecules with 1 process.")
+        print("Running 1000 molecules with 1 process.", flush=True)
         self._1000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -215,9 +223,10 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="topological_fingerprint",
             )
-            self._1000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
+            self._1000_molecules_serial_time_2 += (
+                time() - start) / self.N_REPLICATES
 
-        print("Running 5000 molecules with 1 process.")
+        print("Running 5000 molecules with 1 process.", flush=True)
         self._5000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -229,9 +238,10 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="topological_fingerprint",
             )
-            self._5000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
+            self._5000_molecules_serial_time_2 += (
+                time() - start) / self.N_REPLICATES
 
-        print("Running 10000 molecules with 1 process.")
+        print("Running 10000 molecules with 1 process.", flush=True)
         self._10000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -243,9 +253,10 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="topological_fingerprint",
             )
-            self._10000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
+            self._10000_molecules_serial_time_2 += (
+                time() - start) / self.N_REPLICATES
 
-        print("Running 15000 molecules with 1 process.")
+        print("Running 15000 molecules with 1 process.", flush=True)
         self._15000_molecules_serial_time_2 = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -257,7 +268,8 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=1,
                 fingerprint_type="topological_fingerprint",
             )
-            self._15000_molecules_serial_time_2 += (time() - start) / self.N_REPLICATES
+            self._15000_molecules_serial_time_2 += (
+                time() - start) / self.N_REPLICATES
 
     def test_multithreading_consistency_2_threads(self):
         """
@@ -412,9 +424,10 @@ class TestMultithreading(unittest.TestCase):
         """
         if self.NO_SPEEDUP_TEST:
             return
-        print("~" * 10, "\n", "Speedup and Efficiency Test\n", "~" * 10)
+        print("~" * 10, "\n", "Speedup and Efficiency Test 1\n",
+              "~" * 10, flush=True)
         # 100 molecules
-        print("Running 100 molecules with 2 processes.")
+        print("Running 100 molecules with 2 processes.", flush=True)
         _100_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -426,14 +439,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="morgan_fingerprint",
             )
-            _100_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _100_molecules_2_process_time += (time() -
+                                              start) / self.N_REPLICATES
         _100_molecules_2_process_speedup = (
             self._100_molecules_serial_time / _100_molecules_2_process_time
         )
         _100_molecules_2_process_efficiency = _100_molecules_2_process_speedup / 2
 
-        print("Running 100 molecules with 5 processes.")
-        _100_molecules_5_process_time = 0
+        print("Running 100 molecules with 4 processes.", flush=True)
+        _100_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -444,14 +458,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="morgan_fingerprint",
             )
-            _100_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _100_molecules_5_process_speedup = (
-            self._100_molecules_serial_time / _100_molecules_5_process_time
+            _100_molecules_4_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _100_molecules_4_process_speedup = (
+            self._100_molecules_serial_time / _100_molecules_4_process_time
         )
-        _100_molecules_5_process_efficiency = _100_molecules_5_process_speedup / 5
+        _100_molecules_4_process_efficiency = _100_molecules_4_process_speedup / 4
 
-        print("Running 100 molecules with 10 processes.")
-        _100_molecules_10_process_time = 0
+        print("Running 100 molecules with 8 processes.", flush=True)
+        _100_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -462,14 +477,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="morgan_fingerprint",
             )
-            _100_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _100_molecules_10_process_speedup = (
-            self._100_molecules_serial_time / _100_molecules_10_process_time
+            _100_molecules_8_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _100_molecules_8_process_speedup = (
+            self._100_molecules_serial_time / _100_molecules_8_process_time
         )
-        _100_molecules_10_process_efficiency = _100_molecules_10_process_speedup / 10
+        _100_molecules_8_process_efficiency = _100_molecules_8_process_speedup / 8
 
         # 500 molecules
-        print("Running 500 molecules with 2 processes.")
+        print("Running 500 molecules with 2 processes.", flush=True)
         _500_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -481,14 +497,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="morgan_fingerprint",
             )
-            _500_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _500_molecules_2_process_time += (time() -
+                                              start) / self.N_REPLICATES
         _500_molecules_2_process_speedup = (
             self._500_molecules_serial_time / _500_molecules_2_process_time
         )
         _500_molecules_2_process_efficiency = _500_molecules_2_process_speedup / 2
 
-        print("Running 500 molecules with 5 processes.")
-        _500_molecules_5_process_time = 0
+        print("Running 500 molecules with 4 processes.", flush=True)
+        _500_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -499,14 +516,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="morgan_fingerprint",
             )
-            _500_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _500_molecules_5_process_speedup = (
-            self._500_molecules_serial_time / _500_molecules_5_process_time
+            _500_molecules_4_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _500_molecules_4_process_speedup = (
+            self._500_molecules_serial_time / _500_molecules_4_process_time
         )
-        _500_molecules_5_process_efficiency = _500_molecules_5_process_speedup / 5
+        _500_molecules_4_process_efficiency = _500_molecules_4_process_speedup / 4
 
-        print("Running 500 molecules with 10 processes.")
-        _500_molecules_10_process_time = 0
+        print("Running 500 molecules with 8 processes.", flush=True)
+        _500_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -517,14 +535,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="morgan_fingerprint",
             )
-            _500_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _500_molecules_10_process_speedup = (
-            self._500_molecules_serial_time / _500_molecules_10_process_time
+            _500_molecules_8_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _500_molecules_8_process_speedup = (
+            self._500_molecules_serial_time / _500_molecules_8_process_time
         )
-        _500_molecules_10_process_efficiency = _500_molecules_10_process_speedup / 10
+        _500_molecules_8_process_efficiency = _500_molecules_8_process_speedup / 8
 
         # 1000 molecules
-        print("Running 1000 molecules with 2 processes.")
+        print("Running 1000 molecules with 2 processes.", flush=True)
         _1000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -536,14 +555,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="morgan_fingerprint",
             )
-            _1000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _1000_molecules_2_process_time += (time() -
+                                               start) / self.N_REPLICATES
         _1000_molecules_2_process_speedup = (
             self._1000_molecules_serial_time / _1000_molecules_2_process_time
         )
         _1000_molecules_2_process_efficiency = _1000_molecules_2_process_speedup / 2
 
-        print("Running 1000 molecules with 5 processes.")
-        _1000_molecules_5_process_time = 0
+        print("Running 1000 molecules with 4 processes.", flush=True)
+        _1000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -554,14 +574,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="morgan_fingerprint",
             )
-            _1000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _1000_molecules_5_process_speedup = (
-            self._1000_molecules_serial_time / _1000_molecules_5_process_time
+            _1000_molecules_4_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _1000_molecules_4_process_speedup = (
+            self._1000_molecules_serial_time / _1000_molecules_4_process_time
         )
-        _1000_molecules_5_process_efficiency = _1000_molecules_5_process_speedup / 5
+        _1000_molecules_4_process_efficiency = _1000_molecules_4_process_speedup / 4
 
-        print("Running 1000 molecules with 10 processes.")
-        _1000_molecules_10_process_time = 0
+        print("Running 1000 molecules with 8 processes.", flush=True)
+        _1000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -572,13 +593,14 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="morgan_fingerprint",
             )
-            _1000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _1000_molecules_10_process_speedup = (
-            self._1000_molecules_serial_time / _1000_molecules_10_process_time
+            _1000_molecules_8_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _1000_molecules_8_process_speedup = (
+            self._1000_molecules_serial_time / _1000_molecules_8_process_time
         )
-        _1000_molecules_10_process_efficiency = _1000_molecules_10_process_speedup / 10
+        _1000_molecules_8_process_efficiency = _1000_molecules_8_process_speedup / 8
 
-        print("Running 5000 molecules with 2 processes.")
+        print("Running 5000 molecules with 2 processes.", flush=True)
         # 5000 molecules
         _5000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
@@ -591,14 +613,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="morgan_fingerprint",
             )
-            _5000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _5000_molecules_2_process_time += (time() -
+                                               start) / self.N_REPLICATES
         _5000_molecules_2_process_speedup = (
             self._5000_molecules_serial_time / _5000_molecules_2_process_time
         )
         _5000_molecules_2_process_efficiency = _5000_molecules_2_process_speedup / 2
 
-        print("Running 5000 molecules with 5 processes.")
-        _5000_molecules_5_process_time = 0
+        print("Running 5000 molecules with 4 processes.", flush=True)
+        _5000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -609,14 +632,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="morgan_fingerprint",
             )
-            _5000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _5000_molecules_5_process_speedup = (
-            self._5000_molecules_serial_time / _5000_molecules_5_process_time
+            _5000_molecules_4_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _5000_molecules_4_process_speedup = (
+            self._5000_molecules_serial_time / _5000_molecules_4_process_time
         )
-        _5000_molecules_5_process_efficiency = _5000_molecules_5_process_speedup / 5
+        _5000_molecules_4_process_efficiency = _5000_molecules_4_process_speedup / 4
 
-        print("Running 5000 molecules with 10 processes.")
-        _5000_molecules_10_process_time = 0
+        print("Running 5000 molecules with 8 processes.", flush=True)
+        _5000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -627,14 +651,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="morgan_fingerprint",
             )
-            _5000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _5000_molecules_10_process_speedup = (
-            self._5000_molecules_serial_time / _5000_molecules_10_process_time
+            _5000_molecules_8_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _5000_molecules_8_process_speedup = (
+            self._5000_molecules_serial_time / _5000_molecules_8_process_time
         )
-        _5000_molecules_10_process_efficiency = _5000_molecules_10_process_speedup / 10
+        _5000_molecules_8_process_efficiency = _5000_molecules_8_process_speedup / 8
 
         # 10000 molecules
-        print("Running 10000 molecules with 2 processes.")
+        print("Running 10000 molecules with 2 processes.", flush=True)
         _10000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -646,14 +671,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="morgan_fingerprint",
             )
-            _10000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _10000_molecules_2_process_time += (time() -
+                                                start) / self.N_REPLICATES
         _10000_molecules_2_process_speedup = (
             self._10000_molecules_serial_time / _10000_molecules_2_process_time
         )
         _10000_molecules_2_process_efficiency = _10000_molecules_2_process_speedup / 2
 
-        print("Running 10000 molecules with 5 processes.")
-        _10000_molecules_5_process_time = 0
+        print("Running 10000 molecules with 4 processes.", flush=True)
+        _10000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -664,14 +690,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="morgan_fingerprint",
             )
-            _10000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _10000_molecules_5_process_speedup = (
-            self._10000_molecules_serial_time / _10000_molecules_5_process_time
+            _10000_molecules_4_process_time += (time() -
+                                                start) / self.N_REPLICATES
+        _10000_molecules_4_process_speedup = (
+            self._10000_molecules_serial_time / _10000_molecules_4_process_time
         )
-        _10000_molecules_5_process_efficiency = _10000_molecules_5_process_speedup / 5
+        _10000_molecules_4_process_efficiency = _10000_molecules_4_process_speedup / 4
 
-        print("Running 10000 molecules with 10 processes.")
-        _10000_molecules_10_process_time = 0
+        print("Running 10000 molecules with 8 processes.", flush=True)
+        _10000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -682,16 +709,17 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="morgan_fingerprint",
             )
-            _10000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _10000_molecules_10_process_speedup = (
-            self._10000_molecules_serial_time / _10000_molecules_10_process_time
+            _10000_molecules_8_process_time += (
+                time() - start) / self.N_REPLICATES
+        _10000_molecules_8_process_speedup = (
+            self._10000_molecules_serial_time / _10000_molecules_8_process_time
         )
-        _10000_molecules_10_process_efficiency = (
-            _10000_molecules_10_process_speedup / 10
+        _10000_molecules_8_process_efficiency = (
+            _10000_molecules_8_process_speedup / 8
         )
 
         # 15000 molecules
-        print("Running 15000 molecules with 2 processes.")
+        print("Running 15000 molecules with 2 processes.", flush=True)
         _15000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -703,14 +731,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="morgan_fingerprint",
             )
-            _15000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _15000_molecules_2_process_time += (time() -
+                                                start) / self.N_REPLICATES
         _15000_molecules_2_process_speedup = (
             self._15000_molecules_serial_time / _15000_molecules_2_process_time
         )
         _15000_molecules_2_process_efficiency = _15000_molecules_2_process_speedup / 2
 
-        print("Running 15000 molecules with 5 processes.")
-        _15000_molecules_5_process_time = 0
+        print("Running 15000 molecules with 4 processes.", flush=True)
+        _15000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -721,14 +750,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="morgan_fingerprint",
             )
-            _15000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _15000_molecules_5_process_speedup = (
-            self._15000_molecules_serial_time / _15000_molecules_5_process_time
+            _15000_molecules_4_process_time += (time() -
+                                                start) / self.N_REPLICATES
+        _15000_molecules_4_process_speedup = (
+            self._15000_molecules_serial_time / _15000_molecules_4_process_time
         )
-        _15000_molecules_5_process_efficiency = _15000_molecules_5_process_speedup / 5
+        _15000_molecules_4_process_efficiency = _15000_molecules_4_process_speedup / 4
 
-        print("Running 15000 molecules with 10 processes.")
-        _15000_molecules_10_process_time = 0
+        print("Running 15000 molecules with 8 processes.", flush=True)
+        _15000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -739,14 +769,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="morgan_fingerprint",
             )
-            _15000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _15000_molecules_10_process_speedup = (
-            self._15000_molecules_serial_time / _15000_molecules_10_process_time
+            _15000_molecules_8_process_time += (
+                time() - start) / self.N_REPLICATES
+        _15000_molecules_8_process_speedup = (
+            self._15000_molecules_serial_time / _15000_molecules_8_process_time
         )
-        _15000_molecules_10_process_efficiency = (
-            _15000_molecules_10_process_speedup / 10
+        _15000_molecules_8_process_efficiency = (
+            _15000_molecules_8_process_speedup / 8
         )
-        print("Speedup:")
+        print("Speedup:", flush=True)
         print(
             tabulate(
                 [
@@ -754,44 +785,44 @@ class TestMultithreading(unittest.TestCase):
                     [
                         100,
                         _100_molecules_2_process_speedup,
-                        _100_molecules_5_process_speedup,
-                        _100_molecules_10_process_speedup,
+                        _100_molecules_4_process_speedup,
+                        _100_molecules_8_process_speedup,
                     ],
                     [
                         500,
                         _500_molecules_2_process_speedup,
-                        _500_molecules_5_process_speedup,
-                        _500_molecules_10_process_speedup,
+                        _500_molecules_4_process_speedup,
+                        _500_molecules_8_process_speedup,
                     ],
                     [
                         1000,
                         _1000_molecules_2_process_speedup,
-                        _1000_molecules_5_process_speedup,
-                        _1000_molecules_10_process_speedup,
+                        _1000_molecules_4_process_speedup,
+                        _1000_molecules_8_process_speedup,
                     ],
                     [
                         5000,
                         _5000_molecules_2_process_speedup,
-                        _5000_molecules_5_process_speedup,
-                        _5000_molecules_10_process_speedup,
+                        _5000_molecules_4_process_speedup,
+                        _5000_molecules_8_process_speedup,
                     ],
                     [
                         10000,
                         _10000_molecules_2_process_speedup,
-                        _10000_molecules_5_process_speedup,
-                        _10000_molecules_10_process_speedup,
+                        _10000_molecules_4_process_speedup,
+                        _10000_molecules_8_process_speedup,
                     ],
                     [
                         15000,
                         _15000_molecules_2_process_speedup,
-                        _15000_molecules_5_process_speedup,
-                        _15000_molecules_10_process_speedup,
+                        _15000_molecules_4_process_speedup,
+                        _15000_molecules_8_process_speedup,
                     ],
                 ],
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Efficiency:")
+        print("Efficiency:", flush=True)
         print(
             tabulate(
                 [
@@ -799,140 +830,140 @@ class TestMultithreading(unittest.TestCase):
                     [
                         100,
                         _100_molecules_2_process_efficiency,
-                        _100_molecules_5_process_efficiency,
-                        _100_molecules_10_process_efficiency,
+                        _100_molecules_4_process_efficiency,
+                        _100_molecules_8_process_efficiency,
                     ],
                     [
                         500,
                         _500_molecules_2_process_efficiency,
-                        _500_molecules_5_process_efficiency,
-                        _500_molecules_10_process_efficiency,
+                        _500_molecules_4_process_efficiency,
+                        _500_molecules_8_process_efficiency,
                     ],
                     [
                         1000,
                         _1000_molecules_2_process_efficiency,
-                        _1000_molecules_5_process_efficiency,
-                        _1000_molecules_10_process_efficiency,
+                        _1000_molecules_4_process_efficiency,
+                        _1000_molecules_8_process_efficiency,
                     ],
                     [
                         5000,
                         _5000_molecules_2_process_efficiency,
-                        _5000_molecules_5_process_efficiency,
-                        _5000_molecules_10_process_efficiency,
+                        _5000_molecules_4_process_efficiency,
+                        _5000_molecules_8_process_efficiency,
                     ],
                     [
                         10000,
                         _10000_molecules_2_process_efficiency,
-                        _10000_molecules_5_process_efficiency,
-                        _10000_molecules_10_process_efficiency,
+                        _10000_molecules_4_process_efficiency,
+                        _10000_molecules_8_process_efficiency,
                     ],
                     [
                         15000,
                         _15000_molecules_2_process_efficiency,
-                        _15000_molecules_5_process_efficiency,
-                        _15000_molecules_10_process_efficiency,
+                        _15000_molecules_4_process_efficiency,
+                        _15000_molecules_8_process_efficiency,
                     ],
                 ],
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Execution Time in seconds (serial/parallel):")
+        print("Execution Time in seconds (serial/parallel):", flush=True)
         print(
             tabulate(
                 [
-                    ["~", 2, 4, 8],
+                    ["~", 1, 2, 4, 8],
                     [
                         100,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._100_molecules_serial_time),
+                        ),
+                        "{:.2f}".format(
                             float(_100_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._100_molecules_serial_time),
-                            float(_100_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_100_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._100_molecules_serial_time),
-                            float(_100_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_100_molecules_8_process_time),
                         ),
                     ],
                     [
                         500,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._500_molecules_serial_time),
+                        ),
+                        "{:.2f}".format(
                             float(_500_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._500_molecules_serial_time),
-                            float(_500_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_500_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._500_molecules_serial_time),
-                            float(_500_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_500_molecules_8_process_time),
                         ),
                     ],
                     [
                         1000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._1000_molecules_serial_time),
+                        ),
+                        "{:.2f}".format(
                             float(_1000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._1000_molecules_serial_time),
-                            float(_1000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_1000_molecules_4_process_time),
                         ),
-                        "{:2f}/{:.2f}".format(
-                            float(self._1000_molecules_serial_time),
-                            float(_1000_molecules_10_process_time),
+                        "{:2f}".format(
+                            float(_1000_molecules_8_process_time),
                         ),
                     ],
                     [
                         5000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._5000_molecules_serial_time),
+                        ),
+                        "{:.2f}".format(
                             float(_5000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._5000_molecules_serial_time),
-                            float(_5000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_5000_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._5000_molecules_serial_time),
-                            float(_5000_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_5000_molecules_8_process_time),
                         ),
                     ],
                     [
                         10000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._10000_molecules_serial_time),
+                        ),
+                        "{:.2f}".format(
                             float(_10000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._10000_molecules_serial_time),
-                            float(_10000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_10000_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._10000_molecules_serial_time),
-                            float(_10000_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_10000_molecules_8_process_time),
                         ),
                     ],
                     [
                         15000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._15000_molecules_serial_time),
+                        ),
+                        "{:.2f}".format(
                             float(_15000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._15000_molecules_serial_time),
-                            float(_15000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_15000_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._15000_molecules_serial_time),
-                            float(_15000_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_15000_molecules_8_process_time),
                         ),
                     ],
                 ],
-                headers=["# mol", "", "# processes", ""],
+                headers=["# mol", "", "", "# processes", ""],
             )
         )
 
@@ -943,9 +974,10 @@ class TestMultithreading(unittest.TestCase):
         """
         if self.NO_SPEEDUP_TEST:
             return
-        print("~" * 10, "\n", "Speedup and Efficiency Test 2\n", "~" * 10)
+        print("~" * 10, "\n", "Speedup and Efficiency Test 2\n",
+              "~" * 10, flush=True)
         # 100 molecules
-        print("Running 100 molecules with 2 processes.")
+        print("Running 100 molecules with 2 processes.", flush=True)
         _100_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -957,14 +989,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="topological_fingerprint",
             )
-            _100_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _100_molecules_2_process_time += (time() -
+                                              start) / self.N_REPLICATES
         _100_molecules_2_process_speedup = (
             self._100_molecules_serial_time_2 / _100_molecules_2_process_time
         )
         _100_molecules_2_process_efficiency = _100_molecules_2_process_speedup / 2
 
-        print("Running 100 molecules with 5 processes.")
-        _100_molecules_5_process_time = 0
+        print("Running 100 molecules with 4 processes.", flush=True)
+        _100_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -975,14 +1008,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="topological_fingerprint",
             )
-            _100_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _100_molecules_5_process_speedup = (
-            self._100_molecules_serial_time_2 / _100_molecules_5_process_time
+            _100_molecules_4_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _100_molecules_4_process_speedup = (
+            self._100_molecules_serial_time_2 / _100_molecules_4_process_time
         )
-        _100_molecules_5_process_efficiency = _100_molecules_5_process_speedup / 5
+        _100_molecules_4_process_efficiency = _100_molecules_4_process_speedup / 4
 
-        print("Running 100 molecules with 10 processes.")
-        _100_molecules_10_process_time = 0
+        print("Running 100 molecules with 8 processes.", flush=True)
+        _100_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -993,14 +1027,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="topological_fingerprint",
             )
-            _100_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _100_molecules_10_process_speedup = (
-            self._100_molecules_serial_time_2 / _100_molecules_10_process_time
+            _100_molecules_8_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _100_molecules_8_process_speedup = (
+            self._100_molecules_serial_time_2 / _100_molecules_8_process_time
         )
-        _100_molecules_10_process_efficiency = _100_molecules_10_process_speedup / 10
+        _100_molecules_8_process_efficiency = _100_molecules_8_process_speedup / 8
 
         # 500 molecules
-        print("Running 500 molecules with 2 processes.")
+        print("Running 500 molecules with 2 processes.", flush=True)
         _500_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1012,14 +1047,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="topological_fingerprint",
             )
-            _500_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _500_molecules_2_process_time += (time() -
+                                              start) / self.N_REPLICATES
         _500_molecules_2_process_speedup = (
             self._500_molecules_serial_time_2 / _500_molecules_2_process_time
         )
         _500_molecules_2_process_efficiency = _500_molecules_2_process_speedup / 2
 
-        print("Running 500 molecules with 5 processes.")
-        _500_molecules_5_process_time = 0
+        print("Running 500 molecules with 4 processes.", flush=True)
+        _500_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1030,14 +1066,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="topological_fingerprint",
             )
-            _500_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _500_molecules_5_process_speedup = (
-            self._500_molecules_serial_time_2 / _500_molecules_5_process_time
+            _500_molecules_4_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _500_molecules_4_process_speedup = (
+            self._500_molecules_serial_time_2 / _500_molecules_4_process_time
         )
-        _500_molecules_5_process_efficiency = _500_molecules_5_process_speedup / 5
+        _500_molecules_4_process_efficiency = _500_molecules_4_process_speedup / 4
 
-        print("Running 500 molecules with 10 processes.")
-        _500_molecules_10_process_time = 0
+        print("Running 500 molecules with 8 processes.", flush=True)
+        _500_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1048,14 +1085,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="topological_fingerprint",
             )
-            _500_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _500_molecules_10_process_speedup = (
-            self._500_molecules_serial_time_2 / _500_molecules_10_process_time
+            _500_molecules_8_process_time += (time() -
+                                              start) / self.N_REPLICATES
+        _500_molecules_8_process_speedup = (
+            self._500_molecules_serial_time_2 / _500_molecules_8_process_time
         )
-        _500_molecules_10_process_efficiency = _500_molecules_10_process_speedup / 10
+        _500_molecules_8_process_efficiency = _500_molecules_8_process_speedup / 8
 
         # 1000 molecules
-        print("Running 1000 molecules with 2 processes.")
+        print("Running 1000 molecules with 2 processes.", flush=True)
         _1000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1067,14 +1105,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="topological_fingerprint",
             )
-            _1000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _1000_molecules_2_process_time += (time() -
+                                               start) / self.N_REPLICATES
         _1000_molecules_2_process_speedup = (
             self._1000_molecules_serial_time_2 / _1000_molecules_2_process_time
         )
         _1000_molecules_2_process_efficiency = _1000_molecules_2_process_speedup / 2
 
-        print("Running 1000 molecules with 5 processes.")
-        _1000_molecules_5_process_time = 0
+        print("Running 1000 molecules with 4 processes.", flush=True)
+        _1000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1085,14 +1124,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="topological_fingerprint",
             )
-            _1000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _1000_molecules_5_process_speedup = (
-            self._1000_molecules_serial_time_2 / _1000_molecules_5_process_time
+            _1000_molecules_4_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _1000_molecules_4_process_speedup = (
+            self._1000_molecules_serial_time_2 / _1000_molecules_4_process_time
         )
-        _1000_molecules_5_process_efficiency = _1000_molecules_5_process_speedup / 5
+        _1000_molecules_4_process_efficiency = _1000_molecules_4_process_speedup / 4
 
-        print("Running 1000 molecules with 10 processes.")
-        _1000_molecules_10_process_time = 0
+        print("Running 1000 molecules with 8 processes.", flush=True)
+        _1000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1103,14 +1143,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="topological_fingerprint",
             )
-            _1000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _1000_molecules_10_process_speedup = (
-            self._1000_molecules_serial_time_2 / _1000_molecules_10_process_time
+            _1000_molecules_8_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _1000_molecules_8_process_speedup = (
+            self._1000_molecules_serial_time_2 / _1000_molecules_8_process_time
         )
-        _1000_molecules_10_process_efficiency = _1000_molecules_10_process_speedup / 10
+        _1000_molecules_8_process_efficiency = _1000_molecules_8_process_speedup / 8
 
         # 5000 molecules
-        print("Running 5000 molecules with 2 processes.")
+        print("Running 5000 molecules with 2 processes.", flush=True)
         _5000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1122,14 +1163,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="topological_fingerprint",
             )
-            _5000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _5000_molecules_2_process_time += (time() -
+                                               start) / self.N_REPLICATES
         _5000_molecules_2_process_speedup = (
             self._5000_molecules_serial_time_2 / _5000_molecules_2_process_time
         )
         _5000_molecules_2_process_efficiency = _5000_molecules_2_process_speedup / 2
 
-        print("Running 5000 molecules with 5 processes.")
-        _5000_molecules_5_process_time = 0
+        print("Running 5000 molecules with 4 processes.", flush=True)
+        _5000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1140,14 +1182,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="topological_fingerprint",
             )
-            _5000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _5000_molecules_5_process_speedup = (
-            self._5000_molecules_serial_time_2 / _5000_molecules_5_process_time
+            _5000_molecules_4_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _5000_molecules_4_process_speedup = (
+            self._5000_molecules_serial_time_2 / _5000_molecules_4_process_time
         )
-        _5000_molecules_5_process_efficiency = _5000_molecules_5_process_speedup / 5
+        _5000_molecules_4_process_efficiency = _5000_molecules_4_process_speedup / 4
 
-        print("Running 5000 molecules with 10 processes.")
-        _5000_molecules_10_process_time = 0
+        print("Running 5000 molecules with 8 processes.", flush=True)
+        _5000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1158,14 +1201,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="topological_fingerprint",
             )
-            _5000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _5000_molecules_10_process_speedup = (
-            self._5000_molecules_serial_time_2 / _5000_molecules_10_process_time
+            _5000_molecules_8_process_time += (time() -
+                                               start) / self.N_REPLICATES
+        _5000_molecules_8_process_speedup = (
+            self._5000_molecules_serial_time_2 / _5000_molecules_8_process_time
         )
-        _5000_molecules_10_process_efficiency = _5000_molecules_10_process_speedup / 10
+        _5000_molecules_8_process_efficiency = _5000_molecules_8_process_speedup / 8
 
         # 10000 molecules
-        print("Running 10000 molecules with 2 processes.")
+        print("Running 10000 molecules with 2 processes.", flush=True)
         _10000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1177,14 +1221,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="topological_fingerprint",
             )
-            _10000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _10000_molecules_2_process_time += (time() -
+                                                start) / self.N_REPLICATES
         _10000_molecules_2_process_speedup = (
             self._10000_molecules_serial_time_2 / _10000_molecules_2_process_time
         )
         _10000_molecules_2_process_efficiency = _10000_molecules_2_process_speedup / 2
 
-        print("Running 10000 molecules with 5 processes.")
-        _10000_molecules_5_process_time = 0
+        print("Running 10000 molecules with 4 processes.", flush=True)
+        _10000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1195,14 +1240,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="topological_fingerprint",
             )
-            _10000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _10000_molecules_5_process_speedup = (
-            self._10000_molecules_serial_time_2 / _10000_molecules_5_process_time
+            _10000_molecules_4_process_time += (time() -
+                                                start) / self.N_REPLICATES
+        _10000_molecules_4_process_speedup = (
+            self._10000_molecules_serial_time_2 / _10000_molecules_4_process_time
         )
-        _10000_molecules_5_process_efficiency = _10000_molecules_5_process_speedup / 5
+        _10000_molecules_4_process_efficiency = _10000_molecules_4_process_speedup / 4
 
-        print("Running 10000 molecules with 10 processes.")
-        _10000_molecules_10_process_time = 0
+        print("Running 10000 molecules with 8 processes.", flush=True)
+        _10000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1213,16 +1259,17 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="topological_fingerprint",
             )
-            _10000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _10000_molecules_10_process_speedup = (
-            self._10000_molecules_serial_time_2 / _10000_molecules_10_process_time
+            _10000_molecules_8_process_time += (
+                time() - start) / self.N_REPLICATES
+        _10000_molecules_8_process_speedup = (
+            self._10000_molecules_serial_time_2 / _10000_molecules_8_process_time
         )
-        _10000_molecules_10_process_efficiency = (
-            _10000_molecules_10_process_speedup / 10
+        _10000_molecules_8_process_efficiency = (
+            _10000_molecules_8_process_speedup / 8
         )
 
         # 15000 molecules
-        print("Running 15000 molecules with 2 processes.")
+        print("Running 15000 molecules with 2 processes.", flush=True)
         _15000_molecules_2_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
@@ -1234,14 +1281,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=2,
                 fingerprint_type="topological_fingerprint",
             )
-            _15000_molecules_2_process_time += (time() - start) / self.N_REPLICATES
+            _15000_molecules_2_process_time += (time() -
+                                                start) / self.N_REPLICATES
         _15000_molecules_2_process_speedup = (
             self._15000_molecules_serial_time_2 / _15000_molecules_2_process_time
         )
         _15000_molecules_2_process_efficiency = _15000_molecules_2_process_speedup / 2
 
-        print("Running 15000 molecules with 5 processes.")
-        _15000_molecules_5_process_time = 0
+        print("Running 15000 molecules with 4 processes.", flush=True)
+        _15000_molecules_4_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1252,14 +1300,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=4,
                 fingerprint_type="topological_fingerprint",
             )
-            _15000_molecules_5_process_time += (time() - start) / self.N_REPLICATES
-        _15000_molecules_5_process_speedup = (
-            self._15000_molecules_serial_time_2 / _15000_molecules_5_process_time
+            _15000_molecules_4_process_time += (time() -
+                                                start) / self.N_REPLICATES
+        _15000_molecules_4_process_speedup = (
+            self._15000_molecules_serial_time_2 / _15000_molecules_4_process_time
         )
-        _15000_molecules_5_process_efficiency = _15000_molecules_5_process_speedup / 5
+        _15000_molecules_4_process_efficiency = _15000_molecules_4_process_speedup / 4
 
-        print("Running 15000 molecules with 10 processes.")
-        _15000_molecules_10_process_time = 0
+        print("Running 15000 molecules with 8 processes.", flush=True)
+        _15000_molecules_8_process_time = 0
         for i in range(self.N_REPLICATES):
             start = time()
             test_molecule_set = MoleculeSet(
@@ -1270,14 +1319,15 @@ class TestMultithreading(unittest.TestCase):
                 n_threads=8,
                 fingerprint_type="topological_fingerprint",
             )
-            _15000_molecules_10_process_time += (time() - start) / self.N_REPLICATES
-        _15000_molecules_10_process_speedup = (
-            self._15000_molecules_serial_time_2 / _15000_molecules_10_process_time
+            _15000_molecules_8_process_time += (
+                time() - start) / self.N_REPLICATES
+        _15000_molecules_8_process_speedup = (
+            self._15000_molecules_serial_time_2 / _15000_molecules_8_process_time
         )
-        _15000_molecules_10_process_efficiency = (
-            _15000_molecules_10_process_speedup / 10
+        _15000_molecules_8_process_efficiency = (
+            _15000_molecules_8_process_speedup / 8
         )
-        print("Speedup:")
+        print("Speedup:", flush=True)
         print(
             tabulate(
                 [
@@ -1285,44 +1335,44 @@ class TestMultithreading(unittest.TestCase):
                     [
                         100,
                         _100_molecules_2_process_speedup,
-                        _100_molecules_5_process_speedup,
-                        _100_molecules_10_process_speedup,
+                        _100_molecules_4_process_speedup,
+                        _100_molecules_8_process_speedup,
                     ],
                     [
                         500,
                         _500_molecules_2_process_speedup,
-                        _500_molecules_5_process_speedup,
-                        _500_molecules_10_process_speedup,
+                        _500_molecules_4_process_speedup,
+                        _500_molecules_8_process_speedup,
                     ],
                     [
                         1000,
                         _1000_molecules_2_process_speedup,
-                        _1000_molecules_5_process_speedup,
-                        _1000_molecules_10_process_speedup,
+                        _1000_molecules_4_process_speedup,
+                        _1000_molecules_8_process_speedup,
                     ],
                     [
                         5000,
                         _5000_molecules_2_process_speedup,
-                        _5000_molecules_5_process_speedup,
-                        _5000_molecules_10_process_speedup,
+                        _5000_molecules_4_process_speedup,
+                        _5000_molecules_8_process_speedup,
                     ],
                     [
                         10000,
                         _10000_molecules_2_process_speedup,
-                        _10000_molecules_5_process_speedup,
-                        _10000_molecules_10_process_speedup,
+                        _10000_molecules_4_process_speedup,
+                        _10000_molecules_8_process_speedup,
                     ],
                     [
                         15000,
                         _15000_molecules_2_process_speedup,
-                        _15000_molecules_5_process_speedup,
-                        _15000_molecules_10_process_speedup,
+                        _15000_molecules_4_process_speedup,
+                        _15000_molecules_8_process_speedup,
                     ],
                 ],
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Efficiency:")
+        print("Efficiency:", flush=True)
         print(
             tabulate(
                 [
@@ -1330,147 +1380,147 @@ class TestMultithreading(unittest.TestCase):
                     [
                         100,
                         _100_molecules_2_process_efficiency,
-                        _100_molecules_5_process_efficiency,
-                        _100_molecules_10_process_efficiency,
+                        _100_molecules_4_process_efficiency,
+                        _100_molecules_8_process_efficiency,
                     ],
                     [
                         500,
                         _500_molecules_2_process_efficiency,
-                        _500_molecules_5_process_efficiency,
-                        _500_molecules_10_process_efficiency,
+                        _500_molecules_4_process_efficiency,
+                        _500_molecules_8_process_efficiency,
                     ],
                     [
                         1000,
                         _1000_molecules_2_process_efficiency,
-                        _1000_molecules_5_process_efficiency,
-                        _1000_molecules_10_process_efficiency,
+                        _1000_molecules_4_process_efficiency,
+                        _1000_molecules_8_process_efficiency,
                     ],
                     [
                         5000,
                         _5000_molecules_2_process_efficiency,
-                        _5000_molecules_5_process_efficiency,
-                        _5000_molecules_10_process_efficiency,
+                        _5000_molecules_4_process_efficiency,
+                        _5000_molecules_8_process_efficiency,
                     ],
                     [
                         10000,
                         _10000_molecules_2_process_efficiency,
-                        _10000_molecules_5_process_efficiency,
-                        _10000_molecules_10_process_efficiency,
+                        _10000_molecules_4_process_efficiency,
+                        _10000_molecules_8_process_efficiency,
                     ],
                     [
                         15000,
                         _15000_molecules_2_process_efficiency,
-                        _15000_molecules_5_process_efficiency,
-                        _15000_molecules_10_process_efficiency,
+                        _15000_molecules_4_process_efficiency,
+                        _15000_molecules_8_process_efficiency,
                     ],
                 ],
                 headers=["# mol", "", "# processes", ""],
             )
         )
-        print("Execution Time in seconds (serial/parallel):")
+        print("Execution Time in seconds (serial/parallel):", flush=True)
         print(
             tabulate(
                 [
-                    ["~", 2, 4, 8],
+                    ["~", 1, 2, 4, 8],
                     [
                         100,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._100_molecules_serial_time_2),
+                        ),
+                        "{:.2f}".format(
                             float(_100_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._100_molecules_serial_time_2),
-                            float(_100_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_100_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._100_molecules_serial_time_2),
-                            float(_100_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_100_molecules_8_process_time),
                         ),
                     ],
                     [
                         500,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._500_molecules_serial_time_2),
+                        ),
+                        "{:.2f}".format(
                             float(_500_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._500_molecules_serial_time_2),
-                            float(_500_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_500_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._500_molecules_serial_time_2),
-                            float(_500_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_500_molecules_8_process_time),
                         ),
                     ],
                     [
                         1000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._1000_molecules_serial_time_2),
+                        ),
+                        "{:.2f}".format(
                             float(_1000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._1000_molecules_serial_time_2),
-                            float(_1000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_1000_molecules_4_process_time),
                         ),
-                        "{:2f}/{:.2f}".format(
-                            float(self._1000_molecules_serial_time_2),
-                            float(_1000_molecules_10_process_time),
+                        "{:2f}".format(
+                            float(_1000_molecules_8_process_time),
                         ),
                     ],
                     [
                         5000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._5000_molecules_serial_time_2),
+                        ),
+                        "{:.2f}".format(
                             float(_5000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._5000_molecules_serial_time_2),
-                            float(_5000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_5000_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._5000_molecules_serial_time_2),
-                            float(_5000_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_5000_molecules_8_process_time),
                         ),
                     ],
                     [
                         10000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._10000_molecules_serial_time_2),
+                        ),
+                        "{:.2f}".format(
                             float(_10000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._10000_molecules_serial_time_2),
-                            float(_10000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_10000_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._10000_molecules_serial_time_2),
-                            float(_10000_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_10000_molecules_8_process_time),
                         ),
                     ],
                     [
                         15000,
-                        "{:.2f}/{:.2f}".format(
+                        "{:.2f}".format(
                             float(self._15000_molecules_serial_time_2),
+                        ),
+                        "{:.2f}".format(
                             float(_15000_molecules_2_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._15000_molecules_serial_time_2),
-                            float(_15000_molecules_5_process_time),
+                        "{:.2f}".format(
+                            float(_15000_molecules_4_process_time),
                         ),
-                        "{:.2f}/{:.2f}".format(
-                            float(self._15000_molecules_serial_time_2),
-                            float(_15000_molecules_10_process_time),
+                        "{:.2f}".format(
+                            float(_15000_molecules_8_process_time),
                         ),
                     ],
                 ],
-                headers=["# mol", "", "# processes", ""],
+                headers=["# mol", "", "", "# processes", ""],
             )
         )
 
     @classmethod
     def tearDownClass(self):
         """Delete temporary files used in testing."""
-        print("Deleting smiles database files.")
+        print("Deleting smiles database files.", flush=True)
         remove(self.text_fpath)
         if not self.NO_SPEEDUP_TEST:
             remove(self._100_molecules_fpath)
@@ -1479,7 +1529,7 @@ class TestMultithreading(unittest.TestCase):
             remove(self._5000_molecules_fpath)
             remove(self._10000_molecules_fpath)
             remove(self._15000_molecules_fpath)
-        print(" ~ ~ Multithreading Test Complete ~ ~ ")
+        print(" ~ ~ Multithreading Test Complete ~ ~ ", flush=True)
 
 
 if __name__ == "__main__":

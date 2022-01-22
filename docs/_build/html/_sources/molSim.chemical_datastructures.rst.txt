@@ -20,7 +20,6 @@ molSim.chemical\_datastructures.molecule\_set module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

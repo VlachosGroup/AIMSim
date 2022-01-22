@@ -22,3 +22,6 @@ molSim-ui-config.yaml
 # coverage files
 .coverage
 htmlcov/*
+
+# Jupyter Notebooks
+.ipynb_checkpoints/*

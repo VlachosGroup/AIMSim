@@ -5,7 +5,6 @@ from collections import namedtuple
 
 from matplotlib.pyplot import get_cmap
 import numpy as np
-import pylustrator
 
 from molSim.chemical_datastructures import MoleculeSet
 from molSim.exceptions import InvalidConfigurationError
@@ -14,9 +13,6 @@ from molSim.utils.plotting_scripts import plot_multiple_barchart
 from .task import Task
 from .see_property_variation_with_similarity \
     import SeePropertyVariationWithSimilarity
-
-
-# pylustrator.start()
 
 
 class MeasureSearch(Task):
@@ -176,7 +172,7 @@ class MeasureSearch(Task):
                     continue
                 nearest_corr, nearest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_similar(
-                         molecule_set)
+                        molecule_set)
                 furthest_corr, furthest_p_val = self.prop_var_w_similarity. \
                     get_property_correlations_in_most_dissimilar(
                         molecule_set)
@@ -209,9 +205,9 @@ class MeasureSearch(Task):
                     trial.furthest_neighbor_correlation)
                 top_scores.append(trial.score_)
                 all_measures.append(Descriptor.shorten_label(
-                                        trial.fingerprint_type)
-                                    + '\n'
-                                    + trial.similarity_measure)
+                    trial.fingerprint_type)
+                    + '\n'
+                    + trial.similarity_measure)
             bar_heights = np.array([top_scores,
                                     all_nearest_neighbor_correlations,
                                     all_furthest_neighbor_correlations])
