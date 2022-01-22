@@ -2,9 +2,10 @@
 from os import makedirs
 from os.path import dirname
 
+import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 
-from molSim.utils.plotting_scripts import plot_parity, plt
+from molSim.utils.plotting_scripts import plot_parity
 from molSim.exceptions import InvalidConfigurationError
 from .task import Task
 

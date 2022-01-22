@@ -1,7 +1,6 @@
 """Create similarity plots for the dataset."""
 import matplotlib.pyplot as plt
 
-
 from .task import Task
 from molSim.utils.plotting_scripts import plot_density, plot_heatmap, \
     plot_scatter
