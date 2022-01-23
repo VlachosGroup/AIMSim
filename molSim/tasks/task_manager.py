@@ -1,6 +1,5 @@
 """Class to call al tasks in sequence."""
 from molSim.chemical_datastructures import MoleculeSet
-
 from molSim.tasks import *
 
 
