@@ -29,7 +29,7 @@ class TaskManager:
                     loaded_task = VisualizeDataset(task_configs)
                 elif task == "see_property_variation_w_similarity":
                     loaded_task = SeePropertyVariationWithSimilarity(
-                                                                   task_configs)
+                        task_configs)
                 elif task == "identify_outliers":
                     loaded_task = IdentifyOutliers(task_configs)
                 elif task == "cluster":
@@ -69,7 +69,7 @@ class TaskManager:
             raise InvalidConfigurationError
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
-        similarity_measure = molecule_set_configs.get("similarity_measure", 
+        similarity_measure = molecule_set_configs.get("similarity_measure",
                                                       'determine')
         fingerprint_type = molecule_set_configs.get('fingerprint_type',
                                                     'determine')

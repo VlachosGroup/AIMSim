@@ -333,6 +333,3 @@ class TestDescriptor(unittest.TestCase):
                           == folded_once_vector).all()))
         self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
                           == folded_twice_vector).all()))
-
-
-

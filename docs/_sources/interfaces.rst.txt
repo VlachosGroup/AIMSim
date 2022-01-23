@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    interfaces.UI
 
@@ -18,7 +19,6 @@ interfaces.config\_reader module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

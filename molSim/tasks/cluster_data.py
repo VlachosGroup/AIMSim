@@ -72,7 +72,7 @@ class ClusterData(Task):
             if mol_properties is not None:
                 cluster_grouped_mol_properties[cluster_id] = mol_properties[
                     cluster_labels == cluster_id
-                    ].tolist()
+                ].tolist()
 
         if self.cluster_fpath is not None:
             print("Writing to file ", self.cluster_fpath)

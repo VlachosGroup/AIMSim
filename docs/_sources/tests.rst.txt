@@ -4,6 +4,14 @@ tests package
 Submodules
 ----------
 
+tests.test\_CompareTargetMolecule module
+----------------------------------------
+
+.. automodule:: tests.test_CompareTargetMolecule
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tests.test\_Descriptor module
 -----------------------------
 
@@ -28,6 +36,14 @@ tests.test\_MoleculeSet module
    :undoc-members:
    :show-inheritance:
 
+tests.test\_SimilarityMeasure module
+------------------------------------
+
+.. automodule:: tests.test_SimilarityMeasure
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tests.test\_multithreading module
 ---------------------------------
 
@@ -35,7 +51,6 @@ tests.test\_multithreading module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

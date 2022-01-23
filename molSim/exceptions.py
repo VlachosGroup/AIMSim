@@ -1,5 +1,5 @@
 class NotInitializedError(AttributeError):
-    """Used when a class is called without initialization."""
+    """Used when a class is called without proper initialization."""
 
     def __init__(self, message=None):
         self.message = message

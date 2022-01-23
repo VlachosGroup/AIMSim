@@ -31,12 +31,12 @@ class VisualizeDataset(Task):
             "xlabel": "Dimension 1",
             "ylabel": "Dimension 2",
             "embedding": {"method": "mds",
-                          "params": {"random_state": 42,}
+                          "params": {"random_state": 42, }
                           },
         }
         self.plot_settings["embedding_plot"].update(self.configs.get(
-                                                "embedding_plot_settings",
-                                                {}))
+            "embedding_plot_settings",
+            {}))
 
     def __call__(self, molecule_set):
         """Visualize essential properties of the dataset.

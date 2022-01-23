@@ -168,5 +168,3 @@ def test_get_molecule_least_similar_to(self):
                                      f"descriptor: {descriptor}, "
                                      f"for molecule {mol.mol_text}"
                                      )
-
-
