@@ -66,20 +66,13 @@ class VisualizeDataset(Task):
         )
         plt.show()
 
-        if self.plot_settings["embedding_plot"]["embedding"]["method"].lower() \
-                == "mds":
-            reduced_features = molecule_set.get_transformed_descriptors(
-                method_="mds",
-                n_components=2,
-                **self.plot_settings["embedding_plot"]["embedding"]["params"])
-            dimension_1 = reduced_features[:, 0]
-            dimension_2 = reduced_features[:, 1]
-        else:
-            raise InvalidConfigurationError(
-                "Embedding method "
-                f'{self.plot_settings["embedding_plot"]["embedding"]["method"]}'
-                " not implemented."
-            )
+        method_ = self.plot_settings["embedding_plot"]["embedding"]["method"]
+        reduced_features = molecule_set.get_transformed_descriptors(
+            method_=method_,
+            n_components=2,
+            **self.plot_settings["embedding_plot"]["embedding"]["params"])
+        dimension_1 = reduced_features[:, 0]
+        dimension_2 = reduced_features[:, 1]
 
         plot_scatter(
             dimension_1,

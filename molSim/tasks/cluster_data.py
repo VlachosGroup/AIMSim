@@ -38,7 +38,7 @@ class ClusterData(Task):
             "xlabel": "Dimension 1",
             "ylabel": "Dimension 2",
             "embedding": {"method": "mds",
-                          "random_state": 42},
+                          "params": {"random_state": 42}},
         }
         self.plot_settings.update(self.configs.get("cluster_plot_settings", {}))
 
@@ -88,7 +88,7 @@ class ClusterData(Task):
                 fp.write(f'Embedding method '
                          f'{self.plot_settings["embedding"]["method"]}. '
                          f'random seed '
-                         f'{self.plot_settings["embedding"]["random_state"]}')
+                         f'{self.plot_settings["embedding"]["params"]["random_state"]}')
 
         plot_barchart(
             [_ for _ in range(self.n_clusters)],
@@ -117,17 +117,14 @@ class ClusterData(Task):
 
         plt.show()
 
-        if self.plot_settings["embedding"]["method"].lower() == "mds":
-            reduced_features = molecule_set.get_transformed_descriptors(
-                method_="mds", n_components=2)
-            dimension_1 = reduced_features[:, 0]
-            dimension_2 = reduced_features[:, 1]
-        else:
-            raise InvalidConfigurationError(
-                "Embedding method "
-                f'{self.plot_settings["embedding"]["method"]} '
-                "not implemented."
-            )
+        method_ = self.plot_settings["embedding"]["method"]
+        reduced_features = molecule_set.get_transformed_descriptors(
+            method_=method_,
+            n_components=2,
+            **self.plot_settings["embedding"]["params"])
+        dimension_1 = reduced_features[:, 0]
+        dimension_2 = reduced_features[:, 1]
+
         plot_scatter(
             dimension_1,
             dimension_2,
