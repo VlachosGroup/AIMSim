@@ -458,7 +458,6 @@ class MoleculeSet:
             }
             return X, component_info
 
-
     def is_present(self, target_molecule):
         """
         Searches the name of a target molecule in the molecule set to
