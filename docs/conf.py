@@ -17,13 +17,13 @@
 
 # -- Project information -----------------------------------------------------
 
+import molSim
 project = 'molSim'
 copyright = '2022, Jackson Burns, Himaghna Bhattacharjee'
 author = 'Jackson Burns, Himaghna Bhattacharjee'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.5'
-
+release = molSim.__version__
 
 # -- General configuration ---------------------------------------------------
 
