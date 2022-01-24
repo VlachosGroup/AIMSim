@@ -4,10 +4,9 @@ import os.path
 import multiprocess
 import numpy as np
 import pandas as pd
-from rdkit import Chem
 from rdkit import RDLogger
 from sklearn.decomposition import PCA
-from sklearn.manifold import MDS
+from sklearn.manifold import MDS, TSNE
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
@@ -432,6 +431,34 @@ class MoleculeSet:
             }
             return X, component_info
 
+    def _do_tsne(self, get_component_info=False, **kwargs):
+        params = {'n_components': kwargs.get('n_components', 2),
+                  'perplexity': kwargs.get('perplexity', 30),
+                  'early_exaggeration': kwargs.get('early_exaggeration', 12),
+                  'learning_rate': kwargs.get('learning_rate', 200),
+                  'n_iter': kwargs.get('n_iter', 1000),
+                  'n_iter_without_progress': kwargs.get(
+                      'n_iter_without_progress', 300),
+                  'min_grad_norm': kwargs.get('min_grad_norm', 1e-7),
+                  'init': kwargs.get('init', 'random'),
+                  'verbose': kwargs.get('verbose', 0),
+                  'method': kwargs.get('method', 'barnes_hut'),
+                  'angle': kwargs.get('angle', 0.5),
+                  'n_jobs': kwargs.get('n_jobs', None),
+                  }
+        embedding = TSNE(metric='precomputed', **params)
+        dissimilarity_matrix = self.get_distance_matrix()
+        X = embedding.fit_transform(dissimilarity_matrix)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'kl_divergence': embedding.kl_divergence_,
+                'n_iter_': embedding.n_iter_
+            }
+            return X, component_info
+
+
     def is_present(self, target_molecule):
         """
         Searches the name of a target molecule in the molecule set to
@@ -691,5 +718,10 @@ class MoleculeSet:
     def get_transformed_descriptors(self, method_="pca", **kwargs):
         if method_.lower() == "pca":
             return self._do_pca(**kwargs)
-        if method_.lower() == "mds":
+        elif method_.lower() == "mds":
             return self._do_mds(**kwargs)
+        elif method_.lower() == 'tsne':
+            return self._do_tsne(**kwargs)
+        else:
+            raise InvalidConfigurationError(f'Embedding method {method_} '
+                                            f'not implemented')
