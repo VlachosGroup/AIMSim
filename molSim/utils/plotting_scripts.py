@@ -77,7 +77,8 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
         kdeplot(density,
                 color=color[density_id],
                 label=legends[density_id],
-                shade=shade)
+                shade=shade,
+                **kwargs)
     plt.xlabel(xlabel, fontsize=xlabel_fontsize)
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
     if legends is not None:
