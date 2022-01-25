@@ -117,7 +117,7 @@ For packaging on PyPI:
 
 `python -m build; twine upload dist/*`
 
-Be sure to bump the version in both the docs/conf.py and in setup.py
+Be sure to bump the version in `__init__.py`.
 
 ## License
 This code is made available under the terms of the _MIT Open License_:
