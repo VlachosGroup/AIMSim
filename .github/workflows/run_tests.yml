@@ -23,7 +23,7 @@ jobs:
       
       - name: Run Tests
         run: |
-          coverage run --source=. -m unittest discover
+          coverage run --source=. --omit=molSim_ui_main.py,config_reader.py,__init__.py,__main__.py,__setup__.py -m unittest discover
       - name: Show Coverage
         run: |
           coverage report -m
