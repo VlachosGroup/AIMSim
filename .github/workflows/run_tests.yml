@@ -26,7 +26,9 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -e .
           python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
+          python -m pip install coverage
       
       - name: Run Tests
         run: |
-          python -m unittest discover
+          coverage run -m unittest discover
+          coverage report -m
