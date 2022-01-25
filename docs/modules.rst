@@ -7,4 +7,5 @@ molSim
    interfaces
    molSim
    setup
+   test
    tests
