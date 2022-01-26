@@ -378,7 +378,8 @@ class Descriptor:
 
         """
         if label not in Descriptor.get_all_supported_descriptors():
-            raise InvalidConfigurationError(f"{label} not a " f"supported descriptor")
+            raise InvalidConfigurationError(
+                f"{label} not a " f"supported descriptor")
         if label in Descriptor.get_supported_fprints():
             return label.replace("_fingerprint", "")
         return label
@@ -401,7 +402,8 @@ class Descriptor:
         fprint2_arr = fingerprint2.to_numpy()
         if len(fprint1_arr) > len(fprint2_arr):
             return (
-                fingerprint1.get_folded_fprint(fold_to_length=len(fprint2_arr)),
+                fingerprint1.get_folded_fprint(
+                    fold_to_length=len(fprint2_arr)),
                 fprint2_arr,
             )
         else:
