@@ -22,6 +22,24 @@ class Molecule:
         descriptor (Descriptor object): Vector representation of a molecule.
              Commonly a fingerprint.
 
+    Methods:
+        set_descriptor(
+            arbitrary_descriptor_val=None,
+            fingerprint_type=None,
+            fingerprint_params=None): Set the descriptor value either by passing
+            an arbitrary value or by specifying a fingerprint that will be
+            generated.
+        get_descriptor_val(): Get the descriptor value as an numpy array.
+        match_fingerprint_from(reference_mol): Generate the same fingerprint
+            as the reference_mol.
+        get_similarity_to(target_mol, similarity_measure): Get the similarity
+            to target_mol using a similarity_measure of choice.
+        get_name(): Get the mol_text attribute.
+        get_mol_property_val(): Get mol_property_val attribute.
+        draw(fpath=None, **kwargs): Draw the molecule.
+        is_same(source_molecule, target_molecule): Static method used to check
+            equivalence of two molecules.
+
     """
 
     def __init__(
