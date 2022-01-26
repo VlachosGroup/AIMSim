@@ -173,3 +173,7 @@ class TestCompareTargetMolecule(unittest.TestCase):
     def tearDownClass(self):
         """Delete temporary file used in testing."""
         remove('temp_mol_file.csv')
+
+
+if __name__ == "__main__":
+    unittest.main()

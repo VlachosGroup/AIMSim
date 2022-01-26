@@ -158,3 +158,7 @@ class TestSimilarityMeasure(unittest.TestCase):
                                              f"{mol2.mol_text}"
                                              )
         remove('temp_mol_file.csv')
+
+
+if __name__ == "__main__":
+    unittest.main()
