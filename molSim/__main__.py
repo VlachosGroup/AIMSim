@@ -1,18 +1,4 @@
-"""Command line and GUI access point.
-
-Raises:
-    MissingRDKitError: Raised if RDKit installation is missing.
-"""
-import sys
-
-from molSim.exceptions import MissingRDKitError
-
-try:
-    from rdkit import Chem
-except ImportError:
-    raise MissingRDKitError(
-        "RDKit installation not found! Run `conda install -c rdkit rdkit`."
-    )
+"""Command line and GUI access point."""
 
 
 def start_molSim():
