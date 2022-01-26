@@ -68,13 +68,13 @@ class Molecule:
 
     def _set_molecule_from_pdb(self, fpath):
         """Set the mol_graph attribute from a PDB file.
-        If self.mol_text is not set, it is set to the smiles string.
+        If self.mol_text is not set, it is set to the base of the filname.
 
         Args:
             fpath (str): Path of PDB file.
 
         Raises:
-             LoadingError: If Molecule cannot be loaded from SMILES string.
+             LoadingError: If Molecule cannot be loaded from PDB file.
         """
         try:
             self.mol_graph = Chem.MolFromPDBFile(fpath)
