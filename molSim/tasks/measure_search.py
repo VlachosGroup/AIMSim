@@ -2,6 +2,8 @@
 evaluating the response of the nearest and furthest neighbors. This is called
 measure choice for brevity (although both measure and features are chosen)"""
 from collections import namedtuple
+from os import makedirs
+from posixpath import dirname
 
 from matplotlib.pyplot import get_cmap
 import numpy as np
