@@ -23,7 +23,7 @@ jobs:
       
       - name: Run Tests
         run: |
-          coverage run --source=. --omit=interfaces/*,molSim/__main__.py,molSim/tasks/__init__.py,molSim/ops/__init__.py,molSim/chemical_datastructures/__init__.py,molSim/utils/__init__.py,setup.py,tests/__init__.py,molSim/__init__.py,molSim/utils/plotting_scripts.py -m unittest discover
+          coverage run --source=. --omit=interfaces/*,molSim/__main__.py,molSim/tasks/__init__.py,molSim/ops/__init__.py,molSim/chemical_datastructures/__init__.py,molSim/utils/__init__.py,setup.py,tests/*,molSim/__init__.py,molSim/utils/plotting_scripts.py -m unittest discover
       - name: Show Coverage
         run: |
           coverage report -m
