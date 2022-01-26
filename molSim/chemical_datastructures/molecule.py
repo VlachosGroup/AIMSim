@@ -132,6 +132,8 @@ class Molecule:
                     self._set_molecule_from_smiles(mol_smiles)
                 except LoadingError as e:
                     raise e
+        else:
+            raise LoadingError(message=f"File {mol_src} does not exist.")
 
     def set_descriptor(
         self,
