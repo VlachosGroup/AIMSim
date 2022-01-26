@@ -197,10 +197,7 @@ class Molecule:
                     fingerprint_params=reference_mol.descriptor.get_params(),
                 )
             except ValueError as e:
-                if e.message is None:
-                    e.message = ""
-                e.message += f" For {self.mol_text}"
-                raise e
+                raise ValueError(f" For {self.mol_text}") from e
 
     def get_similarity_to(self, target_mol, similarity_measure):
         """Get a similarity metric to a target molecule
