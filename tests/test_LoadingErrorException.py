@@ -8,7 +8,7 @@ from pathlib import Path
 from os import remove
 
 
-class TestMolecule(unittest.TestCase):
+class TestLoadingERrorException(unittest.TestCase):
     """
     Tests for LoadingError custom exception.
 
@@ -44,7 +44,3 @@ class TestMolecule(unittest.TestCase):
             test_molecule = Molecule()
             test_molecule._set_molecule_from_pdb("blank.pdb")
         remove('blank.pdb')
-
-
-if __name__ == "__main__":
-    unittest.main()
