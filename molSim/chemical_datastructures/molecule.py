@@ -220,10 +220,7 @@ class Molecule:
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
-            if e.message is None:
-                e.message = ""
-            e.message += "Similarity could not be calculated. "
-            raise e
+            raise ValueError("Similarity could not be calculated.") from e
 
     def get_name(self):
         return self.mol_text
