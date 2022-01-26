@@ -28,7 +28,7 @@ class TestSimilarityMeasureValueError(unittest.TestCase):
 
     def test_vectornorm_length_errors(self):
         """
-        Vector norm-based similarities should only work with 
+        Vector norm-based similarities should only work with
         descriptors of the same length, otherwise it should raise
         a value error.
         """
