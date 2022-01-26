@@ -1994,7 +1994,7 @@ class SimilarityMeasure:
             "consonni−todeschini-3",
             "consonni−todeschini-4",
             "consonni−todeschini-5",
-            "-yule1",
+            "yule-1",
             "yule_1",
             "yule_2",
             "yule_2",

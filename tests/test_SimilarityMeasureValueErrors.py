@@ -43,3 +43,26 @@ class TestSimilarityMeasureValueError(unittest.TestCase):
             sim_mes_2(desc_1, desc_2)
         with self.assertRaises(ValueError):
             sim_mes_3(desc_1, desc_2)
+
+    def test_compatible_metrics(self):
+        """Test get_compatible_metrics basic functionailty.
+        """
+        self.assertIsInstance(
+            SimilarityMeasure.get_compatible_metrics(),
+            dict,
+        )
+
+    def test_binary_only_metrics(self):
+        """Metrics which only allow bit vectors should raise
+        a value error on other inputs.
+        """
+        desc_1 = Descriptor([1, 2])
+        desc_2 = Descriptor([3, 4])
+        for metric in SimilarityMeasure.get_supported_binary_metrics():
+            sim_mes = SimilarityMeasure(metric)
+            with self.assertRaises(ValueError):
+                sim_mes(desc_1, desc_2)
+
+
+if __name__ == "__main__":
+    unittest.main()

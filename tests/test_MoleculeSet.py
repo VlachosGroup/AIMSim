@@ -475,7 +475,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from dir",
@@ -905,7 +906,7 @@ class TestMoleculeSet(unittest.TestCase):
                 Molecule,
                 "Expected member of molecule_set to be Molecule object",
             )
-            print(f"Test complete. Deleting file {csv_fpath}...")
+        print(f"Test complete. Deleting file {csv_fpath}...")
         remove(csv_fpath)
 
     def test_set_molecule_database_w_similarity_from_csv(self):
@@ -1017,6 +1018,7 @@ class TestMoleculeSet(unittest.TestCase):
                         "returned by get_most_similar_pairs()"
                         " to be tuples",
                     )
+        remove(csv_fpath)
 
     def test_get_most_dissimilar_pairs(self):
         """
@@ -1048,6 +1050,7 @@ class TestMoleculeSet(unittest.TestCase):
                         " by get_most_dissimilar_pairs() "
                         "to be tuples",
                     )
+        remove(csv_fpath)
 
     def test_pca_transform(self):
         """
@@ -1057,7 +1060,8 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
@@ -1074,6 +1078,7 @@ class TestMoleculeSet(unittest.TestCase):
             "Expected transformed molecular descriptors to be "
             "equal to PCA decomposed features",
         )
+        remove(csv_fpath)
 
     def test_clustering_fingerprints(self):
         """
@@ -1118,6 +1123,7 @@ class TestMoleculeSet(unittest.TestCase):
                 else:
                     with self.assertRaises(InvalidConfigurationError):
                         molecule_set.cluster(n_clusters=n_clusters)
+        remove(csv_fpath)
 
 
 if __name__ == "__main__":
