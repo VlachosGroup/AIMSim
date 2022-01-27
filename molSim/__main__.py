@@ -1,4 +1,5 @@
 """Command line and GUI access point."""
+import sys
 
 
 def start_molSim():

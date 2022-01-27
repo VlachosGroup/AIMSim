@@ -59,6 +59,9 @@ class TestTaskManager(unittest.TestCase):
             "most_dissimilar": True,
             "similarity_plot_settings": {"plot_color": "red"},
         }
+        self.tasks_dict["cluster"] = {
+            "n_clusters": 2,
+        }
         self.tasks_dict["invalid_test_task"] = {
             "property_file": self.text_fpath,
             "most_dissimilar": True,
