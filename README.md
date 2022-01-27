@@ -1,13 +1,11 @@
 # molSim README
 
-![molSim logo](/interfaces/UI/molSim-logo.png)
+![molSim logo](https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png)
 
 molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
 
 ## Documentation and Tutorial
-[View our Online Documentation](https://vlachosgroup.github.io/molSim/) or try the _molSim_ comprehensive tutorial in your browser:
-
-[![Binder](badge_logo.svg)](https://mybinder.org/v2/gh/VlachosGroup/molSim/master?labpath=molSim-demo.ipynb)
+[View our Online Documentation](https://vlachosgroup.github.io/molSim/) or try the _molSim_ comprehensive tutorial in your browser: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/VlachosGroup/molSim/master?labpath=molSim-demo.ipynb)
 
 ## Purpose
 
