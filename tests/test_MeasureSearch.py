@@ -84,7 +84,7 @@ class TestMeasureSearch(unittest.TestCase):
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
         logdir_name = 'molSim_msearch_logs'
-        logdir_name = os.path.join(getcwd(),logdir_name)
+        logdir_name = join(getcwd(), logdir_name)
         msearch = MeasureSearch(log_file_path=logdir_name)
         self.assertTrue(exists(logdir_name))
         rmdir(logdir_name)
