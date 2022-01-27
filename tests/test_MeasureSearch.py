@@ -1,7 +1,7 @@
 """Test the MeasureSearch class."""
 from genericpath import exists
 from os import remove, rmdir, getcwd
-from os.path import abspath, join
+from os.path import abspath, join, isdir
 import unittest
 
 import numpy as np
@@ -86,7 +86,7 @@ class TestMeasureSearch(unittest.TestCase):
         logdir_name = 'molSim_msearch_logs'
         logdir_name = join(getcwd(), logdir_name)
         msearch = MeasureSearch(log_file_path=logdir_name)
-        self.assertTrue(exists(logdir_name))
+        self.assertTrue(isdir(logdir_name))
         rmdir(logdir_name)
         pass
 
