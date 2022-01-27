@@ -42,7 +42,9 @@ class IdentifyOutliers(Task):
             descs.append(molecule.descriptor.to_numpy())
         iof = IsolationForest()
         iof.fit(descs)
+        print("~" * 58)
         print(" ~" * 10 + " Outlier Detection " + "~ " * 10)
+        print("~" * 58)
         outlier_idxs = []
         for nmol, anomaly in zip(
             range(len(molecule_set.molecule_database)), iof.predict(descs)
@@ -73,7 +75,9 @@ class IdentifyOutliers(Task):
                 **self.plot_settings["pairwise_plot"],
             )
             plt.show()
-        input("Outlier detection complete (enter to continue).")
+        print("~" * 58)
+        print("Outlier detection complete.")
+        print("~" * 58)
 
     def __str__(self):
         return "Task: Identify outliers"

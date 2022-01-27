@@ -1,36 +1,30 @@
 """Test the TaskManager class."""
-import unittest
-
+from cgi import test
 from molSim.exceptions import InvalidConfigurationError
 from molSim.tasks.task_manager import TaskManager
 
+import unittest
+from unittest.mock import patch
+
 
 class TestTaskManager(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.test_smiles = [
+            "CCCCCCC",
+            "CCCC",
+            "CCC",
+            "CO",
+            "CN",
+            "C1=CC=CC=C1",
+            "CC1=CC=CC=C1",
+            "C(=O)(N)N",
+        ]
 
-    test_smiles = [
-        "CCCCCCC",
-        "CCCC",
-        "CCC",
-        "CO",
-        "CN",
-        "C1=CC=CC=C1",
-        "CC1=CC=CC=C1",
-        "C(=O)(N)N",
-    ]
-
-    def smiles_seq_to_textfile(self, property_seq=None):
-        """Helper method to convert a SMILES sequence to a text file.
-
-        Args:
-            property_seq (list or np.ndarray, optional): Optional sequence of
-                molecular responses.. Defaults to None.
-
-        Returns:
-            str: Path to created file.
-        """
-        text_fpath = "temp_smiles_seq.txt"
-        print(f"Creating text file {text_fpath}")
-        with open(text_fpath, "w") as fp:
+        property_seq = [i for i in range(len(self.test_smiles))]
+        self.text_fpath = "temp_smiles_seq.txt"
+        print(f"Creating text file {self.text_fpath}")
+        with open(self.text_fpath, "w") as fp:
             for id, smiles in enumerate(self.test_smiles):
                 write_txt = smiles
                 if property_seq is not None:
@@ -39,7 +33,37 @@ class TestTaskManager(unittest.TestCase):
                     write_txt += "\n"
 
                 fp.write(write_txt)
-        return text_fpath
+
+        self.tasks_dict = {}
+        self.inner_dict = {}
+        self.inner_dict["plot_settings"] = {
+            "plot_color": "green",
+            "plot_title": "Entire Dataset",
+        }
+        self.inner_dict["pairwise_heatmap_settings"] = {
+            "annotate": False,
+            "cmap": "viridis",
+        }
+        self.tasks_dict["visualize_dataset"] = self.inner_dict
+        self.tasks_dict["identify_outliers"] = {"output": "terminal"}
+        self.tasks_dict["compare_target_molecule"] = {
+            "target_molecule_smiles": "CCCC",
+            "plot_settings": {
+                "plot_color": "orange",
+                "plot_title": "Compared to Target Molecule",
+            },
+            "identify_closest_furthest": {"out_file_path": "molSim-ui_output.txt"},
+        }
+        self.tasks_dict["see_property_variation_w_similarity"] = {
+            "property_file": self.text_fpath,
+            "most_dissimilar": True,
+            "similarity_plot_settings": {"plot_color": "red"},
+        }
+        self.tasks_dict["invalid_test_task"] = {
+            "property_file": self.text_fpath,
+            "most_dissimilar": True,
+            "similarity_plot_settings": {"plot_color": "red"},
+        }
 
     def test_no_tasks_task_manager(self):
         """Instant stop test for TaskManager class.
@@ -49,12 +73,24 @@ class TestTaskManager(unittest.TestCase):
                 {}
             )
 
-    # def test_task_manager(self):
-    #     """Complete run test for TaskManager class.
-    #     """
-    #     task_man = TaskManager(
-    #         {}
-    #     )
+    def test_task_manager(self):
+        """Complete run test for TaskManager class.
+        """
+        # this magical context manager sends all plots to a blank function
+        with patch("molSim.utils.plotting_scripts.plt.show") as test_plot:
+            task_man = TaskManager(
+                tasks=self.tasks_dict
+            )
+            task_man(
+                molecule_set_configs={
+                    'molecule_database': self.text_fpath,
+                    'molecule_database_source_type': 'text',
+                    'fingerprint_type': "morgan_fingerprint",
+                    'similarity_measure': "tanimoto",
+                    'is_verbose': False,
+                }
+            )
+            self.assertTrue(test_plot.called, "No plots were created.")
 
 
 if __name__ == "__main__":

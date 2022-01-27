@@ -117,7 +117,7 @@ class TaskManager:
             sampling_ratio=sampling_ratio,
         )
 
-    def __call__(self, molecule_set_configs):
+    def __call__(self, molecule_set_configs, headless=True):
         """Launch all tasks from the queue.
 
         Args:
@@ -136,5 +136,7 @@ class TaskManager:
                     f"following error: {e.message}"
                 )
                 continue
+        if headless:
+            return
         input("All tasks complete! Press enter to terminate "
               "(plots will be closed).")
