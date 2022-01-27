@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from .task import Task
 from molSim.utils.plotting_scripts import plot_density, plot_heatmap, \
     plot_scatter
-from molSim.exceptions import InvalidConfigurationError
 
 
 class VisualizeDataset(Task):
