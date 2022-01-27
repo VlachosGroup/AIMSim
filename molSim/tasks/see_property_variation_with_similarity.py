@@ -36,7 +36,7 @@ class SeePropertyVariationWithSimilarity(Task):
         if self.correlation_type.lower() in ['pearson', 'linear']:
             self.correlation_fn = pearsonr
         else:
-            raise InvalidConfigurationError(f'{correlation_type} correlation '
+            raise InvalidConfigurationError(f'{self.correlation_type} correlation '
                                             f'not supported')
         if self.log_fpath is not None:
             log_dir = dirname(self.log_fpath)
