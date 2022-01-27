@@ -1,7 +1,7 @@
 """Test the MeasureSearch class."""
 from genericpath import exists
-from os import remove
-from os.path import abspath
+from os import remove, rmdir
+from os.path import abspath, join
 import unittest
 
 import numpy as np
@@ -83,11 +83,11 @@ class TestMeasureSearch(unittest.TestCase):
         """
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
-        logfile_name = 'temp_log.txt'
-        logfile_name = abspath(logfile_name)
-        msearch = MeasureSearch(log_file_path=logfile_name)
-        self.assertTrue(exists(logfile_name))
-        remove(text_fpath, logfile_name)
+        logdir_name = 'molSim_msearch_logs'
+        logdir_name = os.path.join(getcwd(),logdir_name)
+        msearch = MeasureSearch(log_file_path=logdir_name)
+        self.assertTrue(exists(logdir_name))
+        rmdir(logdir_name)
         pass
 
     def test_fixed_fprint(self):
