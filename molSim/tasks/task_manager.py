@@ -45,8 +45,7 @@ class TaskManager:
                 raise e
 
         if len(self.to_do) == 0:
-            print("No tasks were read. Exiting")
-            exit(1)
+            raise InvalidConfigurationError("No tasks were read, exiting.")
 
     def _initialize_molecule_set(self, molecule_set_configs):
         """Initialize molecule_set attribute to a MoleculeSet object
