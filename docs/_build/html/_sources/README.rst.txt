@@ -3,8 +3,8 @@ molSim README
 =============
 
 
-.. image:: /interfaces/UI/molSim-logo.png
-   :target: /interfaces/UI/molSim-logo.png
+.. image:: https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png
+   :target: https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png
    :alt: molSim logo
 
 
@@ -13,10 +13,8 @@ molSim is a tool for visualizing diversity in your molecular data-set using stru
 Documentation and Tutorial
 --------------------------
 
-`View our Online Documentation <https://vlachosgroup.github.io/molSim/>`_ or try the *molSim* comprehensive tutorial in your browser:
-
-
-.. image:: badge_logo.svg
+`View our Online Documentation <https://vlachosgroup.github.io/molSim/>`_ or try the *molSim* comprehensive tutorial in your browser: 
+.. image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/VlachosGroup/molSim/master?labpath=molSim-demo.ipynb
    :alt: Binder
 
