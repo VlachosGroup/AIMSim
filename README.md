@@ -78,7 +78,7 @@ Additional L0, L1 and L2 norm based similarities are also implemented. [View our
   Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7. 
 2. See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
-3. Visualize Dataset<: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
+3. Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
 
 4. Compare Target Molecule to Molecule Set<: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
 
