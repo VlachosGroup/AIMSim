@@ -1,6 +1,6 @@
 """Test the MeasureSearch class."""
 from genericpath import exists
-from os import remove, rmdir
+from os import remove, rmdir, getcwd
 from os.path import abspath, join
 import unittest
 
