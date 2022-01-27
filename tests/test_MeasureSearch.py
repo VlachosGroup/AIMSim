@@ -1,6 +1,7 @@
 """Test the MeasureSearch class."""
 from genericpath import exists
 from os import remove
+from os.path import abspath
 import unittest
 
 import numpy as np
@@ -64,7 +65,6 @@ class TestMeasureSearch(unittest.TestCase):
         """
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
-        text_fpath = "./" + text_fpath
         msearch = MeasureSearch()
         try:
             msearch.get_best_measure(
@@ -84,6 +84,7 @@ class TestMeasureSearch(unittest.TestCase):
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
         logfile_name = 'temp_log.txt'
+        logfile_name = abspath(logfile_name)
         msearch = MeasureSearch(log_file_path=logfile_name)
         self.assertTrue(exists(logfile_name))
         remove(text_fpath, logfile_name)
