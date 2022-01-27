@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>molSim.chemical_datastructures package &mdash; molSim 0.0.5 documentation</title>
+  <title>molSim.chemical_datastructures package &mdash; molSim 0.0.6 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -100,7 +100,49 @@
 <dt class="sig sig-object py" id="molSim.chemical_datastructures.molecule.Molecule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">molSim.chemical_datastructures.molecule.</span></span><span class="sig-name descname"><span class="pre">Molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_property_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_descriptor_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#molSim.chemical_datastructures.molecule.Molecule" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Molecular object defined from RDKIT mol object.</p>
+<p>An abstraction of a molecule</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>mol_graph (RDKIT mol object): Graph-level information of molecule.</dt><dd><p>Implemented as an RDKIT mol object.</p>
+</dd>
+</dl>
+<p>mol_text (str): Text identifier of the molecule.
+mol_property_val (float): Some property associated with the molecule.</p>
+<blockquote>
+<div><p>This is typically the response being studied.
+E.g. Boiling point, Selectivity etc.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>descriptor (Descriptor object): Vector representation of a molecule.</dt><dd><p>Commonly a fingerprint.</p>
+</dd>
+</dl>
+</dd>
+<dt>Methods:</dt><dd><dl class="simple">
+<dt>set_descriptor(</dt><dd><p>arbitrary_descriptor_val=None,
+fingerprint_type=None,
+fingerprint_params=None): Set the descriptor value either by passing
+an arbitrary value or by specifying a fingerprint that will be
+generated.</p>
+</dd>
+</dl>
+<p>get_descriptor_val(): Get the descriptor value as an numpy array.
+match_fingerprint_from(reference_mol): Generate the same fingerprint</p>
+<blockquote>
+<div><p>as the reference_mol.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>get_similarity_to(target_mol, similarity_measure): Get the similarity</dt><dd><p>to target_mol using a similarity_measure of choice.</p>
+</dd>
+</dl>
+<p>get_name(): Get the mol_text attribute.
+get_mol_property_val(): Get mol_property_val attribute.
+draw(fpath=None, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs): Draw the molecule.
+is_same(source_molecule, target_molecule): Static method used to check</p>
+<blockquote>
+<div><p>equivalence of two molecules.</p>
+</div></blockquote>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="molSim.chemical_datastructures.molecule.Molecule.draw">
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#molSim.chemical_datastructures.molecule.Molecule.draw" title="Permalink to this definition"></a></dt>

@@ -98,13 +98,13 @@ class Molecule:
 
     def _set_molecule_from_pdb(self, fpath):
         """Set the mol_graph attribute from a PDB file.
-        If self.mol_text is not set, it is set to the smiles string.
+        If self.mol_text is not set, it is set to the base of the filname.
 
         Args:
             fpath (str): Path of PDB file.
 
         Raises:
-             LoadingError: If Molecule cannot be loaded from SMILES string.
+             LoadingError: If Molecule cannot be loaded from PDB file.
         """
         try:
             self.mol_graph = Chem.MolFromPDBFile(fpath)
@@ -162,6 +162,8 @@ class Molecule:
                     self._set_molecule_from_smiles(mol_smiles)
                 except LoadingError as e:
                     raise e
+        else:
+            raise LoadingError(message=f"File {mol_src} does not exist.")
 
     def set_descriptor(
         self,
@@ -225,10 +227,7 @@ class Molecule:
                     fingerprint_params=reference_mol.descriptor.get_params(),
                 )
             except ValueError as e:
-                if e.message is None:
-                    e.message = ""
-                e.message += f" For {self.mol_text}"
-                raise e
+                raise ValueError(f" For {self.mol_text}") from e
 
     def get_similarity_to(self, target_mol, similarity_measure):
         """Get a similarity metric to a target molecule
@@ -251,10 +250,8 @@ class Molecule:
         try:
             return similarity_measure(self.descriptor, target_mol.descriptor)
         except NotInitializedError as e:
-            if e.message is None:
-                e.message = ""
-            e.message += "Similarity could not be calculated. "
-            raise e
+            raise NotInitializedError(
+                "Similarity could not be calculated.") from e
 
     def get_name(self):
         return self.mol_text

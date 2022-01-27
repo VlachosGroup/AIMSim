@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>tests package &mdash; molSim 0.0.5 documentation</title>
+  <title>tests package &mdash; molSim 0.0.6 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -48,9 +48,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests.test_CompareTargetMolecule">tests.test_CompareTargetMolecule module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests.test_Descriptor">tests.test_Descriptor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_LoadingErrorException">tests.test_LoadingErrorException module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_MeasureSearch">tests.test_MeasureSearch module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests.test_Molecule">tests.test_Molecule module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests.test_MoleculeSet">tests.test_MoleculeSet module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests.test_SimilarityMeasure">tests.test_SimilarityMeasure module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_SimilarityMeasureValueErrors">tests.test_SimilarityMeasureValueErrors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_TaskManager">tests.test_TaskManager module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests.test_multithreading">tests.test_multithreading module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-tests">Module contents</a></li>
 </ul>
@@ -122,16 +126,22 @@ property_seq (list or np.ndarray, optional): Optional sequence of</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tests.test_CompareTargetMolecule.TestCompareTargetMolecule.tearDownClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tearDownClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.tearDownClass" title="Permalink to this definition"></a></dt>
+<dd><p>Delete temporary file used in testing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_CompareTargetMolecule.TestCompareTargetMolecule.test_get_molecule_least_similar_to">
+<span class="sig-name descname"><span class="pre">test_get_molecule_least_similar_to</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.test_get_molecule_least_similar_to" title="Permalink to this definition"></a></dt>
+<dd><p>Test for get_molecule_least_similar_to functionality.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tests.test_CompareTargetMolecule.TestCompareTargetMolecule.test_get_molecule_most_similar_to">
 <span class="sig-name descname"><span class="pre">test_get_molecule_most_similar_to</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.test_get_molecule_most_similar_to" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="tests.test_CompareTargetMolecule.test_get_molecule_least_similar_to">
-<span class="sig-prename descclassname"><span class="pre">tests.test_CompareTargetMolecule.</span></span><span class="sig-name descname"><span class="pre">test_get_molecule_least_similar_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.test_get_molecule_least_similar_to" title="Permalink to this definition"></a></dt>
-<dd><p>Test for get_molecule_least_similar_to functionality.</p>
 </dd></dl>
 
 </section>
@@ -200,6 +210,137 @@ creating molecular fingerprints from the molecule graph.</p>
 </dd></dl>
 
 </section>
+<section id="module-tests.test_LoadingErrorException">
+<span id="tests-test-loadingerrorexception-module"></span><h2>tests.test_LoadingErrorException module<a class="headerlink" href="#module-tests.test_LoadingErrorException" title="Permalink to this headline"></a></h2>
+<p>Test the LoadingError Exception</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_LoadingErrorException.</span></span><span class="sig-name descname"><span class="pre">TestLoadingERrorException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_LoadingErrorException.TestLoadingERrorException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<p>Tests for LoadingError custom exception.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_pdb">
+<span class="sig-name descname"><span class="pre">test_invalid_pdb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_pdb" title="Permalink to this definition"></a></dt>
+<dd><p>Invalid PDB files should raise a LoadingError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_smiles">
+<span class="sig-name descname"><span class="pre">test_invalid_smiles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_smiles" title="Permalink to this definition"></a></dt>
+<dd><p>Invalid SMILES strings should raise a LoadingError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException.test_missing_pdb">
+<span class="sig-name descname"><span class="pre">test_missing_pdb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_LoadingErrorException.TestLoadingERrorException.test_missing_pdb" title="Permalink to this definition"></a></dt>
+<dd><p>Missing PDB files should raise a LoadingError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException.test_missing_smiles">
+<span class="sig-name descname"><span class="pre">test_missing_smiles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_LoadingErrorException.TestLoadingERrorException.test_missing_smiles" title="Permalink to this definition"></a></dt>
+<dd><p>Missing smiles strings should raise a LoadingError.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tests.test_MeasureSearch">
+<span id="tests-test-measuresearch-module"></span><h2>tests.test_MeasureSearch module<a class="headerlink" href="#module-tests.test_MeasureSearch" title="Permalink to this headline"></a></h2>
+<p>Test the MeasureSearch class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_MeasureSearch.</span></span><span class="sig-name descname"><span class="pre">TestMeasureSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile">
+<span class="sig-name descname"><span class="pre">smiles_seq_to_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile" title="Permalink to this definition"></a></dt>
+<dd><p>Helper method to convert a SMILES sequence to a text file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses.. Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_error_optim_algo">
+<span class="sig-name descname"><span class="pre">test_error_optim_algo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_error_optim_algo" title="Permalink to this definition"></a></dt>
+<dd><p>Measure search should error with invalid optimization algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_fixed_SimilarityMeasure">
+<span class="sig-name descname"><span class="pre">test_fixed_SimilarityMeasure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_fixed_SimilarityMeasure" title="Permalink to this definition"></a></dt>
+<dd><p>MeasureSearch should search for ideal fingerprint when metric is already chosen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_fixed_fprint">
+<span class="sig-name descname"><span class="pre">test_fixed_fprint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_fixed_fprint" title="Permalink to this definition"></a></dt>
+<dd><p>MeasureSearch should search for ideal metric when fingerprint is already chosen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_logfile_generation">
+<span class="sig-name descname"><span class="pre">test_logfile_generation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_logfile_generation" title="Permalink to this definition"></a></dt>
+<dd><p>When configured to do so, MeasureSearch should create a log file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_max_optim_algo">
+<span class="sig-name descname"><span class="pre">test_max_optim_algo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_max_optim_algo" title="Permalink to this definition"></a></dt>
+<dd><p>Measure search using the “maximum” optimization algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_min_optim_algo">
+<span class="sig-name descname"><span class="pre">test_min_optim_algo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_min_optim_algo" title="Permalink to this definition"></a></dt>
+<dd><p>Measure search using the “minimum” optimization algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_msearch_completion">
+<span class="sig-name descname"><span class="pre">test_msearch_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_msearch_completion" title="Permalink to this definition"></a></dt>
+<dd><p>MeasureSearch should complete running, though output cannot be directly tested.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_msearch_init">
+<span class="sig-name descname"><span class="pre">test_msearch_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_msearch_init" title="Permalink to this definition"></a></dt>
+<dd><p>Basic initialization test for the MeasureSearch class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_msearch_init_error">
+<span class="sig-name descname"><span class="pre">test_msearch_init_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_msearch_init_error" title="Permalink to this definition"></a></dt>
+<dd><p>Erroneous confirgurations should raise a config error.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_only_metric_search">
+<span class="sig-name descname"><span class="pre">test_only_metric_search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_only_metric_search" title="Permalink to this definition"></a></dt>
+<dd><p>Check that this configuration option is able to execute.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_smiles">
+<span class="sig-name descname"><span class="pre">test_smiles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['CCCCCCC',</span> <span class="pre">'CCCC',</span> <span class="pre">'CCC',</span> <span class="pre">'CO',</span> <span class="pre">'CN',</span> <span class="pre">'C1=CC=CC=C1',</span> <span class="pre">'CC1=CC=CC=C1',</span> <span class="pre">'C(=O)(N)N']</span></em><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_smiles" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.test_verbose_output">
+<span class="sig-name descname"><span class="pre">test_verbose_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.test_verbose_output" title="Permalink to this definition"></a></dt>
+<dd><p>Ensure execution does not raise an exception with verbose and show_top.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-tests.test_Molecule">
 <span id="tests-test-molecule-module"></span><h2>tests.test_Molecule module<a class="headerlink" href="#module-tests.test_Molecule" title="Permalink to this headline"></a></h2>
 <p>Test the methods of the Molecule class</p>
@@ -209,10 +350,52 @@ creating molecular fingerprints from the molecule graph.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
 <p>Tests for methods of Molecule class.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_get_name">
+<span class="sig-name descname"><span class="pre">test_get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_get_name" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve the name from the molecule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_get_property_value">
+<span class="sig-name descname"><span class="pre">test_get_property_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_get_property_value" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve the property value from the molecule</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_is_same">
+<span class="sig-name descname"><span class="pre">test_is_same</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_is_same" title="Permalink to this definition"></a></dt>
+<dd><p>Two identical molecules should be identifed as such.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_match_fprint_error">
+<span class="sig-name descname"><span class="pre">test_match_fprint_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_match_fprint_error" title="Permalink to this definition"></a></dt>
+<dd><p>Trying to match fingerprint from molecule w/o graph should throw an error.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_mol_mol_similarity_w_morgan_tanimoto">
 <span class="sig-name descname"><span class="pre">test_mol_mol_similarity_w_morgan_tanimoto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_mol_mol_similarity_w_morgan_tanimoto" title="Permalink to this definition"></a></dt>
 <dd><p>Test that the tanimoto similarity of the morgan fingerprints of
 two Molecules are in (0, 1).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_mol_smiles_loadingerror">
+<span class="sig-name descname"><span class="pre">test_mol_smiles_loadingerror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_mol_smiles_loadingerror" title="Permalink to this definition"></a></dt>
+<dd><p>Error in mol_smiles should raise LoadingError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_mol_src_pdb_loadingerror">
+<span class="sig-name descname"><span class="pre">test_mol_src_pdb_loadingerror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_mol_src_pdb_loadingerror" title="Permalink to this definition"></a></dt>
+<dd><p>Error in mol_src should raise LoadingError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_mol_src_txt_loadingerror">
+<span class="sig-name descname"><span class="pre">test_mol_src_txt_loadingerror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule.test_mol_src_txt_loadingerror" title="Permalink to this definition"></a></dt>
+<dd><p>Error in mol_src should raise LoadingError</p>
 </dd></dl>
 
 <dl class="py method">
@@ -401,6 +584,32 @@ works with the MoleculeSet.get_most_similar_pairs() method.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_invalid_transform_error">
+<span class="sig-name descname"><span class="pre">test_invalid_transform_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_invalid_transform_error" title="Permalink to this definition"></a></dt>
+<dd><p>Using an invalid or unimplemented dimensionality reduction method
+should throw an error.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_mds_transform">
+<span class="sig-name descname"><span class="pre">test_mds_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_mds_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Test the unsupervised transformation of molecules in
+MoleculSet using MDS.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_molecule_set_getters">
+<span class="sig-name descname"><span class="pre">test_molecule_set_getters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_molecule_set_getters" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve names and properties of mols using MoleculeSet.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_molecule_set_sim_getters">
+<span class="sig-name descname"><span class="pre">test_molecule_set_sim_getters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_molecule_set_sim_getters" title="Permalink to this definition"></a></dt>
+<dd><p>Get the properties for most and least similar molecule pairs.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_pca_transform">
 <span class="sig-name descname"><span class="pre">test_pca_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_pca_transform" title="Permalink to this definition"></a></dt>
 <dd><p>Test the unsupervised transformation of molecules in
@@ -550,6 +759,13 @@ directory of pdb files.</p>
 <dd><p>Test to randomly subsample a molecule database loaded from a textfile.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_tsne_transform">
+<span class="sig-name descname"><span class="pre">test_tsne_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_tsne_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Test the unsupervised transformation of molecules in
+MoleculSet using TSNE.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -599,6 +815,78 @@ property_seq (list or np.ndarray, optional): Optional sequence of</p>
 <dt class="sig sig-object py" id="tests.test_SimilarityMeasure.TestSimilarityMeasure.test_similarity_measure_limits">
 <span class="sig-name descname"><span class="pre">test_similarity_measure_limits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasure.TestSimilarityMeasure.test_similarity_measure_limits" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tests.test_SimilarityMeasureValueErrors">
+<span id="tests-test-similaritymeasurevalueerrors-module"></span><h2>tests.test_SimilarityMeasureValueErrors module<a class="headerlink" href="#module-tests.test_SimilarityMeasureValueErrors" title="Permalink to this headline"></a></h2>
+<p>Test the ValueError exceptions in SimilarityMeasure</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_SimilarityMeasureValueErrors.</span></span><span class="sig-name descname"><span class="pre">TestSimilarityMeasureValueError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<p>Tests for Value Error exception in SimilarityMeasure</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_binary_only_metrics">
+<span class="sig-name descname"><span class="pre">test_binary_only_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_binary_only_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Metrics which only allow bit vectors should raise
+a value error on other inputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_compatible_metrics">
+<span class="sig-name descname"><span class="pre">test_compatible_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_compatible_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Test get_compatible_metrics basic functionailty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_empty_fprints">
+<span class="sig-name descname"><span class="pre">test_empty_fprints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_empty_fprints" title="Permalink to this definition"></a></dt>
+<dd><p>Empty fingerprints cannot be compared.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_invalid_metric">
+<span class="sig-name descname"><span class="pre">test_invalid_metric</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_invalid_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing with a non-existent metric should throw an error.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_vectornorm_length_errors">
+<span class="sig-name descname"><span class="pre">test_vectornorm_length_errors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_vectornorm_length_errors" title="Permalink to this definition"></a></dt>
+<dd><p>Vector norm-based similarities should only work with
+descriptors of the same length, otherwise it should raise
+a value error.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tests.test_TaskManager">
+<span id="tests-test-taskmanager-module"></span><h2>tests.test_TaskManager module<a class="headerlink" href="#module-tests.test_TaskManager" title="Permalink to this headline"></a></h2>
+<p>Test the TaskManager class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.test_TaskManager.TestTaskManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_TaskManager.</span></span><span class="sig-name descname"><span class="pre">TestTaskManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_TaskManager.TestTaskManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_TaskManager.TestTaskManager.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_TaskManager.TestTaskManager.setUpClass" title="Permalink to this definition"></a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_TaskManager.TestTaskManager.test_no_tasks_task_manager">
+<span class="sig-name descname"><span class="pre">test_no_tasks_task_manager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_TaskManager.TestTaskManager.test_no_tasks_task_manager" title="Permalink to this definition"></a></dt>
+<dd><p>Instant stop test for TaskManager class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_TaskManager.TestTaskManager.test_task_manager">
+<span class="sig-name descname"><span class="pre">test_task_manager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_TaskManager.TestTaskManager.test_task_manager" title="Permalink to this definition"></a></dt>
+<dd><p>Complete run test for TaskManager class.</p>
+</dd></dl>
 
 </dd></dl>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>molSim README &mdash; molSim 0.0.5 documentation</title>
+  <title>molSim README &mdash; molSim 0.0.6 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -85,7 +85,7 @@
              
   <section id="molsim-readme">
 <h1>molSim README<a class="headerlink" href="#molsim-readme" title="Permalink to this headline"></a></h1>
-<a class="reference external image-reference" href="interfaces/UI/molSim-logo.png"><img alt="molSim logo" src="interfaces/UI/molSim-logo.png" /></a>
+<a class="reference external image-reference" href="https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png"><img alt="molSim logo" src="https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png" /></a>
 <p>molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints.</p>
 <section id="documentation-and-tutorial">
 <h2>Documentation and Tutorial<a class="headerlink" href="#documentation-and-tutorial" title="Permalink to this headline"></a></h2>
@@ -120,7 +120,7 @@ A more diverse training data-set yields a more robust model, which generalizes w
 identify “clusters of similarity” indicating the need for separately trained models for each cluster.</p>
 <p><em>Substrate Scope Robustness Verification</em></p>
 <p>When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation’s tolerance of diverse functional groups and substrates (Glorius, 2013). Using <code class="docutils literal notranslate"><span class="pre">molSim</span></code>, one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).</p>
-<a class="reference external image-reference" href="tests/sulfonamide-substrate-scope.png"><img alt="Image of sulfonamide substrate scope" src="tests/sulfonamide-substrate-scope.png" /></a>
+<a class="reference external image-reference" href="https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png"><img alt="Image of sulfonamide substrate scope" src="https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png" /></a>
 <p>Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.</p>
 </section>
 <section id="installing-molsim">
@@ -162,7 +162,7 @@ Step 6: Measure the correlation between a molecule’s QoI and its further neigh
 Step 7: Define a score which maximizes the value in Step 5 and minimizes the value in Step 6.
 Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7.</p></li>
 <li><p>See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.</p></li>
-<li><p>Visualize Dataset&lt;: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.</p></li>
+<li><p>Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.</p></li>
 <li><p>Compare Target Molecule to Molecule Set&lt;: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.</p></li>
 <li><p>Cluster Data: Cluster the molecule set. The following algorithms are implemented:</p></li>
 </ol>
@@ -190,7 +190,7 @@ Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity 
 <p>Documentation should manually build on push to master branch via an automated GitHub action.</p>
 <p>For packaging on PyPI:</p>
 <p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">build;</span> <span class="pre">twine</span> <span class="pre">upload</span> <span class="pre">dist/*</span></code></p>
-<p>Be sure to bump the version in both the docs/conf.py and in setup.py</p>
+<p>Be sure to bump the version in <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>.</p>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h2>

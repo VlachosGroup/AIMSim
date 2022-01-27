@@ -88,7 +88,8 @@ class TestDescriptor(unittest.TestCase):
             descriptor.to_rdkit()
 
     def test_topological_fprint_min_path_lesser_than_atoms(self):
-        atomic_mols = [MolFromSmiles(smiles) for smiles in ['C', 'O', 'N', 'P']]
+        atomic_mols = [MolFromSmiles(smiles)
+                       for smiles in ['C', 'O', 'N', 'P']]
         diatomic_mols = [MolFromSmiles(smiles) for smiles in ['CC',
                                                               'CO',
                                                               'CN',
@@ -333,3 +334,7 @@ class TestDescriptor(unittest.TestCase):
                           == folded_once_vector).all()))
         self.assertTrue(((desc.get_folded_fprint(fold_to_length=2)
                           == folded_twice_vector).all()))
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -20,6 +20,22 @@ tests.test\_Descriptor module
    :undoc-members:
    :show-inheritance:
 
+tests.test\_LoadingErrorException module
+----------------------------------------
+
+.. automodule:: tests.test_LoadingErrorException
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_MeasureSearch module
+--------------------------------
+
+.. automodule:: tests.test_MeasureSearch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tests.test\_Molecule module
 ---------------------------
 
@@ -40,6 +56,22 @@ tests.test\_SimilarityMeasure module
 ------------------------------------
 
 .. automodule:: tests.test_SimilarityMeasure
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_SimilarityMeasureValueErrors module
+-----------------------------------------------
+
+.. automodule:: tests.test_SimilarityMeasureValueErrors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_TaskManager module
+------------------------------
+
+.. automodule:: tests.test_TaskManager
    :members:
    :undoc-members:
    :show-inheritance:

@@ -9,6 +9,7 @@ import pandas as pd
 from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 from sklearn.decomposition import PCA
+from sklearn.manifold import MDS, TSNE
 from sklearn.preprocessing import StandardScaler
 
 from molSim.chemical_datastructures import Molecule, MoleculeSet
@@ -475,7 +476,8 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from dir",
@@ -905,7 +907,7 @@ class TestMoleculeSet(unittest.TestCase):
                 Molecule,
                 "Expected member of molecule_set to be Molecule object",
             )
-            print(f"Test complete. Deleting file {csv_fpath}...")
+        print(f"Test complete. Deleting file {csv_fpath}...")
         remove(csv_fpath)
 
     def test_set_molecule_database_w_similarity_from_csv(self):
@@ -1017,6 +1019,7 @@ class TestMoleculeSet(unittest.TestCase):
                         "returned by get_most_similar_pairs()"
                         " to be tuples",
                     )
+        remove(csv_fpath)
 
     def test_get_most_dissimilar_pairs(self):
         """
@@ -1048,6 +1051,7 @@ class TestMoleculeSet(unittest.TestCase):
                         " by get_most_dissimilar_pairs() "
                         "to be tuples",
                     )
+        remove(csv_fpath)
 
     def test_pca_transform(self):
         """
@@ -1057,7 +1061,8 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
@@ -1074,6 +1079,90 @@ class TestMoleculeSet(unittest.TestCase):
             "Expected transformed molecular descriptors to be "
             "equal to PCA decomposed features",
         )
+        remove(csv_fpath)
+
+    def test_mds_transform(self):
+        """
+        Test the unsupervised transformation of molecules in
+        MoleculSet using MDS.
+
+        """
+        n_features = 20
+        features = np.random.normal(size=(len(self.test_smiles), n_features))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            similarity_measure="l0_similarity",
+            is_verbose=True,
+
+        )
+        features = StandardScaler().fit_transform(features)
+        features = MDS().fit_transform(features)
+        error_matrix = features - \
+            molecule_set.get_transformed_descriptors(method_="mds")
+        error_threshold = 1e-6
+        self.assertLessEqual(
+            error_matrix.min(),
+            error_threshold,
+            "Expected transformed molecular descriptors to be "
+            "equal to MDS decomposed features",
+        )
+        remove(csv_fpath)
+
+    def test_tsne_transform(self):
+        """
+        Test the unsupervised transformation of molecules in
+        MoleculSet using TSNE.
+
+        """
+        n_features = 20
+        features = np.random.normal(size=(len(self.test_smiles), n_features))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            similarity_measure="l0_similarity",
+            is_verbose=True,
+
+        )
+        features = StandardScaler().fit_transform(features)
+        features = TSNE().fit_transform(features)
+        error_matrix = features - \
+            molecule_set.get_transformed_descriptors(method_="tsne")
+        error_threshold = 1e-6
+        self.assertLessEqual(
+            error_matrix.min(),
+            error_threshold,
+            "Expected transformed molecular descriptors to be "
+            "equal to TSNE decomposed features",
+        )
+        remove(csv_fpath)
+
+    def test_invalid_transform_error(self):
+        """Using an invalid or unimplemented dimensionality reduction method
+        should throw an error.
+        """
+        n_features = 20
+        features = np.random.normal(size=(len(self.test_smiles), n_features))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            similarity_measure="l0_similarity",
+            is_verbose=True,
+
+        )
+        features = StandardScaler().fit_transform(features)
+        features = TSNE().fit_transform(features)
+        with self.assertRaises(InvalidConfigurationError):
+            error_matrix = features - \
+                molecule_set.get_transformed_descriptors(
+                    method_="not a real method")
+        remove(csv_fpath)
 
     def test_clustering_fingerprints(self):
         """
@@ -1118,6 +1207,49 @@ class TestMoleculeSet(unittest.TestCase):
                 else:
                     with self.assertRaises(InvalidConfigurationError):
                         molecule_set.cluster(n_clusters=n_clusters)
+        remove(csv_fpath)
+
+    def test_molecule_set_getters(self):
+        """Retrieve names and properties of mols using MoleculeSet.
+        """
+        properties = np.random.normal(size=len(self.test_smiles))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
+                                                 property_seq=properties)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            fingerprint_type="morgan_fingerprint",
+            similarity_measure="tanimoto",
+            is_verbose=True,
+        )
+
+        self.assertListEqual(
+            self.test_smiles, molecule_set.get_mol_names().tolist())
+
+        for a, b in zip(properties.tolist(), molecule_set.get_mol_properties().tolist()):
+            self.assertAlmostEqual(a, b)
+        remove(csv_fpath)
+
+    def test_molecule_set_sim_getters(self):
+        """Get the properties for most and least similar molecule pairs.
+        """
+        properties = np.array([i for i in range(len(self.test_smiles))])
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
+                                                 property_seq=properties)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            fingerprint_type="morgan_fingerprint",
+            similarity_measure="tanimoto",
+            is_verbose=True,
+        )
+        _, ref_props = molecule_set.get_property_of_most_dissimilar()
+        self.assertListEqual(ref_props, [5, 5, 5, 5, 5, 0, 7, 0])
+
+        _, ref_props = molecule_set.get_property_of_most_similar()
+        self.assertListEqual(ref_props, [1, 2, 1, 4, 3, 6, 5, 3])
+
+        remove(csv_fpath)
 
 
 if __name__ == "__main__":

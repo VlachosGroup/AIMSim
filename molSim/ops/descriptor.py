@@ -99,7 +99,7 @@ class Descriptor:
 
         """
         self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(
-            molecule_graph, radius, nBits=n_bits
+            molecule_graph, radius, nBits=n_bits, **kwargs
         )
         self.label_ = "morgan_fingerprint"
         self.params_ = {"radius": radius, "n_bits": n_bits}
@@ -263,7 +263,15 @@ class Descriptor:
                 molecule_graph=molecule_graph, **topological_params
             )
         elif fingerprint_type == "daylight_fingerprint":
-            daylight_params = {}
+            daylight_params = {
+                'minPath': 1,
+                'maxPath': 7,
+                'fpSize': 2048,
+                'bitsPerHash': 2,
+                'useHs': 0,
+                'tgtDensity': 0.3,
+                'minSize': 64,
+            }
             daylight_params.update(fingerprint_params)
             self._set_daylight_fingerprint(
                 molecule_graph=molecule_graph, **daylight_params
@@ -378,7 +386,8 @@ class Descriptor:
 
         """
         if label not in Descriptor.get_all_supported_descriptors():
-            raise InvalidConfigurationError(f"{label} not a " f"supported descriptor")
+            raise InvalidConfigurationError(
+                f"{label} not a " f"supported descriptor")
         if label in Descriptor.get_supported_fprints():
             return label.replace("_fingerprint", "")
         return label
@@ -401,7 +410,8 @@ class Descriptor:
         fprint2_arr = fingerprint2.to_numpy()
         if len(fprint1_arr) > len(fprint2_arr):
             return (
-                fingerprint1.get_folded_fprint(fold_to_length=len(fprint2_arr)),
+                fingerprint1.get_folded_fprint(
+                    fold_to_length=len(fprint2_arr)),
                 fprint2_arr,
             )
         else:
