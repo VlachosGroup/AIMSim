@@ -2,8 +2,8 @@
 evaluating the response of the nearest and furthest neighbors. This is called
 measure choice for brevity (although both measure and features are chosen)"""
 from collections import namedtuple
+import json
 
-from matplotlib.pyplot import get_cmap
 import numpy as np
 
 from molSim.chemical_datastructures import MoleculeSet
@@ -18,7 +18,7 @@ from .see_property_variation_with_similarity \
 class MeasureSearch(Task):
     def __init__(self, configs=None, **kwargs):
         if configs is None:
-            configs = dict()  # all configs are optional
+            configs = dict()
         configs.update(kwargs)
         super().__init__(configs)
         self.plot_settings = None
@@ -193,6 +193,13 @@ class MeasureSearch(Task):
                     furthest_neighbor_correlation=furthest_corr,
                     score_=score_))
         all_scores.sort(key=lambda x: x[-1], reverse=True)
+
+        if self.log_fpath is not None:
+            print('Writing to ', self.log_fpath)
+            log_data = [trial._asdict() for trial in all_scores]
+            with open(self.log_fpath, "r") as fp:
+                json.dump(log_data, fp)
+
         if show_top > 0:
             top_performers = all_scores[:show_top]
             all_nearest_neighbor_correlations = []
