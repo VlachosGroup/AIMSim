@@ -64,6 +64,7 @@ class TestMeasureSearch(unittest.TestCase):
         """
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
+        text_fpath = "./" + text_fpath
         msearch = MeasureSearch()
         try:
             msearch.get_best_measure(
@@ -125,7 +126,7 @@ class TestMeasureSearch(unittest.TestCase):
         except Exception as e:
             self.fail("MeasureSearch failed fixed metric test.")
         remove(text_fpath)
-        
+
     def test_only_metric_fixed_measure_search(self):
         """Check that this configuration option is able to execute.
         """
@@ -145,7 +146,7 @@ class TestMeasureSearch(unittest.TestCase):
         except Exception as e:
             self.fail("MeasureSearch failed fixed metric test.")
         remove(text_fpath)
-        
+
     def test_only_metric_fixed_fprint_search(self):
         """Check that this configuration option is able to execute.
         """
