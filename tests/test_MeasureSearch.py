@@ -4,7 +4,6 @@ from os import remove
 import unittest
 
 import numpy as np
-from sqlalchemy import true
 
 from molSim.exceptions import InvalidConfigurationError
 from molSim.tasks.measure_search import MeasureSearch
