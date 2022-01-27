@@ -10,7 +10,37 @@ from molSim.ops.descriptor import Descriptor
 
 
 class Molecule:
-    """Molecular object defined from RDKIT mol object."""
+    """An abstraction of a molecule
+
+    Attributes:
+        mol_graph (RDKIT mol object): Graph-level information of molecule.
+            Implemented as an RDKIT mol object.
+        mol_text (str): Text identifier of the molecule.
+        mol_property_val (float): Some property associated with the molecule.
+                This is typically the response being studied.
+                E.g. Boiling point, Selectivity etc.
+        descriptor (Descriptor object): Vector representation of a molecule.
+             Commonly a fingerprint.
+
+    Methods:
+        set_descriptor(
+            arbitrary_descriptor_val=None,
+            fingerprint_type=None,
+            fingerprint_params=None): Set the descriptor value either by passing
+            an arbitrary value or by specifying a fingerprint that will be
+            generated.
+        get_descriptor_val(): Get the descriptor value as an numpy array.
+        match_fingerprint_from(reference_mol): Generate the same fingerprint
+            as the reference_mol.
+        get_similarity_to(target_mol, similarity_measure): Get the similarity
+            to target_mol using a similarity_measure of choice.
+        get_name(): Get the mol_text attribute.
+        get_mol_property_val(): Get mol_property_val attribute.
+        draw(fpath=None, **kwargs): Draw the molecule.
+        is_same(source_molecule, target_molecule): Static method used to check
+            equivalence of two molecules.
+
+    """
 
     def __init__(
         self,
@@ -31,13 +61,13 @@ class Molecule:
                 ------------------
                 1. Name of the molecule.
                 2. SMILES string representing the molecule.
-            mol_property_val (float): Some property associated with the molecule.
-                This is typically the response being studied. E.g. Boiling point,
-                Selectivity etc. Default is None.
-            mol_descriptor_val (numpy ndarray): Decriptor value for the molecule.
-                Must be numpy array or list. Default is None.
+            mol_property_val (float): Some property associated with the
+                molecule. This is typically the response being studied.
+                E.g. Boiling point, Selectivity etc. Default is None.
+            mol_descriptor_val (numpy ndarray): Descriptor value for the
+                molecule. Must be numpy array or list. Default is None.
             mol_src (str):
-                Source file or SMILES string to load molecule. Acceptable files are
+                Source file or SMILES string to load molecule. Acceptable files:
                 -> .pdb file
                 -> .txt file with SMILE string in first column, first row and
                         (optionally) property in second column, first row.
