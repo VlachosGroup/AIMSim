@@ -46,6 +46,7 @@ class MeasureSearch(Task):
                 correlation_type=self.configs.get('correlation_type'))
         except InvalidConfigurationError as e:
             raise e
+        self.log_fpath = self.configs.get("log_file_path", None)
         if self.log_fpath is not None:
             log_dir = dirname(self.log_fpath)
             makedirs(log_dir, exist_ok=True)
