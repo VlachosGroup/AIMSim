@@ -25,3 +25,6 @@ htmlcov/*
 
 # Jupyter Notebooks
 .ipynb_checkpoints/*
+
+# Temp files from testing
+temp_*
