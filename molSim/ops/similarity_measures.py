@@ -282,7 +282,8 @@ class SimilarityMeasure:
 
         elif self.metric == "austin_colwell":
             try:
-                similarity_ = self._get_austin_colwell(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_austin_colwell(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -296,7 +297,8 @@ class SimilarityMeasure:
 
         elif self.metric == "braun_blanquet":
             try:
-                similarity_ = self._get_braun_blanquet(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_braun_blanquet(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -308,13 +310,15 @@ class SimilarityMeasure:
 
         elif self.metric == "cole_1":
             try:
-                similarity_ = self._get_cole_1(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_cole_1(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "cole_2":
             try:
-                similarity_ = self._get_cole_2(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_cole_2(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -367,7 +371,8 @@ class SimilarityMeasure:
 
         elif self.metric == "dennis":
             try:
-                similarity_ = self._get_dennis(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_dennis(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -379,13 +384,15 @@ class SimilarityMeasure:
 
         elif self.metric == "dice_2":
             try:
-                similarity_ = self._get_dice_2(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_dice_2(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "dice_3":
             try:
-                similarity_ = self._get_dice_3(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_dice_3(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -404,13 +411,15 @@ class SimilarityMeasure:
 
         elif self.metric == "forbes":
             try:
-                similarity_ = self._get_forbes(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_forbes(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "fossum":
             try:
-                similarity_ = self._get_fossum(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_fossum(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -424,7 +433,8 @@ class SimilarityMeasure:
 
         elif self.metric == "harris_lahey":
             try:
-                similarity_ = self._get_harris_lahey(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_harris_lahey(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -437,7 +447,8 @@ class SimilarityMeasure:
 
         elif self.metric == "jaccard":
             try:
-                similarity_ = self._get_jaccard(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_jaccard(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -576,13 +587,15 @@ class SimilarityMeasure:
                 )
         elif self.metric == "yule_1":
             try:
-                similarity_ = self._get_yule_1(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_yule_1(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
         elif self.metric == "yule_2":
             try:
-                similarity_ = self._get_yule_2(mol1_descriptor, mol2_descriptor)
+                similarity_ = self._get_yule_2(
+                    mol1_descriptor, mol2_descriptor)
             except ValueError as e:
                 raise e
 
@@ -616,13 +629,8 @@ class SimilarityMeasure:
                 arr1, arr2 = Descriptor.fold_to_equal_length(mol1_descriptor,
                                                              mol2_descriptor)
             except ValueError as e:
-                err_msg = 'Length of two descriptors different. ' \
-                          'Could not be folded. '
-                if e.message is None:
-                    e.message = err_msg
-                else:
-                    e.message = err_msg + e.message
-                raise e
+                raise ValueError(
+                    'Fingerprints are of unequal length and cannot be folded.') from e
 
         norm_ = np.linalg.norm(arr1 - arr2, ord=ord)
         similarity_ = 1 / (1 + norm_)
@@ -1875,7 +1883,8 @@ class SimilarityMeasure:
             to the length of the smaller array.
 
         """
-        arr1, arr2 = Descriptor.fold_to_equal_length(fingerprint1, fingerprint2)
+        arr1, arr2 = Descriptor.fold_to_equal_length(
+            fingerprint1, fingerprint2)
         not_arr1 = np.logical_not(arr1)
         not_arr2 = np.logical_not(arr2)
         a = np.sum(arr1 & arr2)
@@ -1985,7 +1994,7 @@ class SimilarityMeasure:
             "consonni−todeschini-3",
             "consonni−todeschini-4",
             "consonni−todeschini-5",
-            "-yule1",
+            "yule-1",
             "yule_1",
             "yule_2",
             "yule_2",

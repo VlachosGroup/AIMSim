@@ -1,3 +1,4 @@
+import molSim
 import pathlib
 from setuptools import setup, find_packages
 
@@ -7,9 +8,11 @@ README = (cwd / "README.md").read_text()
 
 desc = "Python command line and GUI tool to analyze molecular similarity."
 
+vers = molSim.__version__
+
 setup(
     name="molSim",
-    version="0.0.5",
+    version=vers,
     description=desc,
     long_description=README,
     long_description_content_type="text/markdown",

@@ -3,8 +3,8 @@ molSim README
 =============
 
 
-.. image:: interfaces/UI/molSim-logo.png
-   :target: interfaces/UI/molSim-logo.png
+.. image:: https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png
+   :target: https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png
    :alt: molSim logo
 
 
@@ -48,8 +48,8 @@ identify "clusters of similarity" indicating the need for separately trained mod
 
 When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using ``molSim``\ , one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
 
-.. image:: tests/sulfonamide-substrate-scope.png
-   :target: tests/sulfonamide-substrate-scope.png
+.. image:: https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png
+   :target: https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png
    :alt: Image of sulfonamide substrate scope
 
 
@@ -105,7 +105,7 @@ Currently Implemented Functionalities
    See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
 #. 
-   Visualize Dataset<: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
+   Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
 
 #. 
    Compare Target Molecule to Molecule Set<: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
@@ -150,7 +150,7 @@ For packaging on PyPI:
 
 ``python -m build; twine upload dist/*``
 
-Be sure to bump the version in both the docs/conf.py and in setup.py
+Be sure to bump the version in ``__init__.py``.
 
 License
 -------

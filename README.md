@@ -1,6 +1,6 @@
 # molSim README
 
-![molSim logo](interfaces/UI/molSim-logo.png)
+![molSim logo](https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png)
 
 molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
 
@@ -34,7 +34,7 @@ identify "clusters of similarity" indicating the need for separately trained mod
 _Substrate Scope Robustness Verification_
 
 When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using `molSim`, one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
-![Image of sulfonamide substrate scope](tests/sulfonamide-substrate-scope.png)
+![Image of sulfonamide substrate scope](https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png)
 
 Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
 
@@ -78,7 +78,7 @@ Additional L0, L1 and L2 norm based similarities are also implemented. [View our
   Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity measure to maximize the result of Step 7. 
 2. See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
-3. Visualize Dataset<: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
+3. Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
 
 4. Compare Target Molecule to Molecule Set<: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
 
@@ -117,7 +117,7 @@ For packaging on PyPI:
 
 `python -m build; twine upload dist/*`
 
-Be sure to bump the version in both the docs/conf.py and in setup.py
+Be sure to bump the version in `__init__.py`.
 
 ## License
 This code is made available under the terms of the _MIT Open License_:

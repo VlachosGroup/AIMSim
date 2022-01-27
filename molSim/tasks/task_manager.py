@@ -45,8 +45,7 @@ class TaskManager:
                 raise e
 
         if len(self.to_do) == 0:
-            print("No tasks were read. Exiting")
-            exit(1)
+            raise InvalidConfigurationError("No tasks were read, exiting.")
 
     def _initialize_molecule_set(self, molecule_set_configs):
         """Initialize molecule_set attribute to a MoleculeSet object
@@ -118,7 +117,7 @@ class TaskManager:
             sampling_ratio=sampling_ratio,
         )
 
-    def __call__(self, molecule_set_configs):
+    def __call__(self, molecule_set_configs, headless=True):
         """Launch all tasks from the queue.
 
         Args:
@@ -137,5 +136,7 @@ class TaskManager:
                     f"following error: {e.message}"
                 )
                 continue
+        if headless:
+            return
         input("All tasks complete! Press enter to terminate "
               "(plots will be closed).")

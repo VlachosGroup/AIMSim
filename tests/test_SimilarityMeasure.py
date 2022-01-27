@@ -1,4 +1,5 @@
 """Test the SimilarityMEasure class"""
+from os import remove
 import unittest
 
 import pandas as pd
@@ -156,3 +157,8 @@ class TestSimilarityMeasure(unittest.TestCase):
                                              f"for molecule {mol1.mol_text}, "
                                              f"{mol2.mol_text}"
                                              )
+        remove('temp_mol_file.csv')
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -9,6 +9,7 @@ from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 
 from molSim.chemical_datastructures import Molecule
+from molSim.exceptions import LoadingError
 from molSim.ops import SimilarityMeasure
 
 
@@ -195,7 +196,8 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate = Molecule()
         test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
         test_molecule.set_descriptor(fingerprint_type=fingerprint_type)
-        test_molecule_duplicate.set_descriptor(fingerprint_type=fingerprint_type)
+        test_molecule_duplicate.set_descriptor(
+            fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
         tanimoto_similarity = test_molecule.get_similarity_to(
             test_molecule_duplicate, similarity_measure=similarity_measure
@@ -247,7 +249,8 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate = Molecule()
         test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
         test_molecule.set_descriptor(fingerprint_type=fingerprint_type)
-        test_molecule_duplicate.set_descriptor(fingerprint_type=fingerprint_type)
+        test_molecule_duplicate.set_descriptor(
+            fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
         negl0_similarity = test_molecule.get_similarity_to(
             test_molecule_duplicate, similarity_measure=similarity_measure
@@ -273,7 +276,8 @@ class TestMolecule(unittest.TestCase):
         test_molecule_duplicate = Molecule()
         test_molecule_duplicate._set_molecule_from_smiles(test_smiles)
         test_molecule.set_descriptor(fingerprint_type=fingerprint_type)
-        test_molecule_duplicate.set_descriptor(fingerprint_type=fingerprint_type)
+        test_molecule_duplicate.set_descriptor(
+            fingerprint_type=fingerprint_type)
         similarity_measure = SimilarityMeasure(metric=similarity_metric)
         dice_similarity = test_molecule.get_similarity_to(
             test_molecule_duplicate, similarity_measure=similarity_measure
@@ -284,6 +288,56 @@ class TestMolecule(unittest.TestCase):
             "Expected dice similarity to be 1 when comparing "
             "molecule graph to itself",
         )
+
+    def test_mol_src_pdb_loadingerror(self):
+        """Error in mol_src should raise LoadingError
+        """
+        with self.assertRaises(LoadingError):
+            Molecule(mol_src='non-existent file.pdb')
+
+    def test_mol_src_txt_loadingerror(self):
+        """Error in mol_src should raise LoadingError
+        """
+        with self.assertRaises(LoadingError):
+            Molecule(mol_src='non-existent file.txt')
+
+    def test_mol_smiles_loadingerror(self):
+        """Error in mol_smiles should raise LoadingError
+        """
+        with self.assertRaises(LoadingError):
+            Molecule(mol_smiles="XYZ")
+
+    def test_is_same(self):
+        """Two identical molecules should be identifed as such.
+        """
+        mol_1 = Molecule(mol_text="C")
+        mol_2 = Molecule(mol_text="C")
+        self.assertTrue(Molecule.is_same(mol_1, mol_2))
+
+    def test_get_name(self):
+        """Retrieve the name from the molecule.
+        """
+        mol = Molecule(mol_text="C")
+        self.assertEqual(mol.get_name(), "C")
+
+    def test_get_property_value(self):
+        """Retrieve the property value from the molecule
+        """
+        correct_val = 10
+        mol = Molecule(mol_text="C", mol_property_val=correct_val)
+        self.assertEqual(mol.get_mol_property_val(), correct_val)
+
+    def test_match_fprint_error(self):
+        """Trying to match fingerprint from molecule w/o graph should throw an error.
+        """
+        # initialize a molecule normally
+        ref_mol = Molecule(mol_smiles="C")
+        ref_mol.set_descriptor(fingerprint_type="morgan_fingerprint")
+        # delete the molecular graph
+        ref_mol.mol_graph = np.array([])
+        mol = Molecule()
+        with self.assertRaises(ValueError):
+            mol.match_fingerprint_from(ref_mol)
 
 
 if __name__ == "__main__":

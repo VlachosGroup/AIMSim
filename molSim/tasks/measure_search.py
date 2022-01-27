@@ -3,6 +3,8 @@ evaluating the response of the nearest and furthest neighbors. This is called
 measure choice for brevity (although both measure and features are chosen)"""
 from collections import namedtuple
 import json
+from os import makedirs
+from posixpath import dirname
 
 import numpy as np
 
@@ -52,6 +54,7 @@ class MeasureSearch(Task):
             makedirs(log_dir, exist_ok=True)
 
     def __call__(self,
+                 molecule_set_configs,
                  fingerprint_type=None,
                  fingerprint_params=None,
                  similarity_measure=None,
@@ -59,7 +62,7 @@ class MeasureSearch(Task):
                  optim_algo='max_min',
                  show_top=0,
                  only_metric=True,
-                 **molecule_set_configs):
+                 ):
         """
         Calculate the correlation in the properties of molecules in set
         and their nearest and furthest neighbors using different
@@ -240,12 +243,14 @@ class MeasureSearch(Task):
                "similarity measure for property of interest"
 
     def get_best_measure(self,
+                         molecule_set_configs,
                          fingerprint_type=None,
                          similarity_measure=None,
                          subsample_subset_size=0.01,
                          optim_algo='max_min',
                          only_metric=False,
-                         **molecule_set_configs):
+                         show_top=0,
+                         ):
         """Get the best measure for quantity of interest.
 
         Args:
@@ -297,10 +302,12 @@ class MeasureSearch(Task):
                    More is better.
 
         """
-        return self.__call__(fingerprint_type=fingerprint_type,
-                             similarity_measure=similarity_measure,
-                             subsample_subset_size=subsample_subset_size,
-                             optim_algo=optim_algo,
-                             only_metric=only_metric,
-                             show_top=0,
-                             **molecule_set_configs)
+        return self.__call__(
+            molecule_set_configs,
+            fingerprint_type=fingerprint_type,
+            similarity_measure=similarity_measure,
+            subsample_subset_size=subsample_subset_size,
+            optim_algo=optim_algo,
+            only_metric=only_metric,
+            show_top=show_top,
+        )
