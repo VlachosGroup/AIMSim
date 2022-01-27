@@ -80,12 +80,12 @@ class TestMeasureSearch(unittest.TestCase):
     def test_logfile_generation(self):
         """When configured to do so, MeasureSearch should create a log file.
         """
-        # properties = np.random.normal(size=len(self.test_smiles))
-        # text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
-        # logfile_name = 'temp_log.txt'
-        # msearch = MeasureSearch(log_fpath=logfile_name)
-        # self.assertTrue(exists(logfile_name))
-        # remove(text_fpath, logfile_name)
+        properties = np.random.normal(size=len(self.test_smiles))
+        text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
+        logfile_name = 'temp_log.txt'
+        msearch = MeasureSearch(log_file_path=logfile_name)
+        self.assertTrue(exists(logfile_name))
+        remove(text_fpath, logfile_name)
         pass
 
     def test_fixed_fprint(self):
@@ -101,7 +101,7 @@ class TestMeasureSearch(unittest.TestCase):
                     'molecule_database_src_type': 'text',
                 },
                 subsample_subset_size=1.0,
-                fingerprint_type='morgan_fingerprint'
+                fingerprint_type='morgan_fingerprint',
             )
         except Exception as e:
             self.fail("MeasureSearch failed fixed fingerprint test.")
@@ -121,6 +121,46 @@ class TestMeasureSearch(unittest.TestCase):
                 },
                 subsample_subset_size=1.0,
                 only_metric=True,
+            )
+        except Exception as e:
+            self.fail("MeasureSearch failed fixed metric test.")
+        remove(text_fpath)
+        
+    def test_only_metric_fixed_measure_search(self):
+        """Check that this configuration option is able to execute.
+        """
+        properties = np.random.normal(size=len(self.test_smiles))
+        text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
+        msearch = MeasureSearch()
+        try:
+            msearch.get_best_measure(
+                molecule_set_configs={
+                    'molecule_database_src': text_fpath,
+                    'molecule_database_src_type': 'text',
+                },
+                subsample_subset_size=1.0,
+                only_metric=True,
+                similarity_measure='tanimoto',
+            )
+        except Exception as e:
+            self.fail("MeasureSearch failed fixed metric test.")
+        remove(text_fpath)
+        
+    def test_only_metric_fixed_fprint_search(self):
+        """Check that this configuration option is able to execute.
+        """
+        properties = np.random.normal(size=len(self.test_smiles))
+        text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
+        msearch = MeasureSearch()
+        try:
+            msearch.get_best_measure(
+                molecule_set_configs={
+                    'molecule_database_src': text_fpath,
+                    'molecule_database_src_type': 'text',
+                },
+                subsample_subset_size=1.0,
+                only_metric=True,
+                fingerprint_type='morgan_fingerprint',
             )
         except Exception as e:
             self.fail("MeasureSearch failed fixed metric test.")
