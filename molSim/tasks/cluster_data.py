@@ -3,7 +3,6 @@ from os import makedirs
 from os.path import dirname
 
 import matplotlib.pyplot as plt
-import numpy as np
 import yaml
 
 from .task import Task

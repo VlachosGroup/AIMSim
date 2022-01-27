@@ -80,7 +80,7 @@ class TaskManager:
                 0.05)
             if is_verbose:
                 print('Determining best fingerprint_type / similarity_measure')
-            measure_search = MeasureSearch(correlation_typ='pearson')
+            measure_search = MeasureSearch(correlation_type='pearson')
             if similarity_measure == 'determine':
                 similarity_measure = None
                 only_valid_dist = molecule_set_configs.get(
