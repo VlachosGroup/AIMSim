@@ -152,7 +152,7 @@ class Descriptor:
             self.numpy_ = np.array(all_desc[descriptor])
             self.label_ = descriptor
         except Exception as e:
-            raise InvalidConfigurationError(
+            raise RuntimeError(
                 f"Unable to retrieve PaDELPy Descriptor '{descriptor}'. Is it a valid descriptor?")
 
     def _set_mordred_descriptor(self, molecule_graph, descriptor, **kwargs):
