@@ -248,6 +248,34 @@ class TestDescriptor(unittest.TestCase):
             with self.assertRaises(ValueError):
                 descriptor.to_rdkit()
 
+    def test_padelpy_descriptors(self):
+        """Test ability to passthrough descriptors to PadelPy."""
+        mol_graph = MolFromSmiles(
+            "CCOCC"
+        )
+        for desc in ["MATS7e", "Ti", "ATSC6p"]:
+            descriptor = Descriptor()
+            descriptor.make_fingerprint(
+                molecule_graph=mol_graph, fingerprint_type="padelpy:" + desc
+            )
+            self.assertTrue(
+                descriptor.check_init(),
+                "Expected Descriptor object to be initialized",
+            )
+            self.assertEqual(
+                descriptor.label_,
+                desc,
+                "Expected label of descriptor initialized with "
+                "{} to match the fingerprint".format(desc),
+            )
+            self.assertIsInstance(
+                descriptor.to_numpy(),
+                np.ndarray,
+                "Expected numpy.ndarray from to_numpy()",
+            )
+            with self.assertRaises(ValueError):
+                descriptor.to_rdkit()
+
     def test_nonexistent_mordred_descriptors(self):
         """Test ability to pass through descriptors to Mordred."""
         mol_graph = MolFromSmiles("C")
@@ -257,6 +285,18 @@ class TestDescriptor(unittest.TestCase):
                 descriptor.make_fingerprint(
                     molecule_graph=mol_graph,
                     fingerprint_type="mordred:" + desc,
+                )
+
+    def test_bad_descriptors_padelpy_descriptors(self):
+        """Test ability to pass through invalid descriptors to padelpy."""
+        mol_graph = MolFromSmiles("C")
+        for desc in ["", "ReallyInvalidDescriptorName"]:
+            descriptor = Descriptor()
+            with self.assertRaises(RuntimeError):
+                descriptor.make_fingerprint(
+                    molecule_graph=mol_graph,
+                    fingerprint_type="padelpy:" + desc,
+                    fingerprint_params={'timeout': 2},
                 )
 
     def test_fingerprint_folding(self):

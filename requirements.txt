@@ -10,3 +10,4 @@ mordred==1.2.0
 PyYAML==5.4.1
 rdkit-pypi
 scikit_learn==0.24.2
+padelpy
