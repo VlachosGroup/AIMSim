@@ -11,3 +11,4 @@ PyYAML==5.4.1
 rdkit-pypi
 scikit_learn==0.24.2
 psutil
+padelpy
