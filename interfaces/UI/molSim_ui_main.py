@@ -43,8 +43,10 @@ class MolsimUiApp:
         self.similarityMeasure = tk.StringVar(self.window)
         self.molecularDescriptor = tk.StringVar(self.window)
         self.titleLabel = ttk.Label(self.window)
-        self.titleLabel.configure(font="TkDefaultFont", text="molecular Similarity")
-        self.titleLabel.place(anchor="center", relx="0.5", rely="0.05", x="0", y="0")
+        self.titleLabel.configure(
+            font="TkDefaultFont", text="molecular Similarity")
+        self.titleLabel.place(anchor="center", relx="0.5",
+                              rely="0.05", x="0", y="0")
         self.mainframe = ttk.Frame(self.window)
         self.verboseCheckbutton = ttk.Checkbutton(self.mainframe)
         self.verboseCheckbutton.configure(
@@ -93,7 +95,8 @@ class MolsimUiApp:
             anchor="center", relx="0.5", rely="0.15", x="0", y="0"
         )
         self.propertySimilarityCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.propertySimilarityCheckbutton.configure(text="Property Similarity Plot")
+        self.propertySimilarityCheckbutton.configure(
+            text="Property Similarity Plot")
         self.propertySimilarityCheckbutton.place(
             anchor="center", relx="0.5", rely="0.2", x="0", y="0"
         )
@@ -154,7 +157,8 @@ class MolsimUiApp:
         self.molecularDescriptorCombobox.current(0)
         self.runButton = ttk.Button(self.mainframe)
         self.runButton.configure(text="Run")
-        self.runButton.place(anchor="center", relx="0.5", rely="0.75", x="0", y="0")
+        self.runButton.place(anchor="center", relx="0.5",
+                             rely="0.75", x="0", y="0")
         self.runButton.configure(command=self.runCallback)
         self.openConfigButton = ttk.Button(self.mainframe)
         self.openConfigButton.configure(text="Open Config")
@@ -190,12 +194,14 @@ class MolsimUiApp:
         self.identifyOutliersCheckbutton.configure(
             compound="top", cursor="arrow", offvalue="False", onvalue="True"
         )
-        self.identifyOutliersCheckbutton.configure(state="normal", text="Outlier Check")
+        self.identifyOutliersCheckbutton.configure(
+            state="normal", text="Outlier Check")
         self.identifyOutliersCheckbutton.place(
             anchor="center", relx="0.4", rely="0.95", x="0", y="0"
         )
         self.mainframe.configure(height="400", width="400")
-        self.mainframe.place(anchor="nw", relheight="0.9", rely="0.1", x="0", y="0")
+        self.mainframe.place(anchor="nw", relheight="0.9",
+                             rely="0.1", x="0", y="0")
         self.window.configure(
             cursor="arrow", height="400", relief="flat", takefocus=False
         )
@@ -265,7 +271,7 @@ class MolsimUiApp:
 
         verboseChecked = "selected" in self.verboseCheckbutton.state()
         if "selected" in self.multiprocessingCheckbutton.state():
-            n_workers = (os.cpu_count() / 2) - 1
+            n_workers = 'auto'
         else:
             n_workers = 1
 
@@ -292,7 +298,8 @@ class MolsimUiApp:
         with open("molSim-ui-config.yaml", "w") as outfile:
             yaml.dump(yamlOut, outfile, default_flow_style=False)
 
-        configs = yaml.load(open("molSim-ui-config.yaml", "r"), Loader=yaml.FullLoader)
+        configs = yaml.load(open("molSim-ui-config.yaml",
+                            "r"), Loader=yaml.FullLoader)
 
         tasks = configs.pop("tasks", None)
         if tasks is None:
