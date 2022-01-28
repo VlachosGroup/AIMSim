@@ -151,7 +151,7 @@ class Descriptor:
                 local_smi, timeout=kwargs.get("timeout", 60))
             self.numpy_ = np.array(all_desc[descriptor])
             self.label_ = descriptor
-        except KeyError as e:
+        except Exception as e:
             raise InvalidConfigurationError(
                 f"Unable to retrieve PaDELPy Descriptor '{descriptor}'. Is it a valid descriptor?")
 
