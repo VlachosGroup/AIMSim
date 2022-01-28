@@ -1,5 +1,6 @@
 """Abstraction of a data set comprising multiple Molecule objects."""
 from glob import glob
+import psutil
 import os.path
 import multiprocess
 import numpy as np
@@ -57,7 +58,6 @@ class MoleculeSet:
                 Default is 42.
         """
         self.is_verbose = is_verbose
-        self.n_threads = n_threads
         self.molecule_database = None
         self.descriptor = Descriptor()
         self.molecule_database, features = self._get_molecule_database(
@@ -79,6 +79,21 @@ class MoleculeSet:
                 fingerprint_params=fingerprint_params
             )
         self.similarity_measure = SimilarityMeasure(similarity_measure)
+        if n_threads == 'auto':
+            # determine if multiprocessing is worthwhile based on a curve fitted
+            # to the speedup data in the manuscript SI
+            def speedup_eqn(n_mols, n_procs):
+                return 1.8505e-4 * n_mols + 2.235e-1*n_procs + 7.082e-2
+            n_cores = psutil.cpu_count(logical=False)
+            n_mols = len(self.molecule_database)
+            if speedup_eqn(n_mols, n_cores) > 1.0:
+                self.n_threads = n_cores
+            elif speedup_eqn(n_mols, n_cores//2) > 1.0:
+                self.n_threads = n_cores // 2
+            else:
+                self.n_threads = n_cores
+        else:
+            self.n_threads = n_threads
         self.similarity_matrix = None
         self._set_similarity_matrix()
 

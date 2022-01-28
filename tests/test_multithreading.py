@@ -271,6 +271,22 @@ class TestMultithreading(unittest.TestCase):
             self._15000_molecules_serial_time_2 += (
                 time() - start) / self.N_REPLICATES
 
+    def test_multithreading_autoconfig(self):
+        """
+        Ensure that MoleculeSet can automatically configure multiprocessing..
+        """
+        try:
+            MoleculeSet(
+                molecule_database_src=self.text_fpath,
+                molecule_database_src_type="text",
+                is_verbose=True,
+                similarity_measure="tanimoto",
+                n_threads='auto',
+                fingerprint_type="morgan_fingerprint",
+            )
+        except Exception as e:
+            self.fail("Multiprocessing automatic configuration failed.")
+
     def test_multithreading_consistency_2_threads(self):
         """
         Ensure that the similarity matrix produced with 2 threads is identical to
