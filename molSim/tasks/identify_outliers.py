@@ -41,7 +41,7 @@ class IdentifyOutliers(Task):
         descs = []
         for molecule in molecule_set.molecule_database:
             descs.append(molecule.descriptor.to_numpy())
-        iof = IsolationForest(self.random_state)
+        iof = IsolationForest(random_state=self.random_state)
         iof.fit(descs)
         print("~" * 58)
         print(" ~" * 10 + " Outlier Detection " + "~ " * 10)
