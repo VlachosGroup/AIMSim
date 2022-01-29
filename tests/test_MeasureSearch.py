@@ -1,7 +1,8 @@
 """Test the MeasureSearch class."""
 from genericpath import exists
-from os import remove, rmdir, getcwd
-from os.path import abspath, join, isdir
+from os import remove, getcwd
+from os.path import abspath, join, isdir, isfile
+from shutil import rmtree
 import unittest
 
 import numpy as np
@@ -83,12 +84,17 @@ class TestMeasureSearch(unittest.TestCase):
         """
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)
-        logdir_name = 'molSim_msearch_logs'
-        logdir_name = join(getcwd(), logdir_name)
-        msearch = MeasureSearch(log_file_path=logdir_name)
-        self.assertTrue(isdir(logdir_name))
-        rmdir(logdir_name)
-        pass
+        log_dir_name = 'molSim_msearch_logs'
+        log_dir_path = join(getcwd(), log_dir_name)
+        log_file_path = join(log_dir_path, 'logs.json')
+        msearch = MeasureSearch(log_file_path=log_file_path)
+        _ = msearch(molecule_set_configs={
+                        'molecule_database_src': text_fpath,
+                        'molecule_database_src_type': 'text'},
+                    subsample_subset_size=1.0)
+        self.assertTrue(isfile(log_file_path))
+        self.assertTrue(isdir(log_dir_path))
+        rmtree(log_dir_path)
 
     def test_fixed_fprint(self):
         """MeasureSearch should search for ideal metric when fingerprint is already chosen.
@@ -169,7 +175,8 @@ class TestMeasureSearch(unittest.TestCase):
         remove(text_fpath)
 
     def test_fixed_SimilarityMeasure(self):
-        """MeasureSearch should search for ideal fingerprint when metric is already chosen.
+        """MeasureSearch should search for ideal fingerprint when metric is
+           already chosen.
         """
         properties = np.random.normal(size=len(self.test_smiles))
         text_fpath = self.smiles_seq_to_textfile(property_seq=properties)

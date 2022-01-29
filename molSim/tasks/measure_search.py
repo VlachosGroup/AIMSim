@@ -196,11 +196,10 @@ class MeasureSearch(Task):
                     furthest_neighbor_correlation=furthest_corr,
                     score_=score_))
         all_scores.sort(key=lambda x: x[-1], reverse=True)
-
         if self.log_fpath is not None:
             print('Writing to ', self.log_fpath)
             log_data = [trial._asdict() for trial in all_scores]
-            with open(self.log_fpath, "r") as fp:
+            with open(self.log_fpath, "w") as fp:
                 json.dump(log_data, fp)
 
         if show_top > 0:
