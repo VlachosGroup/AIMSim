@@ -16,6 +16,7 @@ from molSim.ops.similarity_measures import SimilarityMeasure
 import yaml
 import os
 import tkinter as tk
+from tkinter import messagebox
 import tkinter.ttk as ttk
 import webbrowser
 import pkg_resources
@@ -84,21 +85,16 @@ class MolsimUiApp:
         self.targetMoleculeLabel.place(
             anchor="center", relx="0.17", rely="0.27", x="0", y="0"
         )
-        self.similarityPDFCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.similarityPDFCheckbutton.configure(text="Similarity PDF")
-        self.similarityPDFCheckbutton.place(
+        self.similarityPlotsCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.similarityPlotsCheckbutton.configure(text="Similarity Plots")
+        self.similarityPlotsCheckbutton.place(
             anchor="center", relx="0.5", rely="0.1", x="0", y="0"
-        )
-        self.similarityHeatmapCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.similarityHeatmapCheckbutton.configure(text="Similarity Heatmap")
-        self.similarityHeatmapCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.15", x="0", y="0"
         )
         self.propertySimilarityCheckbutton = ttk.Checkbutton(self.mainframe)
         self.propertySimilarityCheckbutton.configure(
             text="Property Similarity Plot")
         self.propertySimilarityCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.2", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.15", x="0", y="0"
         )
         self.similarityPlotCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotCheckbutton.configure(text="Similarity Plot")
@@ -239,13 +235,12 @@ class MolsimUiApp:
         tasks_dict = {}
 
         inner_dict = {}
-        if "selected" in self.similarityPDFCheckbutton.state():
+        if "selected" in self.similarityPlotsCheckbutton.state():
             inner_dict["plot_settings"] = {
                 "plot_color": "green",
                 "plot_title": "Entire Dataset",
             }
-        if "selected" in self.similarityHeatmapCheckbutton.state():
-            inner_dict["pairwise_heatmap_settings"] = {
+            inner_dict["heatmap_plot_settings"] = {
                 "annotate": False,
                 "cmap": "viridis",
             }
@@ -301,12 +296,23 @@ class MolsimUiApp:
         configs = yaml.load(open("molSim-ui-config.yaml",
                             "r"), Loader=yaml.FullLoader)
 
-        tasks = configs.pop("tasks", None)
-        if tasks is None:
-            raise IOError("<< tasks >> field not set in config file")
+        tasks = configs.pop("tasks")
+        if not tasks:
+            messagebox.showerror(
+                "Unexpected error!",
+                "No tasks were selected.",
+            )
+            return
 
-        task_manager = TaskManager(tasks=tasks)
-        task_manager(molecule_set_configs=configs)
+        try:
+            task_manager = TaskManager(tasks=tasks)
+            task_manager(molecule_set_configs=configs)
+        except Exception as e:
+            messagebox.showerror(
+                "Unexpected error!",
+                e,
+            )
+            return
 
     def run(self):
         """Start the UI."""
