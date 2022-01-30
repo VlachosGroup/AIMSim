@@ -16,6 +16,7 @@ from molSim.ops.similarity_measures import SimilarityMeasure
 import yaml
 import os
 import tkinter as tk
+from tkinter import messagebox
 import tkinter.ttk as ttk
 import webbrowser
 import pkg_resources
@@ -295,12 +296,23 @@ class MolsimUiApp:
         configs = yaml.load(open("molSim-ui-config.yaml",
                             "r"), Loader=yaml.FullLoader)
 
-        tasks = configs.pop("tasks", None)
-        if tasks is None:
-            raise IOError("<< tasks >> field not set in config file")
+        tasks = configs.pop("tasks")
+        if not tasks:
+            messagebox.showerror(
+                "Unexpected error!",
+                "No tasks were selected.",
+            )
+            return
 
-        task_manager = TaskManager(tasks=tasks)
-        task_manager(molecule_set_configs=configs)
+        try:
+            task_manager = TaskManager(tasks=tasks)
+            task_manager(molecule_set_configs=configs)
+        except Exception as e:
+            messagebox.showerror(
+                "Unexpected error!",
+                e,
+            )
+            return
 
     def run(self):
         """Start the UI."""
