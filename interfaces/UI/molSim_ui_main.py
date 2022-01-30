@@ -84,21 +84,16 @@ class MolsimUiApp:
         self.targetMoleculeLabel.place(
             anchor="center", relx="0.17", rely="0.27", x="0", y="0"
         )
-        self.similarityPDFCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.similarityPDFCheckbutton.configure(text="Similarity PDF")
-        self.similarityPDFCheckbutton.place(
+        self.similarityPlotsCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.similarityPlotsCheckbutton.configure(text="Similarity Plots")
+        self.similarityPlotsCheckbutton.place(
             anchor="center", relx="0.5", rely="0.1", x="0", y="0"
-        )
-        self.similarityHeatmapCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.similarityHeatmapCheckbutton.configure(text="Similarity Heatmap")
-        self.similarityHeatmapCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.15", x="0", y="0"
         )
         self.propertySimilarityCheckbutton = ttk.Checkbutton(self.mainframe)
         self.propertySimilarityCheckbutton.configure(
             text="Property Similarity Plot")
         self.propertySimilarityCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.2", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.15", x="0", y="0"
         )
         self.similarityPlotCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotCheckbutton.configure(text="Similarity Plot")
@@ -239,12 +234,11 @@ class MolsimUiApp:
         tasks_dict = {}
 
         inner_dict = {}
-        if "selected" in self.similarityPDFCheckbutton.state():
+        if "selected" in self.similarityPlotsCheckbutton.state():
             inner_dict["plot_settings"] = {
                 "plot_color": "green",
                 "plot_title": "Entire Dataset",
             }
-        if "selected" in self.similarityHeatmapCheckbutton.state():
             inner_dict["heatmap_plot_settings"] = {
                 "annotate": False,
                 "cmap": "viridis",
