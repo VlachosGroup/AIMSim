@@ -52,7 +52,15 @@ class SeePropertyVariationWithSimilarity(Task):
         """
         ref_prop, similar_prop = self._get_ref_neighbor_properties(
             molecule_set)
-        similar_correlation_ = self.correlation_fn(ref_prop, similar_prop)
+
+        # scipy gives a remarkably unhelpful error if properties are not provided
+        try:
+            similar_correlation_ = self.correlation_fn(ref_prop, similar_prop)
+        except ValueError as e:
+            raise ValueError(
+                "Unable to generate Property Simlilarty plot.\n" +
+                "Check for properly formatted properties in your input file."
+            )
         if molecule_set.is_verbose:
             print("Plotting Responses of Similar Molecules")
         plot_parity(
