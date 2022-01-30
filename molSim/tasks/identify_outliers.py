@@ -27,6 +27,7 @@ class IdentifyOutliers(Task):
         )
         self.output = self.configs.get("output", "terminal")
         self.plot_outlier = self.configs.get("plot_ouliers", True)
+        self.random_state = self.configs.get("random_state", 42)
 
     def __call__(self, molecule_set):
         """Iterates through all molecules in molecule_set,
@@ -40,7 +41,7 @@ class IdentifyOutliers(Task):
         descs = []
         for molecule in molecule_set.molecule_database:
             descs.append(molecule.descriptor.to_numpy())
-        iof = IsolationForest()
+        iof = IsolationForest(random_state=self.random_state)
         iof.fit(descs)
         print("~" * 58)
         print(" ~" * 10 + " Outlier Detection " + "~ " * 10)
