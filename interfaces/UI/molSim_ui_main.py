@@ -245,7 +245,7 @@ class MolsimUiApp:
                 "plot_title": "Entire Dataset",
             }
         if "selected" in self.similarityHeatmapCheckbutton.state():
-            inner_dict["pairwise_heatmap_settings"] = {
+            inner_dict["heatmap_plot_settings"] = {
                 "annotate": False,
                 "cmap": "viridis",
             }
