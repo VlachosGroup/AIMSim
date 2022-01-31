@@ -1,4 +1,4 @@
-molSim
+AIMSim
 ======
 
 .. toctree::
