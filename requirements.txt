@@ -8,7 +8,8 @@ scikit_learn_extra==0.2.0
 pandas==1.1.5
 mordred==1.2.0
 PyYAML==5.4.1
-rdkit-pypi
 scikit_learn==0.24.2
+networkx==2.1
+rdkit-pypi
 psutil
 padelpy

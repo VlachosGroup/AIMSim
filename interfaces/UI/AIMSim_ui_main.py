@@ -45,7 +45,7 @@ class AIMSimUiApp:
         self.molecularDescriptor = tk.StringVar(self.window)
         self.titleLabel = ttk.Label(self.window)
         self.titleLabel.configure(
-            font="TkDefaultFont", text="molecular Similarity")
+            font="TkDefaultFont 14 bold", text="AI Molecular Similarity")
         self.titleLabel.place(anchor="center", relx="0.5",
                               rely="0.05", x="0", y="0")
         self.mainframe = ttk.Frame(self.window)
