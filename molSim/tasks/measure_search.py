@@ -72,8 +72,8 @@ class MeasureSearch(Task):
 
         Args:
             molecule_set_configs (dict): All configurations (except
-                fingerprint_type and similarity_measure) needed to form
-                the moleculeSet.
+                fingerprint_type, fingerprint_params and similarity_measure)
+                needed to form the moleculeSet.
             fingerprint_type (str): Label to indicate which fingerprint to
                 use. If supplied, fingerprint is fixed and optimization
                 carried out over similarity measures. Use None to indicate
@@ -143,7 +143,6 @@ class MeasureSearch(Task):
         else:
             all_similarity_measures = [similarity_measure]
         is_verbose = molecule_set_configs.get("is_verbose", False)
-        n_threads = molecule_set_configs.get("n_workers", 1)
         all_scores = []
         if fingerprint_params is None:
             fingerprint_params = {}
@@ -166,7 +165,8 @@ class MeasureSearch(Task):
                         fingerprint_type=fingerprint_type,
                         fingerprint_params=fingerprint_params,
                         is_verbose=is_verbose,
-                        n_threads=n_threads,
+                        n_threads=molecule_set_configs.get(
+                            'n_threads', 1),
                         sampling_ratio=subsample_subset_size)
                 except (InvalidConfigurationError, ValueError) as e:
                     if is_verbose:
