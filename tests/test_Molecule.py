@@ -8,9 +8,9 @@ import rdkit
 from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 
-from molSim.chemical_datastructures import Molecule
-from molSim.exceptions import LoadingError
-from molSim.ops import SimilarityMeasure
+from AIMSim.chemical_datastructures import Molecule
+from AIMSim.exceptions import LoadingError
+from AIMSim.ops import SimilarityMeasure
 
 
 class TestMolecule(unittest.TestCase):

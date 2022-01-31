@@ -5,6 +5,6 @@ AIMSim
    :maxdepth: 4
 
    interfaces
-   molSim
+   AIMSim
    setup
    tests

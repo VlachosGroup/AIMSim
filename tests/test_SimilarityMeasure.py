@@ -4,8 +4,8 @@ import unittest
 
 import pandas as pd
 
-from molSim.chemical_datastructures import Molecule, MoleculeSet
-from molSim.ops import SimilarityMeasure, Descriptor
+from AIMSim.chemical_datastructures import Molecule, MoleculeSet
+from AIMSim.ops import SimilarityMeasure, Descriptor
 
 
 SUPPORTED_SIMILARITIES = SimilarityMeasure.get_supported_metrics()

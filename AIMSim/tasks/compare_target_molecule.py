@@ -1,11 +1,11 @@
 from os import makedirs
 from os.path import dirname
 import matplotlib.pyplot as plt
-from molSim.chemical_datastructures import Molecule
+from AIMSim.chemical_datastructures import Molecule
 import numpy as np
 
-from molSim.utils.plotting_scripts import plot_density
-from molSim.exceptions import InvalidConfigurationError
+from AIMSim.utils.plotting_scripts import plot_density
+from AIMSim.exceptions import InvalidConfigurationError
 from .task import Task
 
 
@@ -47,7 +47,7 @@ class CompareTargetMolecule(Task):
         Compare a target molecule with molecular database in terms
         of similarity.
         Args:
-            molecule_set (molSim.chemical_datastructures Molecule): Target
+            molecule_set (AIMSim.chemical_datastructures Molecule): Target
                 molecule.
 
         """
@@ -100,7 +100,7 @@ class CompareTargetMolecule(Task):
         (query_molecule, set_molecule) similarity.
 
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 MoleculeSet object used to calculate sorted similarities.
                 Only used if self.similarities or
                 self.sorted_similarities not set.
@@ -132,7 +132,7 @@ class CompareTargetMolecule(Task):
         (query_molecule, set_molecule) dissimilarity.
 
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 MoleculeSet object used to calculate sorted similarities.
                 Only used if self.similarities or
                 self.sorted_similarities not set.

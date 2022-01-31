@@ -3,8 +3,8 @@ import unittest
 import numpy as np
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import MolFromSmiles
-from molSim.ops import Descriptor
-from molSim.exceptions import MordredCalculatorError, InvalidConfigurationError
+from AIMSim.ops import Descriptor
+from AIMSim.exceptions import MordredCalculatorError, InvalidConfigurationError
 
 SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 

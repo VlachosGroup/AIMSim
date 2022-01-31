@@ -2,7 +2,7 @@
 from .task import Task
 from sklearn.ensemble import IsolationForest
 import warnings
-from molSim.utils.plotting_scripts import plot_scatter
+from AIMSim.utils.plotting_scripts import plot_scatter
 import matplotlib.pyplot as plt
 
 
@@ -34,7 +34,7 @@ class IdentifyOutliers(Task):
         trains an IsolationForest, and identifies outliers.
 
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 Molecules object of the molecule database.
 
         """

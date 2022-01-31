@@ -4,13 +4,13 @@ import warnings
 from os import remove
 from os.path import exists, join
 import numpy as np
-from molSim.chemical_datastructures import MoleculeSet
+from AIMSim.chemical_datastructures import MoleculeSet
 from time import time
 from tabulate import tabulate
 
 
 class TestMultithreading(unittest.TestCase):
-    """Unit tests to ensure consistency when running molSim as a single process
+    """Unit tests to ensure consistency when running AIMSim as a single process
     or when using multiprocessing.
     """
 

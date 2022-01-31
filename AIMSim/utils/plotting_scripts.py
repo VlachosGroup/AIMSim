@@ -4,7 +4,7 @@ import matplotlib.ticker as ticker
 import numpy as np
 from seaborn import kdeplot, heatmap
 
-from molSim.exceptions import InvalidConfigurationError
+from AIMSim.exceptions import InvalidConfigurationError
 
 
 def plot_density(densities, n_densities=1, legends=None, **kwargs):
@@ -57,7 +57,8 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
                                                 f'{type(density)} passed when '
                                                 f'expecting types '
                                                 f'{valid_number_types}')
-        densities = [densities]  # converting to 2D array for uniform processing
+        # converting to 2D array for uniform processing
+        densities = [densities]
     if color is None or isinstance(color, str):
         color = [color] * n_densities
     if legends is None:

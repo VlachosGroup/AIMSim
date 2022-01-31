@@ -2,7 +2,7 @@
 import sys
 
 
-def start_molSim():
+def start_AIMSim():
     """Opens the GUI if no commands are given, otherwise passes through config
     to the configuration reader.
     """
@@ -11,10 +11,10 @@ def start_molSim():
 
         sys.exit(config_reader.main())
     else:
-        from interfaces.UI import molSim_ui_main
+        from interfaces.UI import AIMSim_ui_main
 
-        sys.exit(molSim_ui_main.main())
+        sys.exit(AIMSim_ui_main.main())
 
 
 if __name__ == "__main__":
-    start_molSim()
+    start_AIMSim()

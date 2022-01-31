@@ -11,11 +11,11 @@ from sklearn.manifold import MDS, TSNE
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
-from molSim.chemical_datastructures import Molecule
-from molSim.exceptions import *
-from molSim.ops.clustering import Cluster
-from molSim.ops.descriptor import Descriptor
-from molSim.ops.similarity_measures import SimilarityMeasure
+from AIMSim.chemical_datastructures import Molecule
+from AIMSim.exceptions import *
+from AIMSim.ops.clustering import Cluster
+from AIMSim.ops.descriptor import Descriptor
+from AIMSim.ops.similarity_measures import SimilarityMeasure
 
 
 class MoleculeSet:
@@ -479,7 +479,7 @@ class MoleculeSet:
         determine if the target molecule is present in the molecule set.
 
         Args:
-            target_molecule (molSim.chemical_datastructures.Molecule):
+            target_molecule (AIMSim.chemical_datastructures.Molecule):
                 Target molecule to search.
 
         Returns:
@@ -495,7 +495,7 @@ class MoleculeSet:
         Compare the a query molecule to all molecules of the set.
 
         Args:
-            query_molecule (molSim.chemical_datastructures Molecule): Target
+            query_molecule (AIMSim.chemical_datastructures Molecule): Target
                 molecule to compare.
 
         Returns:

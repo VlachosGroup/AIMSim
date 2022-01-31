@@ -1,5 +1,5 @@
 is_verbose: True
-molecule_database: 'C:\Users\jwb1j\OneDrive\Documents\GitHub\molSim\tests\data\small.smi'
+molecule_database: 'tests\small.smi'
 molecule_database_source_type: text
 similarity_measure: 'tanimoto'
 # currently implements: 'rdkit topological' / 'morgan_fingerprint' (DEFAULT)

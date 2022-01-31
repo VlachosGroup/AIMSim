@@ -1,1 +1,1 @@
-global-include config.yaml *.png *.csv *.md
+global-include config.yaml *.png *.csv *.md requirements.txt

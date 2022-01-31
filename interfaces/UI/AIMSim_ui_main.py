@@ -1,5 +1,5 @@
 """User Interface and associated methods to access the key functionalities of
-molSim without having to use the command line.
+AIMSim without having to use the command line.
 
 Raises:
     IOError: When pressing 'open config' it is possible that no suitable
@@ -9,9 +9,9 @@ Raises:
 Author:
     Jackson Burns
 """
-from molSim.tasks.task_manager import TaskManager
-from molSim.ops.descriptor import Descriptor
-from molSim.ops.similarity_measures import SimilarityMeasure
+from AIMSim.tasks.task_manager import TaskManager
+from AIMSim.ops.descriptor import Descriptor
+from AIMSim.ops.similarity_measures import SimilarityMeasure
 
 import yaml
 import os
@@ -22,21 +22,21 @@ import webbrowser
 import pkg_resources
 
 
-class MolsimUiApp:
-    """User interface to access key functionalities of molSim."""
+class AIMSimUiApp:
+    """User interface to access key functionalities of AIMSim."""
 
     def __init__(self, master=None):
-        """Constructor for Molsim.
+        """Constructor for AIMSim.
 
         Args:
             master (tk, optional): tk window. Defaults to None.
         """
         # build ui
         self.window = tk.Tk() if master is None else tk.Toplevel(master)
-        self.window.title("molSim")
+        self.window.title("AIMSim")
         resource_path = pkg_resources.resource_filename(
             __name__,
-            "molSim-logo.png",
+            "AIMSim-logo.png",
         )
         self.window.iconphoto(False, tk.PhotoImage(file=resource_path))
         self.databaseFile = tk.StringVar(self.window)
@@ -45,7 +45,7 @@ class MolsimUiApp:
         self.molecularDescriptor = tk.StringVar(self.window)
         self.titleLabel = ttk.Label(self.window)
         self.titleLabel.configure(
-            font="TkDefaultFont", text="molecular Similarity")
+            font="TkDefaultFont 14 bold", text="AI Molecular Similarity")
         self.titleLabel.place(anchor="center", relx="0.5",
                               rely="0.05", x="0", y="0")
         self.mainframe = ttk.Frame(self.window)
@@ -223,10 +223,10 @@ class MolsimUiApp:
         Open the config file being used by the UI to allow the user to edit it.
 
         """
-        webbrowser.open("molSim-ui-config.yaml")
+        webbrowser.open("AIMSim-ui-config.yaml")
 
     def runCallback(self):
-        """Retrieves user input, writes to a .yaml configuration file, and calls molSim on that input.
+        """Retrieves user input, writes to a .yaml configuration file, and calls AIMSim on that input.
 
         Raises:
             IOError: When opening the automatically generated config file from the UI, there is a chance
@@ -255,7 +255,7 @@ class MolsimUiApp:
                     "plot_color": "orange",
                     "plot_title": "Compared to Target Molecule",
                 },
-                "identify_closest_furthest": {"out_file_path": "molSim-ui_output.txt"},
+                "identify_closest_furthest": {"out_file_path": "AIMSim-ui_output.txt"},
             }
         if "selected" in self.propertySimilarityCheckbutton.state():
             tasks_dict["see_property_variation_w_similarity"] = {
@@ -290,10 +290,10 @@ class MolsimUiApp:
             "tasks": tasks_dict,
         }
 
-        with open("molSim-ui-config.yaml", "w") as outfile:
+        with open("AIMSim-ui-config.yaml", "w") as outfile:
             yaml.dump(yamlOut, outfile, default_flow_style=False)
 
-        configs = yaml.load(open("molSim-ui-config.yaml",
+        configs = yaml.load(open("AIMSim-ui-config.yaml",
                             "r"), Loader=yaml.FullLoader)
 
         tasks = configs.pop("tasks")
@@ -321,10 +321,10 @@ class MolsimUiApp:
 
 def main():
     """Start the app."""
-    app = MolsimUiApp()
+    app = AIMSimUiApp()
     app.run()
 
 
 if __name__ == "__main__":
-    app = MolsimUiApp()
+    app = AIMSimUiApp()
     app.run()

@@ -7,8 +7,8 @@ import unittest
 
 import numpy as np
 
-from molSim.exceptions import InvalidConfigurationError
-from molSim.tasks.measure_search import MeasureSearch
+from AIMSim.exceptions import InvalidConfigurationError
+from AIMSim.tasks.measure_search import MeasureSearch
 
 
 class TestMeasureSearch(unittest.TestCase):
@@ -89,9 +89,9 @@ class TestMeasureSearch(unittest.TestCase):
         log_file_path = join(log_dir_path, 'logs.json')
         msearch = MeasureSearch(log_file_path=log_file_path)
         _ = msearch(molecule_set_configs={
-                        'molecule_database_src': text_fpath,
-                        'molecule_database_src_type': 'text'},
-                    subsample_subset_size=1.0)
+            'molecule_database_src': text_fpath,
+            'molecule_database_src_type': 'text'},
+            subsample_subset_size=1.0)
         self.assertTrue(isfile(log_file_path))
         self.assertTrue(isdir(log_dir_path))
         rmtree(log_dir_path)

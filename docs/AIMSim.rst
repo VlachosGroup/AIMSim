@@ -1,4 +1,4 @@
-molSim package
+AIMSim package
 ==============
 
 Subpackages
@@ -7,18 +7,18 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   molSim.chemical_datastructures
-   molSim.ops
-   molSim.tasks
-   molSim.utils
+   AIMSim.chemical_datastructures
+   AIMSim.ops
+   AIMSim.tasks
+   AIMSim.utils
 
 Submodules
 ----------
 
-molSim.exceptions module
+AIMSim.exceptions module
 ------------------------
 
-.. automodule:: molSim.exceptions
+.. automodule:: AIMSim.exceptions
    :members:
    :undoc-members:
    :show-inheritance:
@@ -26,7 +26,7 @@ molSim.exceptions module
 Module contents
 ---------------
 
-.. automodule:: molSim
+.. automodule:: AIMSim
    :members:
    :undoc-members:
    :show-inheritance:
