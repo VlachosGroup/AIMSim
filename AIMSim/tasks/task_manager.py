@@ -89,14 +89,18 @@ class TaskManager:
             if fingerprint_type == 'determine':
                 fingerprint_type = None
                 fingerprint_params = {}
+            measure_search_molset_configs = {
+                'molecule_database_src': molecule_database_src,
+                'molecule_database_src_type': database_src_type,
+                'is_verbose': is_verbose,
+                'n_threads': n_threads,
+            }
+
             best_measure = measure_search(
+                molecule_set_configs=measure_search_molset_configs,
                 similarity_measure=similarity_measure,
                 fingerprint_type=fingerprint_type,
                 fingerprint_params=fingerprint_params,
-                molecule_database_src=molecule_database_src,
-                molecule_database_src_type=database_src_type,
-                is_verbose=is_verbose,
-                n_threads=n_threads,
                 subsample_subset_size=subsample_subset_size,
                 show_top=5,
                 only_metric=only_valid_dist)
@@ -106,6 +110,7 @@ class TaskManager:
                   f'and {similarity_measure}.')
 
         sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.)
+        print(f'Choosing sampling ratio of {sampling_ratio} for tasks')
         self.molecule_set = MoleculeSet(
             molecule_database_src=molecule_database_src,
             molecule_database_src_type=database_src_type,

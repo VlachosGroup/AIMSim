@@ -21,8 +21,8 @@ import AIMSim
 project = 'AIMSim'
 copyright = '2022, Jackson Burns, Himaghna Bhattacharjee'
 author = 'Jackson Burns, Himaghna Bhattacharjee'
-
 # The full version, including alpha/beta/rc tags
+
 release = AIMSim.__version__
 
 # -- General configuration ---------------------------------------------------
