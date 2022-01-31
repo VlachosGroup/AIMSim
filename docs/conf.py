@@ -21,8 +21,9 @@ import AIMSim
 project = 'AIMSim'
 copyright = '2022, Jackson Burns, Himaghna Bhattacharjee'
 author = 'Jackson Burns, Himaghna Bhattacharjee'
-
 # The full version, including alpha/beta/rc tags
+
+
 def read(rel_path):
     here = os.path.abspath(os.path.dirname(__file__))
     with codecs.open(os.path.join(here, rel_path), 'r') as fp:
@@ -37,6 +38,7 @@ def get_version(rel_path):
     else:
         raise RuntimeError("Unable to find version string.")
         
+
 release = get_version("../AIMSim/__init__.py")
 
 # -- General configuration ---------------------------------------------------
