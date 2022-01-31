@@ -14,13 +14,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          # install our dependencies
           conda install python=3.7
-          conda install -c rdkit rdkit
-          conda list
-          python -m pip install rdkit-pypi
-          python -m pip install networkx==2.1
-          python -m pip install -r requirements.txt
           python -m pip install -e .
           python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
       
