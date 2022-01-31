@@ -37,7 +37,7 @@ def get_version(rel_path):
             return line.split(delim)[1]
     else:
         raise RuntimeError("Unable to find version string.")
-        
+
 
 release = get_version("../AIMSim/__init__.py")
 
