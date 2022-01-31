@@ -5,8 +5,8 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from molSim.exceptions import *
-from molSim.ops.descriptor import Descriptor
+from AIMSim.exceptions import *
+from AIMSim.ops.descriptor import Descriptor
 
 
 class Molecule:
@@ -214,7 +214,7 @@ class Molecule:
         target_molecule, a ValueError is raised.
 
         Args:
-            reference_mol (molSim.ops Molecule): Target molecule. Fingerprint
+            reference_mol (AIMSim.ops Molecule): Target molecule. Fingerprint
             of this molecule is used as the reference.
 
         Raises:
@@ -233,9 +233,9 @@ class Molecule:
         """Get a similarity metric to a target molecule
 
         Args:
-            target_mol (molSim.ops Molecule): Target molecule. Similarity
+            target_mol (AIMSim.ops Molecule): Target molecule. Similarity
                 score is with respect to this molecule
-            similarity_measure (molSim.ops SimilarityMeasure). The similarity
+            similarity_measure (AIMSim.ops SimilarityMeasure). The similarity
                 metric used.
 
         Returns:
@@ -277,9 +277,9 @@ class Molecule:
         """Check if the target_molecule is a duplicate of source_molecule.
 
         Args:
-            source_molecule (molSim.chemical_datastructures Molecule): Source
+            source_molecule (AIMSim.chemical_datastructures Molecule): Source
                 molecule to compare.
-            target_molecule (molSim.chemical_datastructures Molecule): Target
+            target_molecule (AIMSim.chemical_datastructures Molecule): Target
                 molecule to compare.
 
         Returns:

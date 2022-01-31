@@ -5,8 +5,8 @@ from os.path import dirname
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 
-from molSim.utils.plotting_scripts import plot_parity
-from molSim.exceptions import InvalidConfigurationError
+from AIMSim.utils.plotting_scripts import plot_parity
+from AIMSim.exceptions import InvalidConfigurationError
 from .task import Task
 
 
@@ -46,7 +46,7 @@ class SeePropertyVariationWithSimilarity(Task):
         """Plot the variation of molecular property with molecular fingerprint.
 
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 Molecules object of the molecule database.
 
         """
@@ -124,7 +124,7 @@ class SeePropertyVariationWithSimilarity(Task):
         """Get the correlation between the property of molecules and their
         nearest (most similar) neighbors
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 Molecules object of the molecule database.
         Return:
             (float): Correlation between properties.
@@ -138,7 +138,7 @@ class SeePropertyVariationWithSimilarity(Task):
         """Get the correlation between the property of molecules and their
         furthest (most dissimilar) neighbors
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 Molecules object of the molecule database.
         Return:
             (float): Correlation between properties.
@@ -153,7 +153,7 @@ class SeePropertyVariationWithSimilarity(Task):
         """Get the properties of reference molecules and their nearest
         or furthest neighbors.
         Args:
-            molecule_set (molSim.chemical_datastructures MoleculeSet):
+            molecule_set (AIMSim.chemical_datastructures MoleculeSet):
                 Molecules object of the molecule database.
             nearest (bool):
                 If True nearest (most similar) neighbors are used,

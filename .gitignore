@@ -8,13 +8,13 @@
 *.pyc
 
 # build and distribution files
-molSim.egg-info/*
+AIMSim.egg-info/*
 build/*
 dist/*
 
 # UI-generated config file
-UI/molSim-ui-config.yaml
-molSim-ui-config.yaml
+UI/AIMSim-ui-config.yaml
+AIMSim-ui-config.yaml
 
 # testing-related configuration file
 .no-speedup-test

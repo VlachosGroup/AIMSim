@@ -1,7 +1,0 @@
-is_verbose: false
-molecular_descriptor: topological_fingerprint
-molecule_database: smiles_responses.txt
-molecule_database_source_type: text
-n_workers: 16
-similarity_measure: tanimoto
-tasks: {}

@@ -1,4 +1,4 @@
-"""Reads a configuration file from the command line input and calls molSim.
+"""Reads a configuration file from the command line input and calls AIMSim.
 
 Raises:
     IOError: If the tasks field is empty in the input file,
@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 import yaml
 import random
 
-from molSim.tasks import TaskManager
+from AIMSim.tasks import TaskManager
 
 
 def main():

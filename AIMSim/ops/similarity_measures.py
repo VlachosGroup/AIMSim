@@ -3,8 +3,8 @@ import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
 
-from molSim.ops import Descriptor
-from molSim.exceptions import InvalidConfigurationError
+from AIMSim.ops import Descriptor
+from AIMSim.exceptions import InvalidConfigurationError
 
 SMALL_NUMBER = 1e-10
 
@@ -246,8 +246,8 @@ class SimilarityMeasure:
         """Compare two descriptors.
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             similarity_ (float): Similarity value
@@ -615,8 +615,8 @@ class SimilarityMeasure:
         of two vector A and B.
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
             ord (int): Order of the norm
 
         Returns:
@@ -644,8 +644,8 @@ class SimilarityMeasure:
         Austin-Colwell similarity = (2 / pi) * arcsin(sqrt( (a + d) / p ))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Austin-Colwell similarity value
@@ -671,8 +671,8 @@ class SimilarityMeasure:
                                          / (sqrt(a * d) + a + b + c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Baroni-Urbani-Buser similarity value
@@ -699,8 +699,8 @@ class SimilarityMeasure:
         Braun-Blanquet Similarity = a / max{(a + b), (a + c)}
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Braun-Blanquet similarity value
@@ -726,8 +726,8 @@ class SimilarityMeasure:
         Cohen Similarity = 2*(a*d - b*c) / ((a + b)*(b + d) + (a + c)*(c + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Cohen similarity value
@@ -758,8 +758,8 @@ class SimilarityMeasure:
         Cole(1) Similarity = (a*d - b*c) / ((a + c)*(c + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Cole(1)  similarity value
@@ -789,8 +789,8 @@ class SimilarityMeasure:
         Cole(2) Similarity = (a*d - b*c) / ((a + b)*(b + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Cole(2)  similarity value
@@ -820,8 +820,8 @@ class SimilarityMeasure:
         Consonni-Todeschini(1) similarity = ln(1 + a + d) / ln(1 + p)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Consonni-Todeschini(1)  similarity value
@@ -847,8 +847,8 @@ class SimilarityMeasure:
             (ln(1 + p) - ln(1 + b + c)) / ln(1 + p)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Consonni-Todeschini(2)  similarity value
@@ -873,8 +873,8 @@ class SimilarityMeasure:
         Consonni-Todeschini(3) similarity = ln(1 + a) / ln(1 + p)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Consonni-Todeschini(3)  similarity value
@@ -899,8 +899,8 @@ class SimilarityMeasure:
         Consonni-Todeschini(4) similarity = ln(1 + a) / ln(1 + a + b + c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Consonni-Todeschini(4)  similarity value
@@ -927,8 +927,8 @@ class SimilarityMeasure:
                                             / ln(1 + p**2 / 4)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Consonni-Todeschini(5)  similarity value
@@ -964,8 +964,8 @@ class SimilarityMeasure:
         Dennis similarity = (a*d - b*c) / sqrt(p*(a + b)*(a + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Dennis similarity value
@@ -995,8 +995,8 @@ class SimilarityMeasure:
         Dice similarity = 2a / (2a + b + c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Dice similarity value
@@ -1024,8 +1024,8 @@ class SimilarityMeasure:
         Dice(2) similarity = a / (a + b)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Dice(2) similarity value
@@ -1053,8 +1053,8 @@ class SimilarityMeasure:
         Dice(3) similarity = a / (a + c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Dice(3) similarity value
@@ -1081,8 +1081,8 @@ class SimilarityMeasure:
         dispersion similarity = (a*d - b*c) / p**2
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): dispersion similarity value
@@ -1109,8 +1109,8 @@ class SimilarityMeasure:
         Faith similarity = (a + 0.5*d) / p
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Faith similarity value
@@ -1135,8 +1135,8 @@ class SimilarityMeasure:
         Forbes similarity = (p * a) / ((a + b) * (a + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Forbes similarity value
@@ -1166,8 +1166,8 @@ class SimilarityMeasure:
         Fossum similarity = p * (a - 0.5)**2 / ((a + b) * (a + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Fossum similarity value
@@ -1198,8 +1198,8 @@ class SimilarityMeasure:
         Goodman-Kruskal similarity =
             (2 * min(a, d) - b - c) / (2 * min(a, d) + b + c)
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Goodman-Kruskal similarity value
@@ -1228,8 +1228,8 @@ class SimilarityMeasure:
             (a/2) * (2*d + b + c)/(a + b + c)
              + (d/2) * (2*a + b + c)/( b + c + d)
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Harris-Lahey similarity value
@@ -1263,8 +1263,8 @@ class SimilarityMeasure:
                                            + d / (d + b + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Hawkins-Dotson similarity value
@@ -1292,8 +1292,8 @@ class SimilarityMeasure:
         jaccard similarity = 3*a / (3*a + b + c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Jaccard similarity value
@@ -1319,8 +1319,8 @@ class SimilarityMeasure:
         kulczynski similarity = 0.5 * a / ((a + b) + (a + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Kulczynski similarity value
@@ -1346,8 +1346,8 @@ class SimilarityMeasure:
         michael similarity = 4*(a*d - b*c) / ((a + d)**2 + (b + c)**2)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Michael similarity value
@@ -1375,8 +1375,8 @@ class SimilarityMeasure:
             2*(a*d - b*c) / ((a + b)*(c + d) + (a + c)*(b + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Maxwell-Pilliner similarity value
@@ -1407,8 +1407,8 @@ class SimilarityMeasure:
         mountford similarity = 2*a / (a*b + a*c + 2*b*c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Mountford similarity value
@@ -1437,8 +1437,8 @@ class SimilarityMeasure:
          (a*d - b*c)/sqrt((a + b)*(a + c)*(b + d)*(c + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Pearson-Heron similarity value
@@ -1470,8 +1470,8 @@ class SimilarityMeasure:
         Peirce(1) similarity = (a*d - b*c) / ((a + b)*(c + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Peirce(1) similarity value
@@ -1500,8 +1500,8 @@ class SimilarityMeasure:
         Peirce(2) similarity = (a*d - b*c) / ((a + c)*(b + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Peirce(2) similarity value
@@ -1530,8 +1530,8 @@ class SimilarityMeasure:
         Rogers-Tanimoto similarity = (a + d) / (p + b + c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Rogers-Tanimoto similarity value
@@ -1556,8 +1556,8 @@ class SimilarityMeasure:
         Rogot-Goldberg similarity = (a / (2*a + b + c)) + (d / (2*d + b + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Rogot-Goldberg  similarity value
@@ -1584,8 +1584,8 @@ class SimilarityMeasure:
         Russel-Rao = a / p
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Russel-Rao similarity value
@@ -1610,8 +1610,8 @@ class SimilarityMeasure:
         Simple Matching = (a + d) / p
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Simple Matching similarity value
@@ -1636,8 +1636,8 @@ class SimilarityMeasure:
         Simpson Similarity = a / min{(a + b), (a + c)}
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Simpson similarity value
@@ -1663,8 +1663,8 @@ class SimilarityMeasure:
         Sokal-Sneath similarity = a / (a + 2*b + 2*c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Sokal-Sneath similarity value
@@ -1690,8 +1690,8 @@ class SimilarityMeasure:
         Symmetric Sokal-Sneath similarity = (2*a + 2*d) / (p + a + d)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Symmetric Sokal-Sneath similarity value
@@ -1717,8 +1717,8 @@ class SimilarityMeasure:
         (1/4) * (a/(a + b) + a/(a + c) + d/(b + d) + d/(c + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Sokal-Sneath(3) similarity value
@@ -1751,8 +1751,8 @@ class SimilarityMeasure:
          a/sqrt((a + b) * (a + c)) * d/sqrt((b + d) *(c + d))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Sokal-Sneath(4) similarity value
@@ -1783,8 +1783,8 @@ class SimilarityMeasure:
         Sorgenfrei similarity = a**2 / ((a + b)*(a + c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Sorgenfrei similarity value
@@ -1810,8 +1810,8 @@ class SimilarityMeasure:
         Symmetric Yule(1) similarity = (a*d - b*c) / (a*d + b*c)
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Yule(1) similarity value
@@ -1840,8 +1840,8 @@ class SimilarityMeasure:
                                        / (sqrt(a*d) + sqrt(b*c))
 
         Args:
-            mol1_descriptor (molSim.ops Descriptor)
-            mol2_descriptor (molSim.ops Descriptor)
+            mol1_descriptor (AIMSim.ops Descriptor)
+            mol2_descriptor (AIMSim.ops Descriptor)
 
         Returns:
             (float): Yule(2) similarity value

@@ -20,7 +20,7 @@ from rdkit.Chem import MACCSkeys
 from rdkit.Chem.AtomPairs import Pairs, Torsions
 from rdkit.DataStructs import cDataStructs
 from mordred import Calculator, descriptors
-from molSim.utils.ccbmlib_fingerprints import generate_fingerprints
+from AIMSim.utils.ccbmlib_fingerprints import generate_fingerprints
 from padelpy import from_smiles
 
 from ..exceptions import (
@@ -462,7 +462,7 @@ class Descriptor:
 
     @staticmethod
     def get_all_supported_descriptors():
-        """Returns a list of descriptors which _can_ be used with molSim
+        """Returns a list of descriptors which _can_ be used with AIMSim
         but are considered experimental or are complex/rarely used and
         are therefore excluded from the UI.
 

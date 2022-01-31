@@ -1,4 +1,4 @@
-import molSim
+import AIMSim
 import pathlib
 from setuptools import setup, find_packages
 
@@ -8,15 +8,15 @@ README = (cwd / "README.md").read_text()
 
 desc = "Python command line and GUI tool to analyze molecular similarity."
 
-vers = molSim.__version__
+vers = AIMSim.__version__
 
 setup(
-    name="molSim",
+    name="AIMSim",
     version=vers,
     description=desc,
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/VlachosGroup/molSim",
+    url="https://github.com/VlachosGroup/AIMSim",
     author="Himaghna Bhattacharjee, Jackson Burns",
     license="MIT",
     classifiers=["Programming Language :: Python :: 3"],
@@ -34,12 +34,14 @@ setup(
         "scikit_learn==0.24.2",
         "networkx==2.1",
         "rdkit-pypi",
+        "psutil",
+        "padelpy",
     ],
     packages=find_packages(),
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "molSim=molSim.__main__:start_molSim",
+            "AIMSim=AIMSim.__main__:start_AIMSim",
         ]
     },
 )

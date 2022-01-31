@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 
 from .task import Task
-from molSim.utils.plotting_scripts import plot_density, plot_heatmap, \
+from AIMSim.utils.plotting_scripts import plot_density, plot_heatmap, \
     plot_scatter
 
 
@@ -41,7 +41,7 @@ class VisualizeDataset(Task):
         """Visualize essential properties of the dataset.
 
         Args:
-            molecule_set(molSim.chemical_datastructures MoleculeSet):
+            molecule_set(AIMSim.chemical_datastructures MoleculeSet):
                 Molecular database.
 
         Plots Generated

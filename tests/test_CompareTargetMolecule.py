@@ -5,9 +5,9 @@ from os import remove
 import numpy as np
 import pandas as pd
 
-from molSim.chemical_datastructures import Molecule, MoleculeSet
-from molSim.ops import Descriptor, SimilarityMeasure
-from molSim.tasks import CompareTargetMolecule
+from AIMSim.chemical_datastructures import Molecule, MoleculeSet
+from AIMSim.ops import Descriptor, SimilarityMeasure
+from AIMSim.tasks import CompareTargetMolecule
 
 
 SUPPORTED_SIMILARITIES = SimilarityMeasure.get_supported_metrics()

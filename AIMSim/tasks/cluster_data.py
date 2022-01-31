@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import yaml
 
 from .task import Task
-from molSim.exceptions import InvalidConfigurationError
-from molSim.utils.plotting_scripts import plot_barchart, plot_density
-from molSim.utils.plotting_scripts import plot_scatter
+from AIMSim.exceptions import InvalidConfigurationError
+from AIMSim.utils.plotting_scripts import plot_barchart, plot_density
+from AIMSim.utils.plotting_scripts import plot_scatter
 
 
 class ClusterData(Task):
@@ -39,7 +39,8 @@ class ClusterData(Task):
             "embedding": {"method": "mds",
                           "params": {"random_state": 42}},
         }
-        self.plot_settings.update(self.configs.get("cluster_plot_settings", {}))
+        self.plot_settings.update(
+            self.configs.get("cluster_plot_settings", {}))
 
         self.log_fpath = self.configs.get("log_file_path", None)
         if self.log_fpath is not None:

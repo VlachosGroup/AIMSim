@@ -1,7 +1,7 @@
 """Test the TaskManager class."""
 from cgi import test
-from molSim.exceptions import InvalidConfigurationError
-from molSim.tasks.task_manager import TaskManager
+from AIMSim.exceptions import InvalidConfigurationError
+from AIMSim.tasks.task_manager import TaskManager
 
 import unittest
 from unittest.mock import patch
@@ -52,7 +52,7 @@ class TestTaskManager(unittest.TestCase):
                 "plot_color": "orange",
                 "plot_title": "Compared to Target Molecule",
             },
-            "identify_closest_furthest": {"out_file_path": "molSim-ui_output.txt"},
+            "identify_closest_furthest": {"out_file_path": "AIMSim-ui_output.txt"},
         }
         self.tasks_dict["see_property_variation_w_similarity"] = {
             "property_file": self.text_fpath,
@@ -80,7 +80,7 @@ class TestTaskManager(unittest.TestCase):
         """Complete run test for TaskManager class.
         """
         # this magical context manager sends all plots to a blank function
-        with patch("molSim.utils.plotting_scripts.plt.show") as test_plot:
+        with patch("AIMSim.utils.plotting_scripts.plt.show") as test_plot:
             task_man = TaskManager(
                 tasks=self.tasks_dict
             )
