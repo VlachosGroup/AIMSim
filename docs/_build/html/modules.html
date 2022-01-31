@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AIMSim &mdash; molSim 0.0.6 documentation</title>
+  <title>AIMSim &mdash; AIMSim 0.0.6 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="interfaces package" href="interfaces.html" />
+    <link rel="next" title="AIMSim package" href="AIMSim.html" />
     <link rel="prev" title="Supported Similarity Metrics" href="implemented_metrics.html" /> 
 </head>
 
@@ -27,7 +27,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> molSim
+            <a href="index.html" class="icon icon-home"> AIMSim
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -39,11 +39,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="README.html">molSim README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">AIMSim README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implemented_metrics.html">Supported Similarity Metrics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">AIMSim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AIMSim.html">AIMSim package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html">interfaces package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="molSim.html">molSim package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
 </ul>
@@ -56,7 +56,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">molSim</a>
+          <a href="index.html">AIMSim</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -78,11 +78,55 @@
 <h1>AIMSim<a class="headerlink" href="#aimsim" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="AIMSim.html">AIMSim package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AIMSim.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.chemical_datastructures.html">AIMSim.chemical_datastructures package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.chemical_datastructures.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.chemical_datastructures.html#module-AIMSim.chemical_datastructures.molecule">AIMSim.chemical_datastructures.molecule module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.chemical_datastructures.html#module-AIMSim.chemical_datastructures.molecule_set">AIMSim.chemical_datastructures.molecule_set module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.chemical_datastructures.html#module-AIMSim.chemical_datastructures">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.ops.html">AIMSim.ops package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.ops.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.ops.html#module-AIMSim.ops.clustering">AIMSim.ops.clustering module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.ops.html#module-AIMSim.ops.descriptor">AIMSim.ops.descriptor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.ops.html#module-AIMSim.ops.similarity_measures">AIMSim.ops.similarity_measures module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.ops.html#module-AIMSim.ops">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.tasks.html">AIMSim.tasks package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.cluster_data">AIMSim.tasks.cluster_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.compare_target_molecule">AIMSim.tasks.compare_target_molecule module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.identify_outliers">AIMSim.tasks.identify_outliers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.measure_search">AIMSim.tasks.measure_search module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.see_property_variation_with_similarity">AIMSim.tasks.see_property_variation_with_similarity module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.task">AIMSim.tasks.task module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.task_manager">AIMSim.tasks.task_manager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks.visualize_dataset">AIMSim.tasks.visualize_dataset module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html#module-AIMSim.tasks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.utils.html">AIMSim.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.utils.html#module-AIMSim.utils.ccbmlib_fingerprints">AIMSim.utils.ccbmlib_fingerprints module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.utils.html#module-AIMSim.utils.plotting_scripts">AIMSim.utils.plotting_scripts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.utils.html#module-AIMSim.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="AIMSim.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AIMSim.html#module-AIMSim.exceptions">AIMSim.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AIMSim.html#module-AIMSim">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces.html">interfaces package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="interfaces.UI.html">interfaces.UI package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces-ui-molsim-ui-main-module">interfaces.UI.molSim_ui_main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces-ui-aimsim-ui-main-module">interfaces.UI.AIMSim_ui_main module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#module-interfaces.UI">Module contents</a></li>
 </ul>
 </li>
@@ -91,50 +135,6 @@
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html#module-interfaces.config_reader">interfaces.config_reader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html#module-interfaces">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="molSim.html">molSim package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="molSim.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="molSim.chemical_datastructures.html">molSim.chemical_datastructures package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="molSim.chemical_datastructures.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.chemical_datastructures.html#module-molSim.chemical_datastructures.molecule">molSim.chemical_datastructures.molecule module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.chemical_datastructures.html#module-molSim.chemical_datastructures.molecule_set">molSim.chemical_datastructures.molecule_set module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.chemical_datastructures.html#module-molSim.chemical_datastructures">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="molSim.ops.html">molSim.ops package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="molSim.ops.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.ops.html#module-molSim.ops.clustering">molSim.ops.clustering module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.ops.html#module-molSim.ops.descriptor">molSim.ops.descriptor module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.ops.html#module-molSim.ops.similarity_measures">molSim.ops.similarity_measures module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.ops.html#module-molSim.ops">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="molSim.tasks.html">molSim.tasks package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.cluster_data">molSim.tasks.cluster_data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.compare_target_molecule">molSim.tasks.compare_target_molecule module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.identify_outliers">molSim.tasks.identify_outliers module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.measure_search">molSim.tasks.measure_search module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.see_property_variation_with_similarity">molSim.tasks.see_property_variation_with_similarity module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.task">molSim.tasks.task module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.task_manager">molSim.tasks.task_manager module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks.visualize_dataset">molSim.tasks.visualize_dataset module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.tasks.html#module-molSim.tasks">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="molSim.utils.html">molSim.utils package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="molSim.utils.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.utils.html#module-molSim.utils.ccbmlib_fingerprints">molSim.utils.ccbmlib_fingerprints module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.utils.html#module-molSim.utils.plotting_scripts">molSim.utils.plotting_scripts module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molSim.utils.html#module-molSim.utils">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="molSim.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="molSim.html#module-molSim.exceptions">molSim.exceptions module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="molSim.html#module-molSim">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">setup module</a></li>
@@ -162,7 +162,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="implemented_metrics.html" class="btn btn-neutral float-left" title="Supported Similarity Metrics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="interfaces.html" class="btn btn-neutral float-right" title="interfaces package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="AIMSim.html" class="btn btn-neutral float-right" title="AIMSim package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

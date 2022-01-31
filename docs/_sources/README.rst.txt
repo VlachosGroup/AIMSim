@@ -1,21 +1,21 @@
 
-molSim README
+AIMSim README
 =============
 
 
-.. image:: https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png
-   :target: https://github.com/VlachosGroup/molSim/blob/master/interfaces/UI/molSim-logo.png
-   :alt: molSim logo
+.. image:: https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png
+   :target: https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png
+   :alt: AIMSim logo
 
 
-molSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
+AIMSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
 
 Documentation and Tutorial
 --------------------------
 
-`View our Online Documentation <https://vlachosgroup.github.io/molSim/>`_ or try the *molSim* comprehensive tutorial in your browser: 
+`View our Online Documentation <https://vlachosgroup.github.io/AIMSim/>`_ or try the *AIMSim* comprehensive tutorial in your browser: 
 .. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/VlachosGroup/molSim/master?labpath=molSim-demo.ipynb
+   :target: https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb
    :alt: Binder
 
 
@@ -36,7 +36,7 @@ time and effort synthesizing molecules not useful for the project.
 
 *Lead Optimization and Virtual Screening*
 
-This application is the converse of exploratory synthesis where the interest is to find molecules in a database which are structurally similar to an "active" molecule. In this context, "active" might refer to pharmocological activity (drug discover campaigns) or desirable chemical properties (for example, to discover alternative chemicals and solvents for an application). In such a case, molSim helps to run virtual screenings over a molecular database and visualize the results.
+This application is the converse of exploratory synthesis where the interest is to find molecules in a database which are structurally similar to an "active" molecule. In this context, "active" might refer to pharmocological activity (drug discover campaigns) or desirable chemical properties (for example, to discover alternative chemicals and solvents for an application). In such a case, AIMSim helps to run virtual screenings over a molecular database and visualize the results.
 
 *Machine Learning Molecular Properties*
 
@@ -46,31 +46,31 @@ identify "clusters of similarity" indicating the need for separately trained mod
 
 *Substrate Scope Robustness Verification*
 
-When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using ``molSim``\ , one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
+When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using ``AIMSim``\ , one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
 
-.. image:: https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png
-   :target: https://github.com/VlachosGroup/molSim/blob/master/tests/sulfonamide-substrate-scope.png
+.. image:: https://github.com/VlachosGroup/AIMSim/blob/master/tests/sulfonamide-substrate-scope.png
+   :target: https://github.com/VlachosGroup/AIMSim/blob/master/tests/sulfonamide-substrate-scope.png
    :alt: Image of sulfonamide substrate scope
 
 
 Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
 
-Installing molSim
+Installing AIMSim
 -----------------
 
-``molSim`` can be installed with a single command:
-``pip install molSim``
+``AIMSim`` can be installed with a single command:
+``pip install AIMSim``
 
-Running molSim
+Running AIMSim
 --------------
 
-Start ``molSim`` with a graphical user interface:
+Start ``AIMSim`` with a graphical user interface:
 
-``molSim``
+``AIMSim``
 
 Example Run:
 
-``molSim config.yaml``
+``AIMSim config.yaml``
 
 Currently Implemented Fingerprints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -85,8 +85,8 @@ Currently Implemented Fingerprints
 Currently Implemented Similarity Scores
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-44 commonly used similarity scores are implemented in molSim.
-Additional L0, L1 and L2 norm based similarities are also implemented. `View our Online Documentation <https://vlachosgroup.github.io/molSim/implemented_metrics.html>`_ for a complete list of implemented similarity scores.
+44 commonly used similarity scores are implemented in AIMSim.
+Additional L0, L1 and L2 norm based similarities are also implemented. `View our Online Documentation <https://vlachosgroup.github.io/AIMSim/implemented_metrics.html>`_ for a complete list of implemented similarity scores.
 
 Currently Implemented Functionalities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -132,13 +132,13 @@ Developer: Jackson Burns, Don Watson Lab. (\ `Personal Site <https://www.jackson
 Developer Notes
 ---------------
 
-Issues and Pull Requests are welcomed! To propose an addition to ``molSim`` open an issue and the developers will tag it as an *enhancement* and start discussion.
+Issues and Pull Requests are welcomed! To propose an addition to ``AIMSim`` open an issue and the developers will tag it as an *enhancement* and start discussion.
 
-``molSim`` includes an automated testing apparatus operated by Python's *unittest* built-in package. To execute tests related to the core functionality of ``molSim``\ , run this command:
+``AIMSim`` includes an automated testing apparatus operated by Python's *unittest* built-in package. To execute tests related to the core functionality of ``AIMSim``\ , run this command:
 
 ``python -m unittest discover``
 
-Full multiprocessing speedup and efficiency tests take more than 10 hours to run due to the number of replicates required. To run these tests, create a file called ``.speedup-test`` in the ``molSim`` directory and execute the above command as shown.
+Full multiprocessing speedup and efficiency tests take more than 10 hours to run due to the number of replicates required. To run these tests, create a file called ``.speedup-test`` in the ``AIMSim`` directory and execute the above command as shown.
 
 To manually build the docs, execute the following with ``sphinx`` and ``m2r`` installed and from the ``/docs`` directory:
 

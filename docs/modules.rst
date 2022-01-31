@@ -4,7 +4,7 @@ AIMSim
 .. toctree::
    :maxdepth: 4
 
-   interfaces
    AIMSim
+   interfaces
    setup
    tests

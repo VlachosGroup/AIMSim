@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIMSim.utils package &mdash; AIMSim 0.0.6 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="interfaces package" href="interfaces.html" />
+    <link rel="prev" title="AIMSim.tasks package" href="AIMSim.tasks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> AIMSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">AIMSim README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implemented_metrics.html">Supported Similarity Metrics</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AIMSim</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="AIMSim.html">AIMSim package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="AIMSim.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.chemical_datastructures.html">AIMSim.chemical_datastructures package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.ops.html">AIMSim.ops package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AIMSim.tasks.html">AIMSim.tasks package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">AIMSim.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.html#module-AIMSim.exceptions">AIMSim.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AIMSim.html#module-AIMSim">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">interfaces package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIMSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">AIMSim</a> &raquo;</li>
+          <li><a href="AIMSim.html">AIMSim package</a> &raquo;</li>
+      <li>AIMSim.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/AIMSim.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aimsim-utils-package">
+<h1>AIMSim.utils package<a class="headerlink" href="#aimsim-utils-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-AIMSim.utils.ccbmlib_fingerprints">
+<span id="aimsim-utils-ccbmlib-fingerprints-module"></span><h2>AIMSim.utils.ccbmlib_fingerprints module<a class="headerlink" href="#module-AIMSim.utils.ccbmlib_fingerprints" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.atom_pairs">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">atom_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.atom_pairs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.avalon">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">avalon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.avalon" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.generate_fingerprints">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">generate_fingerprints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_suppl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">pars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.generate_fingerprints" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.hash_parameter_set">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">hash_parameter_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.hash_parameter_set" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.hashed_atom_pairs">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">hashed_atom_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.hashed_atom_pairs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.hashed_morgan">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">hashed_morgan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.hashed_morgan" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.hashed_torsions">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">hashed_torsions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.hashed_torsions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.maccs_keys">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">maccs_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.maccs_keys" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.morgan">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">morgan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.morgan" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.rdkit_fingerprint">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">rdkit_fingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.rdkit_fingerprint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.to_key_val_string">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">to_key_val_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.to_key_val_string" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.ccbmlib_fingerprints.torsions">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.ccbmlib_fingerprints.</span></span><span class="sig-name descname"><span class="pre">torsions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.ccbmlib_fingerprints.torsions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-AIMSim.utils.plotting_scripts">
+<span id="aimsim-utils-plotting-scripts-module"></span><h2>AIMSim.utils.plotting_scripts module<a class="headerlink" href="#module-AIMSim.utils.plotting_scripts" title="Permalink to this headline"></a></h2>
+<p>Plotting functions</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_barchart">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_barchart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtick_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_barchart" title="Permalink to this definition"></a></dt>
+<dd><p>Plot a bar chart</p>
+<dl>
+<dt>Args:</dt><dd><p>x (list or numpy array): X axis grid.
+heights (list or numpy array): Height of the bars.
+colors (list or str): Plot colors.
+xtick_labels (list, optional): Labels to use for each bar. Default is</p>
+<blockquote>
+<div><p>None in which case just the indices of the height are used.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_density">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">densities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_densities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legends</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_density" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the similarity density.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>densities (list or numpy ndarray): Vector(s) of densities to plot.</dt><dd><p>Shape (n_densities, n_points_per_density). n_densities can be 1.</p>
+</dd>
+</dl>
+<p>n_densities (int): Number of densities.
+Pass this if passing more than one densities.
+legends (list): Optional list of legends for annotating</p>
+<blockquote>
+<div><p>different densities.</p>
+</div></blockquote>
+</dd>
+<dt>kwargs: dict</dt><dd><p>Keyword arguments to modify plot. Some common ones:
+xlabel: str</p>
+<blockquote>
+<div><p>Label of the x-axis. Default is “Samples”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ylabel: str</dt><dd><p>Label of the y-axis. Default is “Similarity Density”</p>
+</dd>
+<dt>xlabel_fontsize: int</dt><dd><p>Fontsize of the x-axis label. Default is 20.</p>
+</dd>
+<dt>ylabel_fontsize: int</dt><dd><p>Fontsize of the y-axis label. Default is 20.</p>
+</dd>
+<dt>plot_title: str</dt><dd><p>Plot title. Default is None.</p>
+</dd>
+<dt>plot_title_fontsize: int</dt><dd><p>Fontsize of the title. Default is 24.</p>
+</dd>
+<dt>color: str or list</dt><dd><p>Color of the plot. Multiple colors can be passed as list
+if multiple densities are plotted.</p>
+</dd>
+<dt>shade: bool</dt><dd><p>To shade the plot or not.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_heatmap">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_matrix</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_heatmap" title="Permalink to this definition"></a></dt>
+<dd><p>Plot a heatmap representing the input matrix.</p>
+<dl>
+<dt>Args:</dt><dd><p>input_matrix (np.ndarray): Matrix to be plotted.</p>
+</dd>
+<dt>kwargs: dict</dt><dd><p>Keyword arguments to modify plot. Some common ones:
+xlabel: str</p>
+<blockquote>
+<div><p>Label of the x-axis. Default is “Samples”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ylabel: str</dt><dd><p>Label of the y-axis. Default is “Similarity Density”</p>
+</dd>
+<dt>xlabel_fontsize: int</dt><dd><p>Fontsize of the x-axis label. Default is 20.</p>
+</dd>
+<dt>ylabel_fontsize: int</dt><dd><p>Fontsize of the y-axis label. Default is 20.</p>
+</dd>
+<dt>plot_title: str</dt><dd><p>Plot title. Default is None.</p>
+</dd>
+<dt>plot_title_fontsize: int</dt><dd><p>Fontsize of the title. Default is 24.</p>
+</dd>
+<dt>color: str</dt><dd><p>Color of the plot.</p>
+</dd>
+<dt>shade: bool</dt><dd><p>To shade the plot or not.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_multiple_barchart">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_multiple_barchart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtick_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_multiple_barchart" title="Permalink to this definition"></a></dt>
+<dd><p>Plot a bar chart with multiplears per category.</p>
+<dl>
+<dt>Args:</dt><dd><p>x (list or numpy array): X axis grid.
+heights (list or numpy array): Heights of the sets of bars.</p>
+<blockquote>
+<div><p>Size of the array is (n_bars_per_xtick, n_xticks),</p>
+</div></blockquote>
+<dl class="simple">
+<dt>colors (list or str): Plot colors. If list supplied,</dt><dd><p>list[0] is used for first series, list[1] is used for
+second series and list[2] is used for third series etc.</p>
+</dd>
+<dt>legend_labels (list or numpy array): Array of legend names for</dt><dd><p>each bar type. Size is (n_bars_per_xticks). Default is None.</p>
+</dd>
+<dt>xtick_labels (list, optional): Labels to use for each bar. Default is</dt><dd><p>None in which case just the indices of the heights are used.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>InvalidConfigurationError: If number of colors or legend labels
+supplied is less than (or equal to, for legend_labels) n_bars
+(per xtick).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_parity">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_parity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_parity" title="Permalink to this definition"></a></dt>
+<dd><p>Plot parity plot of x vs y.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>x (n x 1 np.ndarray): values plotted along x axis
+y (n x 1 np.ndarray): values plotted along y axis</p>
+</dd>
+<dt>Returns:</dt><dd><p>if kwargs.show_plot set to False, returns pyplot axis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_scatter">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlier_idxs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_scatter" title="Permalink to this definition"></a></dt>
+<dd><p>Plot scatter plot of x vs y.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>x(np.ndarray or list): Values plotted along x axis.
+y(np.ndarray or list): Values plotted along y axis.</p>
+</dd>
+<dt>Returns:</dt><dd><p>if kwargs.show_plot set to False, returns pyplot axis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-AIMSim.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-AIMSim.utils" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="AIMSim.tasks.html" class="btn btn-neutral float-left" title="AIMSim.tasks package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interfaces.html" class="btn btn-neutral float-right" title="interfaces package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jackson Burns, Himaghna Bhattacharjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
