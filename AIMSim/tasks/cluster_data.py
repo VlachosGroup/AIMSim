@@ -28,19 +28,27 @@ class ClusterData(Task):
     def _extract_configs(self):
         self.n_clusters = self.configs["n_clusters"]
         self.clustering_method = self.configs.get("clustering_method", None)
-        self.plot_settings = {
+        self.plot_settings = dict()
+        self.plot_settings["cluster_plot"] = {
             "cluster_colors": [
                 plt.cm.get_cmap("tab20", self.n_clusters)(cluster_id)
-                for cluster_id in range(self.n_clusters)
-            ],
+                for cluster_id in range(self.n_clusters)],
             "response": "Response",
+        }
+
+        self.plot_settings["cluster_plot"].update(
+            self.configs.get("cluster_plot_settings", {}))
+        self.plot_settings["embedding_plot"] = {
+            "plot_title": f"2-D projected space",
             "xlabel": "Dimension 1",
             "ylabel": "Dimension 2",
             "embedding": {"method": "mds",
-                          "params": {"random_state": 42}},
+                          "params": {"random_state": 42, }
+                          },
         }
-        self.plot_settings.update(
-            self.configs.get("cluster_plot_settings", {}))
+        self.plot_settings["embedding_plot"].update(self.configs.get(
+            "embedding_plot_settings",
+            {}))
 
         self.log_fpath = self.configs.get("log_file_path", None)
         if self.log_fpath is not None:
@@ -85,10 +93,11 @@ class ClusterData(Task):
         if self.log_fpath is not None:
             print("Writing to file ", self.log_fpath)
             with open(self.log_fpath, "w") as fp:
-                fp.write(f'Embedding method '
-                         f'{self.plot_settings["embedding"]["method"]}. '
-                         f'random seed '
-                         f'{self.plot_settings["embedding"]["params"]["random_state"]}')
+                fp.write(
+                    f'Embedding method '
+                    f'{self.plot_settings["embedding_plot"]["embedding"]["method"]}. '
+                    f'random seed '
+                    f'{self.plot_settings["embedding_plot"]["embedding"]["params"]["random_state"]}')
 
         plot_barchart(
             [_ for _ in range(self.n_clusters)],
@@ -96,7 +105,7 @@ class ClusterData(Task):
                 len(cluster_grouped_mol_names[cluster_id])
                 for cluster_id in range(self.n_clusters)
             ],
-            colors=self.plot_settings["cluster_colors"],
+            colors=self.plot_settings["cluster_plot"]["cluster_colors"],
             xtick_labels=[_ for _ in range(self.n_clusters)],
             xlabel="Cluster Index",
             ylabel="Cluster Population",
@@ -109,30 +118,30 @@ class ClusterData(Task):
                          n_densities=self.n_clusters,
                          legends=['Cluster'+str(_)
                                   for _ in range(self.n_clusters)],
-                         plot_color=self.plot_settings["cluster_colors"],
+                         plot_color=self.plot_settings[
+                             "cluster_plot"]["cluster_colors"],
                          legend_fontsize=20,
-                         xlabel=self.plot_settings['response'],
+                         xlabel=self.plot_settings["cluster_plot"]["response"],
                          ylabel='Density',
                          shade=True)
-
         plt.show()
 
-        method_ = self.plot_settings["embedding"]["method"]
+        method_ = self.plot_settings["embedding_plot"]["embedding"]["method"]
         reduced_features = molecule_set.get_transformed_descriptors(
             method_=method_,
             n_components=2,
-            **self.plot_settings["embedding"]["params"])
+            **self.plot_settings["embedding_plot"]["embedding"]["params"])
         dimension_1 = reduced_features[:, 0]
         dimension_2 = reduced_features[:, 1]
 
         plot_scatter(
             dimension_1,
             dimension_2,
-            xlabel=self.plot_settings["xlabel"],
-            ylabel=self.plot_settings["ylabel"],
+            xlabel=self.plot_settings["embedding_plot"]["xlabel"],
+            ylabel=self.plot_settings["embedding_plot"]["ylabel"],
             title=f"2-D projected space",
             plot_color=[
-                self.plot_settings["cluster_colors"][cluster_num]
+                self.plot_settings["cluster_plot"]["cluster_colors"][cluster_num]
                 for cluster_num in cluster_labels
             ],
             offset=0,
