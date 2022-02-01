@@ -16,6 +16,7 @@ class VisualizeDataset(Task):
         self._extract_configs()
 
     def _extract_configs(self):
+        self.plot_settings = dict()
         self.plot_settings["heatmap_plot"] = self.configs.get(
             "heatmap_plot_settings", {}
         )
