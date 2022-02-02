@@ -14,7 +14,7 @@ Documentation and Tutorial
 --------------------------
 
 `View our Online Documentation <https://vlachosgroup.github.io/AIMSim/>`_ or try the *AIMSim* comprehensive tutorial in your browser: 
-.. image:: https://mybinder.org/badge_logo.svg
+.. image:: interfaces/UI/binder_badge.png
    :target: https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb
    :alt: Binder
 
