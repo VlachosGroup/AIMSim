@@ -81,6 +81,7 @@ Currently Implemented Fingerprints
 #. RDKit Daylight Fingerprint
 #. All fingerprints available from the `ccbmlib <https://github.com/vogt-m/ccbmlib>`_ package (\ *specify 'ccbmlib:descriptorname' for command line input*\ ).
 #. All descriptors available through the `Mordred <https://github.com/mordred-descriptor/mordred>`_ library (\ *specify 'mordred:desciptorname' for command line input.*\ ).
+#. All descriptors and fingerprints available from `PaDELPy <https://github.com/ecrl/padelpy>`_\ , an interface to PaDEL-Descriptor. (\ *specify 'padelpy:desciptorname' for command line input.*\ ).
 
 Currently Implemented Similarity Scores
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
