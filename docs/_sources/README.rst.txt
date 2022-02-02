@@ -3,8 +3,8 @@ AIMSim README
 =============
 
 
-.. image:: https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png
-   :target: https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png
+.. image:: interfaces/UI/AIMSim-logo.png
+   :target: interfaces/UI/AIMSim-logo.png
    :alt: AIMSim logo
 
 
@@ -48,8 +48,8 @@ identify "clusters of similarity" indicating the need for separately trained mod
 
 When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using ``AIMSim``\ , one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
 
-.. image:: https://github.com/VlachosGroup/AIMSim/blob/master/tests/sulfonamide-substrate-scope.png
-   :target: https://github.com/VlachosGroup/AIMSim/blob/master/tests/sulfonamide-substrate-scope.png
+.. image:: tests/sulfonamide-substrate-scope.png
+   :target: tests/sulfonamide-substrate-scope.png
    :alt: Image of sulfonamide substrate scope
 
 
