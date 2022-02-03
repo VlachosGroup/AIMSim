@@ -479,7 +479,7 @@ class MoleculeSet:
                   'eigen_solver': kwargs.get('eigen_solver', 'auto'),
                   'tol': kwargs.get('tol', 0),
                   'max_iter': kwargs.get('max_iter', None),
-                  'path_method': kwargs.get('path_method','auto'),
+                  'path_method': kwargs.get('path_method', 'auto'),
                   'neighbors_algorithm': kwargs.get('neighbors_algorithm',
                                                     'auto'),
                   'n_jobs': kwargs.get('n_jobs', None),
