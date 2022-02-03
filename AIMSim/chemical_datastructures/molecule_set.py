@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from rdkit import RDLogger
 from sklearn.decomposition import PCA
-from sklearn.manifold import MDS, TSNE
+from sklearn.manifold import MDS, TSNE, Isomap
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
@@ -473,6 +473,31 @@ class MoleculeSet:
             }
             return X, component_info
 
+    def _do_isomap(self, get_component_info=False, **kwargs):
+        params = {'n_neighbors': kwargs.get('n_neighbors', 5),
+                  'n_components': kwargs.get('n_components', 2),
+                  'eigen_solver': kwargs.get('eigen_solver', 'auto'),
+                  'tol': kwargs.get('tol', 0),
+                  'max_iter': kwargs.get('max_iter', None),
+                  'path_method': kwargs.get('path_method','auto'),
+                  'neighbors_algorithm': kwargs.get('neighbors_algorithm',
+                                                    'auto'),
+                  'n_jobs': kwargs.get('n_jobs', None),
+                  'p': kwargs.get('p', 2),
+                  'metric_params': kwargs.get('metric_params', None)
+                  }
+        embedding = Isomap(metric='precomputed', **params)
+        dissimilarity_matrix = self.get_distance_matrix()
+        X = embedding.fit_transform(dissimilarity_matrix)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'kernel_pca_': embedding.kernel_pca_,
+                'nbrs_': embedding.nbrs_
+            }
+            return X, component_info
+
     def is_present(self, target_molecule):
         """
         Searches the name of a target molecule in the molecule set to
@@ -736,6 +761,8 @@ class MoleculeSet:
             return self._do_mds(**kwargs)
         elif method_.lower() == 'tsne':
             return self._do_tsne(**kwargs)
+        elif method_.lower() == 'isomap':
+            return self._do_isomap(**kwargs)
         else:
             raise InvalidConfigurationError(f'Embedding method {method_} '
                                             f'not implemented')
