@@ -9,7 +9,7 @@ import pandas as pd
 from rdkit.Chem import MolFromSmiles
 from rdkit.Chem.rdmolfiles import MolToPDBFile
 from sklearn.decomposition import PCA
-from sklearn.manifold import MDS, TSNE
+from sklearn.manifold import MDS, TSNE, Isomap, SpectralEmbedding
 from sklearn.preprocessing import StandardScaler
 
 from AIMSim.chemical_datastructures import Molecule, MoleculeSet
@@ -1138,6 +1138,66 @@ class TestMoleculeSet(unittest.TestCase):
             error_threshold,
             "Expected transformed molecular descriptors to be "
             "equal to TSNE decomposed features",
+        )
+        remove(csv_fpath)
+
+    def test_isomap_transform(self):
+        """
+        Test the unsupervised transformation of molecules in
+        MoleculSet using Isomap.
+
+        """
+        n_features = 20
+        features = np.random.normal(size=(len(self.test_smiles), n_features))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            similarity_measure="l0_similarity",
+            is_verbose=True,
+
+        )
+        features = StandardScaler().fit_transform(features)
+        features = Isomap().fit_transform(features)
+        error_matrix = features - \
+            molecule_set.get_transformed_descriptors(method_="isomap")
+        error_threshold = 1e-6
+        self.assertLessEqual(
+            error_matrix.min(),
+            error_threshold,
+            "Expected transformed molecular descriptors to be "
+            "equal to Isomap decomposed features",
+        )
+        remove(csv_fpath)
+
+    def test_spectral_embedding_transform(self):
+        """
+        Test the unsupervised transformation of molecules in
+        MoleculSet using Isomap.
+
+        """
+        n_features = 20
+        features = np.random.normal(size=(len(self.test_smiles), n_features))
+        csv_fpath = self.smiles_seq_to_xl_or_csv(
+            ftype="csv", feature_arr=features)
+        molecule_set = MoleculeSet(
+            molecule_database_src=csv_fpath,
+            molecule_database_src_type="csv",
+            similarity_measure="l0_similarity",
+            is_verbose=True,
+
+        )
+        features = StandardScaler().fit_transform(features)
+        features = SpectralEmbedding().fit_transform(features)
+        error_matrix = features - \
+            molecule_set.get_transformed_descriptors(method_="spectral_embedding")
+        error_threshold = 1e-6
+        self.assertLessEqual(
+            error_matrix.min(),
+            error_threshold,
+            "Expected transformed molecular descriptors to be "
+            "equal to SpectralEmbedding decomposed features",
         )
         remove(csv_fpath)
 
