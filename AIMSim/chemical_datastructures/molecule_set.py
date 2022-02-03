@@ -294,7 +294,7 @@ class MoleculeSet:
 
             # worker thread
 
-            def worker(thread_idx, n_mols, start_idx, end_idx, queue):
+            def worker(thread_idx, n_mols, start_idx, end_idx, queue):  # pragma: no cover
                 # make a local copy of the overall similarity matrix
                 local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
                 if self.is_verbose:
