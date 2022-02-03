@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from rdkit import RDLogger
 from sklearn.decomposition import PCA
-from sklearn.manifold import MDS, TSNE, Isomap
+from sklearn.manifold import MDS, TSNE, Isomap, SpectralEmbedding
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
@@ -484,7 +484,6 @@ class MoleculeSet:
                                                     'auto'),
                   'n_jobs': kwargs.get('n_jobs', None),
                   'p': kwargs.get('p', 2),
-                  'metric_params': kwargs.get('metric_params', None)
                   }
         embedding = Isomap(metric='precomputed', **params)
         dissimilarity_matrix = self.get_distance_matrix()
@@ -495,6 +494,24 @@ class MoleculeSet:
             component_info = {
                 'kernel_pca_': embedding.kernel_pca_,
                 'nbrs_': embedding.nbrs_
+            }
+            return X, component_info
+
+    def _do_spectral_embedding(self, get_component_info=False, **kwargs):
+        params = {'n_components': kwargs.get('n_components', 2),
+                  'gamma': kwargs.get('gamma', None),
+                  'random_state': kwargs.get('random_state', None),
+                  'eigen_solver': kwargs.get('eigen_solver', None),
+                  'n_neighbors': kwargs.get('n_neighbors', None),
+                  'n_jobs': kwargs.get('n_jobs', None)}
+        embedding = SpectralEmbedding(affinity='precomputed', **params)
+        similarity_matrix = self.get_similarity_matrix()
+        X = embedding.fit_transform(similarity_matrix)
+        if not get_component_info:
+            return X
+        else:
+            component_info = {
+                'n_neighbors_': embedding.n_neighbors_
             }
             return X, component_info
 
@@ -763,6 +780,8 @@ class MoleculeSet:
             return self._do_tsne(**kwargs)
         elif method_.lower() == 'isomap':
             return self._do_isomap(**kwargs)
+        elif method_.lower() == 'spectral_embedding':
+            return self._do_spectral_embedding(**kwargs)
         else:
             raise InvalidConfigurationError(f'Embedding method {method_} '
                                             f'not implemented')
