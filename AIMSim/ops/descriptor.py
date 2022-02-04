@@ -64,7 +64,7 @@ class Descriptor:
         if not hasattr(self, "numpy_"):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             DataStructs.ConvertToNumpyArray(self.rdkit_, self.numpy_)
-        self.numpy_ = self.numpy_.flatten()
+        self.numpy_ = self.numpy_.ravel()
         return self.numpy_
 
     def to_rdkit(self):
