@@ -20,7 +20,9 @@ jobs:
       
       - name: Generate Documentation
         run: |
+          mv docs/index.rst .
           rm docs/*.rst || true
+          mv index.rst docs/
           rm README.rst || true
           rm docs/README.rst || true
           rm implemented_metrics.rst || true
