@@ -157,7 +157,7 @@ Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity 
 <li><p>Cluster Data: Cluster the molecule set. The following algorithms are implemented:</p></li>
 </ol>
 <p>For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[6] (hierarchical clustering).</p>
-<p>For binary fingerprints: Complete, single and average linkage hierarchical clustering[5].</p>
+<p>For binary fingerprints: Complete, single and average linkage hierarchical clustering[6].</p>
 <p>The clustered data is plotted in two dimensions using principal component analysis (PCA)[3], multi-dimensional scaling[4], or TSNE[5].</p>
 <ol class="arabic simple">
 <li><p>Outlier Detection: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying <code class="docutils literal notranslate"><span class="pre">output</span></code> to be <code class="docutils literal notranslate"><span class="pre">terminal</span></code> or to a text file by instead providing a filename.</p></li>
