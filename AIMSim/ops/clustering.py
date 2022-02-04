@@ -14,8 +14,8 @@ class Cluster:
                 for the K-Medoids algorithm [1]. This method is useful
                 when the molecular descriptors are continuous / Euclidean
                 since it relies on the existence of a sensible medoid.
-            'complete_linkage', 'complete': complete linkage agglomerative
-                hierarchical clustering [2].
+            'complete_linkage', 'complete':
+                Complete linkage agglomerative hierarchical clustering [2].
             'average_linkage', 'average':
                 average linkage agglomerative hierarchical clustering [2].
             'single_linkage', 'single':

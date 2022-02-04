@@ -13,20 +13,21 @@
 import os
 import codecs
 import sys
+
+import AIMSim
+
+
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
-
-
-import AIMSim
-
-
 project = 'AIMSim'
 copyright = '2022, Jackson Burns, Himaghna Bhattacharjee'
 author = 'Jackson Burns, Himaghna Bhattacharjee'
 # The full version, including alpha/beta/rc tags
+
+
 def read(rel_path):
     """
     """
@@ -55,7 +56,7 @@ def skip(app, what, name, obj, would_skip, options):
 def setup(app):
     app.connect("autodoc-skip-member", skip)
 
-    
+
 release = get_version("../AIMSim/__init__.py")
 
 
