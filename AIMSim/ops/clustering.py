@@ -10,20 +10,23 @@ class Cluster:
     Attributes:
         clustering_method (str): Label for the specific algorithm used.
             Supported methods are:
-            'kmedoids' for the K-Medoids algorithm [1]. This method is useful
+            'kmedoids':
+                for the K-Medoids algorithm [1]. This method is useful
                 when the molecular descriptors are continuous / Euclidean
                 since it relies on the existence of a sensible medoid.
-            'complete_linkage', 'complete' for complete linkage agglomerative
+            'complete_linkage', 'complete': complete linkage agglomerative
                 hierarchical clustering [2].
-            'average_linkage', 'average' for average linkage agglomerative
-                hierarchical clustering [2].
-            'single_linkage', 'single' for single linkage agglomerative
-                hierarchical clustering [2].
-            'ward' for Ward's algorithm [2]. This method is useful for
+            'average_linkage', 'average':
+                average linkage agglomerative hierarchical clustering [2].
+            'single_linkage', 'single':
+                single linkage agglomerative hierarchical clustering [2].
+            'ward':
+                for Ward's algorithm [2]. This method is useful for
                 Euclidean descriptors.
-        n_clusters (int): Number of clusters.
-        model_ (sklearn.cluster.AgglomerativeClustering or
-                sklearn_extra.cluster.KMedoids): The clustering estimator.
+        n_clusters (int):
+            Number of clusters.
+        model_ (sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids):
+            The clustering estimator.
         labels_ (np.ndarray of shape (n_samples,)):
             cluster labels of the training set samples.
 
