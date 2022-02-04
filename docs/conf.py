@@ -19,6 +19,10 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
+
+import AIMSim
+
+
 project = 'AIMSim'
 copyright = '2022, Jackson Burns, Himaghna Bhattacharjee'
 author = 'Jackson Burns, Himaghna Bhattacharjee'
