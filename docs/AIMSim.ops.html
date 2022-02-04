@@ -148,6 +148,55 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Constructor for the Cluster class.
+Args:</p>
+<blockquote>
+<div><p>n_clusters (int): Number of clusters.
+clustering_method(str): Label for the specific algorithm used.</p>
+<blockquote>
+<div><p>Supported methods are:
+‘kmedoids’ for the K-Medoids algorithm [1]. This method is</p>
+<blockquote>
+<div><p>useful when the molecular descriptors are continuous
+/ Euclidean since it relies on the existence of a
+sensible medoid.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>‘complete_linkage’, ‘complete’ for complete linkage</dt><dd><p>agglomerative hierarchical clustering [2].</p>
+</dd>
+<dt>‘average_linkage’, ‘average’ for average linkage agglomerative</dt><dd><p>hierarchical clustering [2].</p>
+</dd>
+<dt>‘single_linkage’, ‘single’ for single linkage agglomerative</dt><dd><p>hierarchical clustering [2].</p>
+</dd>
+<dt>‘ward’ for Ward’s algorithm [2]. This method is useful for</dt><dd><p>Euclidean descriptors.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>kwargs (dict): Keyword arguments. These are passed to the</dt><dd><p>estimators. Refer to the following documentation page for
+kmedoids:
+[<a class="reference external" href="https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html">https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html</a>]
+agglomerative hierarchical clustering:
+[<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html</a>]</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>References:
+[1] Hastie, T., Tibshirani R. and Friedman J.,</p>
+<blockquote>
+<div><p>The Elements of statistical Learning: Data Mining, Inference,
+and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>[2] Murtagh, F. and Contreras, P., Algorithms for hierarchical</dt><dd><p>clustering: an overview. WIREs Data Mining Knowl Discov
+(2011). <a class="reference external" href="https://doi.org/10.1002/widm.53">https://doi.org/10.1002/widm.53</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.fit" title="Permalink to this definition"></a></dt>
 <dd><p>Fit the estimator.
@@ -211,6 +260,11 @@ Output of all methods is supplied with the method.</p>
 <dt><a href="#id11"><span class="problematic" id="id12">rdkit_</span></a>: rdkit.DataStructs.cDataStructs.UIntSparseIntVec</dt><dd><p>Value of the descriptor in the rdkit format.</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.check_init">
 <span class="sig-name descname"><span class="pre">check_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.check_init" title="Permalink to this definition"></a></dt>
@@ -358,6 +412,11 @@ for list of supported fingerprints.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.similarity_measures.SimilarityMeasure">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.ops.similarity_measures.</span></span><span class="sig-name descname"><span class="pre">SimilarityMeasure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.similarity_measures.SimilarityMeasure" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.similarity_measures.SimilarityMeasure.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.similarity_measures.SimilarityMeasure.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.ops.similarity_measures.SimilarityMeasure.get_compatible_metrics">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_compatible_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.similarity_measures.SimilarityMeasure.get_compatible_metrics" title="Permalink to this definition"></a></dt>
