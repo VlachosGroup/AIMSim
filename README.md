@@ -87,7 +87,7 @@ Additional L0, L1 and L2 norm based similarities are also implemented. [View our
 
 For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[6] (hierarchical clustering).
 
-For binary fingerprints: Complete, single and average linkage hierarchical clustering[5].
+For binary fingerprints: Complete, single and average linkage hierarchical clustering[6].
 
 The clustered data is plotted in two dimensions using principal component analysis (PCA)[3], multi-dimensional scaling[4], or TSNE[5].
 
