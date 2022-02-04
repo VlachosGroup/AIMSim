@@ -64,7 +64,7 @@ class Descriptor:
         if not hasattr(self, "numpy_"):
             self.numpy_ = np.zeros((0,), dtype=np.int8)
             DataStructs.ConvertToNumpyArray(self.rdkit_, self.numpy_)
-        self.numpy_ = self.numpy_.flatten()
+        self.numpy_ = self.numpy_.ravel()
         return self.numpy_
 
     def to_rdkit(self):
@@ -81,9 +81,7 @@ class Descriptor:
         return self.rdkit_
 
     def check_init(self):
-        if hasattr(self, "numpy_") or hasattr(self, "rdkit_"):
-            return True
-        return False
+        return getattr(self, "numpy_", None) is not None or getattr(self, "rdkit_", None) is not None
 
     def _set_morgan_fingerprint(self, molecule_graph, radius, n_bits, **kwargs):
         """Set the descriptor to a morgan fingerprint.
