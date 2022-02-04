@@ -42,6 +42,16 @@ def get_version(rel_path):
         raise RuntimeError("Unable to find version string.")
 
 
+def skip(app, what, name, obj, would_skip, options):
+    if name == "__init__":
+        return False
+    return would_skip
+
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip)
+
+    
 release = get_version("../AIMSim/__init__.py")
 
 
