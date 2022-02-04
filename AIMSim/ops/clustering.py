@@ -30,7 +30,7 @@ class Cluster:
     Methods:
         fit(X): Fit the estimator.
         predict(X): Get prediction from the estimator.
-        get_labels: Get cluster labels of the training set samples.
+        get_labels (): Get cluster labels of the training set samples.
 
     References:
         [1] Hastie, T., Tibshirani R. and Friedman J.,
