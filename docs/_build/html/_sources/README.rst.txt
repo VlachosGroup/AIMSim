@@ -3,8 +3,8 @@ AIMSim README
 =============
 
 
-.. image:: https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png
-   :target: https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png
+.. image:: interfaces/UI/AIMSim-logo.png
+   :target: interfaces/UI/AIMSim-logo.png
    :alt: AIMSim logo
 
 
@@ -13,11 +13,7 @@ AIMSim is a tool for visualizing diversity in your molecular data-set using stru
 Documentation and Tutorial
 --------------------------
 
-`View our Online Documentation <https://vlachosgroup.github.io/AIMSim/>`_ or try the *AIMSim* comprehensive tutorial in your browser: 
-.. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb
-   :alt: Binder
-
+`View our Online Documentation <https://vlachosgroup.github.io/AIMSim/>`_ or try the `\ *AIMSim* comprehensive tutorial in your browser <https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb>`_.
 
 Purpose
 -------
@@ -48,8 +44,8 @@ identify "clusters of similarity" indicating the need for separately trained mod
 
 When proposing a novel reaction it is essential for the practicing chemist to evaluate the transformation's tolerance of diverse functional groups and substrates (Glorius, 2013). Using ``AIMSim``\ , one can evaluate the structural and chemical similarity across an entire susbtrate scope to ensure that it avoids redundant species. Below is an example similarity heatmap generated to visualize the diversity of a three-component sulfonamide coupling reaction with a substantial number of substrates (Chen, 2018).
 
-.. image:: https://github.com/VlachosGroup/AIMSim/blob/master/tests/sulfonamide-substrate-scope.png
-   :target: https://github.com/VlachosGroup/AIMSim/blob/master/tests/sulfonamide-substrate-scope.png
+.. image:: tests/sulfonamide-substrate-scope.png
+   :target: tests/sulfonamide-substrate-scope.png
    :alt: Image of sulfonamide substrate scope
 
 
@@ -81,6 +77,7 @@ Currently Implemented Fingerprints
 #. RDKit Daylight Fingerprint
 #. All fingerprints available from the `ccbmlib <https://github.com/vogt-m/ccbmlib>`_ package (\ *specify 'ccbmlib:descriptorname' for command line input*\ ).
 #. All descriptors available through the `Mordred <https://github.com/mordred-descriptor/mordred>`_ library (\ *specify 'mordred:desciptorname' for command line input.*\ ).
+#. All descriptors and fingerprints available from `PaDELPy <https://github.com/ecrl/padelpy>`_\ , an interface to PaDEL-Descriptor. (\ *specify 'padelpy:desciptorname' for command line input.*\ ).
 
 Currently Implemented Similarity Scores
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -105,19 +102,19 @@ Currently Implemented Functionalities
    See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
 #. 
-   Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set.
+   Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set. Embed the molecule set in 2D space using using principal component analysis (PCA)[3], multi-dimensional scaling[4], or TSNE[5].
 
 #. 
-   Compare Target Molecule to Molecule Set<: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
+   Compare Target Molecule to Molecule Set: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
 
 #. 
    Cluster Data: Cluster the molecule set. The following algorithms are implemented: 
 
-For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[4] (hierarchical clustering).
+For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[6] (hierarchical clustering).
 
-For binary fingerprints: Complete, single and average linkage hierarchical clustering[4].
+For binary fingerprints: Complete, single and average linkage hierarchical clustering[6].
 
-The clustered data is plotted in two dimensions using multi-dimensional scaling[5].
+The clustered data is plotted in two dimensions using principal component analysis (PCA)[3], multi-dimensional scaling[4], or TSNE[5].
 
 
 #. Outlier Detection: Using an isolation forest, check for which molecules are potentially novel or are outliers according to the selected descriptor. Output can be directly to the command line by specifiying ``output`` to be ``terminal`` or to a text file by instead providing a filename.
@@ -184,8 +181,10 @@ Works Cited
 
 [2] Chen, Y., Murray, P.R.D., Davies, A.T., and Willis M.C., J. Am. Chem. Soc. 140 (28), 8781-8787 (2018). https://doi.org/10.1021/jacs.8b04532
 
-[3] Hastie, T., Tibshirani R. and Friedman J., The Elements of statistical Learning: Data Mining, Inference, and Prediction, 2nd Ed.  (Springer Series in Statistics). 2009.
+[3] Hastie, T., Tibshirani R. and Friedman J., The Elements of statistical Learning: Data Mining, Inference, and Prediction, 2nd Ed., Springer Series in Statistics (2009).
 
-[4] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). https://doi.org/10.1002/widm.53
+[4] Borg, I. and Groenen, P.J.F., Modern Multidimensional Scaling: Theory and Applications, Springer Series in Statistics (2005).
 
-[5] Borg, I. and Groenen, P.J.F., Modern Multidimensional Scaling: Theory and Applications (Springer Series in Statistics). 2005.
+[5] van der Maaten, L.J.P. and Hinton, G.E., Visualizing High-Dimensional Data Using t-SNE. Journal of Machine Learning Research 9:2579-2605 (2008).
+
+[6] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). https://doi.org/10.1002/widm.53

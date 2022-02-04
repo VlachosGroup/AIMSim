@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AIMSim.tasks package &mdash; AIMSim 0.0.6 documentation</title>
+  <title>AIMSim.tasks package &mdash; AIMSim 1.0.0-rc.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -100,6 +100,16 @@
 <dt class="sig sig-object py" id="AIMSim.tasks.cluster_data.ClusterData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.cluster_data.</span></span><span class="sig-name descname"><span class="pre">ClusterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.cluster_data.ClusterData" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#AIMSim.tasks.task.Task" title="AIMSim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIMSim.tasks.task.Task</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.cluster_data.ClusterData.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.cluster_data.ClusterData.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -109,6 +119,16 @@
 <dt class="sig sig-object py" id="AIMSim.tasks.compare_target_molecule.CompareTargetMolecule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.compare_target_molecule.</span></span><span class="sig-name descname"><span class="pre">CompareTargetMolecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.compare_target_molecule.CompareTargetMolecule" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#AIMSim.tasks.task.Task" title="AIMSim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIMSim.tasks.task.Task</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.compare_target_molecule.CompareTargetMolecule.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.compare_target_molecule.CompareTargetMolecule.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.tasks.compare_target_molecule.CompareTargetMolecule.get_hits_dissimilar_to">
 <span class="sig-name descname"><span class="pre">get_hits_dissimilar_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.compare_target_molecule.CompareTargetMolecule.get_hits_dissimilar_to" title="Permalink to this definition"></a></dt>
@@ -172,6 +192,16 @@ self.sorted_similarities not set.</p>
 <dt>Args:</dt><dd><p>Task (abstract class): Parent abstract class.</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.identify_outliers.IdentifyOutliers.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.identify_outliers.IdentifyOutliers.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -184,6 +214,16 @@ measure choice for brevity (although both measure and features are chosen)</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.measure_search.MeasureSearch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.measure_search.</span></span><span class="sig-name descname"><span class="pre">MeasureSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.measure_search.MeasureSearch" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#AIMSim.tasks.task.Task" title="AIMSim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIMSim.tasks.task.Task</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.measure_search.MeasureSearch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.measure_search.MeasureSearch.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.tasks.measure_search.MeasureSearch.get_best_measure">
 <span class="sig-name descname"><span class="pre">get_best_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set_configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_subset_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optim_algo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'max_min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.measure_search.MeasureSearch.get_best_measure" title="Permalink to this definition"></a></dt>
@@ -263,6 +303,16 @@ nearest_neighbor_correlation (float): Correlation of property</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.see_property_variation_with_similarity.</span></span><span class="sig-name descname"><span class="pre">SeePropertyVariationWithSimilarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#AIMSim.tasks.task.Task" title="AIMSim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIMSim.tasks.task.Task</span></code></a></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.get_property_correlations_in_most_dissimilar">
 <span class="sig-name descname"><span class="pre">get_property_correlations_in_most_dissimilar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.get_property_correlations_in_most_dissimilar" title="Permalink to this definition"></a></dt>
 <dd><p>Get the correlation between the property of molecules and their
@@ -308,6 +358,16 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.task.Task">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.task.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.task.Task" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.task.Task.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.task.Task.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -318,6 +378,19 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.task_manager.TaskManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.task_manager.</span></span><span class="sig-name descname"><span class="pre">TaskManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tasks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.task_manager.TaskManager" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.task_manager.TaskManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tasks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.task_manager.TaskManager.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Sequentially launches all the tasks from the configuration file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>tasks (dict): The tasks field of the config yaml containing various</dt><dd><p>tasks and their parameters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -328,6 +401,16 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.visualize_dataset.VisualizeDataset">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.visualize_dataset.</span></span><span class="sig-name descname"><span class="pre">VisualizeDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.visualize_dataset.VisualizeDataset" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#AIMSim.tasks.task.Task" title="AIMSim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIMSim.tasks.task.Task</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.tasks.visualize_dataset.VisualizeDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.visualize_dataset.VisualizeDataset.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Get configurations.
+Args:</p>
+<blockquote>
+<div><p>configs (dict): Parameters of the task</p>
+</div></blockquote>
+</dd></dl>
+
 </dd></dl>
 
 </section>

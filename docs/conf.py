@@ -10,12 +10,15 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import codecs
+import sys
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
+
 
 import AIMSim
 
@@ -24,8 +27,37 @@ project = 'AIMSim'
 copyright = '2022, Jackson Burns, Himaghna Bhattacharjee'
 author = 'Jackson Burns, Himaghna Bhattacharjee'
 # The full version, including alpha/beta/rc tags
+def read(rel_path):
+    """
+    """
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
+        return fp.read()
 
-release = AIMSim.__version__
+
+def get_version(rel_path):
+    """
+    """
+    for line in read(rel_path).splitlines():
+        if line.startswith('__version__'):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
+
+
+def skip(app, what, name, obj, would_skip, options):
+    if name == "__init__":
+        return False
+    return would_skip
+
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip)
+
+    
+release = get_version("../AIMSim/__init__.py")
+
 
 # -- General configuration ---------------------------------------------------
 

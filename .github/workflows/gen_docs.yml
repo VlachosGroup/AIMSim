@@ -20,6 +20,9 @@ jobs:
       
       - name: Generate Documentation
         run: |
+          mv docs/index.rst .
+          rm docs/*.rst || true
+          mv index.rst docs/
           rm README.rst || true
           rm docs/README.rst || true
           rm implemented_metrics.rst || true
@@ -29,7 +32,7 @@ jobs:
           mv README.rst docs
           mv implemented_metrics.rst docs
           cd docs
-          rm *.html
+          rm *.html *.doctree
           sphinx-apidoc -f -o . ..
           make clean
           make html

@@ -276,6 +276,64 @@ class TestDescriptor(unittest.TestCase):
             with self.assertRaises(ValueError):
                 descriptor.to_rdkit()
 
+    def test_ccbmlib_descriptors(self):
+        """Test ability to passthrough descriptors to ccbmlib."""
+        mol_graph = MolFromSmiles(
+            "CCOCC"
+        )
+        fprint_list = [
+            "atom_pairs",
+            "hashed_atom_pairs",
+            "avalon",
+            "maccs_keys",
+            "morgan",
+            "hashed_morgan",
+            "rdkit_fingerprint",
+            "torsions",
+            "hashed_torsions",
+        ]
+        for desc in fprint_list:
+            descriptor = Descriptor()
+            descriptor.make_fingerprint(
+                molecule_graph=mol_graph, fingerprint_type="ccbmlib:" + desc
+            )
+            self.assertTrue(
+                descriptor.check_init(),
+                "Expected Descriptor object to be initialized",
+            )
+            self.assertEqual(
+                descriptor.label_,
+                desc,
+                "Expected label of descriptor initialized with "
+                "{} to match the fingerprint".format(desc),
+            )
+
+    def test_exptl_descriptors(self):
+        """Test ability to use experimental descriptors."""
+        mol_graph = MolFromSmiles(
+            "CCOCC"
+        )
+        fprint_list = [
+            "maccs_keys",
+            "atom-pair_fingerprint",
+            "torsion_fingerprint",
+        ]
+        for desc in fprint_list:
+            descriptor = Descriptor()
+            descriptor.make_fingerprint(
+                molecule_graph=mol_graph, fingerprint_type=desc
+            )
+            self.assertTrue(
+                descriptor.check_init(),
+                "Expected Descriptor object to be initialized",
+            )
+            self.assertEqual(
+                descriptor.label_,
+                desc,
+                "Expected label of descriptor initialized with "
+                "{} to match the fingerprint".format(desc),
+            )
+
     def test_nonexistent_mordred_descriptors(self):
         """Test ability to pass through descriptors to Mordred."""
         mol_graph = MolFromSmiles("C")

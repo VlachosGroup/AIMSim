@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>tests package &mdash; AIMSim 0.0.6 documentation</title>
+  <title>tests package &mdash; AIMSim 1.0.0-rc.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -164,6 +164,12 @@ property_seq (list or np.ndarray, optional): Optional sequence of</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Descriptor.TestDescriptor.test_ccbmlib_descriptors">
+<span class="sig-name descname"><span class="pre">test_ccbmlib_descriptors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Descriptor.TestDescriptor.test_ccbmlib_descriptors" title="Permalink to this definition"></a></dt>
+<dd><p>Test ability to passthrough descriptors to ccbmlib.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tests.test_Descriptor.TestDescriptor.test_descriptor_arbitrary_list_init">
 <span class="sig-name descname"><span class="pre">test_descriptor_arbitrary_list_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Descriptor.TestDescriptor.test_descriptor_arbitrary_list_init" title="Permalink to this definition"></a></dt>
 <dd><p>Test to verify creation of Descriptor object initialized
@@ -188,6 +194,12 @@ by arbitrary numpy array.</p>
 <span class="sig-name descname"><span class="pre">test_descriptor_make_fingerprint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Descriptor.TestDescriptor.test_descriptor_make_fingerprint" title="Permalink to this definition"></a></dt>
 <dd><p>Test to verify creation of Descriptor object by
 creating molecular fingerprints from the molecule graph.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_Descriptor.TestDescriptor.test_exptl_descriptors">
+<span class="sig-name descname"><span class="pre">test_exptl_descriptors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Descriptor.TestDescriptor.test_exptl_descriptors" title="Permalink to this definition"></a></dt>
+<dd><p>Test ability to use experimental descriptors.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -616,6 +628,13 @@ should throw an error.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_isomap_transform">
+<span class="sig-name descname"><span class="pre">test_isomap_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_isomap_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Test the unsupervised transformation of molecules in
+MoleculSet using Isomap.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_mds_transform">
 <span class="sig-name descname"><span class="pre">test_mds_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_mds_transform" title="Permalink to this definition"></a></dt>
 <dd><p>Test the unsupervised transformation of molecules in
@@ -756,6 +775,13 @@ is specified when instantiating a MoleculeSet object.</p>
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_smiles">
 <span class="sig-name descname"><span class="pre">test_smiles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['CCCCCCC',</span> <span class="pre">'CCCC',</span> <span class="pre">'CCC',</span> <span class="pre">'CO',</span> <span class="pre">'CN',</span> <span class="pre">'C1=CC=CC=C1',</span> <span class="pre">'CC1=CC=CC=C1',</span> <span class="pre">'C(=O)(N)N']</span></em><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_smiles" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_spectral_embedding_transform">
+<span class="sig-name descname"><span class="pre">test_spectral_embedding_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.test_spectral_embedding_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Test the unsupervised transformation of molecules in
+MoleculSet using Isomap.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.test_subsample_molecule_database_from_csv">
