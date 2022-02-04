@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import codecs
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 
@@ -35,7 +36,9 @@ def get_version(rel_path):
     else:
         raise RuntimeError("Unable to find version string.")
 
+
 release = get_version("../AIMSim/__init__.py")
+
 
 # -- General configuration ---------------------------------------------------
 
