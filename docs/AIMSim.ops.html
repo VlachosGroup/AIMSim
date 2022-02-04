@@ -105,29 +105,28 @@ Attributes:</p>
 <blockquote>
 <div><dl>
 <dt>clustering_method (str): Label for the specific algorithm used.</dt><dd><p>Supported methods are:
-‘kmedoids’ for the K-Medoids algorithm [1]. This method is useful</p>
+‘kmedoids’:</p>
 <blockquote>
-<div><p>when the molecular descriptors are continuous / Euclidean
+<div><p>for the K-Medoids algorithm [1]. This method is useful
+when the molecular descriptors are continuous / Euclidean
 since it relies on the existence of a sensible medoid.</p>
 </div></blockquote>
 <dl class="simple">
-<dt>‘complete_linkage’, ‘complete’ for complete linkage agglomerative</dt><dd><p>hierarchical clustering [2].</p>
+<dt>‘complete_linkage’, ‘complete’: complete linkage agglomerative</dt><dd><p>hierarchical clustering [2].</p>
 </dd>
-<dt>‘average_linkage’, ‘average’ for average linkage agglomerative</dt><dd><p>hierarchical clustering [2].</p>
+<dt>‘average_linkage’, ‘average’:</dt><dd><p>average linkage agglomerative hierarchical clustering [2].</p>
 </dd>
-<dt>‘single_linkage’, ‘single’ for single linkage agglomerative</dt><dd><p>hierarchical clustering [2].</p>
+<dt>‘single_linkage’, ‘single’:</dt><dd><p>single linkage agglomerative hierarchical clustering [2].</p>
 </dd>
-<dt>‘ward’ for Ward’s algorithm [2]. This method is useful for</dt><dd><p>Euclidean descriptors.</p>
+<dt>‘ward’:</dt><dd><p>for Ward’s algorithm [2]. This method is useful for
+Euclidean descriptors.</p>
 </dd>
 </dl>
 </dd>
-</dl>
-<p>n_clusters (int): Number of clusters.
-<a href="#id1"><span class="problematic" id="id2">model_</span></a> (sklearn.cluster.AgglomerativeClustering or</p>
-<blockquote>
-<div><p>sklearn_extra.cluster.KMedoids): The clustering estimator.</p>
-</div></blockquote>
-<dl class="simple">
+<dt>n_clusters (int):</dt><dd><p>Number of clusters.</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">model_</span></a> (sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids):</dt><dd><p>The clustering estimator.</p>
+</dd>
 <dt><a href="#id3"><span class="problematic" id="id4">labels_</span></a> (np.ndarray of shape (n_samples,)):</dt><dd><p>cluster labels of the training set samples.</p>
 </dd>
 </dl>
