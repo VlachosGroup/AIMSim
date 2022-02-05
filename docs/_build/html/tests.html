@@ -105,22 +105,26 @@
 <span class="sig-name descname"><span class="pre">smiles_seq_to_xl_or_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ftype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_arr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.smiles_seq_to_xl_or_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence or arbitrary features
 to Excel or CSV files.</p>
-<dl>
-<dt>Args:</dt><dd><p>ftype (str): String label to denote the filetype. ‘csv’ or ‘excel’.
-property_seq (list or np.ndarray, optional): Optional sequence of</p>
-<blockquote>
-<div><p>molecular responses. Defaults to None.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>name_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular names. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ftype</strong> (<em>str</em>) – String label to denote the filetype. ‘csv’ or ‘excel’.</p></li>
+<li><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p></li>
+<li><p><strong>name_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular names. Defaults to None.</p></li>
+<li><p><strong>feature_arr</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Optional array of molecular
+descriptor values. Defaults to None.</p></li>
+</ul>
 </dd>
-<dt>feature_arr (np.ndarray, optional): Optional array of molecular</dt><dd><p>descriptor values. Defaults to None.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Invalid file type specified.</p>
 </dd>
-</dl>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Path to created file.</p>
 </dd>
-<dt>Raises:</dt><dd><p>ValueError: Invalid file type specified.</p>
-</dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -153,8 +157,9 @@ property_seq (list or np.ndarray, optional): Optional sequence of</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_Descriptor.</span></span><span class="sig-name descname"><span class="pre">TestDescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Descriptor.TestDescriptor" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
 <p>Tests for methods of the Descriptor class.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>unittest (unittest): Python unittest module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>unittest</strong> (<em>unittest</em>) – Python unittest module.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -280,13 +285,16 @@ creating molecular fingerprints from the molecule graph.</p>
 <dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a text file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses.. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses.. Defaults to None.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -503,13 +511,16 @@ Case #2: PDB file</p>
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.smarts_seq_to_smiles_file">
 <span class="sig-name descname"><span class="pre">smarts_seq_to_smiles_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smarts_seq_to_smiles_file" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMARTS sequence to a .SMILES file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -519,13 +530,16 @@ Case #2: PDB file</p>
 <span class="sig-name descname"><span class="pre">smiles_seq_to_pdb_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_pdb_dir" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a pdb files
 stored in a directory.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to created directory.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Path to created directory.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -534,13 +548,16 @@ stored in a directory.</p>
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smi_file">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_smi_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smi_file" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a .smi file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -549,13 +566,16 @@ stored in a directory.</p>
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smiles_file">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_smiles_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smiles_file" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a .SMILES file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -564,13 +584,16 @@ stored in a directory.</p>
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_textfile">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_textfile" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a text file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>property_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular responses.. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses.. Defaults to None.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -580,22 +603,26 @@ stored in a directory.</p>
 <span class="sig-name descname"><span class="pre">smiles_seq_to_xl_or_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ftype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_arr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_xl_or_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence or arbitrary features
 to Excel or CSV files.</p>
-<dl>
-<dt>Args:</dt><dd><p>ftype (str): String label to denote the filetype. ‘csv’ or ‘excel’.
-property_seq (list or np.ndarray, optional): Optional sequence of</p>
-<blockquote>
-<div><p>molecular responses. Defaults to None.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>name_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular names. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ftype</strong> (<em>str</em>) – String label to denote the filetype. ‘csv’ or ‘excel’.</p></li>
+<li><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p></li>
+<li><p><strong>name_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular names. Defaults to None.</p></li>
+<li><p><strong>feature_arr</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Optional array of molecular
+descriptor values. Defaults to None.</p></li>
+</ul>
 </dd>
-<dt>feature_arr (np.ndarray, optional): Optional array of molecular</dt><dd><p>descriptor values. Defaults to None.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Invalid file type specified.</p>
 </dd>
-</dl>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Path to created file.</p>
 </dd>
-<dt>Raises:</dt><dd><p>ValueError: Invalid file type specified.</p>
-</dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -832,22 +859,26 @@ MoleculSet using TSNE.</p>
 <span class="sig-name descname"><span class="pre">smiles_seq_to_xl_or_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ftype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_arr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasure.TestSimilarityMeasure.smiles_seq_to_xl_or_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence or arbitrary features
 to Excel or CSV files.</p>
-<dl>
-<dt>Args:</dt><dd><p>ftype (str): String label to denote the filetype. ‘csv’ or ‘excel’.
-property_seq (list or np.ndarray, optional): Optional sequence of</p>
-<blockquote>
-<div><p>molecular responses. Defaults to None.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>name_seq (list or np.ndarray, optional): Optional sequence of</dt><dd><p>molecular names. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ftype</strong> (<em>str</em>) – String label to denote the filetype. ‘csv’ or ‘excel’.</p></li>
+<li><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular responses. Defaults to None.</p></li>
+<li><p><strong>name_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
+molecular names. Defaults to None.</p></li>
+<li><p><strong>feature_arr</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Optional array of molecular
+descriptor values. Defaults to None.</p></li>
+</ul>
 </dd>
-<dt>feature_arr (np.ndarray, optional): Optional array of molecular</dt><dd><p>descriptor values. Defaults to None.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Invalid file type specified.</p>
 </dd>
-</dl>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Path to created file.</p>
 </dd>
-<dt>Raises:</dt><dd><p>ValueError: Invalid file type specified.</p>
-</dd>
-<dt>Returns:</dt><dd><p>str: Path to created file.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

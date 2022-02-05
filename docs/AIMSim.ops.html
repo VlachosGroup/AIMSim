@@ -101,10 +101,10 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.ops.clustering.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Wrapper class for different clustering algorithms.
-Attributes:</p>
+.. attribute:: clustering_method</p>
 <blockquote>
-<div><dl>
-<dt>clustering_method (str): Label for the specific algorithm used.</dt><dd><p>Supported methods are:
+<div><p>Label for the specific algorithm used.
+Supported methods are:
 ‘kmedoids’:</p>
 <blockquote>
 <div><p>for the K-Medoids algorithm [1]. This method is useful
@@ -122,21 +122,65 @@ since it relies on the existence of a sensible medoid.</p>
 Euclidean descriptors.</p>
 </dd>
 </dl>
-</dd>
-<dt>n_clusters (int):</dt><dd><p>Number of clusters.</p>
-</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">model_</span></a> (sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids):</dt><dd><p>The clustering estimator.</p>
-</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">labels_</span></a> (np.ndarray of shape (n_samples,)):</dt><dd><p>cluster labels of the training set samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </div></blockquote>
-<dl class="simple">
-<dt>Methods:</dt><dd><p>fit(X): Fit the estimator.
-predict(X): Get prediction from the estimator.
-get_labels (): Get cluster labels of the training set samples.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.n_clusters">
+<span class="sig-name descname"><span class="pre">n_clusters</span></span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.n_clusters" title="Permalink to this definition"></a></dt>
+<dd><p>Number of clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
 </dd>
-<dt>References:</dt><dd><dl class="simple">
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.model_">
+<span class="sig-name descname"><span class="pre">model_</span></span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.model_" title="Permalink to this definition"></a></dt>
+<dd><p>The clustering estimator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.labels_">
+<span class="sig-name descname"><span class="pre">labels_</span></span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.labels_" title="Permalink to this definition"></a></dt>
+<dd><p>cluster labels of the training set samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>np.ndarray of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit the estimator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Get prediction from the estimator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.get_labels">
+<span class="sig-name descname"><span class="pre">get_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.get_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Get cluster labels of the training set samples.</p>
+</dd></dl>
+
+<p class="rubric">References</p>
+<dl class="simple">
 <dt>[1] Hastie, T., Tibshirani R. and Friedman J.,</dt><dd><p>The Elements of statistical Learning: Data Mining, Inference,
 and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 </dd>
@@ -144,16 +188,13 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 (2011). <a class="reference external" href="https://doi.org/10.1002/widm.53">https://doi.org/10.1002/widm.53</a></p>
 </dd>
 </dl>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor for the Cluster class.
-Args:</p>
-<blockquote>
-<div><p>n_clusters (int): Number of clusters.
-clustering_method(str): Label for the specific algorithm used.</p>
+:param n_clusters: Number of clusters.
+:type n_clusters: int
+:param clustering_method: Label for the specific algorithm used.</p>
 <blockquote>
 <div><p>Supported methods are:
 ‘kmedoids’ for the K-Medoids algorithm [1]. This method is</p>
@@ -173,15 +214,16 @@ sensible medoid.</p>
 </dd>
 </dl>
 </div></blockquote>
-<dl class="simple">
-<dt>kwargs (dict): Keyword arguments. These are passed to the</dt><dd><p>estimators. Refer to the following documentation page for
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments. These are passed to the
+estimators. Refer to the following documentation page for
 kmedoids:
 [<a class="reference external" href="https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html">https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html</a>]
 agglomerative hierarchical clustering:
 [<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html</a>]</p>
 </dd>
 </dl>
-</div></blockquote>
 <p>References:
 [1] Hastie, T., Tibshirani R. and Friedman J.,</p>
 <blockquote>
@@ -196,38 +238,40 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.fit" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
 <dd><p>Fit the estimator.
-Args:</p>
-<blockquote>
-<div><p>X (np.ndarray or list):  Distance matrix.</p>
-</div></blockquote>
+:param X: Distance matrix.
+:type X: np.ndarray or list</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.get_labels">
-<span class="sig-name descname"><span class="pre">get_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.get_labels" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
 <dd><p>Get cluster labels of the training set samples.
-Returns:</p>
+:returns:</p>
 <blockquote>
 <div><dl class="simple">
-<dt>np.ndarray of shape (n_samples,)): Returns <a href="#id5"><span class="problematic" id="id6">self.labels_</span></a>,</dt><dd><p>cluster labels of the training set samples.</p>
+<dt>Returns <a href="#id3"><span class="problematic" id="id4">self.labels_</span></a>,</dt><dd><p>cluster labels of the training set samples.</p>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray of shape (n_samples,))</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.ops.clustering.Cluster.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.clustering.Cluster.predict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
 <dd><p>Get predictions from the estimator.
-Args:</p>
-<blockquote>
-<div><p>X (np.ndarray or list):  samples to predict on.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Raises:</dt><dd><p>sklearn.exceptions.NotFittedError if estimator is not fitted.</p>
+:param X: samples to predict on.
+:type X: np.ndarray or list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>sklearn.exceptions.NotFittedError if estimator is not fitted.</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -238,9 +282,8 @@ Args:</p>
 <section id="module-AIMSim.ops.descriptor">
 <span id="aimsim-ops-descriptor-module"></span><h2>AIMSim.ops.descriptor module<a class="headerlink" href="#module-AIMSim.ops.descriptor" title="Permalink to this headline"></a></h2>
 <p>This module contains methods to featurize molecules.
-Notes
-—–
-Input to all methods is a Molecule object.
+.. rubric:: Notes</p>
+<p>Input to all methods is a Molecule object.
 Output of all methods is supplied with the method.</p>
 <section id="supported-output-type">
 <h3>Supported output type<a class="headerlink" href="#supported-output-type" title="Permalink to this headline"></a></h3>
@@ -251,14 +294,39 @@ Output of all methods is supplied with the method.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.ops.descriptor.</span></span><span class="sig-name descname"><span class="pre">Descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class for descriptors.</p>
-<dl class="simple">
-<dt><a href="#id7"><span class="problematic" id="id8">label_</span></a>: str</dt><dd><p>Label used to denote the type of descriptor being used.</p>
-</dd>
-<dt><a href="#id9"><span class="problematic" id="id10">numpy_</span></a>: np.ndarray</dt><dd><p>Value of the descriptor in the numpy format.</p>
-</dd>
-<dt><a href="#id11"><span class="problematic" id="id12">rdkit_</span></a>: rdkit.DataStructs.cDataStructs.UIntSparseIntVec</dt><dd><p>Value of the descriptor in the rdkit format.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.label_">
+<span class="sig-name descname"><span class="pre">label_</span></span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.label_" title="Permalink to this definition"></a></dt>
+<dd><p>Label used to denote the type of descriptor being used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.numpy_">
+<span class="sig-name descname"><span class="pre">numpy_</span></span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.numpy_" title="Permalink to this definition"></a></dt>
+<dd><p>Value of the descriptor in the numpy format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.rdkit_">
+<span class="sig-name descname"><span class="pre">rdkit_</span></span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.rdkit_" title="Permalink to this definition"></a></dt>
+<dd><p>Value of the descriptor in the rdkit format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>rdkit.DataStructs.cDataStructs.UIntSparseIntVec</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.__init__" title="Permalink to this definition"></a></dt>
@@ -274,11 +342,15 @@ Output of all methods is supplied with the method.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fold_to_equal_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fingerprint1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.fold_to_equal_length" title="Permalink to this definition"></a></dt>
 <dd><p>Get back two fingerprint arrays of equal length. The longer fingerprint
 is folded to the size of the smaller one.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>fingerprint1 (Descriptor): Fingerprint one.
-fingerprint2 (Descriptor): Fingerprint two.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fingerprint1</strong> (<a class="reference internal" href="#AIMSim.ops.descriptor.Descriptor" title="AIMSim.ops.descriptor.Descriptor"><em>Descriptor</em></a>) – Fingerprint one.</p></li>
+<li><p><strong>fingerprint2</strong> (<a class="reference internal" href="#AIMSim.ops.descriptor.Descriptor" title="AIMSim.ops.descriptor.Descriptor"><em>Descriptor</em></a>) – Fingerprint two.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>(np.ndarray, np.ndarray)</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.ndarray, np.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -289,8 +361,12 @@ fingerprint2 (Descriptor): Fingerprint two.</p>
 <dd><p>Returns a list of descriptors which _can_ be used with AIMSim
 but are considered experimental or are complex/rarely used and
 are therefore excluded from the UI.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>List: List of strings of all supported descriptors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of strings of all supported descriptors.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
@@ -299,12 +375,14 @@ are therefore excluded from the UI.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.get_folded_fprint">
 <span class="sig-name descname"><span class="pre">get_folded_fprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fold_to_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.get_folded_fprint" title="Permalink to this definition"></a></dt>
 <dd><p>Get the folded value of a fingerprint to a specified length.
-Args:</p>
-<blockquote>
-<div><p>fold_to_length (int): Number of bits to fold to.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>(np.ndarray): Folded fingerprint.</p>
+:param fold_to_length: Number of bits to fold to.
+:type fold_to_length: int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Folded fingerprint.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -324,10 +402,8 @@ Args:</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_fprints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.get_supported_fprints" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of strings for the currently implemented
 molecular fingerprints.
-Returns:</p>
-<blockquote>
-<div><p>List: List of strings.</p>
-</div></blockquote>
+:returns: List of strings.
+:rtype: List</p>
 </dd></dl>
 
 <dl class="py method">
@@ -340,16 +416,17 @@ Returns:</p>
 <span class="sig-name descname"><span class="pre">make_fingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.make_fingerprint" title="Permalink to this definition"></a></dt>
 <dd><p>Make fingerprint of a molecule based on a graph representation.
 Set the state of the descriptor to this fingerprint.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>molecule_graph (RDKIT object): The graph object used to make a</dt><dd><p>fingerprint.</p>
-</dd>
-<dt>fingerprint_type (str): label for the type of fingerprint.</dt><dd><p>Invokes get_supported_descriptors()[‘fingerprints’]
-for list of supported fingerprints.</p>
-</dd>
-<dt>fingerprint_params (dict): Keyword arguments used to modify</dt><dd><p>parameters of fingerprint. Default is None.</p>
-</dd>
-</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>molecule_graph</strong> (<em>RDKIT object</em>) – The graph object used to make a
+fingerprint.</p></li>
+<li><p><strong>fingerprint_type</strong> (<em>str</em>) – label for the type of fingerprint.
+Invokes get_supported_descriptors()[‘fingerprints’]
+for list of supported fingerprints.</p></li>
+<li><p><strong>fingerprint_params</strong> (<em>dict</em>) – Keyword arguments used to modify
+parameters of fingerprint. Default is None.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -358,11 +435,10 @@ for list of supported fingerprints.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.set_manually">
 <span class="sig-name descname"><span class="pre">set_manually</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arbitrary_descriptor_val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.set_manually" title="Permalink to this definition"></a></dt>
 <dd><p>Set the descriptor value manually based on user specified value.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>arbitrary_descriptor_val (np.ndarray or list): Vectorized</dt><dd><p>representation of descriptor values.</p>
-</dd>
-</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arbitrary_descriptor_val</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Vectorized
+representation of descriptor values.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -371,16 +447,22 @@ for list of supported fingerprints.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.shorten_label">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shorten_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.shorten_label" title="Permalink to this definition"></a></dt>
 <dd><p>Shorten the label of a fingerprint. Useful for plotting purposes.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>label (str): Label of fingerprint to shorten.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label</strong> (<em>str</em>) – Label of fingerprint to shorten.</p>
 </dd>
-<dt>Returns:</dt><dd><p>(str): Shortened label.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Shortened label.</p>
 </dd>
-<dt>Raises:</dt><dd><dl class="simple">
-<dt>InvalidConfigurationError: if label not in</dt><dd><p>get_supported_descriptors()</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="AIMSim.html#AIMSim.exceptions.InvalidConfigurationError" title="AIMSim.exceptions.InvalidConfigurationError"><strong>InvalidConfigurationError</strong></a> – if label not in
+    get_supported_descriptors()</p>
 </dd>
 </dl>
-</dd>
+<dl class="simple">
 <dt>Currently implemented shortening strategies:</dt><dd><ol class="arabic simple">
 <li><p>Fingerprints: remove ‘_fingerprint’ from the label</p></li>
 </ol>
@@ -392,7 +474,11 @@ for list of supported fingerprints.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.to_numpy">
 <span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.to_numpy" title="Permalink to this definition"></a></dt>
 <dd><p>Convert arbitrary fingerprints of type in_dtype to numpy arrays.</p>
-<p>np.array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -420,8 +506,12 @@ for list of supported fingerprints.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.similarity_measures.SimilarityMeasure.get_compatible_metrics">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_compatible_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.similarity_measures.SimilarityMeasure.get_compatible_metrics" title="Permalink to this definition"></a></dt>
 <dd><p>Return a dictionary with which types of metrics each fingerprint supports.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>dict: comptabile FP’s: metrics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>comptabile FP’s: metrics</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -432,8 +522,12 @@ for list of supported fingerprints.</p>
 <dd><p>Return a list of strings for the currently implemented
 similarity measures, aka metrics, which only support binary
 vectors.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>List: List of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of strings.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
@@ -444,8 +538,12 @@ vectors.</p>
 <dd><p>Return a list of strings for the currently implemented
 similarity measures, aka metrics, which support vectors other
 then binary vectors.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>List: List of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of strings.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
@@ -455,8 +553,12 @@ then binary vectors.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.similarity_measures.SimilarityMeasure.get_supported_metrics" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of strings for the currently implemented
 similarity measures, aka metrics.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>List: List of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of strings.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
@@ -467,8 +569,12 @@ similarity measures, aka metrics.</p>
 <dd><p>Return a list of strings for the currently implemented
 similarity measures, aka metrics. Each unique similarity metric is
 uniquely represented with redundant tags removed.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>List: List of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of strings.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
@@ -477,8 +583,12 @@ uniquely represented with redundant tags removed.</p>
 <dt class="sig sig-object py" id="AIMSim.ops.similarity_measures.SimilarityMeasure.is_distance_metric">
 <span class="sig-name descname"><span class="pre">is_distance_metric</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.similarity_measures.SimilarityMeasure.is_distance_metric" title="Permalink to this definition"></a></dt>
 <dd><p>Check if the similarity measure is a distance metric.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>bool: True if it is a distance metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if it is a distance metric.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>

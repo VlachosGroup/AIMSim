@@ -101,67 +101,129 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.chemical_datastructures.molecule.</span></span><span class="sig-name descname"><span class="pre">Molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_property_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_descriptor_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>An abstraction of a molecule</p>
-<dl>
-<dt>Attributes:</dt><dd><dl class="simple">
-<dt>mol_graph (RDKIT mol object): Graph-level information of molecule.</dt><dd><p>Implemented as an RDKIT mol object.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.mol_graph">
+<span class="sig-name descname"><span class="pre">mol_graph</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.mol_graph" title="Permalink to this definition"></a></dt>
+<dd><p>Graph-level information of molecule.
+Implemented as an RDKIT mol object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>RDKIT mol object</p>
 </dd>
 </dl>
-<p>mol_text (str): Text identifier of the molecule.
-mol_property_val (float): Some property associated with the molecule.</p>
-<blockquote>
-<div><p>This is typically the response being studied.
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.mol_text">
+<span class="sig-name descname"><span class="pre">mol_text</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.mol_text" title="Permalink to this definition"></a></dt>
+<dd><p>Text identifier of the molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.mol_property_val">
+<span class="sig-name descname"><span class="pre">mol_property_val</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.mol_property_val" title="Permalink to this definition"></a></dt>
+<dd><p>Some property associated with the molecule.
+This is typically the response being studied.
 E.g. Boiling point, Selectivity etc.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>descriptor (Descriptor object): Vector representation of a molecule.</dt><dd><p>Commonly a fingerprint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.descriptor">
+<span class="sig-name descname"><span class="pre">descriptor</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.descriptor" title="Permalink to this definition"></a></dt>
+<dd><p>Vector representation of a molecule.
+Commonly a fingerprint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Descriptor object</p>
 </dd>
-<dt>Methods:</dt><dd><dl class="simple">
-<dt>set_descriptor(</dt><dd><p>arbitrary_descriptor_val=None,
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_descriptor(</span></span></dt>
+<dd><p>arbitrary_descriptor_val=None,
 fingerprint_type=None,
 fingerprint_params=None): Set the descriptor value either by passing
 an arbitrary value or by specifying a fingerprint that will be
 generated.</p>
-</dd>
-</dl>
-<p>get_descriptor_val(): Get the descriptor value as an numpy array.
-match_fingerprint_from(reference_mol): Generate the same fingerprint</p>
-<blockquote>
-<div><p>as the reference_mol.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>get_similarity_to(target_mol, similarity_measure): Get the similarity</dt><dd><p>to target_mol using a similarity_measure of choice.</p>
-</dd>
-</dl>
-<p>get_name(): Get the mol_text attribute.
-get_mol_property_val(): Get mol_property_val attribute.
-draw(fpath=None, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs): Draw the molecule.
-is_same(source_molecule, target_molecule): Static method used to check</p>
-<blockquote>
-<div><p>equivalence of two molecules.</p>
-</div></blockquote>
-</dd>
-</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_descriptor_val">
+<span class="sig-name descname"><span class="pre">get_descriptor_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_descriptor_val" title="Permalink to this definition"></a></dt>
+<dd><p>Get the descriptor value as an numpy array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.match_fingerprint_from">
+<span class="sig-name descname"><span class="pre">match_fingerprint_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_mol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.match_fingerprint_from" title="Permalink to this definition"></a></dt>
+<dd><p>Generate the same fingerprint
+as the reference_mol.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_similarity_to">
+<span class="sig-name descname"><span class="pre">get_similarity_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_similarity_to" title="Permalink to this definition"></a></dt>
+<dd><p>Get the similarity
+to target_mol using a similarity_measure of choice.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_name" title="Permalink to this definition"></a></dt>
+<dd><p>Get the mol_text attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_mol_property_val">
+<span class="sig-name descname"><span class="pre">get_mol_property_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_mol_property_val" title="Permalink to this definition"></a></dt>
+<dd><p>Get mol_property_val attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.draw" title="Permalink to this definition"></a></dt>
+<dd><p>Draw the molecule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.is_same">
+<span class="sig-name descname"><span class="pre">is_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_molecule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.is_same" title="Permalink to this definition"></a></dt>
+<dd><p>Static method used to check
+equivalence of two molecules.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_property_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_descriptor_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor</p>
-<dl>
-<dt>Args:</dt><dd><dl>
-<dt>mol_graph (RDKIT mol object): Graph-level information of molecule.</dt><dd><p>Implemented as an RDKIT mol object. Default is None.</p>
-</dd>
-<dt>mol_text (str): Text identifier of the molecule. Default is None.</dt><dd><ol class="arabic simple">
-<li><p>Name of the molecule.</p></li>
-<li><p>SMILES string representing the molecule.</p></li>
-</ol>
-</dd>
-<dt>mol_property_val (float): Some property associated with the</dt><dd><p>molecule. This is typically the response being studied.
-E.g. Boiling point, Selectivity etc. Default is None.</p>
-</dd>
-<dt>mol_descriptor_val (numpy ndarray): Descriptor value for the</dt><dd><p>molecule. Must be numpy array or list. Default is None.</p>
-</dd>
-<dt>mol_src (str):</dt><dd><p>Source file or SMILES string to load molecule. Acceptable files:
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol_graph</strong> (<em>RDKIT mol object</em>) – Graph-level information of molecule.
+Implemented as an RDKIT mol object. Default is None.</p></li>
+<li><p><strong>mol_text</strong> (<em>str</em>) – Text identifier of the molecule. Default is None.
+Identifiers can be:
+——————
+1. Name of the molecule.
+2. SMILES string representing the molecule.</p></li>
+<li><p><strong>mol_property_val</strong> (<em>float</em>) – Some property associated with the
+molecule. This is typically the response being studied.
+E.g. Boiling point, Selectivity etc. Default is None.</p></li>
+<li><p><strong>mol_descriptor_val</strong> (<em>numpy ndarray</em>) – Descriptor value for the
+molecule. Must be numpy array or list. Default is None.</p></li>
+<li><p><strong>mol_src</strong> (<em>str</em>) – <p>Source file or SMILES string to load molecule. Acceptable files:
 -&gt; .pdb file
 -&gt; .txt file with SMILE string in first column, first row and</p>
 <blockquote>
@@ -169,104 +231,120 @@ E.g. Boiling point, Selectivity etc. Default is None.</p>
 </div></blockquote>
 <p>Default is None.
 If provided mol_graph is attempted to be loaded from it.</p>
-</dd>
-<dt>mol_smiles (str): SMILES string for molecule. If provided, mol_graph</dt><dd><p>is loaded from it. If mol_text not set in keyword argument,
-this string is used to set it.</p>
-</dd>
-</dl>
+</p></li>
+<li><p><strong>mol_smiles</strong> (<em>str</em>) – SMILES string for molecule. If provided, mol_graph
+is loaded from it. If mol_text not set in keyword argument,
+this string is used to set it.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.draw" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
 <dd><p>Draw or molecule graph.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>fpath (str): Path of file to store image. If None, image is</dt><dd><p>displayed in io as a Tkinter windows. Default is None.</p>
-</dd>
-</dl>
-<p>kwargs (keyword arguments): Arguments to modify plot properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fpath</strong> (<em>str</em>) – Path of file to store image. If None, image is
+displayed in io as a Tkinter windows. Default is None.</p></li>
+<li><p><strong>kwargs</strong> (<em>keyword arguments</em>) – Arguments to modify plot properties.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_descriptor_val">
-<span class="sig-name descname"><span class="pre">get_descriptor_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_descriptor_val" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_descriptor_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
 <dd><p>Get value of molecule descriptor.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>np.ndarray: value(s) of the descriptor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>value(s) of the descriptor.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_mol_property_val">
-<span class="sig-name descname"><span class="pre">get_mol_property_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_mol_property_val" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_mol_property_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_name">
-<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.get_similarity_to">
-<span class="sig-name descname"><span class="pre">get_similarity_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.get_similarity_to" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_similarity_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition"></a></dt>
 <dd><p>Get a similarity metric to a target molecule</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>target_mol (AIMSim.ops Molecule): Target molecule. Similarity</dt><dd><p>score is with respect to this molecule</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_mol</strong> (<em>AIMSim.ops Molecule</em>) – Target molecule. Similarity
+score is with respect to this molecule</p></li>
+<li><p><strong>similarity_measure</strong> (<em>AIMSim.ops SimilarityMeasure</em>) – metric used.</p></li>
+</ul>
 </dd>
-<dt>similarity_measure (AIMSim.ops SimilarityMeasure). The similarity</dt><dd><p>metric used.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>similarity_score (float): Similarity coefficient by the chosen</dt><dd><p>method.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<blockquote>
-<div><dl class="simple">
-<dt>NotInitializedError</dt><dd><p>If target_molecule has uninitialized descriptor. See note.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Similarity coefficient by the chosen</dt><dd><p>method.</p>
 </dd>
 </dl>
-</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>similarity_score (float)</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="AIMSim.html#AIMSim.exceptions.NotInitializedError" title="AIMSim.exceptions.NotInitializedError"><strong>NotInitializedError</strong></a> – If target_molecule has uninitialized descriptor. See note.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.is_same">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_molecule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.is_same" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id5">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_molecule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
 <dd><p>Check if the target_molecule is a duplicate of source_molecule.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>source_molecule (AIMSim.chemical_datastructures Molecule): Source</dt><dd><p>molecule to compare.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_molecule</strong> (<em>AIMSim.chemical_datastructures Molecule</em>) – Source
+molecule to compare.</p></li>
+<li><p><strong>target_molecule</strong> (<em>AIMSim.chemical_datastructures Molecule</em>) – Target
+molecule to compare.</p></li>
+</ul>
 </dd>
-<dt>target_molecule (AIMSim.chemical_datastructures Molecule): Target</dt><dd><p>molecule to compare.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the molecules are the same.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>bool: True if the molecules are the same.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.match_fingerprint_from">
-<span class="sig-name descname"><span class="pre">match_fingerprint_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_mol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.match_fingerprint_from" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">match_fingerprint_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_mol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition"></a></dt>
 <dd><p>If target_mol.descriptor is a fingerprint, this method will try
 to calculate the fingerprint of the self molecules.
 If this fails because of the absence of mol_graph attribute in
 target_molecule, a ValueError is raised.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>reference_mol (AIMSim.ops Molecule): Target molecule. Fingerprint
-of this molecule is used as the reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reference_mol</strong> (<em>AIMSim.ops Molecule</em>) – Target molecule. Fingerprint</p></li>
+<li><p><strong>reference.</strong> (<em>of this molecule is used as the</em>) – </p></li>
+</ul>
 </dd>
-<dt>Raises:</dt><dd><p>ValueError</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -275,15 +353,16 @@ of this molecule is used as the reference.</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule.Molecule.set_descriptor">
 <span class="sig-name descname"><span class="pre">set_descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arbitrary_descriptor_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule.Molecule.set_descriptor" title="Permalink to this definition"></a></dt>
 <dd><p>Sets molecular descriptor attribute.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>arbitrary_descriptor_val (np.array or list): Arbitrary descriptor</dt><dd><p>vector. Default is None.</p>
-</dd>
-<dt>fingerprint_type (str): String label specifying which fingerprint</dt><dd><p>to use. Default is None.</p>
-</dd>
-<dt>fingerprint_params (dict): Additional parameters for modifying</dt><dd><p>fingerprint defaults. Default is None.</p>
-</dd>
-</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arbitrary_descriptor_val</strong> (<em>np.array</em><em> or </em><em>list</em>) – Arbitrary descriptor
+vector. Default is None.</p></li>
+<li><p><strong>fingerprint_type</strong> (<em>str</em>) – String label specifying which fingerprint
+to use. Default is None.</p></li>
+<li><p><strong>fingerprint_params</strong> (<em>dict</em>) – Additional parameters for modifying
+fingerprint defaults. Default is None.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -299,38 +378,87 @@ of this molecule is used as the reference.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.chemical_datastructures.molecule_set.</span></span><span class="sig-name descname"><span class="pre">MoleculeSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_database_src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molecule_database_src_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_verbose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Collection of Molecule objects.</p>
-<dl>
-<dt>Attributes:</dt><dd><p>molecule_database (List): List of Molecule objects.
-similarity_measure (str): Similarity measure used.
-similarity_matrix (numpy ndarray): n_mols X n_mols numpy matrix of</p>
-<blockquote>
-<div><p>pairwise similarity scores.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>is_verbose (bool): Controls how much information is displayed during</dt><dd><p>plotting.</p>
-</dd>
-<dt>sampling_ratio (float): Fraction of dataset to keep for analysis.</dt><dd><p>Default is 1.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.molecule_database">
+<span class="sig-name descname"><span class="pre">molecule_database</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.molecule_database" title="Permalink to this definition"></a></dt>
+<dd><p>List of Molecule objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List</p>
 </dd>
 </dl>
-</dd>
-<dt>Methods:</dt><dd><dl class="simple">
-<dt>generate_similarity_matrix()</dt><dd><p>Set the similarity_matrix attribute.</p>
-</dd>
-<dt>get_most_similar_pairs()</dt><dd><p>Get the indexes of the most similar molecules as tuples.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.similarity_measure">
+<span class="sig-name descname"><span class="pre">similarity_measure</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.similarity_measure" title="Permalink to this definition"></a></dt>
+<dd><p>Similarity measure used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.similarity_matrix">
+<span class="sig-name descname"><span class="pre">similarity_matrix</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.similarity_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>n_mols X n_mols numpy matrix of
+pairwise similarity scores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy ndarray</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.is_verbose">
+<span class="sig-name descname"><span class="pre">is_verbose</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.is_verbose" title="Permalink to this definition"></a></dt>
+<dd><p>Controls how much information is displayed during
+plotting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.sampling_ratio">
+<span class="sig-name descname"><span class="pre">sampling_ratio</span></span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.sampling_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>Fraction of dataset to keep for analysis.
+Default is 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.generate_similarity_matrix">
+<span class="sig-name descname"><span class="pre">generate_similarity_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.generate_similarity_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Set the similarity_matrix attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_most_similar_pairs">
+<span class="sig-name descname"><span class="pre">get_most_similar_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_most_similar_pairs" title="Permalink to this definition"></a></dt>
+<dd><p>Get the indexes of the most similar molecules as tuples.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_database_src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molecule_database_src_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_verbose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.__init__" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>sampling_ratio (float): Fraction of the molecules to keep. Useful</dt><dd><p>for selection subset of dataset for quick computations.</p>
-</dd>
-<dt>sampling_random_state (int): Random state used for sampling.</dt><dd><p>Default is 42.</p>
-</dd>
-</dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sampling_ratio</strong> (<em>float</em>) – Fraction of the molecules to keep. Useful
+for selection subset of dataset for quick computations.</p></li>
+<li><p><strong>sampling_random_state</strong> (<em>int</em>) – Random state used for sampling.
+Default is 42.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -339,22 +467,26 @@ similarity_matrix (numpy ndarray): n_mols X n_mols numpy matrix of</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.cluster">
 <span class="sig-name descname"><span class="pre">cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.cluster" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster the molecules of the MoleculeSet.</p>
-<dl>
-<dt>Args:</dt><dd><p>n_clusters (int): Number of clusters. Default is 8.
-clustering_method (str): Clustering algorithm to use. Default is</p>
-<blockquote>
-<div><p>None in which case the algorithm is chosen from the
-similarity measure in use.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>kwargs (keyword args): Key word arguments to supply to clustering</dt><dd><p>algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_clusters</strong> (<em>int</em>) – Number of clusters. Default is 8.</p></li>
+<li><p><strong>clustering_method</strong> (<em>str</em>) – Clustering algorithm to use. Default is
+None in which case the algorithm is chosen from the
+similarity measure in use.</p></li>
+<li><p><strong>kwargs</strong> (<em>keyword args</em>) – Key word arguments to supply to clustering
+algorithm.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Dictionary of cluster id</dt><dd><p>(key) –&gt; Names of molecules in cluster.</p>
 </dd>
 </dl>
+</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>cluster_grouped_mol_names (dict): Dictionary of cluster id</dt><dd><p>(key) –&gt; Names of molecules in cluster.</p>
-</dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cluster_grouped_mol_names (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -363,16 +495,20 @@ similarity measure in use.</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.compare_against_molecule">
 <span class="sig-name descname"><span class="pre">compare_against_molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.compare_against_molecule" title="Permalink to this definition"></a></dt>
 <dd><p>Compare the a query molecule to all molecules of the set.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>query_molecule (AIMSim.chemical_datastructures Molecule): Target</dt><dd><p>molecule to compare.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>query_molecule</strong> (<em>AIMSim.chemical_datastructures Molecule</em>) – Target
+molecule to compare.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Similarity scores between query</dt><dd><p>molecule and all other molecules of the molecule set.</p>
 </dd>
 </dl>
+</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>set_similarity (np.ndarray): Similarity scores between query</dt><dd><p>molecule and all other molecules of the molecule set.</p>
-</dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>set_similarity (np.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -386,8 +522,12 @@ similarity measure in use.</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_distance_matrix">
 <span class="sig-name descname"><span class="pre">get_distance_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_distance_matrix" title="Permalink to this definition"></a></dt>
 <dd><p>Get the distance matrix for the data set.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>np.ndarray: Distance matrix of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Distance matrix of the dataset.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -396,8 +536,12 @@ similarity measure in use.</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_mol_names">
 <span class="sig-name descname"><span class="pre">get_mol_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_mol_names" title="Permalink to this definition"></a></dt>
 <dd><p>Get names of the molecules in the set.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>np.ndarray: Array with molecules names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Array with molecules names.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -408,7 +552,13 @@ similarity measure in use.</p>
 <dd><dl class="simple">
 <dt>Get properties of all the molecules in the dataset.</dt><dd><p>If all molecules don’t have properties, None is returned.</p>
 </dd>
-<dt>Returns:</dt><dd><p>np.ndarray or None: Array with molecules properties or None.</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Array with molecules properties or None.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -417,26 +567,30 @@ similarity measure in use.</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_most_dissimilar_pairs">
 <span class="sig-name descname"><span class="pre">get_most_dissimilar_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_most_dissimilar_pairs" title="Permalink to this definition"></a></dt>
 <dd><p>Get pairs of samples which are least similar.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><dl class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>List(Tuple(Molecule, Molecule))</dt><dd><p>List of pairs of indices closest to one another.</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_most_similar_pairs">
-<span class="sig-name descname"><span class="pre">get_most_similar_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_most_similar_pairs" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">get_most_similar_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition"></a></dt>
 <dd><p>Get pairs of samples which are most similar.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><dl class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>List(Tuple(Molecule, Molecule))</dt><dd><p>List of pairs of Molecules closest to one another.
 Since ties are broken randomly, this may be non-transitive
 i.e. (A, B) =/=&gt; (B, A)</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,12 +605,16 @@ i.e. (A, B) =/=&gt; (B, A)</p>
 <span class="sig-name descname"><span class="pre">get_property_of_most_dissimilar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_property_of_most_dissimilar" title="Permalink to this definition"></a></dt>
 <dd><p>Get property of pairs of molecule
 which are most dissimilar to each other.
-Returns:</p>
+:returns: The first index is an array of reference mol</p>
 <blockquote>
-<div><p>(tuple): The first index is an array of reference mol
-properties and the second index is an array of the
+<div><p>properties and the second index is an array of the
 property of the respective most dissimilar molecule.</p>
 </div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(tuple)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -464,20 +622,28 @@ property of the respective most dissimilar molecule.</p>
 <span class="sig-name descname"><span class="pre">get_property_of_most_similar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_property_of_most_similar" title="Permalink to this definition"></a></dt>
 <dd><p>Get property of pairs of molecules
 which are most similar to each other.
-Returns:</p>
+:returns: The first index is an array of reference mol</p>
 <blockquote>
-<div><p>(tuple): The first index is an array of reference mol
-properties and the second index is an array of the
+<div><p>properties and the second index is an array of the
 property of the respective most similar molecule.</p>
 </div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(tuple)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_similarity_matrix">
 <span class="sig-name descname"><span class="pre">get_similarity_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.get_similarity_matrix" title="Permalink to this definition"></a></dt>
 <dd><p>Get the similarity matrix for the data set.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>np.ndarray: Similarity matrix of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Similarity matrix of the dataset.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
 <p>Note:
@@ -494,13 +660,15 @@ If un-set, sets the self.similarity_matrix attribute.</p>
 <span class="sig-name descname"><span class="pre">is_present</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.is_present" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the name of a target molecule in the molecule set to
 determine if the target molecule is present in the molecule set.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>target_molecule (AIMSim.chemical_datastructures.Molecule):</dt><dd><p>Target molecule to search.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>target_molecule</strong> (<em>AIMSim.chemical_datastructures.Molecule</em>) – Target molecule to search.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If the molecule is present in the molecule set or not.</p>
 </dd>
-<dt>Returns:</dt><dd><p>bool: If the molecule is present in the molecule set or not.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>

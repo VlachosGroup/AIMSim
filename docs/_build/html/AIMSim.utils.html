@@ -163,14 +163,15 @@
 <dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_barchart">
 <span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_barchart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtick_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_barchart" title="Permalink to this definition"></a></dt>
 <dd><p>Plot a bar chart</p>
-<dl>
-<dt>Args:</dt><dd><p>x (list or numpy array): X axis grid.
-heights (list or numpy array): Height of the bars.
-colors (list or str): Plot colors.
-xtick_labels (list, optional): Labels to use for each bar. Default is</p>
-<blockquote>
-<div><p>None in which case just the indices of the height are used.</p>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em><em> or </em><em>numpy array</em>) – X axis grid.</p></li>
+<li><p><strong>heights</strong> (<em>list</em><em> or </em><em>numpy array</em>) – Height of the bars.</p></li>
+<li><p><strong>colors</strong> (<em>list</em><em> or </em><em>str</em>) – Plot colors.</p></li>
+<li><p><strong>xtick_labels</strong> (<em>list</em><em>, </em><em>optional</em>) – Labels to use for each bar. Default is
+None in which case just the indices of the height are used.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -179,18 +180,19 @@ xtick_labels (list, optional): Labels to use for each bar. Default is</p>
 <dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_density">
 <span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">densities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_densities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legends</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_density" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the similarity density.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>densities (list or numpy ndarray): Vector(s) of densities to plot.</dt><dd><p>Shape (n_densities, n_points_per_density). n_densities can be 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>densities</strong> (<em>list</em><em> or </em><em>numpy ndarray</em>) – Vector(s) of densities to plot.
+Shape (n_densities, n_points_per_density). n_densities can be 1.</p></li>
+<li><p><strong>n_densities</strong> (<em>int</em>) – Number of densities.</p></li>
+<li><p><strong>densities.</strong> (<em>Pass this if passing more than one</em>) – </p></li>
+<li><p><strong>legends</strong> (<em>list</em>) – Optional list of legends for annotating
+different densities.</p></li>
+</ul>
 </dd>
 </dl>
-<p>n_densities (int): Number of densities.
-Pass this if passing more than one densities.
-legends (list): Optional list of legends for annotating</p>
-<blockquote>
-<div><p>different densities.</p>
-</div></blockquote>
-</dd>
+<dl>
 <dt>kwargs: dict</dt><dd><p>Keyword arguments to modify plot. Some common ones:
 xlabel: str</p>
 <blockquote>
@@ -221,9 +223,12 @@ if multiple densities are plotted.</p>
 <dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_heatmap">
 <span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_matrix</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_heatmap" title="Permalink to this definition"></a></dt>
 <dd><p>Plot a heatmap representing the input matrix.</p>
-<dl>
-<dt>Args:</dt><dd><p>input_matrix (np.ndarray): Matrix to be plotted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_matrix</strong> (<em>np.ndarray</em>) – Matrix to be plotted.</p>
 </dd>
+</dl>
+<dl>
 <dt>kwargs: dict</dt><dd><p>Keyword arguments to modify plot. Some common ones:
 xlabel: str</p>
 <blockquote>
@@ -253,25 +258,27 @@ xlabel: str</p>
 <dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_multiple_barchart">
 <span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_multiple_barchart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtick_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_multiple_barchart" title="Permalink to this definition"></a></dt>
 <dd><p>Plot a bar chart with multiplears per category.</p>
-<dl>
-<dt>Args:</dt><dd><p>x (list or numpy array): X axis grid.
-heights (list or numpy array): Heights of the sets of bars.</p>
-<blockquote>
-<div><p>Size of the array is (n_bars_per_xtick, n_xticks),</p>
-</div></blockquote>
-<dl class="simple">
-<dt>colors (list or str): Plot colors. If list supplied,</dt><dd><p>list[0] is used for first series, list[1] is used for
-second series and list[2] is used for third series etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list</em><em> or </em><em>numpy array</em>) – X axis grid.</p></li>
+<li><p><strong>heights</strong> (<em>list</em><em> or </em><em>numpy array</em>) – Heights of the sets of bars.
+Size of the array is (n_bars_per_xtick, n_xticks),</p></li>
+<li><p><strong>colors</strong> (<em>list</em><em> or </em><em>str</em>) – Plot colors. If list supplied,
+list[0] is used for first series, list[1] is used for
+second series and list[2] is used for third series etc.</p></li>
+<li><p><strong>legend_labels</strong> (<em>list</em><em> or </em><em>numpy array</em>) – Array of legend names for
+each bar type. Size is (n_bars_per_xticks). Default is None.</p></li>
+<li><p><strong>xtick_labels</strong> (<em>list</em><em>, </em><em>optional</em>) – Labels to use for each bar. Default is
+None in which case just the indices of the heights are used.</p></li>
+</ul>
 </dd>
-<dt>legend_labels (list or numpy array): Array of legend names for</dt><dd><p>each bar type. Size is (n_bars_per_xticks). Default is None.</p>
-</dd>
-<dt>xtick_labels (list, optional): Labels to use for each bar. Default is</dt><dd><p>None in which case just the indices of the heights are used.</p>
-</dd>
-</dl>
-</dd>
-<dt>Raises:</dt><dd><p>InvalidConfigurationError: If number of colors or legend labels
-supplied is less than (or equal to, for legend_labels) n_bars
-(per xtick).</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="AIMSim.html#AIMSim.exceptions.InvalidConfigurationError" title="AIMSim.exceptions.InvalidConfigurationError"><strong>InvalidConfigurationError</strong></a> – If number of colors or legend labels</p></li>
+<li><p><strong>supplied is less than</strong><strong> (or </strong><strong>equal to</strong><strong>, </strong><strong>for legend_labels</strong><strong>) </strong><strong>n_bars</strong> – </p></li>
+<li><p><strong>(</strong><strong>per xtick</strong><strong>)</strong><strong>.</strong> – </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -280,11 +287,15 @@ supplied is less than (or equal to, for legend_labels) n_bars
 <dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_parity">
 <span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_parity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_parity" title="Permalink to this definition"></a></dt>
 <dd><p>Plot parity plot of x vs y.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>x (n x 1 np.ndarray): values plotted along x axis
-y (n x 1 np.ndarray): values plotted along y axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>n x 1 np.ndarray</em>) – values plotted along x axis</p></li>
+<li><p><strong>y</strong> (<em>n x 1 np.ndarray</em>) – values plotted along y axis</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>if kwargs.show_plot set to False, returns pyplot axis.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if kwargs.show_plot set to False, returns pyplot axis.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -293,11 +304,15 @@ y (n x 1 np.ndarray): values plotted along y axis</p>
 <dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_scatter">
 <span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlier_idxs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_scatter" title="Permalink to this definition"></a></dt>
 <dd><p>Plot scatter plot of x vs y.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>x(np.ndarray or list): Values plotted along x axis.
-y(np.ndarray or list): Values plotted along y axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Values plotted along x axis.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Values plotted along y axis.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>if kwargs.show_plot set to False, returns pyplot axis.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if kwargs.show_plot set to False, returns pyplot axis.</p>
 </dd>
 </dl>
 </dd></dl>

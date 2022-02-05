@@ -104,10 +104,8 @@
 <dt class="sig sig-object py" id="AIMSim.tasks.cluster_data.ClusterData.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.cluster_data.ClusterData.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -123,10 +121,8 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.compare_target_molecule.CompareTargetMolecule.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.compare_target_molecule.CompareTargetMolecule.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 <dl class="py method">
@@ -136,19 +132,22 @@ Args:</p>
 dissimilar to a query Molecule.This is defined as the sorted set
 (decreasing dissimilarity)  of molecules with the highest
 (query_molecule, set_molecule) dissimilarity.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>molecule_set (AIMSim.chemical_datastructures MoleculeSet):</dt><dd><p>MoleculeSet object used to calculate sorted similarities.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>molecule_set</strong> (<em>AIMSim.chemical_datastructures MoleculeSet</em>) – MoleculeSet object used to calculate sorted similarities.
 Only used if self.similarities or
 self.sorted_similarities not set.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>np.ndarray(int): Ids of most similar molecules in decreasing</dt><dd><p>order of dissimilarity.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Ids of most similar molecules in decreasing</dt><dd><p>order of dissimilarity.</p>
 </dd>
 </dl>
 <p>np.ndarray(float): Corresponding similarity values.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray(int)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -160,19 +159,22 @@ self.sorted_similarities not set.</p>
 similar to a query Molecule.This is defined as the sorted set
 (decreasing similarity)  of molecules with the highest
 (query_molecule, set_molecule) similarity.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>molecule_set (AIMSim.chemical_datastructures MoleculeSet):</dt><dd><p>MoleculeSet object used to calculate sorted similarities.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>molecule_set</strong> (<em>AIMSim.chemical_datastructures MoleculeSet</em>) – MoleculeSet object used to calculate sorted similarities.
 Only used if self.similarities or
 self.sorted_similarities not set.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>np.ndarray(int): Ids of most similar</dt><dd><p>molecules in decreasing order of similarity.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Ids of most similar</dt><dd><p>molecules in decreasing order of similarity.</p>
 </dd>
 </dl>
 <p>np.ndarray(float): Corresponding similarity values.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray(int)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -188,18 +190,17 @@ self.sorted_similarities not set.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.tasks.identify_outliers.</span></span><span class="sig-name descname"><span class="pre">IdentifyOutliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.identify_outliers.IdentifyOutliers" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#AIMSim.tasks.task.Task" title="AIMSim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIMSim.tasks.task.Task</span></code></a></p>
 <p>Subclass of Task to identify outliers via an IsolationForest.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>Task (abstract class): Parent abstract class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Task</strong> (<em>abstract class</em>) – Parent abstract class.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.tasks.identify_outliers.IdentifyOutliers.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.identify_outliers.IdentifyOutliers.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -218,61 +219,62 @@ measure choice for brevity (although both measure and features are chosen)</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.measure_search.MeasureSearch.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.measure_search.MeasureSearch.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.tasks.measure_search.MeasureSearch.get_best_measure">
 <span class="sig-name descname"><span class="pre">get_best_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set_configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_subset_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optim_algo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'max_min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.measure_search.MeasureSearch.get_best_measure" title="Permalink to this definition"></a></dt>
 <dd><p>Get the best measure for quantity of interest.</p>
-<dl>
-<dt>Args:</dt><dd><dl>
-<dt>molecule_set_configs (dict): All configurations (except</dt><dd><p>fingerprint_type and similarity_measure) needed to form
-the moleculeSet.</p>
-</dd>
-<dt>fingerprint_type (str): Label to indicate which fingerprint to</dt><dd><p>use. If supplied, fingerprint is fixed and optimization
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>molecule_set_configs</strong> (<em>dict</em>) – All configurations (except
+fingerprint_type and similarity_measure) needed to form
+the moleculeSet.</p></li>
+<li><p><strong>fingerprint_type</strong> (<em>str</em>) – Label to indicate which fingerprint to
+use. If supplied, fingerprint is fixed and optimization
 carried out over similarity measures. Use None to indicate
 that optimization needs to be carried out over fingerprints.
-Default is None.</p>
-</dd>
-<dt>similarity_measure (str): Label to indicate which similarity</dt><dd><p>measure to use. If supplied, similarity measure is fixed
+Default is None.</p></li>
+<li><p><strong>similarity_measure</strong> (<em>str</em>) – Label to indicate which similarity
+measure to use. If supplied, similarity measure is fixed
 and optimization carried out over similarity measures.
 Use None to indicate that optimization needs to be carried
-out over fingerprints. Default is None.</p>
-</dd>
-<dt>subsample_subset_size (float): Fraction of molecule_set to</dt><dd><p>subsample. This is separate from the sample_ratio parameter
+out over fingerprints. Default is None.</p></li>
+<li><p><strong>subsample_subset_size</strong> (<em>float</em>) – Fraction of molecule_set to
+subsample. This is separate from the sample_ratio parameter
 used when creating a moleculeSet since it is recommended
 to have an more aggressive subsampling strategy for this task
 due to the combinatorial explosion of looking at multiple
-fingerprints and similarity measures. Default is 0.01.</p>
-</dd>
-<dt>optim_algo (str): Label to indicate the optimization algorithm</dt><dd><p>chosen. Options are:
+fingerprints and similarity measures. Default is 0.01.</p></li>
+<li><p><strong>optim_algo</strong> (<em>str</em>) – <p>Label to indicate the optimization algorithm
+chosen. Options are:
 ‘max’: The measure choice which maximizes correlation</p>
 <blockquote>
 <div><p>of properties between nearest neighbors (most similar).
 This is the default.</p>
 </div></blockquote>
 <dl class="simple">
-<dt>‘min’: The measure choice which minimizes the absolute value of</dt><dd><p>property correlation between furthest neighbors
+<dt>’min’: The measure choice which minimizes the absolute value of</dt><dd><p>property correlation between furthest neighbors
 (most dissimilar).</p>
 </dd>
-<dt>‘max_min’: The measure choice which maximizes correlation</dt><dd><p>of properties between nearest neighbors (most similar)
+<dt>’max_min’: The measure choice which maximizes correlation</dt><dd><p>of properties between nearest neighbors (most similar)
 and minimizes he absolute value of property correlation
 between furthest neighbors (most dissimilar).
 This is the default.</p>
 </dd>
 </dl>
+</p></li>
+<li><p><strong>only_metric</strong> (<em>bool</em>) – If True only similarity measures satisfying
+the metricity property
+(i.e. can be converted to distance metrics) are selected.</p></li>
+</ul>
 </dd>
-<dt>only_metric (bool): If True only similarity measures satisfying</dt><dd><p>the metricity property
-(i.e. can be converted to distance metrics) are selected.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl>
-<dt>(NamedTuple): Top performer with fields:</dt><dd><blockquote>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl>
+<dt>Top performer with fields:</dt><dd><blockquote>
 <div><p>fingerprint_type (str): Label for fingerprint type</p>
 </div></blockquote>
 <p>similarity_measure (str): Label for similarity measure
@@ -288,6 +290,10 @@ nearest_neighbor_correlation (float): Correlation of property</p>
 </dl>
 </dd>
 </dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(NamedTuple)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -306,10 +312,8 @@ nearest_neighbor_correlation (float): Correlation of property</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 <dl class="py method">
@@ -317,15 +321,14 @@ Args:</p>
 <span class="sig-name descname"><span class="pre">get_property_correlations_in_most_dissimilar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.get_property_correlations_in_most_dissimilar" title="Permalink to this definition"></a></dt>
 <dd><p>Get the correlation between the property of molecules and their
 furthest (most dissimilar) neighbors
-Args:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>molecule_set (AIMSim.chemical_datastructures MoleculeSet):</dt><dd><p>Molecules object of the molecule database.</p>
+:param molecule_set: Molecules object of the molecule database.
+:type molecule_set: AIMSim.chemical_datastructures MoleculeSet</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Correlation between properties.</p>
 </dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>Return:</dt><dd><p>(float): Correlation between properties.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(float)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -335,15 +338,14 @@ Args:</p>
 <span class="sig-name descname"><span class="pre">get_property_correlations_in_most_similar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.get_property_correlations_in_most_similar" title="Permalink to this definition"></a></dt>
 <dd><p>Get the correlation between the property of molecules and their
 nearest (most similar) neighbors
-Args:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>molecule_set (AIMSim.chemical_datastructures MoleculeSet):</dt><dd><p>Molecules object of the molecule database.</p>
+:param molecule_set: Molecules object of the molecule database.
+:type molecule_set: AIMSim.chemical_datastructures MoleculeSet</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Correlation between properties.</p>
 </dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>Return:</dt><dd><p>(float): Correlation between properties.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(float)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -362,10 +364,8 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.task.Task.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.task.Task.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -382,11 +382,10 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.task_manager.TaskManager.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tasks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.task_manager.TaskManager.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Sequentially launches all the tasks from the configuration file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>tasks (dict): The tasks field of the config yaml containing various</dt><dd><p>tasks and their parameters.</p>
-</dd>
-</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tasks</strong> (<em>dict</em>) – The tasks field of the config yaml containing various
+tasks and their parameters.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -405,10 +404,8 @@ Args:</p>
 <dt class="sig sig-object py" id="AIMSim.tasks.visualize_dataset.VisualizeDataset.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.tasks.visualize_dataset.VisualizeDataset.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Get configurations.
-Args:</p>
-<blockquote>
-<div><p>configs (dict): Parameters of the task</p>
-</div></blockquote>
+:param configs: Parameters of the task
+:type configs: dict</p>
 </dd></dl>
 
 </dd></dl>
