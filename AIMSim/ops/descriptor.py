@@ -1,15 +1,4 @@
-"""This module contains methods to featurize molecules.
-Notes
------
-Input to all methods is a Molecule object.
-Output of all methods is supplied with the method.
-
-Supported output type
---------------------
-'numpy': np.array
-'rdkit': rdkit.DataStructs.cDataStructs.ExplicitBitVect
-
-"""
+"""This module contains methods to featurize molecules."""
 import numpy as np
 from rdkit.Chem import rdmolops
 from rdkit import Chem
@@ -33,14 +22,20 @@ from ..exceptions import (
 class Descriptor:
     """Class for descriptors.
 
-    Attributes
-    ----------
-    label_: str
-        Label used to denote the type of descriptor being used.
-    numpy_: np.ndarray
-        Value of the descriptor in the numpy format.
-    rdkit_: rdkit.DataStructs.cDataStructs.UIntSparseIntVec
-        Value of the descriptor in the rdkit format.
+    Attributes:
+        label_ (str): Label used to denote the type of descriptor being used.
+        numpy_ (np.ndarray): Value of the descriptor in the numpy format.
+        rdkit_ (rdkit.DataStructs.cDataStructs.UIntSparseIntVec):  Value of
+            the descriptor in the rdkit format.
+
+    Methods:
+        to_numpy: Get the numpy_ attribute. If it does not exist,
+            it is created.
+        to_rdkit: Get the rdkit_ attribute. If it does not exist,
+            it is created.
+        check_init: check if the Descriptor object is initialized. This is
+            done by checking the existence of the numpy_ or rdkit_ attribute.
+
 
     """
 
@@ -81,7 +76,8 @@ class Descriptor:
         return self.rdkit_
 
     def check_init(self):
-        return getattr(self, "numpy_", None) is not None or getattr(self, "rdkit_", None) is not None
+        return getattr(self, "numpy_", None) is not None \
+               or getattr(self, "rdkit_", None) is not None
 
     def _set_morgan_fingerprint(self, molecule_graph, radius, n_bits, **kwargs):
         """Set the descriptor to a morgan fingerprint.
