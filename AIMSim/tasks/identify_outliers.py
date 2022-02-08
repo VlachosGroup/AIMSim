@@ -69,8 +69,8 @@ class IdentifyOutliers(Task):
             reduced_features = molecule_set.get_transformed_descriptors(
                 method_="pca")
             plot_scatter(
-                reduced_features[0],
-                reduced_features[1],
+                reduced_features[:, 0],
+                reduced_features[:, 1],
                 outlier_idxs=outlier_idxs,
                 title=f"2-D projected space",
                 **self.plot_settings["pairwise_plot"],

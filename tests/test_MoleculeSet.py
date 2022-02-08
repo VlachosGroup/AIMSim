@@ -1070,7 +1070,7 @@ class TestMoleculeSet(unittest.TestCase):
             is_verbose=True,
         )
         features = StandardScaler().fit_transform(features)
-        features = PCA().fit_transform(features)
+        features = PCA(n_components=2).fit_transform(features)
         error_matrix = features - molecule_set.get_transformed_descriptors()
         error_threshold = 1e-6
         self.assertLessEqual(
