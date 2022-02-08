@@ -104,7 +104,6 @@
 .. attribute:: clustering_method</p>
 <blockquote>
 <div><p>Label for the specific algorithm used.
-Supported methods are:
 ‘kmedoids’:</p>
 <blockquote>
 <div><p>for the K-Medoids algorithm [1]. This method is useful
@@ -218,10 +217,8 @@ sensible medoid.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments. These are passed to the
 estimators. Refer to the following documentation page for
-kmedoids:
-[<a class="reference external" href="https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html">https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html</a>]
-agglomerative hierarchical clustering:
-[<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html</a>]</p>
+kmedoids: <a class="reference external" href="https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html">https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html</a>
+agglomerative hierarchical clustering: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html</a></p>
 </dd>
 </dl>
 <p>References:
@@ -252,7 +249,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 :returns:</p>
 <blockquote>
 <div><dl class="simple">
-<dt>Returns <a href="#id3"><span class="problematic" id="id4">self.labels_</span></a>,</dt><dd><p>cluster labels of the training set samples.</p>
+<dt>Returns <a href="#id6"><span class="problematic" id="id7">self.labels_</span></a>,</dt><dd><p>cluster labels of the training set samples.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -281,14 +278,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 </section>
 <section id="module-AIMSim.ops.descriptor">
 <span id="aimsim-ops-descriptor-module"></span><h2>AIMSim.ops.descriptor module<a class="headerlink" href="#module-AIMSim.ops.descriptor" title="Permalink to this headline"></a></h2>
-<p>This module contains methods to featurize molecules.
-.. rubric:: Notes</p>
-<p>Input to all methods is a Molecule object.
-Output of all methods is supplied with the method.</p>
-<section id="supported-output-type">
-<h3>Supported output type<a class="headerlink" href="#supported-output-type" title="Permalink to this headline"></a></h3>
-<p>‘numpy’: np.array
-‘rdkit’: rdkit.DataStructs.cDataStructs.ExplicitBitVect</p>
+<p>This module contains methods to featurize molecules.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AIMSim.ops.descriptor.</span></span><span class="sig-name descname"><span class="pre">Descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor" title="Permalink to this definition"></a></dt>
@@ -319,7 +309,8 @@ Output of all methods is supplied with the method.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.rdkit_">
 <span class="sig-name descname"><span class="pre">rdkit_</span></span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.rdkit_" title="Permalink to this definition"></a></dt>
-<dd><p>Value of the descriptor in the rdkit format.</p>
+<dd><p>Value of
+the descriptor in the rdkit format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>rdkit.DataStructs.cDataStructs.UIntSparseIntVec</p>
@@ -328,13 +319,34 @@ Output of all methods is supplied with the method.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.to_numpy">
+<span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.to_numpy" title="Permalink to this definition"></a></dt>
+<dd><p>Get the <a href="#id8"><span class="problematic" id="id9">numpy_</span></a> attribute. If it does not exist,
+it is created.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.to_rdkit">
+<span class="sig-name descname"><span class="pre">to_rdkit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.to_rdkit" title="Permalink to this definition"></a></dt>
+<dd><p>Get the <a href="#id10"><span class="problematic" id="id11">rdkit_</span></a> attribute. If it does not exist,
+it is created.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.check_init">
+<span class="sig-name descname"><span class="pre">check_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.check_init" title="Permalink to this definition"></a></dt>
+<dd><p>check if the Descriptor object is initialized. This is
+done by checking the existence of the <a href="#id12"><span class="problematic" id="id13">numpy_</span></a> or <a href="#id14"><span class="problematic" id="id15">rdkit_</span></a> attribute.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.check_init">
-<span class="sig-name descname"><span class="pre">check_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.check_init" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">check_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -471,8 +483,8 @@ representation of descriptor values.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.to_numpy">
-<span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.to_numpy" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition"></a></dt>
 <dd><p>Convert arbitrary fingerprints of type in_dtype to numpy arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -482,13 +494,12 @@ representation of descriptor values.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AIMSim.ops.descriptor.Descriptor.to_rdkit">
-<span class="sig-name descname"><span class="pre">to_rdkit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.ops.descriptor.Descriptor.to_rdkit" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">to_rdkit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</section>
 </section>
 <section id="module-AIMSim.ops.similarity_measures">
 <span id="aimsim-ops-similarity-measures-module"></span><h2>AIMSim.ops.similarity_measures module<a class="headerlink" href="#module-AIMSim.ops.similarity_measures" title="Permalink to this headline"></a></h2>
