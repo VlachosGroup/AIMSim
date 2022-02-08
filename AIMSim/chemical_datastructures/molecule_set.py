@@ -19,25 +19,70 @@ from AIMSim.ops.similarity_measures import SimilarityMeasure
 
 
 class MoleculeSet:
-    """Collection of Molecule objects.
+    """An abstraction of a collection of molecules constituting a chemical
+        dataset.
 
-    Attributes:
-        molecule_database (List): List of Molecule objects.
-        similarity_measure (str): Similarity measure used.
-        similarity_matrix (numpy ndarray): n_mols X n_mols numpy matrix of
-            pairwise similarity scores.
-        is_verbose (bool): Controls how much information is displayed during
-            plotting.
-        sampling_ratio (float): Fraction of dataset to keep for analysis.
-            Default is 1.
+        Attributes:
+            is_verbose (bool): Controls how much information is displayed during
+                    plotting.
+            molecule_database (list): Collection of Molecule objects.
+            descriptor (Descriptor): Descriptor or fingerprint used to featurize
+                molecules in the molecule set.
+            similarity_measure (SimilarityMeasure): Similarity measure used.
+            similarity_matrix (numpy ndarray): n_mols X n_mols matrix of
+                pairwise similarity scores.
+            sampling_ratio (float): Fraction of dataset to keep for analysis.
+                Default is 1.
+            n_threads (int or str): Number of threads used for analysis. Can be
+               an integer denoting the number of threads or 'auto' to
+               heuristically determine if multiprocessing is worthwhile
+               based on a curve fitted to the speedup data in the manuscript SI
+               Default is 1.
 
-    Methods:
-        generate_similarity_matrix()
-            Set the similarity_matrix attribute.
-        get_most_similar_pairs()
-            Get the indexes of the most similar molecules as tuples.
+        Methods:
+            is_present(target_molecule): Searches the name of a target
+                molecule in the molecule set to determine if the target
+                molecule is present in the molecule set.
+            compare_against_molecule(query_molecule): Compare the a query
+                molecule to all molecules of the set.
+            get_most_similar_pairs(): Get pairs of samples which are
+                most similar.
+            get_most_dissimilar_pairs(): Get pairs of samples which are
+                least similar.
+            get_property_of_most_similar(): Get property of pairs of molecules
+                which are most similar to each other.
+            get_property_of_most_dissimilar(): Get property of pairs of
+                molecule which are most dissimilar to each other.
+            get_similarity_matrix(): Get the similarity matrix for the data set.
+            get_distance_matrix(): Get the distance matrix for the data set.
+                This is can only be done for similarity measures which yields
+                valid distances.
+            get_pairwise_similarities(): Get an array of pairwise similarities
+                of molecules in the set.
+            get_mol_names(): Get names of the molecules in the set.
+            get_mol_properties(): Get properties of all the molecules
+                in the dataset.
+            cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
+                the molecules of the MoleculeSet. Implemented methods are
+                'kmedoids': for the K-Medoids algorithm.
+                'complete_linkage', 'complete':
+                    Complete linkage agglomerative hierarchical clustering [2].
+                'average_linkage', 'average':
+                    average linkage agglomerative hierarchical clustering.
+                'single_linkage', 'single':
+                    single linkage agglomerative hierarchical clustering.
+                'ward':
+                    for Ward's algorithm.
+            get_cluster_labels(): Get cluster membership of Molecules.
+            get_transformed_descriptors(method_="pca", **kwargs): Use an
+                embedding method to transform molecular descriptor to a
+                low dimensional representation. Implemented methods are
+                Principal Component Analysis ('pca'),
+                Multidimensional scaling ('mds'),
+                t-SNE ('tsne'), Isomap ('isomap'),
+                Spectral Embedding ('spectral_embedding')
+
     """
-
     def __init__(
         self,
         molecule_database_src,
@@ -50,12 +95,13 @@ class MoleculeSet:
         sampling_ratio=1.0,
         sampling_random_state=42,
     ):
-        """
+        """Constructor for the MoleculeSet class.
         Args:
             sampling_ratio (float): Fraction of the molecules to keep. Useful
                 for selection subset of dataset for quick computations.
             sampling_random_state (int): Random state used for sampling.
                 Default is 42.
+
         """
         self.is_verbose = is_verbose
         self.molecule_database = None
@@ -80,8 +126,6 @@ class MoleculeSet:
             )
         self.similarity_measure = SimilarityMeasure(similarity_measure)
         if n_threads == 'auto':
-            # determine if multiprocessing is worthwhile based on a curve fitted
-            # to the speedup data in the manuscript SI
             def speedup_eqn(n_mols, n_procs):
                 return 1.8505e-4 * n_mols + 2.235e-1*n_procs + 7.082e-2
             n_cores = psutil.cpu_count(logical=False)
@@ -118,6 +162,7 @@ class MoleculeSet:
                 Returns a tuple. First element of tuple is the molecule_database.
                 Second element is array of features of shape
                 (len(molecule_database), n_features) or None if None found.
+
         """
         if not self.is_verbose:
             RDLogger.DisableLog('rdApp.*')
@@ -236,6 +281,14 @@ class MoleculeSet:
         return molecule_database, features
 
     def _subsample_database(self, sampling_ratio, random_state):
+        """Subsample a fixed proportion of the set.
+
+        Args:
+            sampling_ratio (float): Proportion of the set.
+            random_state (int): Seed for random number generator
+                used in sampling.
+
+        """
         n_samples = int(sampling_ratio * len(self.molecule_database))
         self.molecule_database = resample(
             self.molecule_database,
@@ -264,6 +317,7 @@ class MoleculeSet:
                 to use. Default is None.
             fingerprint_params (dict): Parameters to modify the fingerprint
                 generated. Default is None.
+
         """
         for molecule_id, molecule in enumerate(self.molecule_database):
             if fingerprint_type is not None:
@@ -404,11 +458,47 @@ class MoleculeSet:
         Args:
             similarity_measure (str): The similarity metric used. See
             docstring for list of supported similarity metrics.
+
         """
         self.similarity_measure = SimilarityMeasure(metric=similarity_measure)
 
     def _do_pca(self, get_component_info=False, **kwargs):
-        pca = PCA()
+        """Do principal component analysis (PCA) of the set [1].
+
+        Args:
+            get_component_info (bool): If set to true, more detailed
+                information about the embedding process is returned.
+                Default is False.
+            kwargs (dict): Keyword arguments to modify the behaviour of
+                the respective embedding methods. See the documentation pages
+                listed below for these arguments.
+                'pca': https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
+                ('n_components' is defaulted to 2).
+
+        Returns:
+            X (np.ndarray): Transformed embedding of shape
+                (n_samples, n_components)
+            component_info (dict): More detailed information about the
+                embedding_process. Optionally returned if 'get_component_info'
+                is set to True.
+                keys:
+                    "components_",
+                    "explained_variance_",
+                    "explained_variance_ratio_",
+                    "singular_values_"
+
+        References:
+            [1] Bishop, C. M., Pattern recognition and machine learning. 2006.
+
+        """
+        params = {'n_components': kwargs.get('n_components', 2),
+                  'copy': kwargs.get('copy', True),
+                  'whiten': kwargs.get('whiten',False),
+                  'svd_solver': kwargs.get('svd_solver', 'auto'),
+                  'tol': kwargs.get('tol', 0.0),
+                  'iterated_power':  kwargs.get('iterated_power', 'auto'),
+                  'random_state': kwargs.get('random_state',  None)}
+        pca = PCA(**params)
         X = np.array([molecule.get_descriptor_val()
                       for molecule in self.molecule_database])
         scaler = StandardScaler()
@@ -426,6 +516,37 @@ class MoleculeSet:
             return X, component_info
 
     def _do_mds(self, get_component_info=False, **kwargs):
+        """Do multidimensional scaling (mds) of the set [1-3].
+
+        Args:
+            get_component_info (bool): If set to true, more detailed
+                information about the embedding process is returned.
+                Default is False.
+            kwargs (dict): Keyword arguments to modify the behaviour of
+                the respective embedding methods. See the documentation pages
+                listed below for these arguments.
+                'mds':  https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html
+
+        Returns:
+            X (np.ndarray): Transformed embedding of shape
+                (n_samples, n_components)
+            component_info (dict): More detailed information about the
+                embedding_process. Optionally returned if 'get_component_info'
+                is set to True.
+                keys:
+                    "stress_",
+                    "n_iter_"
+
+        References:
+            [1] Borg, I. and P. Groenen, Modern Multidimensional Scaling:
+                Theory and Applications (Springer Series in Statistics). 2005.
+            [2] Kruskal, J., Nonmetric multidimensional scaling:
+                A numerical method. Psychometrika, 1964. 29(2): p. 115-129.
+            [3]	Kruskal, J., Multidimensional scaling by optimizing goodness
+                of fit to a nonmetric hypothesis. Psychometrika, 1964.
+                29: p. 1-27.
+
+        """
         params = {'n_components': kwargs.get('n_components', 2),
                   'metric': kwargs.get('metric', True),
                   'n_init': kwargs.get('n_init', 4),
@@ -447,6 +568,31 @@ class MoleculeSet:
             return X, component_info
 
     def _do_tsne(self, get_component_info=False, **kwargs):
+        """Do t-SNE (tsne) of the set [1].
+
+        Args:
+            get_component_info (bool): If set to true, more detailed
+                information about the embedding process is returned.
+                Default is False.
+            kwargs (dict): Keyword arguments to modify the behaviour of
+                the respective embedding methods. See the documentation pages
+                listed below for these arguments.
+                'tsne': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html
+
+        Returns:
+            X (np.ndarray): Transformed embedding of shape
+                (n_samples, n_components)
+            component_info (dict): More detailed information about the
+                embedding_process. Optionally returned if 'get_component_info'
+                is set to True.
+                keys:
+                    "kl_divergence",
+                    "n_iter_"
+        References:
+            [1] van der Maaten, L. and G. Hinton, Viualizing data using t-SNE.
+                Journal of Machine Learning Research, 2008. 9: p. 2579-2605.
+
+        """
         params = {'n_components': kwargs.get('n_components', 2),
                   'perplexity': kwargs.get('perplexity', 30),
                   'early_exaggeration': kwargs.get('early_exaggeration', 12),
@@ -474,6 +620,32 @@ class MoleculeSet:
             return X, component_info
 
     def _do_isomap(self, get_component_info=False, **kwargs):
+        """Do Isomap (isomap) of the set [1].
+
+        Args:
+            get_component_info (bool): If set to true, more detailed
+                information about the embedding process is returned.
+                Default is False.
+            kwargs (dict): Keyword arguments to modify the behaviour of
+                the respective embedding methods. See the documentation pages
+                listed below for these arguments.
+                'isomap': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html
+
+        Returns:
+            X (np.ndarray): Transformed embedding of shape
+                (n_samples, n_components)
+            component_info (dict): More detailed information about the
+                embedding_process. Optionally returned if 'get_component_info'
+                is set to True.
+                keys:
+                    "kernel_pca_",
+                    "nbrs_"
+        References:
+            [1] Tenenbaum, J.B., V.d. Silva, and J.C. Langford,
+                A Global Geometric Framework for Nonlinear Dimensionality
+                Reduction. Science, 2000. 290(5500): p. 2319-2323.
+
+        """
         params = {'n_neighbors': kwargs.get('n_neighbors', 5),
                   'n_components': kwargs.get('n_components', 2),
                   'eigen_solver': kwargs.get('eigen_solver', 'auto'),
@@ -498,6 +670,31 @@ class MoleculeSet:
             return X, component_info
 
     def _do_spectral_embedding(self, get_component_info=False, **kwargs):
+        """Do Spectral Embedding (spectral_embedding) of the set [1].
+
+        Args:
+            get_component_info (bool): If set to true, more detailed
+                information about the embedding process is returned.
+                Default is False.
+            kwargs (dict): Keyword arguments to modify the behaviour of
+                the respective embedding methods. See the documentation pages
+                listed below for these arguments.
+                'spectral_embedding': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html
+
+        Returns:
+            X (np.ndarray): Transformed embedding of shape
+                (n_samples, n_components)
+            component_info (dict): More detailed information about the
+                embedding_process. Optionally returned if 'get_component_info'
+                is set to True.
+                keys:
+                    "n_neighbors_"
+
+        References:
+            [1] Ng, A.Y., M.I. Jordan, and Y. Weiss. On Spectral Clustering:
+                Analysis and an algorithm. 2001. MIT Press.
+
+        """
         params = {'n_components': kwargs.get('n_components', 2),
                   'gamma': kwargs.get('gamma', None),
                   'random_state': kwargs.get('random_state', None),
@@ -525,7 +722,8 @@ class MoleculeSet:
                 Target molecule to search.
 
         Returns:
-            bool: If the molecule is present in the molecule set or not.
+            (bool): If the molecule is present in the molecule set or not.
+
         """
         for set_molecule in self.molecule_database:
             if Molecule().is_same(set_molecule, target_molecule):
@@ -543,6 +741,7 @@ class MoleculeSet:
         Returns:
             set_similarity (np.ndarray): Similarity scores between query
                 molecule and all other molecules of the molecule set.
+
         """
         query_molecule.match_fingerprint_from(self.molecule_database[0])
         set_similarity = [
@@ -561,6 +760,11 @@ class MoleculeSet:
                 List of pairs of Molecules closest to one another.
                 Since ties are broken randomly, this may be non-transitive
                 i.e. (A, B) =/=> (B, A)
+
+        Raises:
+            NotInitializedError: If MoleculeSet object does not have
+                similarity_measure attribute.
+
         """
         if self.similarity_matrix is None:
             raise NotInitializedError(
@@ -605,6 +809,10 @@ class MoleculeSet:
         Returns:
             List(Tuple(Molecule, Molecule))
                 List of pairs of indices closest to one another.
+        Raises:
+            NotInitializedError: If MoleculeSet object does not have
+                similarity_measure attribute.
+
         """
         if self.similarity_matrix is None:
             raise NotInitializedError(
@@ -625,10 +833,12 @@ class MoleculeSet:
     def get_property_of_most_similar(self):
         """Get property of pairs of molecules
         which are most similar to each other.
+
         Returns:
             (tuple): The first index is an array of reference mol
             properties and the second index is an array of the
-            property of the respective most similar molecule.
+            property of the respective most similar molecule. Skips pairs
+            of molecules for which molecule properties are not initialized.
 
         """
         similar_mol_pairs = self.get_most_similar_pairs()
@@ -644,10 +854,12 @@ class MoleculeSet:
     def get_property_of_most_dissimilar(self):
         """Get property of pairs of molecule
         which are most dissimilar to each other.
+
         Returns:
             (tuple): The first index is an array of reference mol
             properties and the second index is an array of the
-            property of the respective most dissimilar molecule.
+            property of the respective most dissimilar molecule. Skips pairs
+            of molecules for which molecule properties are not initialized.
 
         """
         dissimilar_mol_pairs = self.get_most_dissimilar_pairs()
@@ -664,10 +876,12 @@ class MoleculeSet:
         """Get the similarity matrix for the data set.
 
         Returns:
-            np.ndarray: Similarity matrix of the dataset.
+            (np.ndarray): Similarity matrix of the dataset.
+                Shape (n_samples, n_samples).
 
         Note:
-        If un-set, sets the self.similarity_matrix attribute.
+            If un-set, sets the self.similarity_matrix attribute.
+
         """
         if self.similarity_matrix is None:
             self._set_similarity_matrix()
@@ -675,9 +889,13 @@ class MoleculeSet:
 
     def get_distance_matrix(self):
         """Get the distance matrix for the data set.
+        This is can only be done for similarity measures which yields
+        valid distances.
 
         Returns:
-            np.ndarray: Distance matrix of the dataset.
+            (np.ndarray): Distance matrix of the dataset.
+                Shape (n_samples, n_samples).
+
         """
         if not hasattr(self.similarity_measure, 'to_distance'):
             raise InvalidConfigurationError(f'{self.similarity_measure.metric} '
@@ -686,6 +904,13 @@ class MoleculeSet:
         return self.similarity_measure.to_distance(self.similarity_matrix)
 
     def get_pairwise_similarities(self):
+        """Get an array of pairwise similarities of molecules in the set.
+
+        Returns:
+            (np.ndarray): Array of pairwise similarities of the molecules in
+            the set. Self similarities are not calculated.
+
+        """
         pairwise_similarity_vector = []
         for ref_mol in range(len(self.molecule_database)):
             for target_mol in range(ref_mol + 1, len(self.molecule_database)):
@@ -695,11 +920,14 @@ class MoleculeSet:
         return np.array(pairwise_similarity_vector)
 
     def get_mol_names(self):
-        """
-        Get names of the molecules in the set.
+        """Get names of the molecules in the set. This is the Molecule.mol_text
+        attribute of the Molecule objects in the MoleculeSet. If this attribute
+        is not present, then collection of mol_ids in the form
+        "id: " + str(mol_id) is returned.
 
         Returns:
             np.ndarray: Array with molecules names.
+
         """
         mol_names = []
         for mol_id, mol in enumerate(self.molecule_database):
@@ -715,6 +943,7 @@ class MoleculeSet:
             If all molecules don't have properties, None is returned.
          Returns:
             np.ndarray or None: Array with molecules properties or None.
+
         """
         mol_properties = []
         for mol in self.molecule_database:
@@ -731,13 +960,39 @@ class MoleculeSet:
             n_clusters (int): Number of clusters. Default is 8.
             clustering_method (str): Clustering algorithm to use. Default is
                 None in which case the algorithm is chosen from the
-                similarity measure in use.
+                similarity measure in use. Implemented clustering_methods are:
+                'kmedoids': for the K-Medoids algorithm [1].
+                    This method is useful
+                    when the molecular descriptors are continuous / Euclidean
+                    since it relies on the existence of a sensible medoid.
+                'complete_linkage', 'complete':
+                    Complete linkage agglomerative hierarchical clustering [2].
+                'average_linkage', 'average':
+                    average linkage agglomerative hierarchical clustering [2].
+                'single_linkage', 'single':
+                    single linkage agglomerative hierarchical clustering [2].
+                'ward':
+                    for Ward's algorithm [2]. This method is useful for
+                    Euclidean descriptors.
             kwargs (keyword args): Key word arguments to supply to clustering
-                algorithm.
+                algorithm. See the documentation pages
+                listed below for these arguments:
+                'kmedoids': https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html
+                'complete_linkage', 'average_linkage', 'single_linkage', 'ward'
+                    : https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
 
         Returns:
             cluster_grouped_mol_names (dict): Dictionary of cluster id
                 (key) --> Names of molecules in cluster.
+
+        References:
+        [1] Hastie, T., Tibshirani R. and Friedman J.,
+            The Elements of statistical Learning: Data Mining, Inference,
+            and Prediction, 2nd Ed., Springer Series in Statistics (2009).
+        [2] Murtagh, F. and Contreras, P., Algorithms for hierarchical
+            clustering: an overview. WIREs Data Mining Knowl Discov
+            (2011). https://doi.org/10.1002/widm.53
+
         """
         if not self.similarity_measure.is_distance_metric():
             raise InvalidConfigurationError(
@@ -764,6 +1019,12 @@ class MoleculeSet:
                                  **kwargs).fit(self.get_distance_matrix())
 
     def get_cluster_labels(self):
+        """
+        Get cluster membership of Molecules.
+        Raises:
+            NotInitializedError: If MoleculeSet object not clustered.
+
+        """
         try:
             return self.clusters_.get_labels()
         except AttributeError as e:
@@ -772,9 +1033,52 @@ class MoleculeSet:
             )
 
     def get_transformed_descriptors(self, method_="pca", **kwargs):
-        if method_.lower() == "pca":
+        """Use an embedding method to transform molecular descriptor to a
+        low dimensional representation.
+
+        Args:
+            method_ (str): The method used for generating lower dimensional
+                embedding. Implemented methods are:
+                'pca': Principal Component Analysis [1]
+                'mds': Multidimensional scaling [2-4]
+                'tsne': t-SNE [5]
+                'isomap': Isomap [6]
+                'spectral_embedding': Spectral Embedding [7]
+            kwargs (dict): Keyword arguments to modify the behaviour of
+                the respective embedding methods. See the documentation pages
+                listed below for these arguments.
+                'pca': https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
+                'mds': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html
+                'tsne': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html
+                'isomap': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html
+                'spectral_embedding': https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html
+        Returns:
+            X (np.ndarray): Transformed descriptors of shape
+                (n_samples, n_components).
+        Raises:
+            InvalidConfigurationError: If illegal method_ passed.
+
+        References:
+            [1] Bishop, C. M., Pattern recognition and machine learning. 2006.
+            [2] Borg, I. and P. Groenen, Modern Multidimensional Scaling:
+                Theory and Applications (Springer Series in Statistics). 2005.
+            [3] Kruskal, J., Nonmetric multidimensional scaling:
+                A numerical method. Psychometrika, 1964. 29(2): p. 115-129.
+            [4]	Kruskal, J., Multidimensional scaling by optimizing goodness
+                of fit to a nonmetric hypothesis. Psychometrika, 1964.
+                29: p. 1-27.
+            [5] van der Maaten, L. and G. Hinton, Viualizing data using t-SNE.
+                Journal of Machine Learning Research, 2008. 9: p. 2579-2605.
+            [6] Tenenbaum, J.B., V.d. Silva, and J.C. Langford,
+                A Global Geometric Framework for Nonlinear Dimensionality
+                Reduction. Science, 2000. 290(5500): p. 2319-2323.
+            [7] Ng, A.Y., M.I. Jordan, and Y. Weiss. On Spectral Clustering:
+                Analysis and an algorithm. 2001. MIT Press.
+
+        """
+        if method_.lower() == 'pca':
             return self._do_pca(**kwargs)
-        elif method_.lower() == "mds":
+        elif method_.lower() == 'mds':
             return self._do_mds(**kwargs)
         elif method_.lower() == 'tsne':
             return self._do_tsne(**kwargs)
