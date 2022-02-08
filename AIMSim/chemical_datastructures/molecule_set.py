@@ -493,11 +493,11 @@ class MoleculeSet:
         """
         params = {'n_components': kwargs.get('n_components', 2),
                   'copy': kwargs.get('copy', True),
-                  'whiten': kwargs.get('whiten',False),
+                  'whiten': kwargs.get('whiten', False),
                   'svd_solver': kwargs.get('svd_solver', 'auto'),
                   'tol': kwargs.get('tol', 0.0),
                   'iterated_power':  kwargs.get('iterated_power', 'auto'),
-                  'random_state': kwargs.get('random_state',  None)}
+                  'random_state': kwargs.get('random_state', None)}
         pca = PCA(**params)
         X = np.array([molecule.get_descriptor_val()
                       for molecule in self.molecule_database])
