@@ -8,8 +8,8 @@ class Cluster:
     """
     Wrapper class for different clustering algorithms.
     Attributes:
-        clustering_method (str): Label for the specific algorithm used.
-            Supported methods are:
+        clustering_method (str):
+            Label for the specific algorithm used.
             'kmedoids':
                 for the K-Medoids algorithm [1]. This method is useful
                 when the molecular descriptors are continuous / Euclidean
@@ -65,10 +65,8 @@ class Cluster:
                     Euclidean descriptors.
             kwargs (dict): Keyword arguments. These are passed to the
                 estimators. Refer to the following documentation page for
-                kmedoids:
-                [https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html]
-                agglomerative hierarchical clustering:
-                [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html]
+                kmedoids: https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html
+                agglomerative hierarchical clustering: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
 
         References:
         [1] Hastie, T., Tibshirani R. and Friedman J.,
