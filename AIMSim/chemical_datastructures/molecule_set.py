@@ -64,15 +64,16 @@ class MoleculeSet:
                 in the dataset.
             cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
                 the molecules of the MoleculeSet. Implemented methods are
-                'kmedoids': for the K-Medoids algorithm.
-                'complete_linkage', 'complete':
-                    Complete linkage agglomerative hierarchical clustering [2].
-                'average_linkage', 'average':
-                    average linkage agglomerative hierarchical clustering.
-                'single_linkage', 'single':
-                    single linkage agglomerative hierarchical clustering.
-                'ward':
-                    for Ward's algorithm.
+                    'kmedoids': for the K-Medoids algorithm.
+                    'complete_linkage', 'complete':
+                        Complete linkage agglomerative hierarchical
+                        clustering.
+                    'average_linkage', 'average':
+                        average linkage agglomerative hierarchical clustering.
+                    'single_linkage', 'single':
+                        single linkage agglomerative hierarchical clustering.
+                    'ward':
+                        for Ward's algorithm.
             get_cluster_labels(): Get cluster membership of Molecules.
             get_transformed_descriptors(method_="pca", **kwargs): Use an
                 embedding method to transform molecular descriptor to a
