@@ -64,7 +64,7 @@ Start ``AIMSim`` with a graphical user interface:
 
 ``AIMSim``
 
-Example Run:
+Start ``AIMSim`` with a prepared configuration YAML file (\ ``config.yaml``\ ):
 
 ``AIMSim config.yaml``
 
@@ -102,7 +102,7 @@ Currently Implemented Functionalities
    See Property Variation with Similarity: Visualize the correlation in the QoI between nearest neighbor molecules (most similar pairs in the molecule set) and between the furthest neighbor molecules (most dissimilar pairs in the molecule set). This is used to verify that the chosen measure is appropriate for the task.
 
 #. 
-   Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set. Embed the molecule set in 2D space using using principal component analysis (PCA)[3], multi-dimensional scaling[4], or TSNE[5].
+   Visualize Dataset: Visualize the diversity of the molecule set in the form of a pairwise similarity density and a similarity heatmap of the molecule set. Embed the molecule set in 2D space using using principal component analysis (PCA)[3], multi-dimensional scaling[4], t-SNE[5], Spectral Embedding[6], or Isomap[7].
 
 #. 
    Compare Target Molecule to Molecule Set: Run a similarity search of a molecule against a database of molecules (molecule set). This task can be used to identify the most similar (useful in virtual screening operations) or most dissimilar (useful in application that require high diversity such as training set design for machine learning models) molecules.
@@ -110,9 +110,9 @@ Currently Implemented Functionalities
 #. 
    Cluster Data: Cluster the molecule set. The following algorithms are implemented: 
 
-For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[6] (hierarchical clustering).
+For arbitrary molecular features or similarity metrics with defined Euclidean distances: K-Medoids[3] and Ward[8] (hierarchical clustering).
 
-For binary fingerprints: Complete, single and average linkage hierarchical clustering[6].
+For binary fingerprints: Complete, single and average linkage hierarchical clustering[8].
 
 The clustered data is plotted in two dimensions using principal component analysis (PCA)[3], multi-dimensional scaling[4], or TSNE[5].
 
@@ -187,4 +187,8 @@ Works Cited
 
 [5] van der Maaten, L.J.P. and Hinton, G.E., Visualizing High-Dimensional Data Using t-SNE. Journal of Machine Learning Research 9:2579-2605 (2008).
 
-[6] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). https://doi.org/10.1002/widm.53
+[6] Ng, A.Y., Jordan, M.I. and Weiss, Y., On Spectral Clustering: Analysis and an algorithm. ADVANCES IN NEURAL INFORMATION PROCESSING SYSTEMS, MIT Press (2001).
+
+[7] Tenenbaum, J.B., De Silva, V. and Langford, J.C, A global geometric framework for nonlinear dimensionality reduction, Science 290 (5500), 2319-23 (2000). https://doi.org/10.1126/science.290.5500.2319.
+
+[8] Murtagh, F. and Contreras, P., Algorithms for hierarchical clustering: an overview. WIREs Data Mining Knowl Discov (2011). https://doi.org/10.1002/widm.53
