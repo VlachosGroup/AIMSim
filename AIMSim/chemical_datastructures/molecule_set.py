@@ -63,8 +63,7 @@ class MoleculeSet:
             get_mol_properties(): Get properties of all the molecules
                 in the dataset.
             cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
-                the molecules of the MoleculeSet. Implemented methods are
-                    
+                the molecules of the MoleculeSet. Implemented methods.
                     'kmedoids': for the K-Medoids algorithm.
                     'complete_linkage', 'complete':
                         Complete linkage agglomerative hierarchical
