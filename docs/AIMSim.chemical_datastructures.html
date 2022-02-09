@@ -545,11 +545,13 @@ in the dataset.</p>
 <dt class="sig sig-object py" id="AIMSim.chemical_datastructures.molecule_set.MoleculeSet.cluster">
 <span class="sig-name descname"><span class="pre">cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.chemical_datastructures.molecule_set.MoleculeSet.cluster" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster
-the molecules of the MoleculeSet. Implemented methods are
-‘kmedoids’: for the K-Medoids algorithm.
+the molecules of the MoleculeSet. Implemented methods are</p>
+<blockquote>
+<div><p>‘kmedoids’: for the K-Medoids algorithm.
 ‘complete_linkage’, ‘complete’:</p>
 <blockquote>
-<div><p>Complete linkage agglomerative hierarchical clustering [2].</p>
+<div><p>Complete linkage agglomerative hierarchical
+clustering.</p>
 </div></blockquote>
 <dl class="simple">
 <dt>‘average_linkage’, ‘average’:</dt><dd><p>average linkage agglomerative hierarchical clustering.</p>
@@ -559,6 +561,7 @@ the molecules of the MoleculeSet. Implemented methods are
 <dt>‘ward’:</dt><dd><p>for Ward’s algorithm.</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
