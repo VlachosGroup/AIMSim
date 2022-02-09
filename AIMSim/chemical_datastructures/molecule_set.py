@@ -64,6 +64,7 @@ class MoleculeSet:
                 in the dataset.
             cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
                 the molecules of the MoleculeSet. Implemented methods are
+                    
                     'kmedoids': for the K-Medoids algorithm.
                     'complete_linkage', 'complete':
                         Complete linkage agglomerative hierarchical
