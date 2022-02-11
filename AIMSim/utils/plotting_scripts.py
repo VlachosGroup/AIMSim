@@ -82,7 +82,7 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
                 **kwargs)
     plt.xlabel(xlabel, fontsize=xlabel_fontsize)
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
-    if legends is not None:
+    if not legends == [None] * n_densities:
         plt.legend(fontsize=legend_fontsize)
     if plot_title is not None:
         plt.title(plot_title, fontsize=plot_title_fontsize)
