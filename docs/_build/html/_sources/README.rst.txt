@@ -149,6 +149,13 @@ For packaging on PyPI:
 
 Be sure to bump the version in ``__init__.py``.
 
+Citation
+--------
+
+If you use this code for scientific publications, please cite the following paper.
+
+Bhattacharjee, H.҂; Burns, J.҂; Vlachos, D.G. (2021): AIMSim: An Accessible Cheminformatics Platform for Similarity Operations on Chemicals Datasets. ChemRxiv. Preprint. https://doi.org/10.26434/chemrxiv-2022-nw6f5
+
 License
 -------
 
