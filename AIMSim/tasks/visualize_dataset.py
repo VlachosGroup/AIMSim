@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 from .task import Task
 from AIMSim.utils.plotting_scripts import plot_density, plot_heatmap, \
-    plot_scatter
+    plot_scatter, plot_scatter_interactive
 
 
 class VisualizeDataset(Task):
@@ -74,16 +74,17 @@ class VisualizeDataset(Task):
         dimension_1 = reduced_features[:, 0]
         dimension_2 = reduced_features[:, 1]
 
-        plot_scatter(
+        plot_scatter_interactive(
             dimension_1,
             dimension_2,
+            hover_names=molecule_set.get_mol_names(),
             xlabel=self.plot_settings["embedding_plot"]["xlabel"],
             ylabel=self.plot_settings["embedding_plot"]["ylabel"],
             title=self.plot_settings["embedding_plot"]["plot_title"],
             plot_color=self.plot_settings["embedding_plot"]["plot_color"],
             offset=0,
         )
-        plt.show()
+        #plt.show()
 
     def __str__(self):
         return "Task: Visualize a dataset"

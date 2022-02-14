@@ -8,7 +8,7 @@ import yaml
 from .task import Task
 from AIMSim.exceptions import InvalidConfigurationError
 from AIMSim.utils.plotting_scripts import plot_barchart, plot_density
-from AIMSim.utils.plotting_scripts import plot_scatter
+from AIMSim.utils.plotting_scripts import plot_scatter_interactive
 
 
 class ClusterData(Task):
@@ -134,17 +134,15 @@ class ClusterData(Task):
         dimension_1 = reduced_features[:, 0]
         dimension_2 = reduced_features[:, 1]
 
-        plot_scatter(
+        plot_scatter_interactive(
             dimension_1,
             dimension_2,
+            cluster_memberships=cluster_labels,
             xlabel=self.plot_settings["embedding_plot"]["xlabel"],
             ylabel=self.plot_settings["embedding_plot"]["ylabel"],
             title=f"2-D projected space",
-            plot_color=[
-                self.plot_settings["cluster_plot"]["cluster_colors"][cluster_num]
-                for cluster_num in cluster_labels
-            ],
-            offset=0,
+            hover_names=mol_names,
+            cluster_colors=self.plot_settings["cluster_plot"]["cluster_colors"],
         )
         plt.show()
 

@@ -2,6 +2,9 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 from seaborn import kdeplot, heatmap
 
 from AIMSim.exceptions import InvalidConfigurationError
@@ -382,3 +385,118 @@ def plot_scatter(x, y, outlier_idxs=None, **kwargs):
         pass
     else:
         return axes
+
+
+def plot_scatter_interactive(x,
+                             y,
+                             hover_names=None,
+                             outlier_idxs=None,
+                             cluster_memberships=None,
+                             **kwargs):
+        """Plot interactive scatter plot of x vs y.
+
+        Args:
+            x (np.ndarray or list): Values plotted along x axis.
+            y (np.ndarray or list): Values plotted along y axis.
+            hover_names (n x 1 np.ndarray): Names of points that will appear
+                when cursor is hovered around. Default is None in which case
+                the default is used.
+            outlier_idxs (list or np.ndarray): List of idx of points which
+                corresponds to outliers.
+            cluster_memberships (list or np.ndarray): List of cluster
+                memberships of all the points.
+                Should be the same shape as x or y.
+
+        """
+        opacity = kwargs.get('alpha', 0.7)
+        marker_size = kwargs.get('s', 20)
+        plot_color = kwargs.get('plot_color', 'green')
+        outlier_color = kwargs.get('outlier_color', 'red')
+        cluster_colors = kwargs.get('cluster_colors', None)
+        title = kwargs.get('title', None)
+        xlabel = kwargs.get('xlabel', 'Dimension 1')
+        ylabel = kwargs.get('ylabel', 'Dimension 2')
+
+        if cluster_memberships is not None:
+            df = pd.DataFrame({
+                'x': x,
+                'y': y,
+                'cluster_memberships': cluster_memberships,
+                'hover_names': hover_names
+            })
+            fig = go.Figure()
+            all_cluster_idx = np.unique(cluster_memberships)
+            if cluster_colors is None \
+                    or len(cluster_colors) < len(all_cluster_idx):
+                cluster_colors = [None] * len(all_cluster_idx)
+
+            for idx, cluster_id in enumerate(all_cluster_idx):
+                cluster_df = df.loc[df['cluster_memberships'] == cluster_id]
+                fig.add_trace(go.Scatter(x=cluster_df['x'].values,
+                                         y=cluster_df['y'].values,
+                                         name=f'cluster {cluster_id}',
+                                         text=cluster_df['hover_names'].values,
+                                         mode='markers',
+                                         marker_size=marker_size,
+                                         marker_color=cluster_colors[idx],
+                                         opacity=opacity,
+                                         marker_symbol='circle',
+                                         marker_line_width=0))
+
+        else:
+            is_outlier = [0] * len(x)
+            if outlier_idxs is not None:
+                for id in outlier_idxs:
+                    is_outlier[id] = 1
+            df = pd.DataFrame({
+                'x': x,
+                'y': y,
+                'is_outlier': is_outlier,
+                'hover_names': hover_names
+            })
+
+            fig = go.Figure()
+            non_outliers = df.loc[df['is_outlier'] == 0]
+            fig.add_trace(go.Scatter(x=non_outliers['x'].values,
+                                     y=non_outliers['y'].values,
+                                     name='molecule',
+                                     text=non_outliers['hover_names'].values,
+                                     mode='markers',
+                                     marker_size=marker_size,
+                                     opacity=opacity,
+                                     marker_color=plot_color,
+                                     marker_symbol='circle',
+                                     marker_line_width=0))
+            if outlier_idxs is not None:
+                outliers = df.loc[df['is_outlier'] == 1]
+                fig.add_trace(go.Scatter(x=outliers['x'].values,
+                                         y=outliers['y'].values,
+                                         name='outlier',
+                                         text=outliers['hover_names'].values,
+                                         mode='markers',
+                                         marker_size=marker_size,
+                                         opacity=opacity,
+                                         marker_color=outlier_color,
+                                         marker_symbol='x',
+                                         marker_line_width=int(marker_size/10),
+                                         marker_line_color='black'))
+        fig.update_layout(
+            xaxis_title=xlabel,
+            yaxis_title=ylabel,
+            font=dict(
+                family="Courier New, monospace",
+                size=20))
+
+        if title is not None:
+            fig.update_layout(title={'text': title,
+                                     'y':0.9,
+                                     'x':0.5,
+                                     'xanchor': 'center',
+                                     'yanchor': 'top',
+                                     'font_size': 30})
+
+        if hover_names is not None:
+            fig.update_traces(hovertemplate="<b>%{text}</b><br><br>")
+        fig.show()
+
+
