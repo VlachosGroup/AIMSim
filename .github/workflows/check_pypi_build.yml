@@ -1,0 +1,29 @@
+name: Check PyPI Build
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          # install our dependencies
+          conda install python=3.7
+          conda install -c rdkit rdkit
+          python -m pip install rdkit-pypi
+          python -m pip install networkx==2.1
+          python -m pip install pycodestyle autopep8
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
+          python -m pip install build
+      
+      - name: Check Errors
+        run: |
+          python -m build
