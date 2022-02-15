@@ -81,19 +81,21 @@ class TestTaskManager(unittest.TestCase):
         """
         # this magical context manager sends all plots to a blank function
         with patch("AIMSim.utils.plotting_scripts.plt.show") as test_plot:
-            task_man = TaskManager(
-                tasks=self.tasks_dict
-            )
-            task_man(
-                molecule_set_configs={
-                    'molecule_database': self.text_fpath,
-                    'molecule_database_source_type': 'text',
-                    'fingerprint_type': "morgan_fingerprint",
-                    'similarity_measure': "tanimoto",
-                    'is_verbose': False,
-                }
-            )
-            self.assertTrue(test_plot.called, "No plots were created.")
+            with patch("AIMSim.utils.plotting_scripts.go.Figure.show") as test_int_plot:
+                task_man = TaskManager(
+                    tasks=self.tasks_dict
+                )
+                task_man(
+                    molecule_set_configs={
+                        'molecule_database': self.text_fpath,
+                        'molecule_database_source_type': 'text',
+                        'fingerprint_type': "morgan_fingerprint",
+                        'similarity_measure': "tanimoto",
+                        'is_verbose': False,
+                    }
+                )
+                self.assertTrue(
+                    test_plot.called or test_int_plot.called, "No plots were created.")
 
 
 if __name__ == "__main__":
