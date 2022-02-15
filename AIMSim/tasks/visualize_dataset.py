@@ -84,7 +84,7 @@ class VisualizeDataset(Task):
             plot_color=self.plot_settings["embedding_plot"]["plot_color"],
             offset=0,
         )
-        #plt.show()
+        # plt.show()
 
     def __str__(self):
         return "Task: Visualize a dataset"
