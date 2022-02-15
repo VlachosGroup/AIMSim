@@ -50,6 +50,7 @@ class ClusterData(Task):
             "embedding_plot_settings",
             {}))
 
+
         self.log_fpath = self.configs.get("log_file_path", None)
         if self.log_fpath is not None:
             log_dir = dirname(self.log_fpath)
@@ -59,6 +60,7 @@ class ClusterData(Task):
         if self.cluster_fpath is not None:
             cluster_dir = dirname(self.cluster_fpath)
             makedirs(cluster_dir, exist_ok=True)
+
 
     def __call__(self, molecule_set):
         try:
