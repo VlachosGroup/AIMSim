@@ -317,6 +317,28 @@ None in which case just the indices of the heights are used.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="AIMSim.utils.plotting_scripts.plot_scatter_interactive">
+<span class="sig-prename descclassname"><span class="pre">AIMSim.utils.plotting_scripts.</span></span><span class="sig-name descname"><span class="pre">plot_scatter_interactive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hover_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlier_idxs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_memberships</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AIMSim.utils.plotting_scripts.plot_scatter_interactive" title="Permalink to this definition"></a></dt>
+<dd><p>Plot interactive scatter plot of x vs y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Values plotted along x axis.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Values plotted along y axis.</p></li>
+<li><p><strong>hover_names</strong> (<em>n x 1 np.ndarray</em>) – Names of points that will appear
+when cursor is hovered around. Default is None in which case
+the default is used.</p></li>
+<li><p><strong>outlier_idxs</strong> (<em>list</em><em> or </em><em>np.ndarray</em>) – List of idx of points which
+corresponds to outliers.</p></li>
+<li><p><strong>cluster_memberships</strong> (<em>list</em><em> or </em><em>np.ndarray</em>) – List of cluster
+memberships of all the points.
+Should be the same shape as x or y.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-AIMSim.utils">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-AIMSim.utils" title="Permalink to this headline"></a></h2>
