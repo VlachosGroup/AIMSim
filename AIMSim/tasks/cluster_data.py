@@ -61,7 +61,6 @@ class ClusterData(Task):
             cluster_dir = dirname(self.cluster_fpath)
             makedirs(cluster_dir, exist_ok=True)
 
-
     def __call__(self, molecule_set):
         try:
             molecule_set.cluster(
