@@ -2,7 +2,7 @@
 from .task import Task
 from sklearn.ensemble import IsolationForest
 import warnings
-from AIMSim.utils.plotting_scripts import plot_scatter
+from AIMSim.utils.plotting_scripts import plot_scatter_interactive
 import matplotlib.pyplot as plt
 
 
@@ -68,14 +68,14 @@ class IdentifyOutliers(Task):
         if self.plot_outlier:
             reduced_features = molecule_set.get_transformed_descriptors(
                 method_="pca")
-            plot_scatter(
+            plot_scatter_interactive(
                 reduced_features[:, 0],
                 reduced_features[:, 1],
                 outlier_idxs=outlier_idxs,
                 title=f"2-D projected space",
                 **self.plot_settings["pairwise_plot"],
             )
-            plt.show()
+
         print("~" * 58)
         print("Outlier detection complete.")
         print("~" * 58)

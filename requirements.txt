@@ -13,3 +13,4 @@ networkx==2.1
 rdkit-pypi
 psutil
 padelpy
+plotly
