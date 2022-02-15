@@ -50,7 +50,6 @@ class ClusterData(Task):
             "embedding_plot_settings",
             {}))
 
-
         self.log_fpath = self.configs.get("log_file_path", None)
         if self.log_fpath is not None:
             log_dir = dirname(self.log_fpath)
@@ -141,7 +140,7 @@ class ClusterData(Task):
             cluster_memberships=cluster_labels,
             xlabel=self.plot_settings["embedding_plot"]["xlabel"],
             ylabel=self.plot_settings["embedding_plot"]["ylabel"],
-            title=f"2-D projected space",
+            title=self.plot_settings["embedding_plot"]['plot_title'],
             hover_names=mol_names,
             cluster_colors=self.plot_settings["cluster_plot"]["cluster_colors"],
         )
