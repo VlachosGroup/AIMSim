@@ -94,7 +94,7 @@ class Descriptor:
 
         """
         return getattr(self, "numpy_", None) is not None \
-               or getattr(self, "rdkit_", None) is not None
+            or getattr(self, "rdkit_", None) is not None
 
     def _set_morgan_fingerprint(self, molecule_graph, radius, n_bits, **kwargs):
         """Set the descriptor to a morgan fingerprint.
