@@ -44,11 +44,11 @@ class Descriptor:
             self.set_manually(arbitrary_descriptor_val=value)
 
     def to_numpy(self):
-        """Convert arbitrary fingerprints of type in_dtype to numpy arrays.
+        """Return numpy_ attribute of Descriptor.
+        Attribute will be initialized if not present.
 
-        Returns
-        -------
-        np.array
+        Returns:
+            (np.array): Numpy vector of descriptor.
 
         """
         if self.check_init() is False:
@@ -63,6 +63,17 @@ class Descriptor:
         return self.numpy_
 
     def to_rdkit(self):
+        """Return rdkit_ attribute of Descriptor.
+
+        Returns:
+            (DataStructs.ExplicitBitVect): Fingerprint value as a bit vector.
+
+        Raises:
+            (NotInitializedError): If object not initialized with a fingerprint.
+            (ValueError): If only arbitrary numpy descriptor is used to
+                initialize the object. This cannot be converted to bit vectors.
+
+        """
         if self.check_init() is False:
             raise NotInitializedError(
                 "Descriptor value not generated. Use "
@@ -76,22 +87,25 @@ class Descriptor:
         return self.rdkit_
 
     def check_init(self):
+        """Check initialization status of the Descriptor object.
+
+        Returns:
+            (bool): True if object is initialized.
+
+        """
         return getattr(self, "numpy_", None) is not None \
-               or getattr(self, "rdkit_", None) is not None
+            or getattr(self, "rdkit_", None) is not None
 
     def _set_morgan_fingerprint(self, molecule_graph, radius, n_bits, **kwargs):
         """Set the descriptor to a morgan fingerprint.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
-        radius: int
-            Radius of fingerprint, 3 corresponds to diameter (ECFP)6.
-        n_bits: int
-            Number of bits to use if Morgan Fingerprint wanted as
-            a bit vector. If set to None, Morgan fingerprint returned
-            as count.
+        Args:
+            molecule_graph (RDKIT object): Graph of molecule to be
+                fingerprinted.
+            radius (int): Radius of fingerprint, 3 corresponds to ECFP6.
+            n_bits (int):Number of bits to use if Morgan Fingerprint wanted as
+                a bit vector. If set to None, Morgan fingerprint returned
+                as count.
 
         """
         self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(
@@ -105,14 +119,13 @@ class Descriptor:
     ):
         """Set the descriptor to a topological fingerprint.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
-        min_path: int
-            Minimum path used to generate the topological fingerprint.
-        max_path: int
-            Maximum path used to generate the topological fingerprint.
+        Args:
+            molecule_graph (RDKIT object): Graph of molecule to be
+                fingerprinted.
+            min_path (int): Minimum path used to generate the
+                topological fingerprint.
+            max_path (int): Maximum path used to generate the topological
+                fingerprint.
 
         """
         if molecule_graph.GetNumAtoms() <= min_path:
@@ -177,10 +190,9 @@ class Descriptor:
     def _set_daylight_fingerprint(self, molecule_graph, **kwargs):
         """Set the descriptor to a daylight fingerprint.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
+        Args:
+            molecule_graph (RDKIT object): Graph of molecule to be
+                fingerprinted.
 
         """
         # returns an ExplicitBitVect
@@ -191,10 +203,9 @@ class Descriptor:
     def _set_maccs_keys(self, molecule_graph, **kwargs):
         """Set the descriptor to MACCS keys.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
+        Args:
+            molecule_graph (RDKIT object): Graph of molecule to be
+                fingerprinted.
 
         """
         # returns an ExplicitBitVect
@@ -205,10 +216,9 @@ class Descriptor:
     def _set_atom_pair_fingerprint(self, molecule_graph, **kwargs):
         """Set the descriptor to an atom-pair fingerprint.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
+        Args:
+            molecule_graph (RDKIT object): Graph of molecule to be
+                fingerprinted.
 
         """
         # returns a SparseBitVect
@@ -221,10 +231,9 @@ class Descriptor:
     def _set_torsion_fingerprint(self, molecule_graph, **kwargs):
         """Set the descriptor to a torsion fingerprint.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
+        Args:
+            molecule_graph (RDKIT object): Graph of molecule to be
+                fingerprinted.
 
         """
         # returns a long sparse int vector
@@ -236,10 +245,8 @@ class Descriptor:
     def _set_ccbmlib_fingerprint(self, molecule_graph, descriptor, **kwargs):
         """Set the descriptor to fingerprint from ccbmlib.
 
-        Parameters
-        ----------
-        molecule_graph: RDKIT object
-            Graph of molecule to be fingerprinted.
+        Args:
+        molecule_graph (RDKIT object): Graph of molecule to be fingerprinted.
 
         """
         # returns a list of ints which represent the on bits (features)
