@@ -487,7 +487,7 @@ def plot_scatter_interactive(
         yaxis_title=ylabel,
         font=dict(
             family="Courier New, monospace",
-            size=20))
+            size=40))
 
     if title is not None:
         fig.update_layout(title={'text': title,
@@ -495,7 +495,7 @@ def plot_scatter_interactive(
                                  'x': 0.5,
                                  'xanchor': 'center',
                                  'yanchor': 'top',
-                                 'font_size': 30})
+                                 'font_size': 40})
 
     if hover_names is not None:
         fig.update_traces(hovertemplate="<b>%{text}</b><br><br>")
