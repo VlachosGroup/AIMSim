@@ -78,12 +78,12 @@ class AIMSimUiApp:
         self.targetMoleculeEntry.delete("0", "end")
         self.targetMoleculeEntry.insert("0", _text_)
         self.targetMoleculeEntry.place(
-            anchor="center", relx="0.5", rely="0.3", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.28", x="0", y="0"
         )
         self.targetMoleculeLabel = ttk.Label(self.mainframe)
         self.targetMoleculeLabel.configure(text="Target Molecule:")
         self.targetMoleculeLabel.place(
-            anchor="center", relx="0.5", rely="0.24", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.22", x="0", y="0"
         )
         self.similarityPlotsCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotsCheckbutton.configure(text="Similarity Plots")
@@ -99,7 +99,7 @@ class AIMSimUiApp:
         self.similarityPlotCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotCheckbutton.configure(text="Similarity Plot")
         self.similarityPlotCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.37", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.35", x="0", y="0"
         )
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly"
@@ -109,12 +109,12 @@ class AIMSimUiApp:
         )
         self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
-            anchor="center", relx="0.55", rely="0.48", x="0", y="0"
+            anchor="center", relx="0.55", rely="0.46", x="0", y="0"
         )
         self.similarityMeasureLabel = ttk.Label(self.mainframe)
         self.similarityMeasureLabel.configure(text="Similarity Measure:")
         self.similarityMeasureLabel.place(
-            anchor="center", relx="0.5", rely="0.42", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.4", x="0", y="0"
         )
         self.molecularDescriptorLabel = ttk.Label(self.mainframe)
         self.molecularDescriptorLabel.configure(text="Molecular Descriptor:")
