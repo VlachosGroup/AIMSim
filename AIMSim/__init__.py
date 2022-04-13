@@ -3,4 +3,4 @@ from . import tasks
 from . import chemical_datastructures
 from . import utils
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
