@@ -109,7 +109,7 @@ class AIMSimUiApp:
         )
         self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
-            anchor="center", relx="0.55", rely="0.46", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.46", x="0", y="0"
         )
         self.similarityMeasureLabel = ttk.Label(self.mainframe)
         self.similarityMeasureLabel.configure(text="Similarity Measure:")
@@ -148,7 +148,7 @@ class AIMSimUiApp:
             "<<ComboboxSelected>>", updateCompatibleMetricsListener
         )
         self.molecularDescriptorCombobox.place(
-            anchor="center", relx="0.55", rely="0.60", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.60", x="0", y="0"
         )
         self.molecularDescriptorCombobox.current(0)
         self.runButton = ttk.Button(self.mainframe)
@@ -174,7 +174,7 @@ class AIMSimUiApp:
             state="normal", text="Show experimental descriptors"
         )
         self.showAllDescriptorsButton.place(
-            anchor="center", relx="0.45", rely="0.67", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.67", x="0", y="0"
         )
         self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
         self.multiprocessingCheckbutton.configure(
