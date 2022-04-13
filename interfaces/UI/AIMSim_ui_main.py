@@ -64,12 +64,12 @@ class AIMSimUiApp:
         self.databaseFileEntry.delete("0", "end")
         self.databaseFileEntry.insert("0", _text_)
         self.databaseFileEntry.place(
-            anchor="center", relx="0.5", rely="0.03", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.08", x="0", y="0"
         )
         self.databaseFileLabel = ttk.Label(self.mainframe)
         self.databaseFileLabel.configure(text="Database File:")
         self.databaseFileLabel.place(
-            anchor="center", relx=".2", rely="0.03", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.02", x="0", y="0"
         )
         self.targetMoleculeEntry = ttk.Entry(
             self.mainframe, textvariable=self.targetMolecule
@@ -78,28 +78,28 @@ class AIMSimUiApp:
         self.targetMoleculeEntry.delete("0", "end")
         self.targetMoleculeEntry.insert("0", _text_)
         self.targetMoleculeEntry.place(
-            anchor="center", relx="0.5", rely="0.27", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.3", x="0", y="0"
         )
         self.targetMoleculeLabel = ttk.Label(self.mainframe)
         self.targetMoleculeLabel.configure(text="Target Molecule:")
         self.targetMoleculeLabel.place(
-            anchor="center", relx="0.17", rely="0.27", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.24", x="0", y="0"
         )
         self.similarityPlotsCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotsCheckbutton.configure(text="Similarity Plots")
         self.similarityPlotsCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.1", x="0", y="0"
+            anchor="center", relx="0.3", rely="0.15", x="0", y="0"
         )
         self.propertySimilarityCheckbutton = ttk.Checkbutton(self.mainframe)
         self.propertySimilarityCheckbutton.configure(
             text="Property Similarity Plot")
         self.propertySimilarityCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.15", x="0", y="0"
+            anchor="center", relx="0.7", rely="0.15", x="0", y="0"
         )
         self.similarityPlotCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotCheckbutton.configure(text="Similarity Plot")
         self.similarityPlotCheckbutton.place(
-            anchor="center", relx="0.5", rely="0.35", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.37", x="0", y="0"
         )
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly"
@@ -109,17 +109,17 @@ class AIMSimUiApp:
         )
         self.similarityMeasureCombobox.current(0)
         self.similarityMeasureCombobox.place(
-            anchor="center", relx="0.55", rely="0.45", x="0", y="0"
+            anchor="center", relx="0.55", rely="0.48", x="0", y="0"
         )
         self.similarityMeasureLabel = ttk.Label(self.mainframe)
         self.similarityMeasureLabel.configure(text="Similarity Measure:")
         self.similarityMeasureLabel.place(
-            anchor="center", relx="0.2", rely="0.45", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.42", x="0", y="0"
         )
         self.molecularDescriptorLabel = ttk.Label(self.mainframe)
         self.molecularDescriptorLabel.configure(text="Molecular Descriptor:")
         self.molecularDescriptorLabel.place(
-            anchor="center", relx="0.18", rely="0.55", x="0", y="0"
+            anchor="center", relx="0.5", rely="0.54", x="0", y="0"
         )
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly"
@@ -148,7 +148,7 @@ class AIMSimUiApp:
             "<<ComboboxSelected>>", updateCompatibleMetricsListener
         )
         self.molecularDescriptorCombobox.place(
-            anchor="center", relx="0.55", rely="0.55", x="0", y="0"
+            anchor="center", relx="0.55", rely="0.60", x="0", y="0"
         )
         self.molecularDescriptorCombobox.current(0)
         self.runButton = ttk.Button(self.mainframe)
@@ -174,7 +174,7 @@ class AIMSimUiApp:
             state="normal", text="Show experimental descriptors"
         )
         self.showAllDescriptorsButton.place(
-            anchor="center", relx="0.45", rely="0.65", x="0", y="0"
+            anchor="center", relx="0.45", rely="0.67", x="0", y="0"
         )
         self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
         self.multiprocessingCheckbutton.configure(
