@@ -45,7 +45,7 @@ class TestMoleculeSet(unittest.TestCase):
         feature_value_upper_limit = 1000
         for i in range(n_test_mols):
             test_feature_set.append([np.random.random() 
-                                     * feature_value_upper_limit 
+                                     * feature_value_upper_limit
                                      for _ in range(dimensionality)])
         return np.array(test_feature_set)
 
@@ -644,7 +644,6 @@ class TestMoleculeSet(unittest.TestCase):
             )
         print(f"Test complete. Deleting file {xl_fpath}...")
         remove(xl_fpath)
-
 
     def test_subsample_molecule_database_from_excel(self):
         """
