@@ -26,7 +26,7 @@ def get_version(rel_path):
 
 
 setup(
-    name="AIMSim",
+    name="aimsim",
     version=get_version("AIMSim/__init__.py"),
     description=desc,
     long_description=README,
@@ -40,7 +40,7 @@ setup(
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "AIMSim=AIMSim.__main__:start_AIMSim",
+            "aimsim=AIMSim.__main__:start_AIMSim",
         ]
     },
 )
