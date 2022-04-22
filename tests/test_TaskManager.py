@@ -79,8 +79,8 @@ class TestTaskManager(unittest.TestCase):
         """Complete run test for TaskManager class.
         """
         # this magical context manager sends all plots to a blank function
-        with patch("AIMSim.utils.plotting_scripts.plt.show") as test_plot:
-            with patch("AIMSim.utils.plotting_scripts.go.Figure.show") as test_int_plot:
+        with patch("aimsim.utils.plotting_scripts.plt.show") as test_plot:
+            with patch("aimsim.utils.plotting_scripts.go.Figure.show") as test_int_plot:
                 task_man = TaskManager(
                     tasks=self.tasks_dict
                 )
