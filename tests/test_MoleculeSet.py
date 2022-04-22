@@ -39,6 +39,16 @@ class TestMoleculeSet(unittest.TestCase):
         "C(=O)(N)N",
     ]
 
+    def get_feature_set(self, dimensionality=10):
+        n_test_mols = len(self.test_smiles)
+        test_feature_set = []
+        feature_value_upper_limit = 1000
+        for i in range(n_test_mols):
+            test_feature_set.append([np.random.random()
+                                     * feature_value_upper_limit
+                                     for _ in range(dimensionality)])
+        return np.array(test_feature_set)
+
     def smiles_seq_to_textfile(self, property_seq=None):
         """Helper method to convert a SMILES sequence to a text file.
 
@@ -582,6 +592,55 @@ class TestMoleculeSet(unittest.TestCase):
                 molecule,
                 Molecule,
                 "Expected member of molecule_set to be Molecule object",
+            )
+        print(f"Test complete. Deleting file {xl_fpath}...")
+        remove(xl_fpath)
+
+    def test_set_molecule_database_from_excel_without_smiles_name(self):
+        xl_fpath = 'test_files.xlsx'
+        features = self.get_feature_set()  # n_samples x dimensionality
+        data = dict()
+        for feature_id in range(features.shape[-1]):
+            data[f'feature_{feature_id}'] = features[:, feature_id].flatten()
+        df = pd.DataFrame(data)
+        print(f"Creating text file {xl_fpath}")
+        df.to_excel(xl_fpath)
+        molecule_set = MoleculeSet(
+            molecule_database_src=xl_fpath,
+            molecule_database_src_type="excel",
+            similarity_measure="l2_similarity",
+            is_verbose=True,
+        )
+        self.assertTrue(molecule_set.is_verbose,
+                        "Expected is_verbose to be True")
+        self.assertIsNotNone(
+            molecule_set.molecule_database,
+            "Expected molecule_database to be set from excel file",
+        )
+        self.assertEqual(
+            len(molecule_set.molecule_database),
+            len(self.test_smiles),
+            "Expected the size of database to be equal to number of smiles",
+        )
+        self.assertTrue(np.allclose(features,
+                                    molecule_set.get_mol_features(),
+                                    rtol=1e-4),
+                        'Expected molecule feature vectors to '
+                        'be the same as features in input file')
+        with self.assertRaises(ValueError):
+            molecule_set = MoleculeSet(
+                molecule_database_src=xl_fpath,
+                molecule_database_src_type="excel",
+                fingerprint_type='morgan_fingerprint',
+                similarity_measure="l2_similarity",
+                is_verbose=True,
+            )
+        with self.assertRaises(ValueError):
+            molecule_set = MoleculeSet(
+                molecule_database_src=xl_fpath,
+                molecule_database_src_type="excel",
+                similarity_measure="tanimoto_similarity",
+                is_verbose=True,
             )
         print(f"Test complete. Deleting file {xl_fpath}...")
         remove(xl_fpath)
