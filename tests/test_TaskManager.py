@@ -1,7 +1,6 @@
 """Test the TaskManager class."""
-from cgi import test
-from AIMSim.exceptions import InvalidConfigurationError
-from AIMSim.tasks.task_manager import TaskManager
+from aimsim.exceptions import InvalidConfigurationError
+from aimsim.tasks.task_manager import TaskManager
 
 import unittest
 from unittest.mock import patch

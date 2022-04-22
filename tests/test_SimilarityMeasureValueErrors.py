@@ -1,8 +1,8 @@
 """ Test the ValueError exceptions in SimilarityMeasure """
 import unittest
 
-from AIMSim.ops.similarity_measures import SimilarityMeasure
-from AIMSim.ops.descriptor import Descriptor
+from aimsim.ops.similarity_measures import SimilarityMeasure
+from aimsim.ops.descriptor import Descriptor
 
 
 class TestSimilarityMeasureValueError(unittest.TestCase):

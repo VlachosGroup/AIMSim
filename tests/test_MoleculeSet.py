@@ -12,9 +12,9 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import MDS, TSNE, Isomap, SpectralEmbedding
 from sklearn.preprocessing import StandardScaler
 
-from AIMSim.chemical_datastructures import Molecule, MoleculeSet
-from AIMSim.ops import Descriptor, SimilarityMeasure
-from AIMSim.exceptions import NotInitializedError, InvalidConfigurationError
+from aimsim.chemical_datastructures import Molecule, MoleculeSet
+from aimsim.ops import Descriptor, SimilarityMeasure
+from aimsim.exceptions import NotInitializedError, InvalidConfigurationError
 
 
 SUPPORTED_SIMILARITIES = SimilarityMeasure.get_supported_metrics()
