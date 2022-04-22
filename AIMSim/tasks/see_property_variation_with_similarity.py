@@ -5,8 +5,8 @@ from os.path import dirname
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 
-from AIMSim.utils.plotting_scripts import plot_parity
-from AIMSim.exceptions import InvalidConfigurationError
+from aimsim.utils.plotting_scripts import plot_parity
+from aimsim.exceptions import InvalidConfigurationError
 from .task import Task
 
 

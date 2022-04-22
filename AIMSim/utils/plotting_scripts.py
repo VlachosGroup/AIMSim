@@ -7,7 +7,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from seaborn import kdeplot, heatmap
 
-from AIMSim.exceptions import InvalidConfigurationError
+from aimsim.exceptions import InvalidConfigurationError
 
 
 def plot_density(densities, n_densities=1, legends=None, **kwargs):

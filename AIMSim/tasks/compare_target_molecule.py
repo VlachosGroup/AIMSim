@@ -1,11 +1,11 @@
 from os import makedirs
 from os.path import dirname
 import matplotlib.pyplot as plt
-from AIMSim.chemical_datastructures import Molecule
+from aimsim.chemical_datastructures import Molecule
 import numpy as np
 
-from AIMSim.utils.plotting_scripts import plot_density
-from AIMSim.exceptions import InvalidConfigurationError
+from aimsim.utils.plotting_scripts import plot_density
+from aimsim.exceptions import InvalidConfigurationError
 from .task import Task
 
 

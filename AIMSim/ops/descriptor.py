@@ -9,7 +9,7 @@ from rdkit.Chem import MACCSkeys
 from rdkit.Chem.AtomPairs import Pairs, Torsions
 from rdkit.DataStructs import cDataStructs
 from mordred import Calculator, descriptors
-from AIMSim.utils.ccbmlib_fingerprints import generate_fingerprints
+from aimsim.utils.ccbmlib_fingerprints import generate_fingerprints
 from padelpy import from_smiles
 
 from ..exceptions import (

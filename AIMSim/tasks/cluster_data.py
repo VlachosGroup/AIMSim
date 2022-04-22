@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import yaml
 
 from .task import Task
-from AIMSim.exceptions import InvalidConfigurationError
-from AIMSim.utils.plotting_scripts import plot_barchart, plot_density
-from AIMSim.utils.plotting_scripts import plot_scatter_interactive
+from aimsim.exceptions import InvalidConfigurationError
+from aimsim.utils.plotting_scripts import plot_barchart, plot_density
+from aimsim.utils.plotting_scripts import plot_scatter_interactive
 
 
 class ClusterData(Task):

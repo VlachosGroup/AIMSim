@@ -2,8 +2,12 @@
 import matplotlib.pyplot as plt
 
 from .task import Task
-from AIMSim.utils.plotting_scripts import plot_density, plot_heatmap, \
-    plot_scatter, plot_scatter_interactive
+from aimsim.utils.plotting_scripts import (
+    plot_density,
+    plot_heatmap,
+    plot_scatter,
+    plot_scatter_interactive,
+)
 
 
 class VisualizeDataset(Task):

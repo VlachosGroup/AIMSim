@@ -1,7 +1,7 @@
 """Class to call al tasks in sequence."""
-from AIMSim.chemical_datastructures import MoleculeSet
-from AIMSim.exceptions import InvalidConfigurationError
-from AIMSim.tasks import *
+from aimsim.chemical_datastructures import MoleculeSet
+from aimsim.exceptions import InvalidConfigurationError
+from aimsim.tasks import *
 
 
 class TaskManager:

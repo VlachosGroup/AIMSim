@@ -2,7 +2,7 @@
 from .task import Task
 from sklearn.ensemble import IsolationForest
 import warnings
-from AIMSim.utils.plotting_scripts import plot_scatter_interactive
+from aimsim.utils.plotting_scripts import plot_scatter_interactive
 import matplotlib.pyplot as plt
 
 
