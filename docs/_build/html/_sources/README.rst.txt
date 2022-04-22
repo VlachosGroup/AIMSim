@@ -55,18 +55,18 @@ Installing AIMSim
 -----------------
 
 ``AIMSim`` can be installed with a single command:
-``pip install AIMSim``
+``pip install aimsim``
 
 Running AIMSim
 --------------
 
 Start ``AIMSim`` with a graphical user interface:
 
-``AIMSim``
+``aimsim``
 
 Start ``AIMSim`` with a prepared configuration YAML file (\ ``config.yaml``\ ):
 
-``AIMSim config.yaml``
+``aimsim config.yaml``
 
 Currently Implemented Fingerprints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
