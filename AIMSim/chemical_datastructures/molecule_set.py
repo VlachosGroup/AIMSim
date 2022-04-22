@@ -246,28 +246,32 @@ class MoleculeSet:
             if len(response_col) > 0:
                 # currently handles one response
                 responses = database_df[response_col].values.flatten()
-            for mol_id, smile in enumerate(mol_smiles):
+            for mol_id in database_feature_df.index:
                 if self.is_verbose:
                     print(
-                        f"Processing {smile} "
+                        f"Processing "
                         f"({mol_id + 1}/"
-                        f"{database_df['feature_smiles'].values.size})"
+                        f"{len(database_feature_df.index)})"
                     )
-                mol_text = mol_names[mol_id] if mol_names is not None else smile
-
-                mol_property_val = responses[mol_id] if responses is not None else None
+                mol_smile = mol_smiles[mol_id] if mol_smiles is not None \
+                    else None
+                mol_text = mol_names[mol_id] if mol_names is not None \
+                    else mol_smile
+                mol_property_val = responses[mol_id] if responses is not None \
+                    else None
 
                 try:
                     molecule_database.append(
                         Molecule(
-                            mol_smiles=smile,
+                            mol_smiles=mol_smile,
                             mol_text=mol_text,
                             mol_property_val=mol_property_val,
                         )
                     )
                 except LoadingError as e:
                     if self.is_verbose:
-                        print(f"{smile} could not be imported. Skipping")
+                        print(f"Molecule index {mol_id} could not be imported. "
+                              f"Skipping")
 
             if len(database_feature_df.columns) > 0:
                 features = database_feature_df.values
@@ -953,6 +957,17 @@ class MoleculeSet:
                 return None
             mol_properties.append(mol_property)
         return np.array(mol_properties)
+
+    def get_mol_features(self):
+        """Get features of the molecules in the set.
+
+        Returns:
+            np.ndarray: (n_molecules, feature_dimensionality) array.
+
+        """
+        mol_features = [mol.get_descriptor_val()
+                        for mol in self.molecule_database]
+        return np.array(mol_features)
 
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
         """Cluster the molecules of the MoleculeSet.
