@@ -11,11 +11,11 @@ from sklearn.manifold import MDS, TSNE, Isomap, SpectralEmbedding
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 
-from AIMSim.chemical_datastructures import Molecule
-from AIMSim.exceptions import *
-from AIMSim.ops.clustering import Cluster
-from AIMSim.ops.descriptor import Descriptor
-from AIMSim.ops.similarity_measures import SimilarityMeasure
+from aimsim.chemical_datastructures import Molecule
+from aimsim.exceptions import *
+from aimsim.ops.clustering import Cluster
+from aimsim.ops.descriptor import Descriptor
+from aimsim.ops.similarity_measures import SimilarityMeasure
 
 
 class MoleculeSet:

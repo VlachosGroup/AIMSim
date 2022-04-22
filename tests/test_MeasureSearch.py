@@ -7,8 +7,8 @@ import unittest
 
 import numpy as np
 
-from AIMSim.exceptions import InvalidConfigurationError
-from AIMSim.tasks.measure_search import MeasureSearch
+from aimsim.exceptions import InvalidConfigurationError
+from aimsim.tasks.measure_search import MeasureSearch
 
 
 class TestMeasureSearch(unittest.TestCase):

@@ -9,9 +9,9 @@ Raises:
 Author:
     Jackson Burns
 """
-from AIMSim.tasks.task_manager import TaskManager
-from AIMSim.ops.descriptor import Descriptor
-from AIMSim.ops.similarity_measures import SimilarityMeasure
+from aimsim.tasks.task_manager import TaskManager
+from aimsim.ops.descriptor import Descriptor
+from aimsim.ops.similarity_measures import SimilarityMeasure
 
 import yaml
 import os

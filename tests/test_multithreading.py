@@ -4,7 +4,7 @@ import warnings
 from os import remove
 from os.path import exists, join
 import numpy as np
-from AIMSim.chemical_datastructures import MoleculeSet
+from aimsim.chemical_datastructures import MoleculeSet
 from time import time
 from tabulate import tabulate
 

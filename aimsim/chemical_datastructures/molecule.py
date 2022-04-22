@@ -5,8 +5,8 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from AIMSim.exceptions import *
-from AIMSim.ops.descriptor import Descriptor
+from aimsim.exceptions import *
+from aimsim.ops.descriptor import Descriptor
 
 
 class Molecule:

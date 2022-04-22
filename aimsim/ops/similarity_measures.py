@@ -3,8 +3,8 @@ import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
 
-from AIMSim.ops import Descriptor
-from AIMSim.exceptions import InvalidConfigurationError
+from aimsim.ops import Descriptor
+from aimsim.exceptions import InvalidConfigurationError
 
 SMALL_NUMBER = 1e-10
 

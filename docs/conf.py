@@ -55,7 +55,7 @@ def setup(app):
     app.connect("autodoc-skip-member", skip)
 
 
-release = get_version("../AIMSim/__init__.py")
+release = get_version("../aimsim/__init__.py")
 
 
 # -- General configuration ---------------------------------------------------

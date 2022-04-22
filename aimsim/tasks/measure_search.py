@@ -8,10 +8,10 @@ from posixpath import dirname
 
 import numpy as np
 
-from AIMSim.chemical_datastructures import MoleculeSet
-from AIMSim.exceptions import InvalidConfigurationError
-from AIMSim.ops import Descriptor, SimilarityMeasure
-from AIMSim.utils.plotting_scripts import plot_multiple_barchart
+from aimsim.chemical_datastructures import MoleculeSet
+from aimsim.exceptions import InvalidConfigurationError
+from aimsim.ops import Descriptor, SimilarityMeasure
+from aimsim.utils.plotting_scripts import plot_multiple_barchart
 from .task import Task
 from .see_property_variation_with_similarity \
     import SeePropertyVariationWithSimilarity

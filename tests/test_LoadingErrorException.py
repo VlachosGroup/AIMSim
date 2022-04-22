@@ -1,8 +1,8 @@
 """ Test the LoadingError Exception """
 import unittest
 
-from AIMSim.exceptions import LoadingError
-from AIMSim.chemical_datastructures import Molecule
+from aimsim.exceptions import LoadingError
+from aimsim.chemical_datastructures import Molecule
 
 from pathlib import Path
 from os import remove

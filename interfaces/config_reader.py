@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 import yaml
 import random
 
-from AIMSim.tasks import TaskManager
+from aimsim.tasks import TaskManager
 
 
 def main():
