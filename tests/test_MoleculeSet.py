@@ -44,7 +44,7 @@ class TestMoleculeSet(unittest.TestCase):
         test_feature_set = []
         feature_value_upper_limit = 1000
         for i in range(n_test_mols):
-            test_feature_set.append([np.random.random() 
+            test_feature_set.append([np.random.random()
                                      * feature_value_upper_limit
                                      for _ in range(dimensionality)])
         return np.array(test_feature_set)
