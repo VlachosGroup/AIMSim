@@ -3,6 +3,7 @@ from os import makedirs
 from os.path import dirname
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import rgb2hex
 import yaml
 
 from .task import Task
@@ -31,7 +32,7 @@ class ClusterData(Task):
         self.plot_settings = dict()
         self.plot_settings["cluster_plot"] = {
             "cluster_colors": [
-                plt.cm.get_cmap("tab20", self.n_clusters)(cluster_id)
+                rgb2hex(plt.cm.get_cmap("tab20", self.n_clusters)(cluster_id))
                 for cluster_id in range(self.n_clusters)],
             "response": "Response",
         }
