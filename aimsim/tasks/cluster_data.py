@@ -14,6 +14,28 @@ from aimsim.utils.plotting_scripts import plot_scatter_interactive
 
 class ClusterData(Task):
     def __init__(self, configs=None, **kwargs):
+        """Constructor for the ClusterData class.
+
+        Args:
+            configs(dict): Dictionary of configurations. Default is None.
+            **kwargs: Keyword arguments to modify configs fields.
+        Notes:
+            The configuration structure with default values are:
+            'n_clusters' (int):
+            'clustering_method' (str): None
+            cluster_plot_settings: {'cluster_colors' (list):
+                                                         colors from tab20 cmap,
+                                    'response' (str): 'Response'}
+
+            embedding_plot_settings:
+                    {'plot_color': 'red'
+                     'plot_title': '2-D projected space',
+                     'xlabel': 'Dimension 1',
+                     'ylabel': 'Dimension 2',
+                     'embedding': {'method': "mds",
+                                    'params': {'random_state': 42}}}
+
+        """
         if configs is None:
             if kwargs == {}:
                 raise IOError(f"No config supplied for {str(self)}")

@@ -12,6 +12,29 @@ from aimsim.utils.plotting_scripts import (
 
 class VisualizeDataset(Task):
     def __init__(self, configs=None, **kwargs):
+        """
+        Constructor for the VisualizeDataset class.
+
+        Args:
+            configs(dict): Dictionary of configurations. Default is None.
+            **kwargs: Keyword arguments to modify configs fields.
+        Notes:
+            The configuration structure with default values are:
+            heatmap_plot_settings: {}  # pass through keywords for
+                                       # aimsim.utils.plotting_scripts.\
+                                       #  plot_heatmap
+            similarity_plot_settings: {}   # pass through keywords for
+                                           # aimsim.utils.plotting_scripts. \
+                                           #plot_density
+            embedding_plot_settings:
+                    {'plot_color': 'red'
+                     'plot_title': '2-D projected space',
+                     'xlabel': 'Dimension 1',
+                     'ylabel': 'Dimension 2',
+                     'embedding': {'method': "mds",
+                                    'params': {'random_state': 42}}}
+
+        """
         if configs is None:
             configs = dict()  # all configs are optional
         configs.update(kwargs)
@@ -27,11 +50,9 @@ class VisualizeDataset(Task):
         self.plot_settings["pairwise_plot"] = self.configs.get(
             "similarity_plot_settings", {}
         )
-        self.plot_settings["embeddings"] = {"method": "mds",
-                                            "random_state": 42}
         self.plot_settings["embedding_plot"] = {
             "plot_color": 'red',
-            "plot_title": f"2-D projected space",
+            "plot_title": '2-D projected space',
             "xlabel": "Dimension 1",
             "ylabel": "Dimension 2",
             "embedding": {"method": "mds",
