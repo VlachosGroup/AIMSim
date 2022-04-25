@@ -74,7 +74,7 @@ class VisualizeDataset(Task):
         reduced_features = molecule_set.get_transformed_descriptors(
             method_=method_,
             n_components=2,
-            **self.plot_settings["embedding_plot"]["embedding"]["params"])
+            **self.plot_settings["embedding_plot"]["embedding"].get("params", {}))
         dimension_1 = reduced_features[:, 0]
         dimension_2 = reduced_features[:, 1]
 
@@ -88,7 +88,6 @@ class VisualizeDataset(Task):
             plot_color=self.plot_settings["embedding_plot"]["plot_color"],
             offset=0,
         )
-        # plt.show()
 
     def __str__(self):
         return "Task: Visualize a dataset"
