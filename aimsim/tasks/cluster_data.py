@@ -126,12 +126,11 @@ class ClusterData(Task):
                          ylabel='Density',
                          shade=True)
         plt.show()
-
         method_ = self.plot_settings["embedding_plot"]["embedding"]["method"]
         reduced_features = molecule_set.get_transformed_descriptors(
             method_=method_,
             n_components=2,
-            **self.plot_settings["embedding_plot"]["embedding"]["params"])
+            **self.plot_settings["embedding_plot"]["embedding"].get("params", {}))
         dimension_1 = reduced_features[:, 0]
         dimension_2 = reduced_features[:, 1]
 
