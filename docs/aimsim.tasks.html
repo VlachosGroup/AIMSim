@@ -103,9 +103,39 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.cluster_data.ClusterData.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.cluster_data.ClusterData.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Get configurations.
-:param configs: Parameters of the task
-:type configs: dict</p>
+<dd><p>Constructor for the ClusterData class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>dict</em>) – Dictionary of configurations. Default is None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to modify configs fields.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The configuration structure with default values are:
+‘n_clusters’ (int):
+‘clustering_method’ (str): None
+cluster_plot_settings: {‘cluster_colors’ (list):</p>
+<blockquote>
+<div><blockquote>
+<div><p>colors from tab20 cmap,</p>
+</div></blockquote>
+<p>‘response’ (str): ‘Response’}</p>
+</div></blockquote>
+<dl>
+<dt>embedding_plot_settings:</dt><dd><dl>
+<dt>{‘plot_color’: ‘red’</dt><dd><p>‘plot_title’: ‘2-D projected space’,
+‘xlabel’: ‘Dimension 1’,
+‘ylabel’: ‘Dimension 2’,
+‘embedding’: {‘method’: “mds”,</p>
+<blockquote>
+<div><p>‘params’: {‘random_state’: 42}}}</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -403,9 +433,36 @@ tasks and their parameters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.visualize_dataset.VisualizeDataset.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.visualize_dataset.VisualizeDataset.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Get configurations.
-:param configs: Parameters of the task
-:type configs: dict</p>
+<dd><p>Constructor for the VisualizeDataset class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>dict</em>) – Dictionary of configurations. Default is None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to modify configs fields.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The configuration structure with default values are:
+heatmap_plot_settings: {}  # pass through keywords for</p>
+<blockquote>
+<div><p># aimsim.utils.plotting_scripts.                                       #  plot_heatmap</p>
+</div></blockquote>
+<dl>
+<dt>similarity_plot_settings: {}   # pass through keywords for</dt><dd><p># aimsim.utils.plotting_scripts.                                            #plot_density</p>
+</dd>
+<dt>embedding_plot_settings:</dt><dd><dl>
+<dt>{‘plot_color’: ‘red’</dt><dd><p>‘plot_title’: ‘2-D projected space’,
+‘xlabel’: ‘Dimension 1’,
+‘ylabel’: ‘Dimension 2’,
+‘embedding’: {‘method’: “mds”,</p>
+<blockquote>
+<div><p>‘params’: {‘random_state’: 42}}}</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
