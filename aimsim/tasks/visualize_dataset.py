@@ -20,11 +20,19 @@ class VisualizeDataset(Task):
             **kwargs: Keyword arguments to modify configs fields.
         Notes:
             The configuration structure with default values are:
-            heatmap_plot_settings: {}
-            similarity_plot_settings: {}
-            embedding_plot_settings: {
-                                      }
-
+            heatmap_plot_settings: {}  # pass through keywords for
+                                       # aimsim.utils.plotting_scripts.\
+                                       #  plot_heatmap
+            similarity_plot_settings: {}   # pass through keywords for
+                                           # aimsim.utils.plotting_scripts. \
+                                           #plot_density
+            embedding_plot_settings:
+                    {'plot_color': 'red'
+                     'plot_title': '2-D projected space',
+                     'xlabel': 'Dimension 1',
+                     'ylabel': 'Dimension 2',
+                     'embedding': {'method': "mds",
+                                    'params': {'random_state': 42}}}
 
         """
         if configs is None:
@@ -44,7 +52,7 @@ class VisualizeDataset(Task):
         )
         self.plot_settings["embedding_plot"] = {
             "plot_color": 'red',
-            "plot_title": f"2-D projected space",
+            "plot_title": '2-D projected space',
             "xlabel": "Dimension 1",
             "ylabel": "Dimension 2",
             "embedding": {"method": "mds",
