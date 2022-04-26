@@ -1,0 +1,11 @@
+***** FOR MOLECULE C1=CC=C(C=C1)O *****
+
+****Maximum Similarity Molecules ****
+Molecule: Phenol
+Similarity: 1.0
+
+****Minimum Similarity Molecules ****
+Molecule: 1,1,1,2,2,3,4,5,5,5-Decafluoropentane.coskf
+Similarity: 0.0
+
+
