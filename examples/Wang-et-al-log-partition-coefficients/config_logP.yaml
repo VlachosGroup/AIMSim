@@ -1,0 +1,75 @@
+---
+is_verbose: False
+molecule_database: '/Users/himaghnabhattacharjee/Documents/Research/AIMSim_project/AIMSim/examples/Wang-et-al-log-partition-coefficients/aimsim_2020_HMF_Paper_ESI_COSMO_RS_Screening Results.xlsx'
+molecule_database_source_type: excel
+similarity_measure: tanimoto
+only_valid_dist: False
+measure_id_subsample: 0.001
+fingerprint_type: morgan_fingerprint
+sampling_ratio: 1
+n_threads: 1
+
+# The task field decides what you want to do
+# Each task field contains a sub-task field which further modifies the task.
+# The task fields are arranged as:
+  # tasks:
+     # task 1:
+        # sub-tasks of task 1
+# The lines beginning with '#!' can be directly uncommented to implement them.
+
+tasks:
+  compare_target_molecule:
+    target_molecule_smiles: 'C1=CC=C(C=C1)O' # put in SMILES string
+    draw_molecules: True
+    similarity_plot_settings: # turn on in case a plot of similarity score is desired
+        plot_color: '#FD6F96' # Set a color recognized by matplotlib
+        shade: true
+        plot_title: 'Compared to Phenol'
+    log_file_path: '/Users/himaghnabhattacharjee/Documents/Research/AIMSim_project/AIMSim/examples/Wang-et-al-log-partition-coefficients/log/compare_target_mol_phenol.txt' 
+  visualize_dataset:
+      heatmap_plot_settings:
+        cmap: 'RdPu' # Matplotlib recognized cmap (color map) used for heatmap.
+        plot_title: 'Pairwise Similarities'  # Set a title for plot if needed.
+        annotate: False # put in True or False. Default is False.
+      similarity_plot_settings:
+        plot_color: '#6F69AC' # Set a color recognized by matplotlib.
+        plot_title: 'Pairwise Similarity'
+        shade: True
+          #!xticklabels: # set labels for x-axis ticks
+          #!yticklabels: # set labels for y-axis ticks
+      #######
+      embedding_plot_settings:
+        plot_color: '#6F69AC'
+        plot_title: '2D MDS Embedding'
+        embedding:
+         method: mds
+         params:
+           random_state: 421
+      ########  
+  see_property_variation_w_similarity:
+    # file w/ rows of molecule name and property separated by single space
+    # row format --> "molecule-name(or smile string)" "property"
+    # e.g. --> water 100
+    log_file_path: '/Users/himaghnabhattacharjee/Documents/Research/AIMSim_project/AIMSim/examples/Wang-et-al-log-partition-coefficients/log/show_prop_var.txt'  # complete path of output file
+    property_plot_settings:
+      plot_color: '#FD6F96'
+  cluster:
+    n_clusters: 2
+    clustering_method: kmedoids
+    log_file_path: '/Users/himaghnabhattacharjee/Documents/Research/AIMSim_project/AIMSim/examples/Wang-et-al-log-partition-coefficients/log/cluster_log.txt'
+    cluster_file_path: 'log/clusters.yml'
+    cluster_plot_settings:
+      cluster_colors:
+        - '#6F69AC'
+        - '#FD6F96'
+        - '#4C4C6D'
+     #######
+    embedding_plot_settings:
+      plot_title: 'Clustering'
+      embedding:
+        method: mds
+        params:
+            random_state: 421
+     ######## 
+  
+      
