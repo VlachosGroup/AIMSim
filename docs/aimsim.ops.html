@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aimsim.ops package &mdash; AIMSim 1.0.3 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -89,12 +90,12 @@
            <div itemprop="articleBody">
              
   <section id="aimsim-ops-package">
-<h1>aimsim.ops package<a class="headerlink" href="#aimsim-ops-package" title="Permalink to this headline"></a></h1>
+<h1>aimsim.ops package<a class="headerlink" href="#aimsim-ops-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-aimsim.ops.clustering">
-<span id="aimsim-ops-clustering-module"></span><h2>aimsim.ops.clustering module<a class="headerlink" href="#module-aimsim.ops.clustering" title="Permalink to this headline"></a></h2>
+<span id="aimsim-ops-clustering-module"></span><h2>aimsim.ops.clustering module<a class="headerlink" href="#module-aimsim.ops.clustering" title="Permalink to this heading"></a></h2>
 <p>Operation for clustering molecules</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.ops.clustering.Cluster">
@@ -122,7 +123,7 @@ Euclidean descriptors.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">type</dt>
+<dt class="field-odd">type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -132,7 +133,7 @@ Euclidean descriptors.</p>
 <span class="sig-name descname"><span class="pre">n_clusters</span></span><a class="headerlink" href="#aimsim.ops.clustering.Cluster.n_clusters" title="Permalink to this definition"></a></dt>
 <dd><p>Number of clusters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -143,7 +144,7 @@ Euclidean descriptors.</p>
 <span class="sig-name descname"><span class="pre">model_</span></span><a class="headerlink" href="#aimsim.ops.clustering.Cluster.model_" title="Permalink to this definition"></a></dt>
 <dd><p>The clustering estimator.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids</p>
 </dd>
 </dl>
@@ -154,7 +155,7 @@ Euclidean descriptors.</p>
 <span class="sig-name descname"><span class="pre">labels_</span></span><a class="headerlink" href="#aimsim.ops.clustering.Cluster.labels_" title="Permalink to this definition"></a></dt>
 <dd><p>cluster labels of the training set samples.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray of shape (n_samples,)</p>
 </dd>
 </dl>
@@ -214,7 +215,7 @@ sensible medoid.</p>
 </dl>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments. These are passed to the
 estimators. Refer to the following documentation page for
 kmedoids: <a class="reference external" href="https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html">https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html</a>
@@ -254,7 +255,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 </dl>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray of shape (n_samples,))</p>
 </dd>
 </dl>
@@ -267,7 +268,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 :param X: samples to predict on.
 :type X: np.ndarray or list</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sklearn.exceptions.NotFittedError if estimator is not fitted.</strong> – </p>
 </dd>
 </dl>
@@ -277,7 +278,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 
 </section>
 <section id="module-aimsim.ops.descriptor">
-<span id="aimsim-ops-descriptor-module"></span><h2>aimsim.ops.descriptor module<a class="headerlink" href="#module-aimsim.ops.descriptor" title="Permalink to this headline"></a></h2>
+<span id="aimsim-ops-descriptor-module"></span><h2>aimsim.ops.descriptor module<a class="headerlink" href="#module-aimsim.ops.descriptor" title="Permalink to this heading"></a></h2>
 <p>This module contains methods to featurize molecules.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.ops.descriptor.Descriptor">
@@ -289,7 +290,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 <span class="sig-name descname"><span class="pre">label_</span></span><a class="headerlink" href="#aimsim.ops.descriptor.Descriptor.label_" title="Permalink to this definition"></a></dt>
 <dd><p>Label used to denote the type of descriptor being used.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -300,7 +301,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 <span class="sig-name descname"><span class="pre">numpy_</span></span><a class="headerlink" href="#aimsim.ops.descriptor.Descriptor.numpy_" title="Permalink to this definition"></a></dt>
 <dd><p>Value of the descriptor in the numpy format.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -312,7 +313,7 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 <dd><p>Value of
 the descriptor in the rdkit format.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>rdkit.DataStructs.cDataStructs.UIntSparseIntVec</p>
 </dd>
 </dl>
@@ -349,10 +350,10 @@ done by checking the existence of the <a href="#id12"><span class="problematic" 
 <span class="sig-name descname"><span class="pre">check_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
 <dd><p>Check initialization status of the Descriptor object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if object is initialized.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(bool)</p>
 </dd>
 </dl>
@@ -364,13 +365,13 @@ done by checking the existence of the <a href="#id12"><span class="problematic" 
 <dd><p>Get back two fingerprint arrays of equal length. The longer fingerprint
 is folded to the size of the smaller one.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fingerprint1</strong> (<a class="reference internal" href="#aimsim.ops.descriptor.Descriptor" title="aimsim.ops.descriptor.Descriptor"><em>Descriptor</em></a>) – Fingerprint one.</p></li>
 <li><p><strong>fingerprint2</strong> (<a class="reference internal" href="#aimsim.ops.descriptor.Descriptor" title="aimsim.ops.descriptor.Descriptor"><em>Descriptor</em></a>) – Fingerprint two.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(np.ndarray, np.ndarray)</p>
 </dd>
 </dl>
@@ -383,10 +384,10 @@ is folded to the size of the smaller one.</p>
 but are considered experimental or are complex/rarely used and
 are therefore excluded from the UI.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of strings of all supported descriptors.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>List</p>
 </dd>
 </dl>
@@ -399,10 +400,10 @@ are therefore excluded from the UI.</p>
 :param fold_to_length: Number of bits to fold to.
 :type fold_to_length: int</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Folded fingerprint.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
@@ -438,7 +439,7 @@ molecular fingerprints.
 <dd><p>Make fingerprint of a molecule based on a graph representation.
 Set the state of the descriptor to this fingerprint.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>molecule_graph</strong> (<em>RDKIT object</em>) – The graph object used to make a
 fingerprint.</p></li>
@@ -457,7 +458,7 @@ parameters of fingerprint. Default is None.</p></li>
 <span class="sig-name descname"><span class="pre">set_manually</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arbitrary_descriptor_val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.ops.descriptor.Descriptor.set_manually" title="Permalink to this definition"></a></dt>
 <dd><p>Set the descriptor value manually based on user specified value.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>arbitrary_descriptor_val</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Vectorized
 representation of descriptor values.</p>
 </dd>
@@ -469,16 +470,16 @@ representation of descriptor values.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shorten_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.ops.descriptor.Descriptor.shorten_label" title="Permalink to this definition"></a></dt>
 <dd><p>Shorten the label of a fingerprint. Useful for plotting purposes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>label</strong> (<em>str</em>) – Label of fingerprint to shorten.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Shortened label.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(str)</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="aimsim.html#aimsim.exceptions.InvalidConfigurationError" title="aimsim.exceptions.InvalidConfigurationError"><strong>InvalidConfigurationError</strong></a> – if label not in
     get_supported_descriptors()</p>
 </dd>
@@ -497,10 +498,10 @@ representation of descriptor values.</p>
 <dd><p>Return <a href="#id16"><span class="problematic" id="id17">numpy_</span></a> attribute of Descriptor.
 Attribute will be initialized if not present.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Numpy vector of descriptor.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(np.array)</p>
 </dd>
 </dl>
@@ -511,13 +512,13 @@ Attribute will be initialized if not present.</p>
 <span class="sig-name descname"><span class="pre">to_rdkit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
 <dd><p>Return <a href="#id18"><span class="problematic" id="id19">rdkit_</span></a> attribute of Descriptor.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Fingerprint value as a bit vector.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(DataStructs.ExplicitBitVect)</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>(</strong><a class="reference internal" href="aimsim.html#aimsim.exceptions.NotInitializedError" title="aimsim.exceptions.NotInitializedError"><strong>NotInitializedError</strong></a><strong>)</strong> – If object not initialized with a fingerprint.</p></li>
 <li><p><strong>(</strong><strong>ValueError</strong><strong>)</strong> – If only arbitrary numpy descriptor is used to
@@ -531,7 +532,7 @@ Attribute will be initialized if not present.</p>
 
 </section>
 <section id="module-aimsim.ops.similarity_measures">
-<span id="aimsim-ops-similarity-measures-module"></span><h2>aimsim.ops.similarity_measures module<a class="headerlink" href="#module-aimsim.ops.similarity_measures" title="Permalink to this headline"></a></h2>
+<span id="aimsim-ops-similarity-measures-module"></span><h2>aimsim.ops.similarity_measures module<a class="headerlink" href="#module-aimsim.ops.similarity_measures" title="Permalink to this heading"></a></h2>
 <p>This module contains methods to find similarities between molecules.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.ops.similarity_measures.SimilarityMeasure">
@@ -547,10 +548,10 @@ Attribute will be initialized if not present.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_compatible_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.ops.similarity_measures.SimilarityMeasure.get_compatible_metrics" title="Permalink to this definition"></a></dt>
 <dd><p>Return a dictionary with which types of metrics each fingerprint supports.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>comptabile FP’s: metrics</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
@@ -563,10 +564,10 @@ Attribute will be initialized if not present.</p>
 similarity measures, aka metrics, which only support binary
 vectors.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of strings.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>List</p>
 </dd>
 </dl>
@@ -579,10 +580,10 @@ vectors.</p>
 similarity measures, aka metrics, which support vectors other
 then binary vectors.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of strings.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>List</p>
 </dd>
 </dl>
@@ -594,10 +595,10 @@ then binary vectors.</p>
 <dd><p>Return a list of strings for the currently implemented
 similarity measures, aka metrics.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of strings.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>List</p>
 </dd>
 </dl>
@@ -610,10 +611,10 @@ similarity measures, aka metrics.</p>
 similarity measures, aka metrics. Each unique similarity metric is
 uniquely represented with redundant tags removed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of strings.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>List</p>
 </dd>
 </dl>
@@ -624,10 +625,10 @@ uniquely represented with redundant tags removed.</p>
 <span class="sig-name descname"><span class="pre">is_distance_metric</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.ops.similarity_measures.SimilarityMeasure.is_distance_metric" title="Permalink to this definition"></a></dt>
 <dd><p>Check if the similarity measure is a distance metric.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if it is a distance metric.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
 </dd>
 </dl>
@@ -637,7 +638,7 @@ uniquely represented with redundant tags removed.</p>
 
 </section>
 <section id="module-aimsim.ops">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim.ops" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim.ops" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

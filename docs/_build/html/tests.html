@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>tests package &mdash; AIMSim 1.0.3 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -89,24 +90,24 @@
            <div itemprop="articleBody">
              
   <section id="tests-package">
-<h1>tests package<a class="headerlink" href="#tests-package" title="Permalink to this headline"></a></h1>
+<h1>tests package<a class="headerlink" href="#tests-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-tests.test_CompareTargetMolecule">
-<span id="tests-test-comparetargetmolecule-module"></span><h2>tests.test_CompareTargetMolecule module<a class="headerlink" href="#module-tests.test_CompareTargetMolecule" title="Permalink to this headline"></a></h2>
+<span id="tests-test-comparetargetmolecule-module"></span><h2>tests.test_CompareTargetMolecule module<a class="headerlink" href="#module-tests.test_CompareTargetMolecule" title="Permalink to this heading"></a></h2>
 <p>Test the task CompareTargetMolecule</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_CompareTargetMolecule.TestCompareTargetMolecule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_CompareTargetMolecule.</span></span><span class="sig-name descname"><span class="pre">TestCompareTargetMolecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.TestCompareTargetMolecule" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_CompareTargetMolecule.TestCompareTargetMolecule.smiles_seq_to_xl_or_csv">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_xl_or_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ftype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_arr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.smiles_seq_to_xl_or_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence or arbitrary features
 to Excel or CSV files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ftype</strong> (<em>str</em>) – String label to denote the filetype. ‘csv’ or ‘excel’.</p></li>
 <li><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
@@ -117,13 +118,13 @@ molecular names. Defaults to None.</p></li>
 descriptor values. Defaults to None.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – Invalid file type specified.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path to created file.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -150,15 +151,15 @@ descriptor values. Defaults to None.</p></li>
 
 </section>
 <section id="module-tests.test_Descriptor">
-<span id="tests-test-descriptor-module"></span><h2>tests.test_Descriptor module<a class="headerlink" href="#module-tests.test_Descriptor" title="Permalink to this headline"></a></h2>
+<span id="tests-test-descriptor-module"></span><h2>tests.test_Descriptor module<a class="headerlink" href="#module-tests.test_Descriptor" title="Permalink to this heading"></a></h2>
 <p>Tests for the Descriptor class</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_Descriptor.TestDescriptor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_Descriptor.</span></span><span class="sig-name descname"><span class="pre">TestDescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Descriptor.TestDescriptor" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <p>Tests for methods of the Descriptor class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>unittest</strong> (<em>unittest</em>) – Python unittest module.</p>
 </dd>
 </dl>
@@ -240,12 +241,12 @@ creating molecular fingerprints from the molecule graph.</p>
 
 </section>
 <section id="module-tests.test_LoadingErrorException">
-<span id="tests-test-loadingerrorexception-module"></span><h2>tests.test_LoadingErrorException module<a class="headerlink" href="#module-tests.test_LoadingErrorException" title="Permalink to this headline"></a></h2>
+<span id="tests-test-loadingerrorexception-module"></span><h2>tests.test_LoadingErrorException module<a class="headerlink" href="#module-tests.test_LoadingErrorException" title="Permalink to this heading"></a></h2>
 <p>Test the LoadingError Exception</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_LoadingErrorException.</span></span><span class="sig-name descname"><span class="pre">TestLoadingERrorException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_LoadingErrorException.TestLoadingERrorException" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <p>Tests for LoadingError custom exception.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_pdb">
@@ -275,25 +276,25 @@ creating molecular fingerprints from the molecule graph.</p>
 
 </section>
 <section id="module-tests.test_MeasureSearch">
-<span id="tests-test-measuresearch-module"></span><h2>tests.test_MeasureSearch module<a class="headerlink" href="#module-tests.test_MeasureSearch" title="Permalink to this headline"></a></h2>
+<span id="tests-test-measuresearch-module"></span><h2>tests.test_MeasureSearch module<a class="headerlink" href="#module-tests.test_MeasureSearch" title="Permalink to this heading"></a></h2>
 <p>Test the MeasureSearch class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_MeasureSearch.</span></span><span class="sig-name descname"><span class="pre">TestMeasureSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a text file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
 molecular responses.. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -387,12 +388,12 @@ already chosen.</p>
 
 </section>
 <section id="module-tests.test_Molecule">
-<span id="tests-test-molecule-module"></span><h2>tests.test_Molecule module<a class="headerlink" href="#module-tests.test_Molecule" title="Permalink to this headline"></a></h2>
+<span id="tests-test-molecule-module"></span><h2>tests.test_Molecule module<a class="headerlink" href="#module-tests.test_Molecule" title="Permalink to this heading"></a></h2>
 <p>Test the methods of the Molecule class</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_Molecule.</span></span><span class="sig-name descname"><span class="pre">TestMolecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_Molecule.TestMolecule" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <p>Tests for methods of Molecule class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_Molecule.TestMolecule.test_get_name">
@@ -501,12 +502,12 @@ Case #2: PDB file</p>
 
 </section>
 <section id="module-tests.test_MoleculeSet">
-<span id="tests-test-moleculeset-module"></span><h2>tests.test_MoleculeSet module<a class="headerlink" href="#module-tests.test_MoleculeSet" title="Permalink to this headline"></a></h2>
+<span id="tests-test-moleculeset-module"></span><h2>tests.test_MoleculeSet module<a class="headerlink" href="#module-tests.test_MoleculeSet" title="Permalink to this heading"></a></h2>
 <p>Test the MoleculeSet class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_MoleculeSet.</span></span><span class="sig-name descname"><span class="pre">TestMoleculeSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_MoleculeSet.TestMoleculeSet.get_feature_set">
 <span class="sig-name descname"><span class="pre">get_feature_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.get_feature_set" title="Permalink to this definition"></a></dt>
@@ -517,14 +518,14 @@ Case #2: PDB file</p>
 <span class="sig-name descname"><span class="pre">smarts_seq_to_smiles_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smarts_seq_to_smiles_file" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMARTS sequence to a .SMILES file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
 molecular responses. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -536,14 +537,14 @@ molecular responses. Defaults to None.</p>
 <dd><p>Helper method to convert a SMILES sequence to a pdb files
 stored in a directory.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
 molecular responses. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to created directory.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -554,14 +555,14 @@ molecular responses. Defaults to None.</p>
 <span class="sig-name descname"><span class="pre">smiles_seq_to_smi_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smi_file" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a .smi file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
 molecular responses. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -572,14 +573,14 @@ molecular responses. Defaults to None.</p>
 <span class="sig-name descname"><span class="pre">smiles_seq_to_smiles_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smiles_file" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a .SMILES file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
 molecular responses. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -590,14 +591,14 @@ molecular responses. Defaults to None.</p>
 <span class="sig-name descname"><span class="pre">smiles_seq_to_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_textfile" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence to a text file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
 molecular responses.. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Path to created file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -609,7 +610,7 @@ molecular responses.. Defaults to None.</p>
 <dd><p>Helper method to convert a SMILES sequence or arbitrary features
 to Excel or CSV files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ftype</strong> (<em>str</em>) – String label to denote the filetype. ‘csv’ or ‘excel’.</p></li>
 <li><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
@@ -620,13 +621,13 @@ molecular names. Defaults to None.</p></li>
 descriptor values. Defaults to None.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – Invalid file type specified.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path to created file.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -858,19 +859,19 @@ MoleculSet using TSNE.</p>
 
 </section>
 <section id="module-tests.test_SimilarityMeasure">
-<span id="tests-test-similaritymeasure-module"></span><h2>tests.test_SimilarityMeasure module<a class="headerlink" href="#module-tests.test_SimilarityMeasure" title="Permalink to this headline"></a></h2>
+<span id="tests-test-similaritymeasure-module"></span><h2>tests.test_SimilarityMeasure module<a class="headerlink" href="#module-tests.test_SimilarityMeasure" title="Permalink to this heading"></a></h2>
 <p>Test the SimilarityMEasure class</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_SimilarityMeasure.TestSimilarityMeasure">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_SimilarityMeasure.</span></span><span class="sig-name descname"><span class="pre">TestSimilarityMeasure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasure.TestSimilarityMeasure" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_SimilarityMeasure.TestSimilarityMeasure.smiles_seq_to_xl_or_csv">
 <span class="sig-name descname"><span class="pre">smiles_seq_to_xl_or_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ftype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_arr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasure.TestSimilarityMeasure.smiles_seq_to_xl_or_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method to convert a SMILES sequence or arbitrary features
 to Excel or CSV files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ftype</strong> (<em>str</em>) – String label to denote the filetype. ‘csv’ or ‘excel’.</p></li>
 <li><p><strong>property_seq</strong> (<em>list</em><em> or </em><em>np.ndarray</em><em>, </em><em>optional</em>) – Optional sequence of
@@ -881,13 +882,13 @@ molecular names. Defaults to None.</p></li>
 descriptor values. Defaults to None.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – Invalid file type specified.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path to created file.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -912,12 +913,12 @@ descriptor values. Defaults to None.</p></li>
 
 </section>
 <section id="module-tests.test_SimilarityMeasureValueErrors">
-<span id="tests-test-similaritymeasurevalueerrors-module"></span><h2>tests.test_SimilarityMeasureValueErrors module<a class="headerlink" href="#module-tests.test_SimilarityMeasureValueErrors" title="Permalink to this headline"></a></h2>
+<span id="tests-test-similaritymeasurevalueerrors-module"></span><h2>tests.test_SimilarityMeasureValueErrors module<a class="headerlink" href="#module-tests.test_SimilarityMeasureValueErrors" title="Permalink to this heading"></a></h2>
 <p>Test the ValueError exceptions in SimilarityMeasure</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_SimilarityMeasureValueErrors.</span></span><span class="sig-name descname"><span class="pre">TestSimilarityMeasureValueError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <p>Tests for Value Error exception in SimilarityMeasure</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_binary_only_metrics">
@@ -956,12 +957,12 @@ a value error.</p>
 
 </section>
 <section id="module-tests.test_TaskManager">
-<span id="tests-test-taskmanager-module"></span><h2>tests.test_TaskManager module<a class="headerlink" href="#module-tests.test_TaskManager" title="Permalink to this headline"></a></h2>
+<span id="tests-test-taskmanager-module"></span><h2>tests.test_TaskManager module<a class="headerlink" href="#module-tests.test_TaskManager" title="Permalink to this heading"></a></h2>
 <p>Test the TaskManager class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_TaskManager.TestTaskManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_TaskManager.</span></span><span class="sig-name descname"><span class="pre">TestTaskManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_TaskManager.TestTaskManager" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tests.test_TaskManager.TestTaskManager.setUpClass">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_TaskManager.TestTaskManager.setUpClass" title="Permalink to this definition"></a></dt>
@@ -984,12 +985,12 @@ a value error.</p>
 
 </section>
 <section id="module-tests.test_multithreading">
-<span id="tests-test-multithreading-module"></span><h2>tests.test_multithreading module<a class="headerlink" href="#module-tests.test_multithreading" title="Permalink to this headline"></a></h2>
+<span id="tests-test-multithreading-module"></span><h2>tests.test_multithreading module<a class="headerlink" href="#module-tests.test_multithreading" title="Permalink to this heading"></a></h2>
 <p>Test multithreading to ensure consistent behavior with serial implementation.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.test_multithreading.TestMultithreading">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.test_multithreading.</span></span><span class="sig-name descname"><span class="pre">TestMultithreading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests.test_multithreading.TestMultithreading" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
 <p>Unit tests to ensure consistency when running AIMSim as a single process
 or when using multiprocessing.</p>
 <dl class="py method">
@@ -1077,7 +1078,7 @@ with a more complex metric.</p>
 
 </section>
 <section id="module-tests">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

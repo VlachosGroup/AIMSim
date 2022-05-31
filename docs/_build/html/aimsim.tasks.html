@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aimsim.tasks package &mdash; AIMSim 1.0.3 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -89,23 +90,23 @@
            <div itemprop="articleBody">
              
   <section id="aimsim-tasks-package">
-<h1>aimsim.tasks package<a class="headerlink" href="#aimsim-tasks-package" title="Permalink to this headline"></a></h1>
+<h1>aimsim.tasks package<a class="headerlink" href="#aimsim-tasks-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-aimsim.tasks.cluster_data">
-<span id="aimsim-tasks-cluster-data-module"></span><h2>aimsim.tasks.cluster_data module<a class="headerlink" href="#module-aimsim.tasks.cluster_data" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-cluster-data-module"></span><h2>aimsim.tasks.cluster_data module<a class="headerlink" href="#module-aimsim.tasks.cluster_data" title="Permalink to this heading"></a></h2>
 <p>Data clustering task.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.cluster_data.ClusterData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.cluster_data.</span></span><span class="sig-name descname"><span class="pre">ClusterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.cluster_data.ClusterData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">aimsim.tasks.task.Task</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.cluster_data.ClusterData.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.cluster_data.ClusterData.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor for the ClusterData class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>configs</strong> (<em>dict</em>) – Dictionary of configurations. Default is None.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword arguments to modify configs fields.</p></li>
@@ -142,11 +143,11 @@ cluster_plot_settings: {‘cluster_colors’ (list):</p>
 
 </section>
 <section id="module-aimsim.tasks.compare_target_molecule">
-<span id="aimsim-tasks-compare-target-molecule-module"></span><h2>aimsim.tasks.compare_target_molecule module<a class="headerlink" href="#module-aimsim.tasks.compare_target_molecule" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-compare-target-molecule-module"></span><h2>aimsim.tasks.compare_target_molecule module<a class="headerlink" href="#module-aimsim.tasks.compare_target_molecule" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.compare_target_molecule.CompareTargetMolecule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.compare_target_molecule.</span></span><span class="sig-name descname"><span class="pre">CompareTargetMolecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.compare_target_molecule.CompareTargetMolecule" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">aimsim.tasks.task.Task</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.compare_target_molecule.CompareTargetMolecule.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.compare_target_molecule.CompareTargetMolecule.__init__" title="Permalink to this definition"></a></dt>
@@ -163,12 +164,12 @@ dissimilar to a query Molecule.This is defined as the sorted set
 (decreasing dissimilarity)  of molecules with the highest
 (query_molecule, set_molecule) dissimilarity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>molecule_set</strong> (<em>AIMSim.chemical_datastructures MoleculeSet</em>) – MoleculeSet object used to calculate sorted similarities.
 Only used if self.similarities or
 self.sorted_similarities not set.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>Ids of most similar molecules in decreasing</dt><dd><p>order of dissimilarity.</p>
 </dd>
@@ -176,7 +177,7 @@ self.sorted_similarities not set.</p>
 <p>np.ndarray(float): Corresponding similarity values.</p>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray(int)</p>
 </dd>
 </dl>
@@ -190,12 +191,12 @@ similar to a query Molecule.This is defined as the sorted set
 (decreasing similarity)  of molecules with the highest
 (query_molecule, set_molecule) similarity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>molecule_set</strong> (<em>AIMSim.chemical_datastructures MoleculeSet</em>) – MoleculeSet object used to calculate sorted similarities.
 Only used if self.similarities or
 self.sorted_similarities not set.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>Ids of most similar</dt><dd><p>molecules in decreasing order of similarity.</p>
 </dd>
@@ -203,7 +204,7 @@ self.sorted_similarities not set.</p>
 <p>np.ndarray(float): Corresponding similarity values.</p>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray(int)</p>
 </dd>
 </dl>
@@ -213,15 +214,15 @@ self.sorted_similarities not set.</p>
 
 </section>
 <section id="module-aimsim.tasks.identify_outliers">
-<span id="aimsim-tasks-identify-outliers-module"></span><h2>aimsim.tasks.identify_outliers module<a class="headerlink" href="#module-aimsim.tasks.identify_outliers" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-identify-outliers-module"></span><h2>aimsim.tasks.identify_outliers module<a class="headerlink" href="#module-aimsim.tasks.identify_outliers" title="Permalink to this heading"></a></h2>
 <p>Subclass of Task that implements an IsolationForest to identify outliers.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.identify_outliers.IdentifyOutliers">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.identify_outliers.</span></span><span class="sig-name descname"><span class="pre">IdentifyOutliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.identify_outliers.IdentifyOutliers" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">aimsim.tasks.task.Task</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a></p>
 <p>Subclass of Task to identify outliers via an IsolationForest.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>Task</strong> (<em>abstract class</em>) – Parent abstract class.</p>
 </dd>
 </dl>
@@ -237,14 +238,14 @@ self.sorted_similarities not set.</p>
 
 </section>
 <section id="module-aimsim.tasks.measure_search">
-<span id="aimsim-tasks-measure-search-module"></span><h2>aimsim.tasks.measure_search module<a class="headerlink" href="#module-aimsim.tasks.measure_search" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-measure-search-module"></span><h2>aimsim.tasks.measure_search module<a class="headerlink" href="#module-aimsim.tasks.measure_search" title="Permalink to this heading"></a></h2>
 <p>Identify most appropriate choice of fingerprint and similarity measure by
 evaluating the response of the nearest and furthest neighbors. This is called
 measure choice for brevity (although both measure and features are chosen)</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.measure_search.MeasureSearch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.measure_search.</span></span><span class="sig-name descname"><span class="pre">MeasureSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.measure_search.MeasureSearch" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">aimsim.tasks.task.Task</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.measure_search.MeasureSearch.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.measure_search.MeasureSearch.__init__" title="Permalink to this definition"></a></dt>
@@ -258,7 +259,7 @@ measure choice for brevity (although both measure and features are chosen)</p>
 <span class="sig-name descname"><span class="pre">get_best_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule_set_configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsample_subset_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optim_algo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'max_min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.measure_search.MeasureSearch.get_best_measure" title="Permalink to this definition"></a></dt>
 <dd><p>Get the best measure for quantity of interest.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>molecule_set_configs</strong> (<em>dict</em>) – All configurations (except
 fingerprint_type and similarity_measure) needed to form
@@ -302,7 +303,7 @@ the metricity property
 (i.e. can be converted to distance metrics) are selected.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl>
 <dt>Top performer with fields:</dt><dd><blockquote>
 <div><p>fingerprint_type (str): Label for fingerprint type</p>
@@ -322,7 +323,7 @@ nearest_neighbor_correlation (float): Correlation of property</p>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(NamedTuple)</p>
 </dd>
 </dl>
@@ -332,12 +333,12 @@ nearest_neighbor_correlation (float): Correlation of property</p>
 
 </section>
 <section id="module-aimsim.tasks.see_property_variation_with_similarity">
-<span id="aimsim-tasks-see-property-variation-with-similarity-module"></span><h2>aimsim.tasks.see_property_variation_with_similarity module<a class="headerlink" href="#module-aimsim.tasks.see_property_variation_with_similarity" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-see-property-variation-with-similarity-module"></span><h2>aimsim.tasks.see_property_variation_with_similarity module<a class="headerlink" href="#module-aimsim.tasks.see_property_variation_with_similarity" title="Permalink to this heading"></a></h2>
 <p>Task to visualize property similarity over a dataset.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.see_property_variation_with_similarity.</span></span><span class="sig-name descname"><span class="pre">SeePropertyVariationWithSimilarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">aimsim.tasks.task.Task</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__" title="Permalink to this definition"></a></dt>
@@ -354,10 +355,10 @@ furthest (most dissimilar) neighbors
 :param molecule_set: Molecules object of the molecule database.
 :type molecule_set: AIMSim.chemical_datastructures MoleculeSet</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Correlation between properties.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(float)</p>
 </dd>
 </dl>
@@ -371,10 +372,10 @@ nearest (most similar) neighbors
 :param molecule_set: Molecules object of the molecule database.
 :type molecule_set: AIMSim.chemical_datastructures MoleculeSet</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Correlation between properties.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(float)</p>
 </dd>
 </dl>
@@ -384,12 +385,12 @@ nearest (most similar) neighbors
 
 </section>
 <section id="module-aimsim.tasks.task">
-<span id="aimsim-tasks-task-module"></span><h2>aimsim.tasks.task module<a class="headerlink" href="#module-aimsim.tasks.task" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-task-module"></span><h2>aimsim.tasks.task module<a class="headerlink" href="#module-aimsim.tasks.task" title="Permalink to this heading"></a></h2>
 <p>Abstract task class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.task.Task">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.task.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.task.Task" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.task.Task.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.task.Task.__init__" title="Permalink to this definition"></a></dt>
@@ -402,7 +403,7 @@ nearest (most similar) neighbors
 
 </section>
 <section id="module-aimsim.tasks.task_manager">
-<span id="aimsim-tasks-task-manager-module"></span><h2>aimsim.tasks.task_manager module<a class="headerlink" href="#module-aimsim.tasks.task_manager" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-task-manager-module"></span><h2>aimsim.tasks.task_manager module<a class="headerlink" href="#module-aimsim.tasks.task_manager" title="Permalink to this heading"></a></h2>
 <p>Class to call al tasks in sequence.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.task_manager.TaskManager">
@@ -413,7 +414,7 @@ nearest (most similar) neighbors
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tasks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.task_manager.TaskManager.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Sequentially launches all the tasks from the configuration file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tasks</strong> (<em>dict</em>) – The tasks field of the config yaml containing various
 tasks and their parameters.</p>
 </dd>
@@ -424,18 +425,18 @@ tasks and their parameters.</p>
 
 </section>
 <section id="module-aimsim.tasks.visualize_dataset">
-<span id="aimsim-tasks-visualize-dataset-module"></span><h2>aimsim.tasks.visualize_dataset module<a class="headerlink" href="#module-aimsim.tasks.visualize_dataset" title="Permalink to this headline"></a></h2>
+<span id="aimsim-tasks-visualize-dataset-module"></span><h2>aimsim.tasks.visualize_dataset module<a class="headerlink" href="#module-aimsim.tasks.visualize_dataset" title="Permalink to this heading"></a></h2>
 <p>Create similarity plots for the dataset.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.tasks.visualize_dataset.VisualizeDataset">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.tasks.visualize_dataset.</span></span><span class="sig-name descname"><span class="pre">VisualizeDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.visualize_dataset.VisualizeDataset" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">aimsim.tasks.task.Task</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#aimsim.tasks.task.Task" title="aimsim.tasks.task.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aimsim.tasks.visualize_dataset.VisualizeDataset.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.tasks.visualize_dataset.VisualizeDataset.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor for the VisualizeDataset class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>configs</strong> (<em>dict</em>) – Dictionary of configurations. Default is None.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword arguments to modify configs fields.</p></li>
@@ -469,7 +470,7 @@ heatmap_plot_settings: {}  # pass through keywords for</p>
 
 </section>
 <section id="module-aimsim.tasks">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim.tasks" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim.tasks" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aimsim.chemical_datastructures package &mdash; AIMSim 1.0.3 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -89,12 +90,12 @@
            <div itemprop="articleBody">
              
   <section id="aimsim-chemical-datastructures-package">
-<h1>aimsim.chemical_datastructures package<a class="headerlink" href="#aimsim-chemical-datastructures-package" title="Permalink to this headline"></a></h1>
+<h1>aimsim.chemical_datastructures package<a class="headerlink" href="#aimsim-chemical-datastructures-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-aimsim.chemical_datastructures.molecule">
-<span id="aimsim-chemical-datastructures-molecule-module"></span><h2>aimsim.chemical_datastructures.molecule module<a class="headerlink" href="#module-aimsim.chemical_datastructures.molecule" title="Permalink to this headline"></a></h2>
+<span id="aimsim-chemical-datastructures-molecule-module"></span><h2>aimsim.chemical_datastructures.molecule module<a class="headerlink" href="#module-aimsim.chemical_datastructures.molecule" title="Permalink to this heading"></a></h2>
 <p>Abstraction of RDKit molecule with relevant property manipulation methods.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.chemical_datastructures.molecule.Molecule">
@@ -107,7 +108,7 @@
 <dd><p>Graph-level information of molecule.
 Implemented as an RDKIT mol object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>RDKIT mol object</p>
 </dd>
 </dl>
@@ -118,7 +119,7 @@ Implemented as an RDKIT mol object.</p>
 <span class="sig-name descname"><span class="pre">mol_text</span></span><a class="headerlink" href="#aimsim.chemical_datastructures.molecule.Molecule.mol_text" title="Permalink to this definition"></a></dt>
 <dd><p>Text identifier of the molecule.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -131,7 +132,7 @@ Implemented as an RDKIT mol object.</p>
 This is typically the response being studied.
 E.g. Boiling point, Selectivity etc.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -143,7 +144,7 @@ E.g. Boiling point, Selectivity etc.</p>
 <dd><p>Vector representation of a molecule.
 Commonly a fingerprint.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Descriptor object</p>
 </dd>
 </dl>
@@ -209,7 +210,7 @@ equivalence of two molecules.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_property_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_descriptor_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.chemical_datastructures.molecule.Molecule.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_graph</strong> (<em>RDKIT mol object</em>) – Graph-level information of molecule.
 Implemented as an RDKIT mol object. Default is None.</p></li>
@@ -245,7 +246,7 @@ this string is used to set it.</p></li>
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
 <dd><p>Draw or molecule graph.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fpath</strong> (<em>str</em>) – Path of file to store image. If None, image is
 displayed in io as a Tkinter windows. Default is None.</p></li>
@@ -260,10 +261,10 @@ displayed in io as a Tkinter windows. Default is None.</p></li>
 <span class="sig-name descname"><span class="pre">get_descriptor_val</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
 <dd><p>Get value of molecule descriptor.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>value(s) of the descriptor.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -284,24 +285,24 @@ displayed in io as a Tkinter windows. Default is None.</p></li>
 <span class="sig-name descname"><span class="pre">get_similarity_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_measure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition"></a></dt>
 <dd><p>Get a similarity metric to a target molecule</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>target_mol</strong> (<em>AIMSim.ops Molecule</em>) – Target molecule. Similarity
 score is with respect to this molecule</p></li>
 <li><p><strong>similarity_measure</strong> (<em>AIMSim.ops SimilarityMeasure</em>) – metric used.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>Similarity coefficient by the chosen</dt><dd><p>method.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>similarity_score (float)</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="aimsim.html#aimsim.exceptions.NotInitializedError" title="aimsim.exceptions.NotInitializedError"><strong>NotInitializedError</strong></a> – If target_molecule has uninitialized descriptor. See note.</p>
 </dd>
 </dl>
@@ -312,7 +313,7 @@ score is with respect to this molecule</p></li>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_molecule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
 <dd><p>Check if the target_molecule is a duplicate of source_molecule.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source_molecule</strong> (<em>AIMSim.chemical_datastructures Molecule</em>) – Source
 molecule to compare.</p></li>
@@ -320,10 +321,10 @@ molecule to compare.</p></li>
 molecule to compare.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the molecules are the same.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
@@ -337,13 +338,13 @@ to calculate the fingerprint of the self molecules.
 If this fails because of the absence of mol_graph attribute in
 target_molecule, a ValueError is raised.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>reference_mol</strong> (<em>AIMSim.ops Molecule</em>) – Target molecule. Fingerprint</p></li>
 <li><p><strong>reference.</strong> (<em>of this molecule is used as the</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – </p>
 </dd>
 </dl>
@@ -354,7 +355,7 @@ target_molecule, a ValueError is raised.</p>
 <span class="sig-name descname"><span class="pre">set_descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arbitrary_descriptor_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fingerprint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.chemical_datastructures.molecule.Molecule.set_descriptor" title="Permalink to this definition"></a></dt>
 <dd><p>Sets molecular descriptor attribute.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arbitrary_descriptor_val</strong> (<em>np.array</em><em> or </em><em>list</em>) – Arbitrary descriptor
 vector. Default is None.</p></li>
@@ -371,7 +372,7 @@ fingerprint defaults. Default is None.</p></li>
 
 </section>
 <section id="module-aimsim.chemical_datastructures.molecule_set">
-<span id="aimsim-chemical-datastructures-molecule-set-module"></span><h2>aimsim.chemical_datastructures.molecule_set module<a class="headerlink" href="#module-aimsim.chemical_datastructures.molecule_set" title="Permalink to this headline"></a></h2>
+<span id="aimsim-chemical-datastructures-molecule-set-module"></span><h2>aimsim.chemical_datastructures.molecule_set module<a class="headerlink" href="#module-aimsim.chemical_datastructures.molecule_set" title="Permalink to this heading"></a></h2>
 <p>Abstraction of a data set comprising multiple Molecule objects.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aimsim.chemical_datastructures.molecule_set.MoleculeSet">
@@ -385,7 +386,7 @@ dataset.</p>
 <dd><p>Controls how much information is displayed during
 plotting.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
@@ -396,7 +397,7 @@ plotting.</p>
 <span class="sig-name descname"><span class="pre">molecule_database</span></span><a class="headerlink" href="#aimsim.chemical_datastructures.molecule_set.MoleculeSet.molecule_database" title="Permalink to this definition"></a></dt>
 <dd><p>Collection of Molecule objects.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -408,7 +409,7 @@ plotting.</p>
 <dd><p>Descriptor or fingerprint used to featurize
 molecules in the molecule set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor" title="aimsim.ops.descriptor.Descriptor">Descriptor</a></p>
 </dd>
 </dl>
@@ -419,7 +420,7 @@ molecules in the molecule set.</p>
 <span class="sig-name descname"><span class="pre">similarity_measure</span></span><a class="headerlink" href="#aimsim.chemical_datastructures.molecule_set.MoleculeSet.similarity_measure" title="Permalink to this definition"></a></dt>
 <dd><p>Similarity measure used.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure" title="aimsim.ops.similarity_measures.SimilarityMeasure">SimilarityMeasure</a></p>
 </dd>
 </dl>
@@ -431,7 +432,7 @@ molecules in the molecule set.</p>
 <dd><p>n_mols X n_mols matrix of
 pairwise similarity scores.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy ndarray</p>
 </dd>
 </dl>
@@ -443,7 +444,7 @@ pairwise similarity scores.</p>
 <dd><p>Fraction of dataset to keep for analysis.
 Default is 1.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -458,7 +459,7 @@ heuristically determine if multiprocessing is worthwhile
 based on a curve fitted to the speedup data in the manuscript SI
 Default is 1.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int or str</p>
 </dd>
 </dl>
@@ -591,7 +592,7 @@ Spectral Embedding (‘spectral_embedding’)</p>
 <div><p>for selection subset of dataset for quick computations.</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sampling_random_state</strong> (<em>int</em>) – Random state used for sampling.
 Default is 42.</p>
 </dd>
@@ -603,7 +604,7 @@ Default is 42.</p>
 <span class="sig-name descname"><span class="pre">cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster the molecules of the MoleculeSet.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_clusters</strong> (<em>int</em>) – Number of clusters. Default is 8.</p></li>
 <li><p><strong>clustering_method</strong> (<em>str</em>) – <p>Clustering algorithm to use. Default is
@@ -638,14 +639,14 @@ listed below for these arguments:
 </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>Dictionary of cluster id</dt><dd><p>(key) –&gt; Names of molecules in cluster.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>cluster_grouped_mol_names (dict)</p>
 </dd>
 </dl>
@@ -667,18 +668,18 @@ and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
 <span class="sig-name descname"><span class="pre">compare_against_molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_molecule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id8" title="Permalink to this definition"></a></dt>
 <dd><p>Compare the a query molecule to all molecules of the set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>query_molecule</strong> (<em>AIMSim.chemical_datastructures Molecule</em>) – Target
 molecule to compare.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>Similarity scores between query</dt><dd><p>molecule and all other molecules of the molecule set.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>set_similarity (np.ndarray)</p>
 </dd>
 </dl>
@@ -698,14 +699,14 @@ molecule to compare.</p>
 This is can only be done for similarity measures which yields
 valid distances.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
 <dt>Distance matrix of the dataset.</dt><dd><p>Shape (n_samples, n_samples).</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
@@ -716,10 +717,10 @@ valid distances.</p>
 <span class="sig-name descname"><span class="pre">get_mol_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_mol_features" title="Permalink to this definition"></a></dt>
 <dd><p>Get features of the molecules in the set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(n_molecules, feature_dimensionality) array.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -733,10 +734,10 @@ attribute of the Molecule objects in the MoleculeSet. If this attribute
 is not present, then collection of mol_ids in the form
 “id: ” + str(mol_id) is returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array with molecules names.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -750,10 +751,10 @@ is not present, then collection of mol_ids in the form
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array with molecules properties or None.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray or None</p>
 </dd>
 </dl>
@@ -764,14 +765,14 @@ is not present, then collection of mol_ids in the form
 <span class="sig-name descname"><span class="pre">get_most_dissimilar_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id13" title="Permalink to this definition"></a></dt>
 <dd><p>Get pairs of samples which are least similar.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
 <dt>List(Tuple(Molecule, Molecule))</dt><dd><p>List of pairs of indices closest to one another.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="aimsim.html#aimsim.exceptions.NotInitializedError" title="aimsim.exceptions.NotInitializedError"><strong>NotInitializedError</strong></a> – If MoleculeSet object does not have
     similarity_measure attribute.</p>
 </dd>
@@ -783,7 +784,7 @@ is not present, then collection of mol_ids in the form
 <span class="sig-name descname"><span class="pre">get_most_similar_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id14" title="Permalink to this definition"></a></dt>
 <dd><p>Get pairs of samples which are most similar.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
 <dt>List(Tuple(Molecule, Molecule))</dt><dd><p>List of pairs of Molecules closest to one another.
 Since ties are broken randomly, this may be non-transitive
@@ -792,7 +793,7 @@ i.e. (A, B) =/=&gt; (B, A)</p>
 </dl>
 </p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="aimsim.html#aimsim.exceptions.NotInitializedError" title="aimsim.exceptions.NotInitializedError"><strong>NotInitializedError</strong></a> – If MoleculeSet object does not have
     similarity_measure attribute.</p>
 </dd>
@@ -804,11 +805,11 @@ i.e. (A, B) =/=&gt; (B, A)</p>
 <span class="sig-name descname"><span class="pre">get_pairwise_similarities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id15" title="Permalink to this definition"></a></dt>
 <dd><p>Get an array of pairwise similarities of molecules in the set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array of pairwise similarities of the molecules in
 the set. Self similarities are not calculated.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
@@ -820,13 +821,13 @@ the set. Self similarities are not calculated.</p>
 <dd><p>Get property of pairs of molecule
 which are most dissimilar to each other.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The first index is an array of reference mol
 properties and the second index is an array of the
 property of the respective most dissimilar molecule. Skips pairs
 of molecules for which molecule properties are not initialized.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(tuple)</p>
 </dd>
 </dl>
@@ -838,13 +839,13 @@ of molecules for which molecule properties are not initialized.</p>
 <dd><p>Get property of pairs of molecules
 which are most similar to each other.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The first index is an array of reference mol
 properties and the second index is an array of the
 property of the respective most similar molecule. Skips pairs
 of molecules for which molecule properties are not initialized.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(tuple)</p>
 </dd>
 </dl>
@@ -855,14 +856,14 @@ of molecules for which molecule properties are not initialized.</p>
 <span class="sig-name descname"><span class="pre">get_similarity_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id18" title="Permalink to this definition"></a></dt>
 <dd><p>Get the similarity matrix for the data set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
 <dt>Similarity matrix of the dataset.</dt><dd><p>Shape (n_samples, n_samples).</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
@@ -878,7 +879,7 @@ of molecules for which molecule properties are not initialized.</p>
 <dd><p>Use an embedding method to transform molecular descriptor to a
 low dimensional representation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>method</strong> (<em>str</em>) – The method used for generating lower dimensional
 embedding. Implemented methods are:
@@ -897,17 +898,17 @@ listed below for these arguments.
 ‘spectral_embedding’: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html">https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html</a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>Transformed descriptors of shape</dt><dd><p>(n_samples, n_components).</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>X (np.ndarray)</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="aimsim.html#aimsim.exceptions.InvalidConfigurationError" title="aimsim.exceptions.InvalidConfigurationError"><strong>InvalidConfigurationError</strong></a> – If illegal <a href="#id21"><span class="problematic" id="id22">method_</span></a> passed.</p>
 </dd>
 </dl>
@@ -939,13 +940,13 @@ Reduction. Science, 2000. 290(5500): p. 2319-2323.</p>
 <dd><p>Searches the name of a target molecule in the molecule set to
 determine if the target molecule is present in the molecule set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>target_molecule</strong> (<em>AIMSim.chemical_datastructures.Molecule</em>) – Target molecule to search.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>If the molecule is present in the molecule set or not.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(bool)</p>
 </dd>
 </dl>
@@ -955,7 +956,7 @@ determine if the target molecule is present in the molecule set.</p>
 
 </section>
 <section id="module-aimsim.chemical_datastructures">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim.chemical_datastructures" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim.chemical_datastructures" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

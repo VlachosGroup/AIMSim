@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AIMSim README &mdash; AIMSim 1.0.3 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -85,15 +86,15 @@
            <div itemprop="articleBody">
              
   <section id="aimsim-readme">
-<h1>AIMSim README<a class="headerlink" href="#aimsim-readme" title="Permalink to this headline"></a></h1>
+<h1>AIMSim README<a class="headerlink" href="#aimsim-readme" title="Permalink to this heading"></a></h1>
 <a class="reference external image-reference" href="interfaces/UI/AIMSim-logo.png"><img alt="AIMSim logo" src="_images/AIMSim-logo.png" /></a>
 <p>AIMSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints.</p>
 <section id="documentation-and-tutorial">
-<h2>Documentation and Tutorial<a class="headerlink" href="#documentation-and-tutorial" title="Permalink to this headline"></a></h2>
+<h2>Documentation and Tutorial<a class="headerlink" href="#documentation-and-tutorial" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://vlachosgroup.github.io/AIMSim/">View our Online Documentation</a> or try the <a class="reference external" href="https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb">*AIMSim* comprehensive tutorial in your browser</a>.</p>
 </section>
 <section id="purpose">
-<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline"></a></h2>
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this heading"></a></h2>
 <p><strong>Why Do We Need To Visualize Molecular Similarity / Diversity?</strong></p>
 <p>There are several contexts where it is helpful to visualize the diversity of a molecular dataset:</p>
 <p><em>Exploratory Experimental Synthesis</em></p>
@@ -114,18 +115,20 @@ identify “clusters of similarity” indicating the need for separately trained
 <p>Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.</p>
 </section>
 <section id="installing-aimsim">
-<h2>Installing AIMSim<a class="headerlink" href="#installing-aimsim" title="Permalink to this headline"></a></h2>
+<h2>Installing AIMSim<a class="headerlink" href="#installing-aimsim" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> can be installed with a single command:
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">aimsim</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">aimsim</span></code>
+This command also installs the required dependencies. It is recommended to install <code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> in a separate virtual environment.</p>
 </section>
 <section id="running-aimsim">
-<h2>Running AIMSim<a class="headerlink" href="#running-aimsim" title="Permalink to this headline"></a></h2>
-<p>Start <code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> with a graphical user interface:</p>
+<h2>Running AIMSim<a class="headerlink" href="#running-aimsim" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> is compatible with Python 3.7+.
+Start <code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> with a graphical user interface:</p>
 <p><code class="docutils literal notranslate"><span class="pre">aimsim</span></code></p>
 <p>Start <code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> with a prepared configuration YAML file (<code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>):</p>
 <p><code class="docutils literal notranslate"><span class="pre">aimsim</span> <span class="pre">config.yaml</span></code></p>
 <section id="currently-implemented-fingerprints">
-<h3>Currently Implemented Fingerprints<a class="headerlink" href="#currently-implemented-fingerprints" title="Permalink to this headline"></a></h3>
+<h3>Currently Implemented Fingerprints<a class="headerlink" href="#currently-implemented-fingerprints" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>Morgan Fingerprint (Equivalent to the ECFP fingerprints)</p></li>
 <li><p>RDKit Topological Fingerprint</p></li>
@@ -136,12 +139,12 @@ identify “clusters of similarity” indicating the need for separately trained
 </ol>
 </section>
 <section id="currently-implemented-similarity-scores">
-<h3>Currently Implemented Similarity Scores<a class="headerlink" href="#currently-implemented-similarity-scores" title="Permalink to this headline"></a></h3>
+<h3>Currently Implemented Similarity Scores<a class="headerlink" href="#currently-implemented-similarity-scores" title="Permalink to this heading"></a></h3>
 <p>44 commonly used similarity scores are implemented in AIMSim.
 Additional L0, L1 and L2 norm based similarities are also implemented. <a class="reference external" href="https://vlachosgroup.github.io/AIMSim/implemented_metrics.html">View our Online Documentation</a> for a complete list of implemented similarity scores.</p>
 </section>
 <section id="currently-implemented-functionalities">
-<h3>Currently Implemented Functionalities<a class="headerlink" href="#currently-implemented-functionalities" title="Permalink to this headline"></a></h3>
+<h3>Currently Implemented Functionalities<a class="headerlink" href="#currently-implemented-functionalities" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>Measure Search: Automate the search of fingerprint and similarity metric (called a “measure”) using the following algorithm:
 Step 1: Select an arbitrary featurization scheme.
@@ -166,12 +169,12 @@ Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity 
 </section>
 </section>
 <section id="contributors">
-<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline"></a></h2>
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this heading"></a></h2>
 <p>Developer: Himaghna Bhattacharjee, Vlachos Research Lab. (<a class="reference external" href="www.linkedin.com/in/himaghna-bhattacharjee">LinkedIn</a>)</p>
 <p>Developer: Jackson Burns, Don Watson Lab. (<a class="reference external" href="https://www.jacksonwarnerburns.com/">Personal Site</a>)</p>
 </section>
 <section id="developer-notes">
-<h2>Developer Notes<a class="headerlink" href="#developer-notes" title="Permalink to this headline"></a></h2>
+<h2>Developer Notes<a class="headerlink" href="#developer-notes" title="Permalink to this heading"></a></h2>
 <p>Issues and Pull Requests are welcomed! To propose an addition to <code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> open an issue and the developers will tag it as an <em>enhancement</em> and start discussion.</p>
 <p><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> includes an automated testing apparatus operated by Python’s <em>unittest</em> built-in package. To execute tests related to the core functionality of <code class="docutils literal notranslate"><span class="pre">AIMSim</span></code>, run this command:</p>
 <p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">unittest</span> <span class="pre">discover</span></code></p>
@@ -184,12 +187,12 @@ Step 8: Iterate Steps 1 – 7 to select the featurization scheme and similarity 
 <p>Be sure to bump the version in <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>.</p>
 </section>
 <section id="citation">
-<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline"></a></h2>
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this heading"></a></h2>
 <p>If you use this code for scientific publications, please cite the following paper.</p>
 <p>Bhattacharjee, H.҂; Burns, J.҂; Vlachos, D.G. (2021): AIMSim: An Accessible Cheminformatics Platform for Similarity Operations on Chemicals Datasets. ChemRxiv. Preprint. <a class="reference external" href="https://doi.org/10.26434/chemrxiv-2022-nw6f5">https://doi.org/10.26434/chemrxiv-2022-nw6f5</a></p>
 </section>
 <section id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h2>
+<h2>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
 <p>This code is made available under the terms of the <em>MIT Open License</em>:</p>
 <p>Copyright (c) 2020 Himaghna Bhattacharjee &amp; Jackson Burns</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -209,7 +212,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.</p>
 </section>
 <section id="works-cited">
-<h2>Works Cited<a class="headerlink" href="#works-cited" title="Permalink to this headline"></a></h2>
+<h2>Works Cited<a class="headerlink" href="#works-cited" title="Permalink to this heading"></a></h2>
 <p>[1] Collins, K. and Glorius, F., A robustness screen for the rapid assessment of chemical reactions. Nature Chem 5, 597–601 (2013). <a class="reference external" href="https://doi.org/10.1038/nchem.1669">https://doi.org/10.1038/nchem.1669</a></p>
 <p>[2] Chen, Y., Murray, P.R.D., Davies, A.T., and Willis M.C., J. Am. Chem. Soc. 140 (28), 8781-8787 (2018). <a class="reference external" href="https://doi.org/10.1021/jacs.8b04532">https://doi.org/10.1021/jacs.8b04532</a></p>
 <p>[3] Hastie, T., Tibshirani R. and Friedman J., The Elements of statistical Learning: Data Mining, Inference, and Prediction, 2nd Ed., Springer Series in Statistics (2009).</p>
