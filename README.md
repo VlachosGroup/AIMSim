@@ -41,8 +41,10 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 ## Installing AIMSim
 `AIMSim` can be installed with a single command:
 `pip install aimsim`
+This command also installs the required dependencies. It is recommended to install `AIMSim` in a separate virtual environment.
 
 ## Running AIMSim
+`AIMSim` is compatible with Python 3.7+.
 Start `AIMSim` with a graphical user interface:
 
 `aimsim`
