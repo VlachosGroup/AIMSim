@@ -44,7 +44,7 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 This command also installs the required dependencies. It is recommended to install `AIMSim` in a separate virtual environment.
 
 ## Running AIMSim
-`AIMSim` is compatible with Python 3.7+.
+`AIMSim` is compatible with Python 3.7 to 3.9.
 Start `AIMSim` with a graphical user interface:
 
 `aimsim`
