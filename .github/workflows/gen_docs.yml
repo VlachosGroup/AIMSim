@@ -40,7 +40,7 @@ jobs:
           mv README.rst docs
           mv implemented_metrics.rst docs
           cd docs
-          rm *.html *.doctree
+          rm *.html *.doctree || true
           sphinx-apidoc -f -o . ..
           make clean
           make html
