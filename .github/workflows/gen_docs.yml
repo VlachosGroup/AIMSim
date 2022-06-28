@@ -21,10 +21,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: docs
-      - name: Update Docs to Main    
+      - name: Update Docs to Master    
         run: |
           git fetch --all
-          git reset --hard origin/main
+          git reset --hard origin/Master
         
       - name: Generate Documentation
         run: |
