@@ -1,69 +1,69 @@
-aimsim.tasks package
+AIMSim.tasks package
 ====================
 
 Submodules
 ----------
 
-aimsim.tasks.cluster\_data module
+AIMSim.tasks.cluster\_data module
 ---------------------------------
 
-.. automodule:: aimsim.tasks.cluster_data
+.. automodule:: AIMSim.tasks.cluster_data
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.compare\_target\_molecule module
+AIMSim.tasks.compare\_target\_molecule module
 ---------------------------------------------
 
-.. automodule:: aimsim.tasks.compare_target_molecule
+.. automodule:: AIMSim.tasks.compare_target_molecule
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.identify\_outliers module
+AIMSim.tasks.identify\_outliers module
 --------------------------------------
 
-.. automodule:: aimsim.tasks.identify_outliers
+.. automodule:: AIMSim.tasks.identify_outliers
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.measure\_search module
+AIMSim.tasks.measure\_search module
 -----------------------------------
 
-.. automodule:: aimsim.tasks.measure_search
+.. automodule:: AIMSim.tasks.measure_search
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.see\_property\_variation\_with\_similarity module
+AIMSim.tasks.see\_property\_variation\_with\_similarity module
 --------------------------------------------------------------
 
-.. automodule:: aimsim.tasks.see_property_variation_with_similarity
+.. automodule:: AIMSim.tasks.see_property_variation_with_similarity
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.task module
+AIMSim.tasks.task module
 ------------------------
 
-.. automodule:: aimsim.tasks.task
+.. automodule:: AIMSim.tasks.task
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.task\_manager module
+AIMSim.tasks.task\_manager module
 ---------------------------------
 
-.. automodule:: aimsim.tasks.task_manager
+.. automodule:: AIMSim.tasks.task_manager
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.tasks.visualize\_dataset module
+AIMSim.tasks.visualize\_dataset module
 --------------------------------------
 
-.. automodule:: aimsim.tasks.visualize_dataset
+.. automodule:: AIMSim.tasks.visualize_dataset
    :members:
    :undoc-members:
    :show-inheritance:
@@ -71,7 +71,7 @@ aimsim.tasks.visualize\_dataset module
 Module contents
 ---------------
 
-.. automodule:: aimsim.tasks
+.. automodule:: AIMSim.tasks
    :members:
    :undoc-members:
    :show-inheritance:

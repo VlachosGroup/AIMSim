@@ -1,21 +1,21 @@
-aimsim.chemical\_datastructures package
+AIMSim.chemical\_datastructures package
 =======================================
 
 Submodules
 ----------
 
-aimsim.chemical\_datastructures.molecule module
+AIMSim.chemical\_datastructures.molecule module
 -----------------------------------------------
 
-.. automodule:: aimsim.chemical_datastructures.molecule
+.. automodule:: AIMSim.chemical_datastructures.molecule
    :members:
    :undoc-members:
    :show-inheritance:
 
-aimsim.chemical\_datastructures.molecule\_set module
+AIMSim.chemical\_datastructures.molecule\_set module
 ----------------------------------------------------
 
-.. automodule:: aimsim.chemical_datastructures.molecule_set
+.. automodule:: AIMSim.chemical_datastructures.molecule_set
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ aimsim.chemical\_datastructures.molecule\_set module
 Module contents
 ---------------
 
-.. automodule:: aimsim.chemical_datastructures
+.. automodule:: AIMSim.chemical_datastructures
    :members:
    :undoc-members:
    :show-inheritance:
