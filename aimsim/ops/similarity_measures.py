@@ -1,4 +1,5 @@
 """This module contains methods to find similarities between molecules."""
+from functools import lru_cache
 import numpy as np
 from rdkit import DataStructs
 from scipy.spatial.distance import cosine as scipy_cosine
@@ -252,7 +253,7 @@ class SimilarityMeasure:
         Returns:
             similarity_ (float): Similarity value
         """
-        if not np.any(mol1_descriptor.to_numpy()) or not np.any(mol2_descriptor.to_numpy()):
+        if not self._validate_fprint(mol1_descriptor) or not self._validate_fprint(mol2_descriptor):
             raise ValueError('Molecule descriptor has no active bits')
         similarity_ = None
         if self.metric == "l0_similarity":
@@ -1903,6 +1904,19 @@ class SimilarityMeasure:
             bool: True if it is a distance metric.
         """
         return hasattr(self, "to_distance")
+
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _validate_fprint(descriptor: Descriptor) -> bool:
+        """Are there any non-zero bits in this descriptor?
+
+        Args:
+            descriptor (Descriptor): AIMSim.ops.Descriptor object
+
+        Returns:
+            boolean: False if descriptor is all zero, True otherwise
+        """
+        return np.any(descriptor.to_numpy())
 
     @staticmethod
     def get_compatible_metrics():
