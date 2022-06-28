@@ -10,8 +10,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.5', '3.6', '3.7', '3.8', '3.9', '3.10']
+    name: Python ${{ matrix.python-version }} sample
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2      
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
       - name: Install Dependencies
         run: |
           python -m pip install rdkit-pypi
@@ -20,7 +29,6 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -e .
           python -m pip install coverage
-      
       - name: Run Tests
         run: |
           coverage run --source=. --omit=interfaces/*,aimsim/__main__.py,aimsim/tasks/__init__.py,aimsim/ops/__init__.py,aimsim/chemical_datastructures/__init__.py,aimsim/utils/__init__.py,setup.py,tests/*,aimsim/__init__.py,aimsim/utils/plotting_scripts.py -m unittest discover
