@@ -27,6 +27,7 @@ def get_version(rel_path):
 
 setup(
     name="aimsim",
+    python_requires='>=3.7,<3.10',
     version=get_version("aimsim/__init__.py"),
     description=desc,
     long_description=README,
