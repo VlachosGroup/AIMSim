@@ -24,7 +24,7 @@ jobs:
       - name: Update Docs to Master    
         run: |
           git fetch --all
-          git reset --hard origin/Master
+          git reset --hard origin/master
         
       - name: Generate Documentation
         run: |
