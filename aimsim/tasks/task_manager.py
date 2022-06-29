@@ -1,7 +1,10 @@
 """Class to call al tasks in sequence."""
+import plotly.graph_objects as go
 from aimsim.chemical_datastructures import MoleculeSet
 from aimsim.exceptions import InvalidConfigurationError
 from aimsim.tasks import *
+
+import matplotlib.pyplot as plt
 
 
 class TaskManager:
@@ -122,7 +125,7 @@ class TaskManager:
             sampling_ratio=sampling_ratio,
         )
 
-    def __call__(self, molecule_set_configs, headless=True):
+    def __call__(self, molecule_set_configs):
         """Launch all tasks from the queue.
 
         Args:
@@ -141,7 +144,4 @@ class TaskManager:
                     f"following error: {e.message}"
                 )
                 continue
-        if headless:
-            return
-        input("All tasks complete! Press enter to terminate "
-              "(plots will be closed).")
+        plt.show()

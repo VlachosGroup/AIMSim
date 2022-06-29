@@ -118,7 +118,6 @@ class SeePropertyVariationWithSimilarity(Task):
             print("Writing to file ", self.log_fpath)
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
-        plt.show()
 
     def get_property_correlations_in_most_similar(self, molecule_set):
         """Get the correlation between the property of molecules and their

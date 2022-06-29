@@ -88,7 +88,6 @@ class CompareTargetMolecule(Task):
             with open(self.log_fpath, "w") as fp:
                 fp.write(text_prompt)
         plot_density(self.similarities_, **self.plot_settings)
-        plt.show()
 
     def __str__(self):
         return "Task: Compare to a target molecule"

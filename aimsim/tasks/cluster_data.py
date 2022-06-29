@@ -137,17 +137,18 @@ class ClusterData(Task):
             densities = []
             for cluster_id in range(self.n_clusters):
                 densities.append(cluster_grouped_mol_properties[cluster_id])
-            plot_density(densities=densities,
-                         n_densities=self.n_clusters,
-                         legends=['Cluster'+str(_)
-                                  for _ in range(self.n_clusters)],
-                         plot_color=self.plot_settings[
-                             "cluster_plot"]["cluster_colors"],
-                         legend_fontsize=20,
-                         xlabel=self.plot_settings["cluster_plot"]["response"],
-                         ylabel='Density',
-                         shade=True)
-        plt.show()
+            plot_density(
+                densities=densities,
+                n_densities=self.n_clusters,
+                legends=['Cluster'+str(_)
+                         for _ in range(self.n_clusters)],
+                plot_color=self.plot_settings[
+                    "cluster_plot"]["cluster_colors"],
+                legend_fontsize=20,
+                xlabel=self.plot_settings["cluster_plot"]["response"],
+                ylabel='Density',
+                shade=True,
+            )
         method_ = self.plot_settings["embedding_plot"]["embedding"]["method"]
         reduced_features = molecule_set.get_transformed_descriptors(
             method_=method_,
@@ -166,7 +167,6 @@ class ClusterData(Task):
             hover_names=mol_names,
             cluster_colors=self.plot_settings["cluster_plot"]["cluster_colors"],
         )
-        plt.show()
 
     def __str__(self):
         return "Task: Cluster data"

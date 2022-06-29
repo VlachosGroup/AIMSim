@@ -89,7 +89,6 @@ class VisualizeDataset(Task):
             pairwise_similarity_vector,
             **self.plot_settings["pairwise_plot"],
         )
-        plt.show()
 
         method_ = self.plot_settings["embedding_plot"]["embedding"]["method"]
         reduced_features = molecule_set.get_transformed_descriptors(
