@@ -16,7 +16,7 @@ from aimsim.ops.similarity_measures import SimilarityMeasure
 import yaml
 import os
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 import tkinter.ttk as ttk
 import webbrowser
 import pkg_resources
@@ -34,21 +34,29 @@ class AIMSimUiApp:
         # build ui
         self.window = tk.Tk() if master is None else tk.Toplevel(master)
         self.window.title("AIMSim")
+
+        # add the logo
         resource_path = pkg_resources.resource_filename(
             __name__,
             "AIMSim-logo.png",
         )
         self.window.iconphoto(False, tk.PhotoImage(file=resource_path))
+
+        # setup attributes to hold files, variables, etc.
         self.databaseFile = tk.StringVar(self.window)
         self.targetMolecule = tk.StringVar(self.window)
         self.similarityMeasure = tk.StringVar(self.window)
         self.molecularDescriptor = tk.StringVar(self.window)
+
+        # title
         self.titleLabel = ttk.Label(self.window)
         self.titleLabel.configure(
             font="TkDefaultFont 14 bold", text="AI Molecular Similarity")
         self.titleLabel.place(anchor="center", relx="0.5",
                               rely="0.05", x="0", y="0")
         self.mainframe = ttk.Frame(self.window)
+
+        # checkbox for verbosity
         self.verboseCheckbutton = ttk.Checkbutton(self.mainframe)
         self.verboseCheckbutton.configure(
             compound="top", cursor="arrow", offvalue="False", onvalue="True"
@@ -57,6 +65,8 @@ class AIMSimUiApp:
         self.verboseCheckbutton.place(
             anchor="center", relx="0.1", rely="0.95", x="0", y="0"
         )
+
+        # text entry field for molecule database
         self.databaseFileEntry = ttk.Entry(
             self.mainframe, textvariable=self.databaseFile
         )
@@ -66,11 +76,27 @@ class AIMSimUiApp:
         self.databaseFileEntry.place(
             anchor="center", relx="0.5", rely="0.08", x="0", y="0"
         )
+
+        # database file browser button
+        self.browseButton = ttk.Button(self.mainframe)
+        self.browseButton.configure(text="Browse...")
+        self.browseButton.place(
+            anchor="center",
+            relx="0.85",
+            rely="0.08",
+            x="0",
+            y="0",
+        )
+        self.browseButton.configure(command=self.browseCallback)
+
+        # label for database entry line
         self.databaseFileLabel = ttk.Label(self.mainframe)
         self.databaseFileLabel.configure(text="Database File:")
         self.databaseFileLabel.place(
             anchor="center", relx="0.5", rely="0.02", x="0", y="0"
         )
+
+        # entry field for target molecule
         self.targetMoleculeEntry = ttk.Entry(
             self.mainframe, textvariable=self.targetMolecule
         )
@@ -80,27 +106,37 @@ class AIMSimUiApp:
         self.targetMoleculeEntry.place(
             anchor="center", relx="0.5", rely="0.28", x="0", y="0"
         )
+
+        # label for target molecule
         self.targetMoleculeLabel = ttk.Label(self.mainframe)
         self.targetMoleculeLabel.configure(text="Target Molecule:")
         self.targetMoleculeLabel.place(
             anchor="center", relx="0.5", rely="0.22", x="0", y="0"
         )
+
+        # checkbox for database similarity plots
         self.similarityPlotsCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotsCheckbutton.configure(text="Similarity Plots")
         self.similarityPlotsCheckbutton.place(
             anchor="center", relx="0.3", rely="0.15", x="0", y="0"
         )
+
+        # checkbox for property similarity plot
         self.propertySimilarityCheckbutton = ttk.Checkbutton(self.mainframe)
         self.propertySimilarityCheckbutton.configure(
             text="Property Similarity Plot")
         self.propertySimilarityCheckbutton.place(
             anchor="center", relx="0.7", rely="0.15", x="0", y="0"
         )
+
+        # Similarity plot for target molecule
         self.similarityPlotCheckbutton = ttk.Checkbutton(self.mainframe)
         self.similarityPlotCheckbutton.configure(text="Similarity Plot")
         self.similarityPlotCheckbutton.place(
             anchor="center", relx="0.5", rely="0.35", x="0", y="0"
         )
+
+        # dropdown for descriptors
         self.similarityMeasureCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.similarityMeasure, state="readonly"
         )
@@ -111,16 +147,22 @@ class AIMSimUiApp:
         self.similarityMeasureCombobox.place(
             anchor="center", relx="0.5", rely="0.46", x="0", y="0"
         )
+
+        # label for similarity metric
         self.similarityMeasureLabel = ttk.Label(self.mainframe)
         self.similarityMeasureLabel.configure(text="Similarity Measure:")
         self.similarityMeasureLabel.place(
             anchor="center", relx="0.5", rely="0.4", x="0", y="0"
         )
+
+        # label for descriptor dropdown
         self.molecularDescriptorLabel = ttk.Label(self.mainframe)
         self.molecularDescriptorLabel.configure(text="Molecular Descriptor:")
         self.molecularDescriptorLabel.place(
             anchor="center", relx="0.5", rely="0.54", x="0", y="0"
         )
+
+        # do not allow changes
         self.molecularDescriptorCombobox = ttk.Combobox(
             self.mainframe, textvariable=self.molecularDescriptor, state="readonly"
         )
@@ -128,7 +170,6 @@ class AIMSimUiApp:
             cursor="arrow",
             justify="left",
             takefocus=False,
-            # values=Descriptor.get_all_supported_descriptors(),
             values=Descriptor.get_supported_fprints(),
         )
 
@@ -151,17 +192,23 @@ class AIMSimUiApp:
             anchor="center", relx="0.5", rely="0.60", x="0", y="0"
         )
         self.molecularDescriptorCombobox.current(0)
+
+        # button to run AIMSim
         self.runButton = ttk.Button(self.mainframe)
         self.runButton.configure(text="Run")
         self.runButton.place(anchor="center", relx="0.5",
                              rely="0.75", x="0", y="0")
         self.runButton.configure(command=self.runCallback)
+
+        # uses default editor to open underlying config file button
         self.openConfigButton = ttk.Button(self.mainframe)
         self.openConfigButton.configure(text="Open Config")
         self.openConfigButton.place(
             anchor="center", relx="0.5", rely="0.85", x="0", y="0"
         )
         self.openConfigButton.configure(command=self.openConfigCallback)
+
+        # checkbox to show all descriptors in AIMSim
         self.showAllDescriptorsButton = ttk.Checkbutton(self.mainframe)
         self.showAllDescriptorsButton.configure(
             compound="top",
@@ -176,6 +223,8 @@ class AIMSimUiApp:
         self.showAllDescriptorsButton.place(
             anchor="center", relx="0.5", rely="0.67", x="0", y="0"
         )
+
+        # multiprocessing checkbox
         self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
         self.multiprocessingCheckbutton.configure(
             compound="top", cursor="arrow", offvalue="False", onvalue="True"
@@ -186,6 +235,8 @@ class AIMSimUiApp:
         self.multiprocessingCheckbutton.place(
             anchor="center", relx="0.78", rely="0.95", x="0", y="0"
         )
+
+        # checkbox for outlier checking
         self.identifyOutliersCheckbutton = ttk.Checkbutton(self.mainframe)
         self.identifyOutliersCheckbutton.configure(
             compound="top", cursor="arrow", offvalue="False", onvalue="True"
@@ -195,6 +246,8 @@ class AIMSimUiApp:
         self.identifyOutliersCheckbutton.place(
             anchor="center", relx="0.4", rely="0.95", x="0", y="0"
         )
+
+        # dimensions of window
         self.mainframe.configure(height="400", width="400")
         self.mainframe.place(anchor="nw", relheight="0.9",
                              rely="0.1", x="0", y="0")
@@ -205,6 +258,22 @@ class AIMSimUiApp:
 
         # Main widget
         self.mainwindow = self.window
+
+    def browseCallback(self):
+        """launch a file dialog and set the databse field"""
+        out = filedialog.askopenfilename(
+            initialdir=".",
+            title="Select Molecule Database File",
+            filetypes=[
+                ('SMILES', '.smi .txt .SMILES'),
+                ('Protein Data Bank', '.pdb'),
+                ('Comma-Separated Values', '.csv .tsv'),
+                ('Excel Workbook', '.xlsx'),
+            ],
+        )
+        if out:
+            self.databaseFile.set(out)
+        return
 
     def showAllDescriptorsCallback(self):
         """update the descriptors dropdown to show descriptors."""
