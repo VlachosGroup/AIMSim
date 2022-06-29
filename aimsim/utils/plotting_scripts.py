@@ -317,7 +317,7 @@ def plot_multiple_barchart(x,
         if len(legend_labels) != n_bars_per_xtick:
             raise InvalidConfigurationError(f'{len(legend_labels)} legend '
                                             f'labels not sufficient for '
-                                            f'{n_bars_per_xticks} bars')
+                                            f'{n_bars_per_xtick} bars')
         plt.legend(bars, legend_labels)
 
 
