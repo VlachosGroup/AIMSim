@@ -271,7 +271,8 @@ class AIMSimUiApp:
                 ('Excel Workbook', '.xlsx'),
             ],
         )
-        self.databaseFile.set(out)
+        if out:
+            self.databaseFile.set(out)
         return
 
     def showAllDescriptorsCallback(self):
