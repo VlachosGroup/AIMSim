@@ -236,12 +236,13 @@ class AIMSimUiApp:
 
         inner_dict = {}
         if "selected" in self.similarityPlotsCheckbutton.state():
-            inner_dict["plot_settings"] = {
+            inner_dict["similarity_plot_settings"] = {
                 "plot_color": "green",
-                "plot_title": "Entire Dataset",
+                "plot_title": "Molecule Database Similarity Distribution",
             }
             inner_dict["heatmap_plot_settings"] = {
                 "annotate": False,
+                "plot_title": "Molecule Database Pairwise Similarities",
                 "cmap": "viridis",
             }
         if len(inner_dict) > 0:
@@ -251,9 +252,9 @@ class AIMSimUiApp:
         if "selected" in self.similarityPlotCheckbutton.state():
             tasks_dict["compare_target_molecule"] = {
                 "target_molecule_smiles": self.targetMolecule.get(),
-                "plot_settings": {
+                "similarity_plot_settings": {
                     "plot_color": "orange",
-                    "plot_title": "Compared to Target Molecule",
+                    "plot_title": "Molecule Database Compared to Target Molecule",
                 },
                 "identify_closest_furthest": {"out_file_path": "AIMSim-ui_output.txt"},
             }
