@@ -4,6 +4,7 @@
 ![AIMSim Logo](interfaces/UI/AIMSim-logo.png)
 <p align="center">
   <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/VlachosGroup/AIMSim?style=social">
+  <img alt="Total Downloads" src="https://static.pepy.tech/personalized-badge/aimsim?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Downloads">
   <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/aimsim">
   <img alt="PyPI" src="https://img.shields.io/pypi/v/aimsim">
   <img alt="PyPI - License" src="https://img.shields.io/github/license/VlachosGroup/AIMSim">
