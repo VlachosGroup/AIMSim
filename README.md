@@ -1,9 +1,7 @@
 <h1 align="center">AIMSim README</h1> 
 <h3 align="center">Visualizing Diversity in your Molecular Dataset</h3>
 
-<p align="center">  
-  <img alt="aimsimlogo" src="https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png">
-</p> 
+![AIMSim Logo](interfaces/UI/AIMSim-logo.png)
 <p align="center">
   <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/VlachosGroup/AIMSim?style=social">
   <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/aimsim">
