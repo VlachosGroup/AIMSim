@@ -1,8 +1,15 @@
-# AIMSim README
+<h1 align="center">AIMSim README</h1> 
+<h3 align="center">Visualizing Diversity in your Molecular Dataset</h3>
 
-![AIMSim logo](interfaces/UI/AIMSim-logo.png)
-
-AIMSim is a tool for visualizing diversity in your molecular data-set using structural fingerprints. 
+<p align="center">  
+  <img alt="aimsimlogo" src="https://github.com/VlachosGroup/AIMSim/blob/master/interfaces/UI/AIMSim-logo.png">
+</p> 
+<p align="center">
+  <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/VlachosGroup/AIMSim?style=social">
+  <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/aimsim">
+  <img alt="PyPI" src="https://img.shields.io/pypi/v/aimsim">
+  <img alt="PyPI - License" src="https://img.shields.io/github/license/VlachosGroup/AIMSim">
+</p>
 
 ## Documentation and Tutorial
 [View our Online Documentation](https://vlachosgroup.github.io/AIMSim/) or try the [_AIMSim_ comprehensive tutorial in your browser](https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb).
