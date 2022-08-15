@@ -14,3 +14,4 @@ rdkit-pypi
 psutil
 padelpy
 plotly
+customtkinter
