@@ -22,7 +22,10 @@ import webbrowser
 import pkg_resources
 
 
-class AIMSimUiApp:
+import customtkinter as ctk
+
+
+class AIMSimUiApp(ctk.CTk):
     """User interface to access key functionalities of AIMSim."""
 
     def __init__(self, master=None):
@@ -32,15 +35,15 @@ class AIMSimUiApp:
             master (tk, optional): tk window. Defaults to None.
         """
         # build ui
-        self.window = tk.Tk() if master is None else tk.Toplevel(master)
+        self.window = ctk.CTk() if master is None else ctk.CTkToplevel(master)
         self.window.title("AIMSim")
 
         # add the logo
-        resource_path = pkg_resources.resource_filename(
-            __name__,
-            "AIMSim-logo.png",
-        )
-        self.window.iconphoto(False, tk.PhotoImage(file=resource_path))
+        # resource_path = pkg_resources.resource_filename(
+        #     __name__,
+        #     "AIMSim-logo.png",
+        # )
+        # self.window.iconphoto(False, tk.PhotoImage(file=resource_path))
 
         # setup attributes to hold files, variables, etc.
         self.databaseFile = tk.StringVar(self.window)
@@ -49,25 +52,28 @@ class AIMSimUiApp:
         self.molecularDescriptor = tk.StringVar(self.window)
 
         # title
-        self.titleLabel = ttk.Label(self.window)
+        self.titleLabel = ctk.CTkLabel(self.window)
         self.titleLabel.configure(
             font="TkDefaultFont 14 bold", text="AI Molecular Similarity")
         self.titleLabel.place(anchor="center", relx="0.5",
                               rely="0.05", x="0", y="0")
-        self.mainframe = ttk.Frame(self.window)
+        self.mainframe = ctk.CTkFrame(self.window)
 
         # checkbox for verbosity
-        self.verboseCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.verboseCheckbutton.configure(
-            compound="top", cursor="arrow", offvalue="False", onvalue="True"
+        self.verboseCheckbutton = ctk.CTkCheckBox(
+            self.mainframe,
+            cursor="arrow",
+            offvalue="False",
+            onvalue="True",
+            state=tk.NORMAL,
+            text="Verbose",
         )
-        self.verboseCheckbutton.configure(state="normal", text="Verbose")
         self.verboseCheckbutton.place(
             anchor="center", relx="0.1", rely="0.95", x="0", y="0"
         )
 
         # text entry field for molecule database
-        self.databaseFileEntry = ttk.Entry(
+        self.databaseFileEntry = ctk.CTkEntry(
             self.mainframe, textvariable=self.databaseFile
         )
         _text_ = """smiles_responses.txt"""
@@ -78,7 +84,7 @@ class AIMSimUiApp:
         )
 
         # database file browser button
-        self.browseButton = ttk.Button(self.mainframe)
+        self.browseButton = ctk.CTkButton(self.mainframe)
         self.browseButton.configure(text="Browse...")
         self.browseButton.place(
             anchor="center",
@@ -90,14 +96,14 @@ class AIMSimUiApp:
         self.browseButton.configure(command=self.browseCallback)
 
         # label for database entry line
-        self.databaseFileLabel = ttk.Label(self.mainframe)
+        self.databaseFileLabel = ctk.CTkLabel(self.mainframe)
         self.databaseFileLabel.configure(text="Database File:")
         self.databaseFileLabel.place(
             anchor="center", relx="0.5", rely="0.02", x="0", y="0"
         )
 
         # entry field for target molecule
-        self.targetMoleculeEntry = ttk.Entry(
+        self.targetMoleculeEntry = ctk.CTkEntry(
             self.mainframe, textvariable=self.targetMolecule
         )
         _text_ = """CO"""
@@ -108,21 +114,21 @@ class AIMSimUiApp:
         )
 
         # label for target molecule
-        self.targetMoleculeLabel = ttk.Label(self.mainframe)
+        self.targetMoleculeLabel = ctk.CTkLabel(self.mainframe)
         self.targetMoleculeLabel.configure(text="Target Molecule:")
         self.targetMoleculeLabel.place(
             anchor="center", relx="0.5", rely="0.22", x="0", y="0"
         )
 
         # checkbox for database similarity plots
-        self.similarityPlotsCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.similarityPlotsCheckbutton = ctk.CTkCheckBox(self.mainframe)
         self.similarityPlotsCheckbutton.configure(text="Similarity Plots")
         self.similarityPlotsCheckbutton.place(
             anchor="center", relx="0.3", rely="0.15", x="0", y="0"
         )
 
         # checkbox for property similarity plot
-        self.propertySimilarityCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.propertySimilarityCheckbutton = ctk.CTkCheckBox(self.mainframe)
         self.propertySimilarityCheckbutton.configure(
             text="Property Similarity Plot")
         self.propertySimilarityCheckbutton.place(
@@ -130,45 +136,44 @@ class AIMSimUiApp:
         )
 
         # Similarity plot for target molecule
-        self.similarityPlotCheckbutton = ttk.Checkbutton(self.mainframe)
+        self.similarityPlotCheckbutton = ctk.CTkCheckBox(self.mainframe)
         self.similarityPlotCheckbutton.configure(text="Similarity Plot")
         self.similarityPlotCheckbutton.place(
             anchor="center", relx="0.5", rely="0.35", x="0", y="0"
         )
 
         # dropdown for descriptors
-        self.similarityMeasureCombobox = ttk.Combobox(
-            self.mainframe, textvariable=self.similarityMeasure, state="readonly"
+        self.similarityMeasureCombobox = ctk.CTkComboBox(
+            self.mainframe, variable=self.similarityMeasure, state="readonly"
         )
         self.similarityMeasureCombobox.configure(
             takefocus=False, values=SimilarityMeasure.get_supported_metrics()
         )
-        self.similarityMeasureCombobox.current(0)
+        self.similarityMeasureCombobox.set(0)
         self.similarityMeasureCombobox.place(
             anchor="center", relx="0.5", rely="0.46", x="0", y="0"
         )
 
         # label for similarity metric
-        self.similarityMeasureLabel = ttk.Label(self.mainframe)
+        self.similarityMeasureLabel = ctk.CTkLabel(self.mainframe)
         self.similarityMeasureLabel.configure(text="Similarity Measure:")
         self.similarityMeasureLabel.place(
             anchor="center", relx="0.5", rely="0.4", x="0", y="0"
         )
 
         # label for descriptor dropdown
-        self.molecularDescriptorLabel = ttk.Label(self.mainframe)
+        self.molecularDescriptorLabel = ctk.CTkLabel(self.mainframe)
         self.molecularDescriptorLabel.configure(text="Molecular Descriptor:")
         self.molecularDescriptorLabel.place(
             anchor="center", relx="0.5", rely="0.54", x="0", y="0"
         )
 
         # do not allow changes
-        self.molecularDescriptorCombobox = ttk.Combobox(
-            self.mainframe, textvariable=self.molecularDescriptor, state="readonly"
+        self.molecularDescriptorCombobox = ctk.CTkComboBox(
+            self.mainframe, variable=self.molecularDescriptor, state="readonly"
         )
         self.molecularDescriptorCombobox.configure(
             cursor="arrow",
-            justify="left",
             takefocus=False,
             values=Descriptor.get_supported_fprints(),
         )
@@ -191,17 +196,17 @@ class AIMSimUiApp:
         self.molecularDescriptorCombobox.place(
             anchor="center", relx="0.5", rely="0.60", x="0", y="0"
         )
-        self.molecularDescriptorCombobox.current(0)
+        self.molecularDescriptorCombobox.set(0)
 
         # button to run AIMSim
-        self.runButton = ttk.Button(self.mainframe)
+        self.runButton = ctk.CTkButton(self.mainframe)
         self.runButton.configure(text="Run")
         self.runButton.place(anchor="center", relx="0.5",
                              rely="0.75", x="0", y="0")
         self.runButton.configure(command=self.runCallback)
 
         # uses default editor to open underlying config file button
-        self.openConfigButton = ttk.Button(self.mainframe)
+        self.openConfigButton = ctk.CTkButton(self.mainframe)
         self.openConfigButton.configure(text="Open Config")
         self.openConfigButton.place(
             anchor="center", relx="0.5", rely="0.85", x="0", y="0"
@@ -209,9 +214,8 @@ class AIMSimUiApp:
         self.openConfigButton.configure(command=self.openConfigCallback)
 
         # checkbox to show all descriptors in AIMSim
-        self.showAllDescriptorsButton = ttk.Checkbutton(self.mainframe)
-        self.showAllDescriptorsButton.configure(
-            compound="top",
+        self.showAllDescriptorsButton = ctk.CTkCheckBox(
+            self.mainframe,
             cursor="arrow",
             offvalue="False",
             onvalue="True",
@@ -225,24 +229,28 @@ class AIMSimUiApp:
         )
 
         # multiprocessing checkbox
-        self.multiprocessingCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.multiprocessingCheckbutton.configure(
-            compound="top", cursor="arrow", offvalue="False", onvalue="True"
+        self.multiprocessingCheckbutton = ctk.CTkCheckBox(
+            self.mainframe,
+            cursor="arrow",
+            offvalue="False",
+            onvalue="True"
         )
         self.multiprocessingCheckbutton.configure(
-            state="normal", text="Enable Multiple Workers"
+            state=tk.NORMAL, text="Enable Multiple Workers"
         )
         self.multiprocessingCheckbutton.place(
             anchor="center", relx="0.78", rely="0.95", x="0", y="0"
         )
 
         # checkbox for outlier checking
-        self.identifyOutliersCheckbutton = ttk.Checkbutton(self.mainframe)
-        self.identifyOutliersCheckbutton.configure(
-            compound="top", cursor="arrow", offvalue="False", onvalue="True"
+        self.identifyOutliersCheckbutton = ctk.CTkCheckBox(
+            self.mainframe,
+            cursor="arrow",
+            offvalue="False",
+            onvalue="True",
         )
         self.identifyOutliersCheckbutton.configure(
-            state="normal", text="Outlier Check")
+            state=tk.NORMAL, text="Outlier Check")
         self.identifyOutliersCheckbutton.place(
             anchor="center", relx="0.4", rely="0.95", x="0", y="0"
         )
