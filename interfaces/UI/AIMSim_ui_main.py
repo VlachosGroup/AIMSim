@@ -23,15 +23,16 @@ import pkg_resources
 
 
 import customtkinter as ctk
+from idlelib.tooltip import ToolTip
 
-ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
+ctk.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
 
 class AIMSimUiApp(ctk.CTk):
     """User interface to access key functionalities of AIMSim."""
-    WIDTH = 400
-    HEIGHT = 300
+    WIDTH = 600
+    HEIGHT = 150
 
     def __init__(self):
         """Constructor for AIMSim UI.
@@ -42,7 +43,7 @@ class AIMSimUiApp(ctk.CTk):
         self.minsize(AIMSimUiApp.WIDTH, AIMSimUiApp.HEIGHT)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         self.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8), weight=1)
-        self.grid_columnconfigure((0, 1, 2), weight=1)
+        self.grid_columnconfigure((0, 1, 2, 3, 4), weight=1)
 
         # add the logo
         resource_path = pkg_resources.resource_filename(
@@ -67,9 +68,9 @@ class AIMSimUiApp(ctk.CTk):
         self.titleLabel.grid(
             row=0,
             column=0,
-            columnspan=3,
-            padx=20,
-            pady=(5, 0),
+            columnspan=5,
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
 
@@ -83,9 +84,9 @@ class AIMSimUiApp(ctk.CTk):
             row=1,
             column=0,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
-            sticky="",
+            padx=0,
+            pady=(0, 0),
+            sticky="e",
         )
         # text entry field for molecule database
         self.databaseFileEntry = ctk.CTkEntry(
@@ -97,10 +98,10 @@ class AIMSimUiApp(ctk.CTk):
         self.databaseFileEntry.grid(
             row=1,
             column=1,
-            columnspan=1,
-            padx=20,
-            pady=(5, 0),
-            sticky="",
+            columnspan=3,
+            padx=0,
+            pady=(0, 0),
+            sticky="we",
         )
         # database file browser button
         self.browseButton = ctk.CTkButton(
@@ -110,10 +111,10 @@ class AIMSimUiApp(ctk.CTk):
         )
         self.browseButton.grid(
             row=1,
-            column=2,
+            column=4,
             columnspan=1,
             padx=20,
-            pady=(5, 0),
+            pady=(0, 0),
             sticky="",
         )
 
@@ -121,14 +122,14 @@ class AIMSimUiApp(ctk.CTk):
         # checkbox for database similarity plots
         self.similarityPlotsCheckbutton = ctk.CTkCheckBox(
             master=self,
-            text="Similarity Plots",
+            text="Database Similarity Plot",
         )
         self.similarityPlotsCheckbutton.grid(
             row=2,
             column=0,
-            columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            columnspan=2,
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
         # checkbox for property similarity plot
@@ -139,9 +140,9 @@ class AIMSimUiApp(ctk.CTk):
         self.propertySimilarityCheckbutton.grid(
             row=2,
             column=2,
-            columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            columnspan=3,
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
 
@@ -155,90 +156,104 @@ class AIMSimUiApp(ctk.CTk):
             row=3,
             column=0,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
         # entry field for target molecule
         self.targetMoleculeEntry = ctk.CTkEntry(
             master=self, textvariable=self.targetMolecule
         )
-        _text_ = """CO"""
+        _text_ = """optional"""
         self.targetMoleculeEntry.delete("0", "end")
         self.targetMoleculeEntry.insert("0", _text_)
         self.targetMoleculeEntry.grid(
             row=3,
             column=1,
+            columnspan=3,
+            padx=0,
+            pady=(0, 0),
+            sticky="we",
+        )
+        # target molecule file browser button
+        self.browseTargetButton = ctk.CTkButton(
+            master=self,
+            text="Browse...",
+            command=self.browseCallback,
+        )
+        self.browseTargetButton.grid(
+            row=3,
+            column=4,
             columnspan=1,
             padx=20,
-            pady=(5, 0),
+            pady=(0, 0),
             sticky="",
         )
 
         # row 4
-        # Similarity plot for target molecule
-        self.similarityPlotCheckbutton = ctk.CTkCheckBox(
-            master=self,
-            text="Similarity Plot",
-        )
-        self.similarityPlotCheckbutton.grid(
-            row=4,
-            column=1,
-            columnspan=1,
-            padx=20,
-            pady=(5, 0),
-            sticky="",
-        )
-
-        # row 5
         # label for similarity metric
         self.similarityMeasureLabel = ctk.CTkLabel(master=self)
         self.similarityMeasureLabel.configure(text="Similarity Measure:")
         self.similarityMeasureLabel.grid(
-            row=5,
+            row=4,
             column=0,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
         # dropdown for similarity measure
-        self.similarityMeasureCombobox = ctk.CTkComboBox(
+        self.similarityMeasureCombobox = ctk.CTkOptionMenu(
             master=self,
             variable=self.similarityMeasure,
-            state="readonly",
             takefocus=False,
             values=SimilarityMeasure.get_supported_metrics(),
+            hover=False,
         )
         self.similarityMeasureCombobox.set(
             self.similarityMeasureCombobox.values[0]
         )
         self.similarityMeasureCombobox.grid(
-            row=5,
+            row=4,
             column=1,
-            columnspan=2,
+            columnspan=3,
             padx=20,
-            pady=(5, 0),
+            pady=(0, 0),
+            sticky="we",
+        )
+        # checkbox to automatically determine the similarity measure
+        self.useMeasureSearchCheckbox = ctk.CTkCheckBox(
+            master=self,
+            cursor="arrow",
+            command=self.useMeasureSearchCallback,
+            state="normal",
+            text="AI Search",
+        )
+        self.useMeasureSearchCheckbox.grid(
+            row=4,
+            column=4,
+            columnspan=1,
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
 
-        # row 6
+        # row 5
         # label for descriptor dropdown
         self.molecularDescriptorLabel = ctk.CTkLabel(master=self)
         self.molecularDescriptorLabel.configure(text="Molecular Descriptor:")
         self.molecularDescriptorLabel.grid(
-            row=6,
+            row=5,
             column=0,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
         # dropdown for molecular descriptor
-        self.molecularDescriptorCombobox = ctk.CTkComboBox(
+        self.molecularDescriptorCombobox = ctk.CTkOptionMenu(
             master=self,
             variable=self.molecularDescriptor,
-            state="readonly",
             cursor="arrow",
             takefocus=False,
             values=Descriptor.get_supported_fprints(),
@@ -263,12 +278,12 @@ class AIMSimUiApp(ctk.CTk):
             "<<ComboboxSelected>>", updateCompatibleMetricsListener
         )
         self.molecularDescriptorCombobox.grid(
-            row=6,
+            row=5,
             column=1,
-            columnspan=1,
+            columnspan=3,
             padx=20,
-            pady=(5, 0),
-            sticky="",
+            pady=(0, 0),
+            sticky="we",
         )
         self.molecularDescriptorCombobox.set(
             self.molecularDescriptorCombobox.values[0]
@@ -279,18 +294,18 @@ class AIMSimUiApp(ctk.CTk):
             cursor="arrow",
             command=self.showAllDescriptorsCallback,
             state="normal",
-            text="Show experimental descriptors",
+            text="Exp. Descriptors",
         )
         self.showAllDescriptorsButton.grid(
-            row=6,
-            column=2,
+            row=5,
+            column=4,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
 
-        # row 7
+        # row 6
         # button to run AIMSim
         self.runButton = ctk.CTkButton(
             master=self,
@@ -298,11 +313,11 @@ class AIMSimUiApp(ctk.CTk):
             command=self.runCallback,
         )
         self.runButton.grid(
-            row=7,
-            column=0,
+            row=6,
+            column=1,
             columnspan=1,
             padx=20,
-            pady=(5, 0),
+            pady=(0, 0),
             sticky="",
         )
         # uses default editor to open underlying config file button
@@ -312,15 +327,15 @@ class AIMSimUiApp(ctk.CTk):
             command=self.openConfigCallback,
         )
         self.openConfigButton.grid(
-            row=7,
-            column=1,
+            row=6,
+            column=3,
             columnspan=1,
             padx=20,
-            pady=(5, 0),
+            pady=(0, 0),
             sticky="",
         )
 
-        # row 8
+        # row 7
         # checkbox for verbosity
         self.verboseCheckbutton = ctk.CTkCheckBox(
             master=self,
@@ -329,11 +344,11 @@ class AIMSimUiApp(ctk.CTk):
             text="Verbose",
         )
         self.verboseCheckbutton.grid(
-            row=8,
+            row=7,
             column=0,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
         # checkbox for outlier checking
@@ -344,11 +359,11 @@ class AIMSimUiApp(ctk.CTk):
             text="Outlier Check",
         )
         self.identifyOutliersCheckbutton.grid(
-            row=8,
+            row=7,
             column=1,
             columnspan=1,
-            padx=20,
-            pady=(5, 0),
+            padx=0,
+            pady=(0, 0),
             sticky="",
         )
         # multiprocessing checkbox
@@ -356,16 +371,20 @@ class AIMSimUiApp(ctk.CTk):
             master=self,
             cursor="arrow",
             state=tk.NORMAL,
-            text="Enable Multiple Workers",
+            text="Multiple Processes",
         )
         self.multiprocessingCheckbutton.grid(
-            row=8,
+            row=7,
             column=2,
-            columnspan=1,
-            padx=20,
-            pady=(5, 0),
-            sticky="",
+            columnspan=2,
+            padx=0,
+            pady=(0, 0),
+            sticky="w",
         )
+
+        # add tooltips
+        ToolTip(self.openConfigButton,
+                "Opens a config file corresponding\nto the last run")
 
     def browseCallback(self):
         """launch a file dialog and set the databse field"""
@@ -403,6 +422,18 @@ class AIMSimUiApp(ctk.CTk):
                 )
         return
 
+    def useMeasureSearchCallback(self):
+        """measure search dropdown disable/enable"""
+        if self.useMeasureSearchCheckbox.get():
+            self.similarityMeasureCombobox.configure(
+                state='disabled'
+            )
+        else:
+            self.similarityMeasureCombobox.configure(
+                state='normal'
+            )
+        return
+
     def openConfigCallback(self):
         """
         Open the config file being used by the UI to allow the user to edit it.
@@ -434,9 +465,10 @@ class AIMSimUiApp(ctk.CTk):
             tasks_dict["visualize_dataset"] = inner_dict
         if self.identifyOutliersCheckbutton.get():
             tasks_dict["identify_outliers"] = {"output": "terminal"}
-        if self.similarityPlotCheckbutton.get():
+        if self.targetMolecule.get() not in ("", "optional"):
             tasks_dict["compare_target_molecule"] = {
-                "target_molecule_smiles": self.targetMolecule.get(),
+                "target_molecule_smiles": self.targetMolecule.get() if not os.path.exists(self.targetMolecule.get()) else None,
+                "target_molecule_src": self.targetMolecule.get() if os.path.exists(self.targetMolecule.get()) else None,
                 "similarity_plot_settings": {
                     "plot_color": "orange",
                     "plot_title": "Molecule Database Compared to Target Molecule",
@@ -457,7 +489,7 @@ class AIMSimUiApp(ctk.CTk):
             n_workers = 1
 
         _, file_extension = os.path.splitext(self.databaseFile.get())
-        if file_extension == ".txt":
+        if file_extension.lower() in (".txt", ".smi", ".smiles"):
             molecule_database_source_type = "text"
         elif file_extension == "":
             molecule_database_source_type = "folder"
@@ -471,7 +503,7 @@ class AIMSimUiApp(ctk.CTk):
             "n_workers": n_workers,
             "molecule_database": self.databaseFile.get(),
             "molecule_database_source_type": molecule_database_source_type,
-            "similarity_measure": self.similarityMeasure.get(),
+            "similarity_measure": 'determine' if self.useMeasureSearchCheckbox.get() else self.similarityMeasure.get(),
             "fingerprint_type": self.molecularDescriptor.get(),
             "tasks": tasks_dict,
         }
