@@ -28,8 +28,7 @@ import customtkinter as ctk
 class AIMSimUiApp(ctk.CTk):
     """User interface to access key functionalities of AIMSim."""
     WIDTH = 800
-    HEIGHT = 1200
-
+    HEIGHT = 800
 
     def __init__(self):
         """Constructor for AIMSim UI.
@@ -41,7 +40,7 @@ class AIMSimUiApp(ctk.CTk):
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         self.frame = ctk.CTkFrame(
             master=self,
-            width=AIMSimUiApp.WIDTH,
+            # width=AIMSimUiApp.WIDTH,
         )
 
         # add the logo
@@ -162,7 +161,9 @@ class AIMSimUiApp(ctk.CTk):
         self.similarityMeasureCombobox.configure(
             takefocus=False, values=SimilarityMeasure.get_supported_metrics()
         )
-        self.similarityMeasureCombobox.set(0)
+        self.similarityMeasureCombobox.set(
+            self.similarityMeasureCombobox.values[0]
+        )
         self.similarityMeasureCombobox.place(
             anchor="center", relx="0.5", rely="0.46", x="0", y="0"
         )
@@ -199,7 +200,9 @@ class AIMSimUiApp(ctk.CTk):
             ] = SimilarityMeasure.get_compatible_metrics().get(
                 self.molecularDescriptor.get(), "Error"
             )
-            self.similarityMeasureCombobox.current(0)
+            self.similarityMeasureCombobox.current(
+                self.similarityMeasureCombobox.values[0]
+            )
             return
 
         # bind this listener to the combobox
@@ -209,7 +212,9 @@ class AIMSimUiApp(ctk.CTk):
         self.molecularDescriptorCombobox.place(
             anchor="center", relx="0.5", rely="0.60", x="0", y="0"
         )
-        self.molecularDescriptorCombobox.set(0)
+        self.molecularDescriptorCombobox.set(
+            self.molecularDescriptorCombobox.values[0]
+        )
 
         # button to run AIMSim
         self.runButton = ctk.CTkButton(self.frame)
@@ -271,7 +276,7 @@ class AIMSimUiApp(ctk.CTk):
         # dimensions of window
         self.frame.configure(height="400", width="400")
         self.frame.place(anchor="nw", relheight="0.9",
-                             rely="0.1", x="0", y="0")
+                         rely="0.1", x="0", y="0")
         self.frame.configure(
             cursor="arrow", height="400", relief="flat", takefocus=False
         )
@@ -298,14 +303,17 @@ class AIMSimUiApp(ctk.CTk):
 
     def showAllDescriptorsCallback(self):
         """update the descriptors dropdown to show descriptors."""
-        if "selected" in self.showAllDescriptorsButton.state():
-            self.molecularDescriptorCombobox[
-                "values"
-            ] = Descriptor.get_all_supported_descriptors()
+
+        if self.showAllDescriptorsButton.get():
+            self.molecularDescriptorCombobox.configure(
+                True,
+                values=Descriptor.get_all_supported_descriptors(),
+            )
         else:
-            self.molecularDescriptorCombobox[
-                "values"
-            ] = values = Descriptor.get_supported_fprints()
+            self.molecularDescriptorCombobox.configure(
+                True,
+                values=Descriptor.get_supported_fprints(),
+            )
         return
 
     def openConfigCallback(self):
