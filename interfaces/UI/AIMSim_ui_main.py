@@ -208,7 +208,7 @@ class AIMSimUiApp(ctk.CTk):
             master=self,
             variable=self.similarityMeasure,
             takefocus=False,
-            values=SimilarityMeasure.get_supported_metrics(),
+            values=SimilarityMeasure.get_uniq_metrics(),
             hover=False,
         )
         self.similarityMeasureCombobox.set(
@@ -265,9 +265,11 @@ class AIMSimUiApp(ctk.CTk):
             """Show only compatible metrics, given a descriptor."""
             self.similarityMeasureCombobox.configure(
                 True,
-                values=SimilarityMeasure.get_compatible_metrics().get(
-                    self.molecularDescriptor.get(), "Error"
-                )
+                values=[
+                    metric for metric in SimilarityMeasure.get_compatible_metrics().get(
+                        self.molecularDescriptor.get(), "Error"
+                    ) if (metric in SimilarityMeasure.get_uniq_metrics())
+                ]
             )
             self.similarityMeasureCombobox.current(
                 self.similarityMeasureCombobox.values[0]
