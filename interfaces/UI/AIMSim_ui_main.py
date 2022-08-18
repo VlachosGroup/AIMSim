@@ -32,7 +32,7 @@ ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 class AIMSimUiApp(ctk.CTk):
     """User interface to access key functionalities of AIMSim."""
     WIDTH = 600
-    HEIGHT = 150
+    HEIGHT = 400
 
     def __init__(self):
         """Constructor for AIMSim UI.
@@ -41,6 +41,7 @@ class AIMSimUiApp(ctk.CTk):
         # build ui
         self.title("AIMSim")
         self.minsize(AIMSimUiApp.WIDTH, AIMSimUiApp.HEIGHT)
+        self.geometry(f"{AIMSimUiApp.WIDTH}x{AIMSimUiApp.HEIGHT}")
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         self.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8), weight=1)
         self.grid_columnconfigure((0, 1, 2, 3, 4), weight=1)
@@ -383,8 +384,46 @@ class AIMSimUiApp(ctk.CTk):
         )
 
         # add tooltips
-        ToolTip(self.openConfigButton,
-                "Opens a config file corresponding\nto the last run")
+        ToolTip(
+            self.openConfigButton,
+            "Open the config file\nfor the last run",
+        )
+        ToolTip(
+            self.runButton,
+            "Write a config file\nand call AIMSim"
+        )
+        ToolTip(
+            self.targetMoleculeEntry,
+            "SMILES string or Filepath for an 'external'\nmolecule for comparison to the others"
+        )
+        ToolTip(
+            self.browseButton,
+            "Open a File Explorer to locate molecules\nin a supported data format"
+        )
+        ToolTip(
+            self.useMeasureSearchCheckbox,
+            "Automatically determines best metric\nfor molecules with responses"
+        )
+        ToolTip(
+            self.showAllDescriptorsButton,
+            "Show experimental descriptors from\nother libraries in the dropdown",
+        )
+        ToolTip(
+            self.verboseCheckbutton,
+            "Check this for additional output\non the terminal or debugging",
+        )
+        ToolTip(
+            self.identifyOutliersCheckbutton,
+            "Isolation Forest to identify outliers\nin sets of molecules with responses",
+        )
+        ToolTip(
+            self.multiprocessingCheckbutton,
+            "Allow use of multiple processing\ncores (automatically configured)",
+        )
+        ToolTip(
+            self.molecularDescriptorCombobox,
+            "Tip: Use AIMSim from the command line\nto access descriptors from Mordred and Padel"
+        )
 
     def browseCallback(self):
         """launch a file dialog and set the databse field"""
@@ -408,7 +447,7 @@ class AIMSimUiApp(ctk.CTk):
         if self.showAllDescriptorsButton.get():
             self.molecularDescriptorCombobox.configure(
                 True,
-                values=Descriptor.get_all_supported_descriptors(),
+                values=Descriptor.get_all_supported_descriptors()[:15],
             )
         else:
             self.molecularDescriptorCombobox.configure(
