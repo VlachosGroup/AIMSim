@@ -253,8 +253,10 @@ class SimilarityMeasure:
         Returns:
             similarity_ (float): Similarity value
         """
-        if not self._validate_fprint(mol1_descriptor) or not self._validate_fprint(mol2_descriptor):
-            raise ValueError('Molecule descriptor has no active bits')
+        if not self._validate_fprint(mol1_descriptor) or not not self._validate_fprint(mol2_descriptor):
+            raise ValueError(
+                f'Molecule descriptor ({mol1_descriptor.label_}) has no active bits'
+            )
         similarity_ = None
         if self.metric == "l0_similarity":
             try:
