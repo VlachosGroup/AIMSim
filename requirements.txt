@@ -10,7 +10,8 @@ mordred==1.2.0
 PyYAML==5.4.1
 scikit_learn==0.24.2
 networkx==2.5
-rdkit-pypi
+rdkit
 psutil
 padelpy
 plotly
+customtkinter
