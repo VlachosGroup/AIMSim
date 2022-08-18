@@ -168,7 +168,7 @@ class MeasureSearch(Task):
                         n_threads=molecule_set_configs.get(
                             'n_threads', 1),
                         sampling_ratio=subsample_subset_size)
-                except (InvalidConfigurationError, ValueError) as e:
+                except (InvalidConfigurationError, ValueError, RuntimeError) as e:
                     if is_verbose:
                         print(f'Could not try {fingerprint_type} with '
                               f'similarity measure {similarity_measure} due to '
