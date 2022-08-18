@@ -84,6 +84,7 @@ class MoleculeSet:
                 Spectral Embedding ('spectral_embedding')
 
     """
+
     def __init__(
         self,
         molecule_database_src,
@@ -396,6 +397,10 @@ class MoleculeSet:
                                 except NotInitializedError as e:
                                     e.message += "Similarity matrix could not be set "
                                     raise e
+                                except ValueError as e:
+                                    raise RuntimeError(
+                                        f'Unable to proccess molecule {molecule.mol_text}'
+                                    ) from e
                 queue.put(local_similarity_matrix)
                 return None
 
@@ -448,12 +453,17 @@ class MoleculeSet:
                             "Computing similarity of molecule num "
                             f"{target_mol_id + 1} against {source_mol_id + 1}"
                         )
-                    similarity_matrix[
-                        source_mol_id, target_mol_id
-                    ] = molecule.get_similarity_to(
-                        self.molecule_database[target_mol_id],
-                        similarity_measure=self.similarity_measure,
-                    )
+                    try:
+                        similarity_matrix[
+                            source_mol_id, target_mol_id
+                        ] = molecule.get_similarity_to(
+                            self.molecule_database[target_mol_id],
+                            similarity_measure=self.similarity_measure,
+                        )
+                    except ValueError as e:
+                        raise RuntimeError(
+                            f'Unable to proccess molecule {molecule.mol_text}'
+                        ) from e
 
         self.similarity_matrix = similarity_matrix
 
