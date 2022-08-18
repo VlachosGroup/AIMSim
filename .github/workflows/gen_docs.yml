@@ -16,7 +16,7 @@ jobs:
           git config user.email github-actions@github.com
           conda install python=3.7
           python -m pip install -e .
-          python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4
+          python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4 docutils==0.17
       
       - uses: actions/checkout@v3
         with:
