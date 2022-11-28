@@ -123,8 +123,8 @@ class MoleculeSet:
         if fingerprint_type is not None:
             if descriptors is not None:
                 raise UserWarning('Descriptor and fingerprint specified.'
-                                'Descriptors imported from database source will '
-                                'be overwritten by fingerprint.')
+                                  'Descriptors imported from database source will '
+                                  'be overwritten by fingerprint.')
             self._set_descriptor(
                 fingerprint_type=fingerprint_type,
                 fingerprint_params=fingerprint_params
