@@ -87,10 +87,10 @@ class MoleculeSet:
 
     def __init__(
         self,
-        molecule_database_src,
-        molecule_database_src_type,
-        is_verbose,
-        similarity_measure,
+        molecule_database_src: str,
+        molecule_database_src_type: str,
+        is_verbose: bool,
+        similarity_measure: str,
         n_threads=1,
         fingerprint_type=None,
         fingerprint_params=None,
