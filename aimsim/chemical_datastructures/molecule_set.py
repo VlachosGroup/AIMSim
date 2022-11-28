@@ -108,11 +108,11 @@ class MoleculeSet:
         self.is_verbose = is_verbose
         self.molecule_database = None
         self.descriptor = Descriptor()
-        self.molecule_database, features = self._get_molecule_database(
+        self.molecule_database, descriptors = self._get_molecule_database(
             molecule_database_src, molecule_database_src_type
         )
-        if features is not None:
-            self._set_descriptor(arbitrary_descriptor_vals=features)
+        if descriptors is not None:
+            self._set_descriptor(arbitrary_descriptor_vals=descriptors)
         if 0.0 < sampling_ratio < 1.0:
             if self.is_verbose:
                 print(f"Using {int(sampling_ratio * 100)}% of the database...")
@@ -121,9 +121,9 @@ class MoleculeSet:
                 random_state=sampling_random_state
             )
         if fingerprint_type is not None:
-            if features is not None:
-                raise UserWarning('Feature and fingerprint specified.'
-                                'Features imported from database source will '
+            if descriptors is not None:
+                raise UserWarning('Descriptor and fingerprint specified.'
+                                'Descriptor imported from database source will '
                                 'be overwritten by fingerprint.')
             self._set_descriptor(
                 fingerprint_type=fingerprint_type,
@@ -222,24 +222,24 @@ class MoleculeSet:
                 if molecule_database_src_type.lower() == "excel"
                 else pd.read_csv(molecule_database_src)
             )
-            # expects feature columns to be prefixed with feature_
-            # e.g. feature_smiles
-            feature_cols = [
+            # expects descriptor columns to be prefixed with descriptor_
+            # e.g. descriptor_smiles
+            descriptor_cols = [
                 column
                 for column in database_df.columns
-                if column.split("_")[0] == "feature"
+                if column.split("_")[0] == "descriptor"
             ]
-            database_feature_df = database_df[feature_cols]
+            database_descriptor_df = database_df[descriptor_cols]
             mol_names, mol_smiles, responses = None, None, None
-            if "feature_name" in feature_cols:
-                mol_names = database_feature_df["feature_name"].values.flatten(
+            if "feature_name" in descriptor_cols:
+                mol_names = database_feature_df["descriptor_name"].values.flatten(
                 )
-                database_feature_df = database_feature_df.drop(
-                    ["feature_name"], axis=1)
-            if "feature_smiles" in feature_cols:
-                mol_smiles = database_df["feature_smiles"].values.flatten()
-                database_feature_df = database_feature_df.drop(
-                    ["feature_smiles"], axis=1
+                database_descriptor_df = database_descriptor_df.drop(
+                    ["descriptor_name"], axis=1)
+            if "feature_smiles" in descriptor_cols:
+                mol_smiles = database_df["descriptor_smiles"].values.flatten()
+                database_descriptor_df = database_descriptor_df.drop(
+                    ["descriptor_smiles"], axis=1
                 )
 
             response_col = [
@@ -250,12 +250,12 @@ class MoleculeSet:
             if len(response_col) > 0:
                 # currently handles one response
                 responses = database_df[response_col].values.flatten()
-            for mol_id in database_feature_df.index:
+            for mol_id in database_descriptor_df.index:
                 if self.is_verbose:
                     print(
                         f"Processing "
                         f"({mol_id + 1}/"
-                        f"{len(database_feature_df.index)})"
+                        f"{len(database_descriptor_df.index)})"
                     )
                 mol_smile = mol_smiles[mol_id] if mol_smiles is not None \
                     else None
@@ -263,8 +263,8 @@ class MoleculeSet:
                     else mol_smile
                 mol_property_val = responses[mol_id] if responses is not None \
                     else None
-                mol_descriptor_val = database_feature_df.iloc[[mol_id]].values \
-                    if len(database_feature_df.columns) > 0 else None
+                mol_descriptor_val = database_descriptor_df.iloc[[mol_id]].values \
+                    if len(database_descriptor_df.columns) > 0 else None
 
                 try:
                     molecule_database.append(
@@ -280,8 +280,8 @@ class MoleculeSet:
                         print(f"Molecule index {mol_id} could not be imported. "
                               f"Skipping")
 
-            if len(database_feature_df.columns) > 0:
-                features = database_feature_df.values
+            if len(database_descriptor_df.columns) > 0:
+                descriptors = database_descriptor_df.values
         else:
             raise FileNotFoundError(
                 f"{molecule_database_src} could not be found. "
@@ -290,7 +290,7 @@ class MoleculeSet:
             )
         if len(molecule_database) == 0:
             raise UserWarning("No molecular files found in the location!")
-        return molecule_database, features
+        return molecule_database, descriptors
 
     def _subsample_database(self, sampling_ratio, random_state):
         """Subsample a fixed proportion of the set.
