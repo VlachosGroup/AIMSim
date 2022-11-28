@@ -173,7 +173,7 @@ class MoleculeSet:
             RDLogger.DisableLog('rdApp.*')
 
         molecule_database = []
-        features = None
+        descriptors = None
         if molecule_database_src_type.lower() in ["folder", "directory"]:
             if self.is_verbose:
                 print(f"Searching for *.pdb files in {molecule_database_src}")
