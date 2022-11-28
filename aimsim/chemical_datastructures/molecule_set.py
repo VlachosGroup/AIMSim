@@ -121,7 +121,10 @@ class MoleculeSet:
                 random_state=sampling_random_state
             )
         if fingerprint_type is not None:
-            # overrides if descriptor set in self._set_molecule_database
+            if features is not None:
+                raise UserWarning('Feature and fingerprint specified.'
+                                'Features imported from database source will '
+                                'be overwritten by fingerprint.')
             self._set_descriptor(
                 fingerprint_type=fingerprint_type,
                 fingerprint_params=fingerprint_params
