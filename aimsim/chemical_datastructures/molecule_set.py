@@ -123,7 +123,7 @@ class MoleculeSet:
         if fingerprint_type is not None:
             if descriptors is not None:
                 raise UserWarning('Descriptor and fingerprint specified.'
-                                'Descriptor imported from database source will '
+                                'Descriptors imported from database source will '
                                 'be overwritten by fingerprint.')
             self._set_descriptor(
                 fingerprint_type=fingerprint_type,
@@ -232,7 +232,7 @@ class MoleculeSet:
             database_descriptor_df = database_df[descriptor_cols]
             mol_names, mol_smiles, responses = None, None, None
             if "feature_name" in descriptor_cols:
-                mol_names = database_feature_df["descriptor_name"].values.flatten(
+                mol_names = database_descriptor_df["descriptor_name"].values.flatten(
                 )
                 database_descriptor_df = database_descriptor_df.drop(
                     ["descriptor_name"], axis=1)
@@ -263,8 +263,6 @@ class MoleculeSet:
                     else mol_smile
                 mol_property_val = responses[mol_id] if responses is not None \
                     else None
-                mol_descriptor_val = database_descriptor_df.iloc[[mol_id]].values \
-                    if len(database_descriptor_df.columns) > 0 else None
 
                 try:
                     molecule_database.append(
@@ -272,7 +270,6 @@ class MoleculeSet:
                             mol_smiles=mol_smile,
                             mol_text=mol_text,
                             mol_property_val=mol_property_val,
-                            mol_descriptor_val=mol_descriptor_val
                         )
                     )
                 except LoadingError as e:
