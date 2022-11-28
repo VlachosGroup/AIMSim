@@ -263,6 +263,8 @@ class MoleculeSet:
                     else mol_smile
                 mol_property_val = responses[mol_id] if responses is not None \
                     else None
+                mol_descriptor_val = database_feature_df.iloc[[mol_id]].values \
+                    if len(database_feature_df.columns) > 0 else None
 
                 try:
                     molecule_database.append(
@@ -270,6 +272,7 @@ class MoleculeSet:
                             mol_smiles=mol_smile,
                             mol_text=mol_text,
                             mol_property_val=mol_property_val,
+                            mol_descriptor_val=mol_descriptor_val
                         )
                     )
                 except LoadingError as e:
