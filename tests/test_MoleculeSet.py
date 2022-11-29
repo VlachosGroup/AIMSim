@@ -601,7 +601,7 @@ class TestMoleculeSet(unittest.TestCase):
         features = self.get_feature_set()  # n_samples x dimensionality
         data = dict()
         for feature_id in range(features.shape[-1]):
-            data[f'feature_{feature_id}'] = features[:, feature_id].flatten()
+            data[f'descriptor_{feature_id}'] = features[:, feature_id].flatten()
         df = pd.DataFrame(data)
         print(f"Creating text file {xl_fpath}")
         df.to_excel(xl_fpath)
