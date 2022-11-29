@@ -231,12 +231,12 @@ class MoleculeSet:
             ]
             database_descriptor_df = database_df[descriptor_cols]
             mol_names, mol_smiles, responses = None, None, None
-            if "feature_name" in descriptor_cols:
+            if "descriptor_name" in descriptor_cols:
                 mol_names = database_descriptor_df["descriptor_name"].values.flatten(
                 )
                 database_descriptor_df = database_descriptor_df.drop(
                     ["descriptor_name"], axis=1)
-            if "feature_smiles" in descriptor_cols:
+            if "descriptor_smiles" in descriptor_cols:
                 mol_smiles = database_df["descriptor_smiles"].values.flatten()
                 database_descriptor_df = database_descriptor_df.drop(
                     ["descriptor_smiles"], axis=1
