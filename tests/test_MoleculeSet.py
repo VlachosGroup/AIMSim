@@ -185,15 +185,15 @@ class TestMoleculeSet(unittest.TestCase):
         Returns:
             str: Path to created file.
         """
-        data = {"feature_smiles": self.test_smiles}
+        data = {"descriptor_smiles": self.test_smiles}
         if property_seq is not None:
             data.update({"response_random": property_seq})
         if name_seq is not None:
-            data.update({"feature_name": name_seq})
+            data.update({"descriptor_name": name_seq})
         if feature_arr is not None:
             feature_arr = np.array(feature_arr)
             for feature_num in range(feature_arr.shape[1]):
-                data.update({f"feature_{feature_num}":
+                data.update({f"descriptor_{feature_num}":
                              feature_arr[:, feature_num]})
         data_df = pd.DataFrame(data)
         fpath = "temp_mol_file"
