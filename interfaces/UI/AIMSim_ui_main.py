@@ -23,7 +23,7 @@ import pkg_resources
 
 
 import customtkinter as ctk
-from idlelib.tooltip import ToolTip
+from idlelib.ToolTip import ToolTip
 
 ctk.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
