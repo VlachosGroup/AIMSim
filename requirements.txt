@@ -15,3 +15,4 @@ psutil
 padelpy
 plotly
 customtkinter
+tkinter-tooltip

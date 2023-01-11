@@ -23,10 +23,7 @@ import pkg_resources
 
 
 import customtkinter as ctk
-try:
-    from idlelib.ToolTip import ToolTip
-except:
-    from idlelib.tooltip import ToolTip 
+from tktooltip import ToolTip
 
 ctk.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -388,46 +385,66 @@ class AIMSimUiApp(ctk.CTk):
             sticky="w",
         )
 
-        # add tooltips
+        # add ToolTips
         ToolTip(
             self.openConfigButton,
             "Open the config file\nfor the last run",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.runButton,
-            "Write a config file\nand call AIMSim"
+            "Write a config file\nand call AIMSim",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.targetMoleculeEntry,
-            "SMILES string or Filepath for an 'external'\nmolecule for comparison to the others"
+            "SMILES string or Filepath for an 'external'\nmolecule for comparison to the others",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.browseButton,
-            "Open a File Explorer to locate molecules\nin a supported data format"
+            "Open a File Explorer to locate molecules\nin a supported data format",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.useMeasureSearchCheckbox,
-            "Automatically determines best metric\nfor molecules with responses"
+            "Automatically determines best metric\nfor molecules with responses",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.showAllDescriptorsButton,
             "Show experimental descriptors from\nother libraries in the dropdown",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.verboseCheckbutton,
             "Check this for additional output\non the terminal or debugging",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.identifyOutliersCheckbutton,
             "Isolation Forest to identify outliers\nin sets of molecules with responses",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.multiprocessingCheckbutton,
             "Allow use of multiple processing\ncores (automatically configured)",
+            follow=True,
+            delay=2.0,
         )
         ToolTip(
             self.molecularDescriptorCombobox,
-            "Tip: Use AIMSim from the command line\nto access descriptors from Mordred and Padel"
+            "Tip: Use AIMSim from the command line\nto access descriptors from Mordred and Padel",
+            follow=True,
+            delay=2.0,
         )
 
     def browseCallback(self):
