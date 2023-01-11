@@ -10,11 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.9'
+          architecture: x64
       - name: Install Dependencies
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          conda install python=3.7
           python -m pip install -e .
           python -m pip install sphinx sphinx-rtd-theme m2r mistune==0.8.4 docutils==0.17
       
