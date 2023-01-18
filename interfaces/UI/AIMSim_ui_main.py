@@ -63,7 +63,7 @@ class AIMSimUiApp(ctk.CTk):
         # title
         self.titleLabel = ctk.CTkLabel(
             master=self,
-            font=("Consolas", "26"),
+            font=("Consolas", 26),
             text="AI Molecular Similarity",
         )
         self.titleLabel.grid(
