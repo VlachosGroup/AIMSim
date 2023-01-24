@@ -14,5 +14,5 @@ rdkit
 psutil
 padelpy
 plotly
-customtkinter
+customtkinter<5.0.0
 tkinter-tooltip
