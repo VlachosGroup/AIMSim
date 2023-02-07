@@ -44,9 +44,12 @@ class TestMoleculeSet(unittest.TestCase):
         test_feature_set = []
         feature_value_upper_limit = 1000
         for i in range(n_test_mols):
-            test_feature_set.append([np.random.random()
-                                     * feature_value_upper_limit
-                                     for _ in range(dimensionality)])
+            test_feature_set.append(
+                [
+                    np.random.random() * feature_value_upper_limit
+                    for _ in range(dimensionality)
+                ]
+            )
         return np.array(test_feature_set)
 
     def smiles_seq_to_textfile(self, property_seq=None):
@@ -193,8 +196,7 @@ class TestMoleculeSet(unittest.TestCase):
         if feature_arr is not None:
             feature_arr = np.array(feature_arr)
             for feature_num in range(feature_arr.shape[1]):
-                data.update({f"descriptor_{feature_num}":
-                             feature_arr[:, feature_num]})
+                data.update({f"descriptor_{feature_num}": feature_arr[:, feature_num]})
         data_df = pd.DataFrame(data)
         fpath = "temp_mol_file"
         if ftype == "excel":
@@ -223,8 +225,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -268,8 +269,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -313,8 +313,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -358,8 +357,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -438,8 +436,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from text",
@@ -486,8 +483,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from dir",
@@ -565,8 +561,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from excel file",
@@ -597,11 +592,11 @@ class TestMoleculeSet(unittest.TestCase):
         remove(xl_fpath)
 
     def test_set_molecule_database_from_excel_without_smiles_name(self):
-        xl_fpath = 'test_files.xlsx'
+        xl_fpath = "test_files.xlsx"
         features = self.get_feature_set()  # n_samples x dimensionality
         data = dict()
         for feature_id in range(features.shape[-1]):
-            data[f'descriptor_{feature_id}'] = features[:, feature_id].flatten()
+            data[f"descriptor_{feature_id}"] = features[:, feature_id].flatten()
         df = pd.DataFrame(data)
         print(f"Creating text file {xl_fpath}")
         df.to_excel(xl_fpath)
@@ -611,8 +606,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="l2_similarity",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from excel file",
@@ -622,16 +616,16 @@ class TestMoleculeSet(unittest.TestCase):
             len(self.test_smiles),
             "Expected the size of database to be equal to number of smiles",
         )
-        self.assertTrue(np.allclose(features,
-                                    molecule_set.get_mol_features(),
-                                    rtol=1e-4),
-                        'Expected molecule feature vectors to '
-                        'be the same as features in input file')
+        self.assertTrue(
+            np.allclose(features, molecule_set.get_mol_features(), rtol=1e-4),
+            "Expected molecule feature vectors to "
+            "be the same as features in input file",
+        )
         with self.assertRaises(ValueError):
             molecule_set = MoleculeSet(
                 molecule_database_src=xl_fpath,
                 molecule_database_src_type="excel",
-                fingerprint_type='morgan_fingerprint',
+                fingerprint_type="morgan_fingerprint",
                 similarity_measure="l2_similarity",
                 is_verbose=True,
             )
@@ -687,8 +681,7 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype="excel",
-                                                property_seq=properties)
+        xl_fpath = self.smiles_seq_to_xl_or_csv(ftype="excel", property_seq=properties)
         molecule_set = MoleculeSet(
             molecule_database_src=xl_fpath,
             molecule_database_src_type="excel",
@@ -696,8 +689,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from excel file",
@@ -749,8 +741,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="l0_similarity",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from " "excel file",
@@ -803,8 +794,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from " "csv file",
@@ -876,8 +866,7 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
@@ -885,8 +874,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="tanimoto",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from csv file",
@@ -929,8 +917,7 @@ class TestMoleculeSet(unittest.TestCase):
             similarity_measure="l0_similarity",
             is_verbose=True,
         )
-        self.assertTrue(molecule_set.is_verbose,
-                        "Expected is_verbose to be True")
+        self.assertTrue(molecule_set.is_verbose, "Expected is_verbose to be True")
         self.assertIsNotNone(
             molecule_set.molecule_database,
             "Expected molecule_database to be set from " "excel file",
@@ -976,8 +963,7 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         for similarity_measure in SUPPORTED_SIMILARITIES:
             with self.assertRaises(NotInitializedError):
                 MoleculeSet(
@@ -997,8 +983,7 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
             with self.assertRaises(TypeError):
                 MoleculeSet(
@@ -1018,8 +1003,7 @@ class TestMoleculeSet(unittest.TestCase):
 
         """
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         for descriptor in SUPPORTED_FPRINTS:
             for similarity_measure in SUPPORTED_SIMILARITIES:
                 molecule_set = MoleculeSet(
@@ -1120,8 +1104,7 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(
-            ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
@@ -1148,19 +1131,18 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(
-            ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
             similarity_measure="l0_similarity",
             is_verbose=True,
-
         )
         features = StandardScaler().fit_transform(features)
         features = MDS().fit_transform(features)
-        error_matrix = features - \
-            molecule_set.get_transformed_descriptors(method_="mds")
+        error_matrix = features - molecule_set.get_transformed_descriptors(
+            method_="mds"
+        )
         error_threshold = 1e-6
         self.assertLessEqual(
             error_matrix.min(),
@@ -1178,19 +1160,18 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(
-            ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
             similarity_measure="l0_similarity",
             is_verbose=True,
-
         )
         features = StandardScaler().fit_transform(features)
-        features = TSNE().fit_transform(features)
-        error_matrix = features - \
-            molecule_set.get_transformed_descriptors(method_="tsne")
+        features = TSNE(perplexity=n_features / 2).fit_transform(features)
+        error_matrix = features - molecule_set.get_transformed_descriptors(
+            method_="tsne"
+        )
         error_threshold = 1e-6
         self.assertLessEqual(
             error_matrix.min(),
@@ -1208,19 +1189,18 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(
-            ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
             similarity_measure="l0_similarity",
             is_verbose=True,
-
         )
         features = StandardScaler().fit_transform(features)
         features = Isomap().fit_transform(features)
-        error_matrix = features - \
-            molecule_set.get_transformed_descriptors(method_="isomap")
+        error_matrix = features - molecule_set.get_transformed_descriptors(
+            method_="isomap"
+        )
         error_threshold = 1e-6
         self.assertLessEqual(
             error_matrix.min(),
@@ -1238,19 +1218,18 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(
-            ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
             similarity_measure="l0_similarity",
             is_verbose=True,
-
         )
         features = StandardScaler().fit_transform(features)
         features = SpectralEmbedding().fit_transform(features)
-        error_matrix = features - \
-            molecule_set.get_transformed_descriptors(method_="spectral_embedding")
+        error_matrix = features - molecule_set.get_transformed_descriptors(
+            method_="spectral_embedding"
+        )
         error_threshold = 1e-6
         self.assertLessEqual(
             error_matrix.min(),
@@ -1266,21 +1245,19 @@ class TestMoleculeSet(unittest.TestCase):
         """
         n_features = 20
         features = np.random.normal(size=(len(self.test_smiles), n_features))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(
-            ftype="csv", feature_arr=features)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", feature_arr=features)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
             similarity_measure="l0_similarity",
             is_verbose=True,
-
         )
         features = StandardScaler().fit_transform(features)
         features = TSNE().fit_transform(features)
         with self.assertRaises(InvalidConfigurationError):
-            error_matrix = features - \
-                molecule_set.get_transformed_descriptors(
-                    method_="not a real method")
+            error_matrix = features - molecule_set.get_transformed_descriptors(
+                method_="not a real method"
+            )
         remove(csv_fpath)
 
     def test_clustering_fingerprints(self):
@@ -1329,11 +1306,9 @@ class TestMoleculeSet(unittest.TestCase):
         remove(csv_fpath)
 
     def test_molecule_set_getters(self):
-        """Retrieve names and properties of mols using MoleculeSet.
-        """
+        """Retrieve names and properties of mols using MoleculeSet."""
         properties = np.random.normal(size=len(self.test_smiles))
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
@@ -1342,19 +1317,18 @@ class TestMoleculeSet(unittest.TestCase):
             is_verbose=True,
         )
 
-        self.assertListEqual(
-            self.test_smiles, molecule_set.get_mol_names().tolist())
+        self.assertListEqual(self.test_smiles, molecule_set.get_mol_names().tolist())
 
-        for a, b in zip(properties.tolist(), molecule_set.get_mol_properties().tolist()):
+        for a, b in zip(
+            properties.tolist(), molecule_set.get_mol_properties().tolist()
+        ):
             self.assertAlmostEqual(a, b)
         remove(csv_fpath)
 
     def test_molecule_set_sim_getters(self):
-        """Get the properties for most and least similar molecule pairs.
-        """
+        """Get the properties for most and least similar molecule pairs."""
         properties = np.array([i for i in range(len(self.test_smiles))])
-        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv",
-                                                 property_seq=properties)
+        csv_fpath = self.smiles_seq_to_xl_or_csv(ftype="csv", property_seq=properties)
         molecule_set = MoleculeSet(
             molecule_database_src=csv_fpath,
             molecule_database_src_type="csv",
