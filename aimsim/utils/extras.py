@@ -1,10 +1,15 @@
+from warnings import warn
+
+from aimsim.exceptions import MordredNotInstalledWarning
+
+
 def requries_mordred(function):
     try:
         from mordred import Calculator, descriptors
 
-        function()
+        return function()
     except ImportError:
-        raise RuntimeError(
+        return MordredNotInstalledWarning(
             """Attempting to call this function ({:s}) requires mordred to be installed.
             Please use 'pip install aimsim[mordred]' in an environment with the appropriate version of Python.
         """.format(
