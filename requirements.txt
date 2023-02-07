@@ -2,7 +2,7 @@ scipy
 matplotlib
 seaborn
 tabulate
-numpy>=1.22
+numpy>=1
 multiprocess>=0.70
 scikit_learn_extra
 pandas
