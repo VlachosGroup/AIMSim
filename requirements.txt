@@ -8,7 +8,7 @@ scikit_learn_extra==0.2.0
 pandas
 mordred==1.2.0
 PyYAML==5.*
-scikit_learn==0.*
+scikit_learn
 networkx==2.*
 rdkit
 psutil
