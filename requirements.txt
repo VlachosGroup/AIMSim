@@ -4,7 +4,7 @@ seaborn
 tabulate
 numpy>=1.22
 multiprocess>=0.70
-scikit_learn_extra==0.2.0
+scikit_learn_extra
 pandas
 PyYAML==5.*
 scikit_learn
