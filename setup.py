@@ -12,13 +12,13 @@ desc = "Python command line and GUI tool to analyze molecular similarity."
 
 def read(rel_path):
     here = os.path.abspath(os.path.dirname(__file__))
-    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
+    with codecs.open(os.path.join(here, rel_path), "r") as fp:
         return fp.read()
 
 
 def get_version(rel_path):
     for line in read(rel_path).splitlines():
-        if line.startswith('__version__'):
+        if line.startswith("__version__"):
             delim = '"' if '"' in line else "'"
             return line.split(delim)[1]
     else:
@@ -27,7 +27,7 @@ def get_version(rel_path):
 
 setup(
     name="aimsim",
-    python_requires='>=3.7,<3.10',
+    python_requires=">=3.7,<3.10",
     version=get_version("aimsim/__init__.py"),
     description=desc,
     long_description=README,
@@ -37,6 +37,12 @@ setup(
     license="MIT",
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=read("requirements.txt").split("\n"),
+    extras_require={
+        "mordred": [
+            "mordred==1.2.0",
+            "networkx==2.*",
+        ],
+    },
     packages=find_packages(),
     include_package_data=True,
     entry_points={
