@@ -3,7 +3,7 @@ from warnings import warn
 from aimsim.exceptions import MordredNotInstalledWarning
 
 
-def requries_mordred(function):
+def requires_mordred(function):
     try:
         from mordred import Calculator, descriptors
 

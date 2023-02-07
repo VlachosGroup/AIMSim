@@ -5,7 +5,7 @@ from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import MolFromSmiles
 from aimsim.ops import Descriptor
 from aimsim.exceptions import MordredCalculatorError, InvalidConfigurationError
-from aimsim.utils.extras import requries_mordred
+from aimsim.utils.extras import requires_mordred
 
 SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 
@@ -325,7 +325,7 @@ class TestDescriptor(unittest.TestCase):
                 "{} to match the fingerprint".format(desc),
             )
 
-    @requries_mordred
+    @requires_mordred
     def test_nonexistent_mordred_descriptors(self):
         """Test ability to pass through descriptors to Mordred."""
         mol_graph = MolFromSmiles("C")

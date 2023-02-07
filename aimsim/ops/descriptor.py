@@ -10,7 +10,7 @@ from rdkit.Chem.AtomPairs import Pairs, Torsions
 from rdkit.DataStructs import cDataStructs
 from aimsim.utils.ccbmlib_fingerprints import generate_fingerprints
 from padelpy import from_smiles
-from aimsim.utils.extras import requries_mordred
+from aimsim.utils.extras import requires_mordred
 
 
 from ..exceptions import (
@@ -165,7 +165,7 @@ class Descriptor:
                 f"Unable to retrieve PaDELPy Descriptor '{descriptor}'. Is it a valid descriptor?"
             )
 
-    @requries_mordred
+    @requires_mordred
     def _set_mordred_descriptor(self, molecule_graph, descriptor, **kwargs):
         """Set the value of numpy_ to the descriptor as indicated by descriptor.
 
