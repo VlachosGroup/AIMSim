@@ -800,7 +800,7 @@ class MoleculeSet:
         n_samples = self.similarity_matrix.shape[0]
         for index, row in enumerate(self.similarity_matrix):
             post_diag_closest_index = (
-                np.argmax(row[(index + 1) :]) + index + 1
+                np.argmax(row[(index + 1):]) + index + 1
                 if index < n_samples - 1
                 else -1
             )
