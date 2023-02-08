@@ -89,7 +89,6 @@ class TaskManager:
             measure_search = MeasureSearch(correlation_type='pearson')
             if similarity_measure == 'determine':
                 similarity_measure = None
-                
             if fingerprint_type == 'determine':
                 fingerprint_type = None
                 fingerprint_params = {}
