@@ -4,7 +4,7 @@ measure choice for brevity (although both measure and features are chosen)"""
 from collections import namedtuple
 import json
 from os import makedirs
-from posixpath import dirname
+from os.path import dirname
 
 import numpy as np
 
