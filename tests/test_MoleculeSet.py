@@ -1253,7 +1253,7 @@ class TestMoleculeSet(unittest.TestCase):
             is_verbose=True,
         )
         features = StandardScaler().fit_transform(features)
-        features = TSNE().fit_transform(features)
+        features = TSNE(perplexity=n_features / 2).fit_transform(features)
         with self.assertRaises(InvalidConfigurationError):
             error_matrix = features - molecule_set.get_transformed_descriptors(
                 method_="not a real method"
