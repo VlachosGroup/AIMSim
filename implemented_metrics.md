@@ -29,11 +29,11 @@
 | 26 | hawkins-dotson | - | Yes |
 | 27 | maxwell-pilliner | - | Yes |
 | 28 | harris-lahey | - | - |
-| 29 | consonni−todeschini\_1 | consonni−todeschini-1 | Yes |
-| 30 | consonni−todeschini\_2 | consonni−todeschini-2 | - |
-| 31 | consonni−todeschini\_3 | consonni−todeschini-3 | - |
-| 32 | consonni−todeschini\_4 | consonni−todeschini-4 | - |
-| 33 | consonni−todeschini\_5 | consonni−todeschini-5 | Yes |
+| 29 | consonni-todeschini\_1 | consonni-todeschini-1 | Yes |
+| 30 | consonni-todeschini\_2 | consonni-todeschini-2 | - |
+| 31 | consonni-todeschini\_3 | consonni-todeschini-3 | - |
+| 32 | consonni-todeschini\_4 | consonni-todeschini-4 | - |
+| 33 | consonni-todeschini\_5 | consonni-todeschini-5 | Yes |
 | 34 | austin-colwell | - | Yes |
 | 35 | yule\_1 | yule-1 | - |
 | 36 | yule\_2 | yule-2 | Yes |

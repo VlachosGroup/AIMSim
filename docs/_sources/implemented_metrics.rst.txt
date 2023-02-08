@@ -122,24 +122,24 @@ Supported Similarity Metrics
      - -
      - -
    * - 29
-     - consonni−todeschini_1
-     - consonni−todeschini-1
+     - consonni-todeschini_1
+     - consonni-todeschini-1
      - Yes
    * - 30
-     - consonni−todeschini_2
-     - consonni−todeschini-2
+     - consonni-todeschini_2
+     - consonni-todeschini-2
      - -
    * - 31
-     - consonni−todeschini_3
-     - consonni−todeschini-3
+     - consonni-todeschini_3
+     - consonni-todeschini-3
      - -
    * - 32
-     - consonni−todeschini_4
-     - consonni−todeschini-4
+     - consonni-todeschini_4
+     - consonni-todeschini-4
      - -
    * - 33
-     - consonni−todeschini_5
-     - consonni−todeschini-5
+     - consonni-todeschini_5
+     - consonni-todeschini-5
      - Yes
    * - 34
      - austin-colwell
