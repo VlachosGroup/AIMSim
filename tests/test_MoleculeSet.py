@@ -1170,7 +1170,8 @@ class TestMoleculeSet(unittest.TestCase):
         features = StandardScaler().fit_transform(features)
         features = TSNE(perplexity=len(self.test_smiles) / 2).fit_transform(features)
         error_matrix = features - molecule_set.get_transformed_descriptors(
-            method_="tsne"
+            method_="tsne",
+            kwargs={"perplexity": len(self.test_smiles) / 2},
         )
         error_threshold = 1e-6
         self.assertLessEqual(
