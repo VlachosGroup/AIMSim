@@ -81,14 +81,14 @@ class TaskManager:
             subsample_subset_size = molecule_set_configs.get(
                 'measure_id_subsample',
                 0.05)
+            only_valid_dist = molecule_set_configs.get(
+                    'only_valid_dist',
+                    True)
             if is_verbose:
                 print('Determining best fingerprint_type / similarity_measure')
             measure_search = MeasureSearch(correlation_type='pearson')
             if similarity_measure == 'determine':
                 similarity_measure = None
-                only_valid_dist = molecule_set_configs.get(
-                    'only_valid_dist',
-                    True)
             if fingerprint_type == 'determine':
                 fingerprint_type = None
                 fingerprint_params = {}
