@@ -1458,7 +1458,9 @@ class SimilarityMeasure:
             return 1.0
         if b == p or c == p:
             return 0.0
-        denominator_ = np.sqrt((a + b) * (a + c) * (b + d) * (c + d))
+        denominator_ = np.sqrt(
+            np.int64(a + b) * np.int64(a + c) * np.int64(b + d) * np.int64(c + d)
+        )
         if denominator_ < SMALL_NUMBER:
             return 0.0
         similarity_ = (a * d - b * c) / denominator_
