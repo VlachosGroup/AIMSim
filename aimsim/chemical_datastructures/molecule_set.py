@@ -20,68 +20,68 @@ from aimsim.ops.similarity_measures import SimilarityMeasure
 
 class MoleculeSet:
     """An abstraction of a collection of molecules constituting a chemical
-        dataset.
+    dataset.
 
-        Attributes:
-            is_verbose (bool): Controls how much information is displayed during
-                    plotting.
-            molecule_database (list): Collection of Molecule objects.
-            descriptor (Descriptor): Descriptor or fingerprint used to featurize
-                molecules in the molecule set.
-            similarity_measure (SimilarityMeasure): Similarity measure used.
-            similarity_matrix (numpy ndarray): n_mols X n_mols matrix of
-                pairwise similarity scores.
-            sampling_ratio (float): Fraction of dataset to keep for analysis.
-                Default is 1.
-            n_threads (int or str): Number of threads used for analysis. Can be
-               an integer denoting the number of threads or 'auto' to
-               heuristically determine if multiprocessing is worthwhile
-               based on a curve fitted to the speedup data in the manuscript SI
-               Default is 1.
+    Attributes:
+        is_verbose (bool): Controls how much information is displayed during
+                plotting.
+        molecule_database (list): Collection of Molecule objects.
+        descriptor (Descriptor): Descriptor or fingerprint used to featurize
+            molecules in the molecule set.
+        similarity_measure (SimilarityMeasure): Similarity measure used.
+        similarity_matrix (numpy ndarray): n_mols X n_mols matrix of
+            pairwise similarity scores.
+        sampling_ratio (float): Fraction of dataset to keep for analysis.
+            Default is 1.
+        n_threads (int or str): Number of threads used for analysis. Can be
+           an integer denoting the number of threads or 'auto' to
+           heuristically determine if multiprocessing is worthwhile
+           based on a curve fitted to the speedup data in the manuscript SI
+           Default is 1.
 
-        Methods:
-            is_present(target_molecule): Searches the name of a target
-                molecule in the molecule set to determine if the target
-                molecule is present in the molecule set.
-            compare_against_molecule(query_molecule): Compare the a query
-                molecule to all molecules of the set.
-            get_most_similar_pairs(): Get pairs of samples which are
-                most similar.
-            get_most_dissimilar_pairs(): Get pairs of samples which are
-                least similar.
-            get_property_of_most_similar(): Get property of pairs of molecules
-                which are most similar to each other.
-            get_property_of_most_dissimilar(): Get property of pairs of
-                molecule which are most dissimilar to each other.
-            get_similarity_matrix(): Get the similarity matrix for the data set.
-            get_distance_matrix(): Get the distance matrix for the data set.
-                This is can only be done for similarity measures which yields
-                valid distances.
-            get_pairwise_similarities(): Get an array of pairwise similarities
-                of molecules in the set.
-            get_mol_names(): Get names of the molecules in the set.
-            get_mol_properties(): Get properties of all the molecules
-                in the dataset.
-            cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
-                the molecules of the MoleculeSet. Implemented methods.
-                    'kmedoids': for the K-Medoids algorithm.
-                    'complete_linkage', 'complete':
-                        Complete linkage agglomerative hierarchical
-                        clustering.
-                    'average_linkage', 'average':
-                        average linkage agglomerative hierarchical clustering.
-                    'single_linkage', 'single':
-                        single linkage agglomerative hierarchical clustering.
-                    'ward':
-                        for Ward's algorithm.
-            get_cluster_labels(): Get cluster membership of Molecules.
-            get_transformed_descriptors(method_="pca", **kwargs): Use an
-                embedding method to transform molecular descriptor to a
-                low dimensional representation. Implemented methods are
-                Principal Component Analysis ('pca'),
-                Multidimensional scaling ('mds'),
-                t-SNE ('tsne'), Isomap ('isomap'),
-                Spectral Embedding ('spectral_embedding')
+    Methods:
+        is_present(target_molecule): Searches the name of a target
+            molecule in the molecule set to determine if the target
+            molecule is present in the molecule set.
+        compare_against_molecule(query_molecule): Compare the a query
+            molecule to all molecules of the set.
+        get_most_similar_pairs(): Get pairs of samples which are
+            most similar.
+        get_most_dissimilar_pairs(): Get pairs of samples which are
+            least similar.
+        get_property_of_most_similar(): Get property of pairs of molecules
+            which are most similar to each other.
+        get_property_of_most_dissimilar(): Get property of pairs of
+            molecule which are most dissimilar to each other.
+        get_similarity_matrix(): Get the similarity matrix for the data set.
+        get_distance_matrix(): Get the distance matrix for the data set.
+            This is can only be done for similarity measures which yields
+            valid distances.
+        get_pairwise_similarities(): Get an array of pairwise similarities
+            of molecules in the set.
+        get_mol_names(): Get names of the molecules in the set.
+        get_mol_properties(): Get properties of all the molecules
+            in the dataset.
+        cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
+            the molecules of the MoleculeSet. Implemented methods.
+                'kmedoids': for the K-Medoids algorithm.
+                'complete_linkage', 'complete':
+                    Complete linkage agglomerative hierarchical
+                    clustering.
+                'average_linkage', 'average':
+                    average linkage agglomerative hierarchical clustering.
+                'single_linkage', 'single':
+                    single linkage agglomerative hierarchical clustering.
+                'ward':
+                    for Ward's algorithm.
+        get_cluster_labels(): Get cluster membership of Molecules.
+        get_transformed_descriptors(method_="pca", **kwargs): Use an
+            embedding method to transform molecular descriptor to a
+            low dimensional representation. Implemented methods are
+            Principal Component Analysis ('pca'),
+            Multidimensional scaling ('mds'),
+            t-SNE ('tsne'), Isomap ('isomap'),
+            Spectral Embedding ('spectral_embedding')
 
     """
 
@@ -117,27 +117,29 @@ class MoleculeSet:
             if self.is_verbose:
                 print(f"Using {int(sampling_ratio * 100)}% of the database...")
             self._subsample_database(
-                sampling_ratio=sampling_ratio,
-                random_state=sampling_random_state
+                sampling_ratio=sampling_ratio, random_state=sampling_random_state
             )
         if fingerprint_type is not None:
             if descriptors is not None and is_verbose:
-                print('Descriptor and fingerprint specified.'
-                      'Descriptors imported from database source will '
-                      'be overwritten by fingerprint.')
+                print(
+                    "Descriptor and fingerprint specified."
+                    "Descriptors imported from database source will "
+                    "be overwritten by fingerprint."
+                )
             self._set_descriptor(
-                fingerprint_type=fingerprint_type,
-                fingerprint_params=fingerprint_params
+                fingerprint_type=fingerprint_type, fingerprint_params=fingerprint_params
             )
         self.similarity_measure = SimilarityMeasure(similarity_measure)
-        if n_threads == 'auto':
+        if n_threads == "auto":
+
             def speedup_eqn(n_mols, n_procs):
-                return 1.8505e-4 * n_mols + 2.235e-1*n_procs + 7.082e-2
+                return 1.8505e-4 * n_mols + 2.235e-1 * n_procs + 7.082e-2
+
             n_cores = psutil.cpu_count(logical=False)
             n_mols = len(self.molecule_database)
             if speedup_eqn(n_mols, n_cores) > 1.0:
                 self.n_threads = n_cores
-            elif speedup_eqn(n_mols, n_cores//2) > 1.0:
+            elif speedup_eqn(n_mols, n_cores // 2) > 1.0:
                 self.n_threads = n_cores // 2
             else:
                 self.n_threads = n_cores
@@ -146,9 +148,7 @@ class MoleculeSet:
         self.similarity_matrix = None
         self._set_similarity_matrix()
 
-    def _get_molecule_database(self,
-                               molecule_database_src,
-                               molecule_database_src_type):
+    def _get_molecule_database(self, molecule_database_src, molecule_database_src_type):
         """Load molecular database and return it.
         Optionally return features if found in excel / csv file.
 
@@ -170,7 +170,7 @@ class MoleculeSet:
 
         """
         if not self.is_verbose:
-            RDLogger.DisableLog('rdApp.*')
+            RDLogger.DisableLog("rdApp.*")
 
         molecule_database = []
         descriptors = None
@@ -199,8 +199,9 @@ class MoleculeSet:
                 if len(line_fields) > 1:
                     mol_property_val = float(line_fields[1])
                 if self.is_verbose:
-                    print(f"Processing {smile} " f"({count + 1}/"
-                          f"{len(smiles_data)})")
+                    print(
+                        f"Processing {smile} " f"({count + 1}/" f"{len(smiles_data)})"
+                    )
                 mol_text = smile
                 try:
                     molecule_database.append(
@@ -232,10 +233,10 @@ class MoleculeSet:
             database_descriptor_df = database_df[descriptor_cols]
             mol_names, mol_smiles, responses = None, None, None
             if "descriptor_name" in descriptor_cols:
-                mol_names = database_descriptor_df["descriptor_name"].values.flatten(
-                )
+                mol_names = database_descriptor_df["descriptor_name"].values.flatten()
                 database_descriptor_df = database_descriptor_df.drop(
-                    ["descriptor_name"], axis=1)
+                    ["descriptor_name"], axis=1
+                )
             if "descriptor_smiles" in descriptor_cols:
                 mol_smiles = database_df["descriptor_smiles"].values.flatten()
                 database_descriptor_df = database_descriptor_df.drop(
@@ -257,12 +258,9 @@ class MoleculeSet:
                         f"({mol_id + 1}/"
                         f"{len(database_descriptor_df.index)})"
                     )
-                mol_smile = mol_smiles[mol_id] if mol_smiles is not None \
-                    else None
-                mol_text = mol_names[mol_id] if mol_names is not None \
-                    else mol_smile
-                mol_property_val = responses[mol_id] if responses is not None \
-                    else None
+                mol_smile = mol_smiles[mol_id] if mol_smiles is not None else None
+                mol_text = mol_names[mol_id] if mol_names is not None else mol_smile
+                mol_property_val = responses[mol_id] if responses is not None else None
 
                 try:
                     molecule_database.append(
@@ -274,8 +272,10 @@ class MoleculeSet:
                     )
                 except LoadingError as e:
                     if self.is_verbose:
-                        print(f"Molecule index {mol_id} could not be imported. "
-                              f"Skipping")
+                        print(
+                            f"Molecule index {mol_id} could not be imported. "
+                            f"Skipping"
+                        )
 
             if len(database_descriptor_df.columns) > 0:
                 descriptors = database_descriptor_df.values
@@ -357,7 +357,9 @@ class MoleculeSet:
 
             # worker thread
 
-            def worker(thread_idx, n_mols, start_idx, end_idx, queue):  # pragma: no cover
+            def worker(
+                thread_idx, n_mols, start_idx, end_idx, queue
+            ):  # pragma: no cover
                 # make a local copy of the overall similarity matrix
                 local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
                 if self.is_verbose:
@@ -402,7 +404,7 @@ class MoleculeSet:
                                     raise e
                                 except ValueError as e:
                                     raise RuntimeError(
-                                        f'Unable to proccess molecule {molecule.mol_text}'
+                                        f"Unable to proccess molecule {molecule.mol_text}"
                                     ) from e
                 queue.put(local_similarity_matrix)
                 return None
@@ -465,7 +467,7 @@ class MoleculeSet:
                         )
                     except ValueError as e:
                         raise RuntimeError(
-                            f'Unable to proccess molecule {molecule.mol_text}'
+                            f"Unable to proccess molecule {molecule.mol_text}"
                         ) from e
 
         self.similarity_matrix = similarity_matrix
@@ -509,16 +511,19 @@ class MoleculeSet:
             [1] Bishop, C. M., Pattern recognition and machine learning. 2006.
 
         """
-        params = {'n_components': kwargs.get('n_components', 2),
-                  'copy': kwargs.get('copy', True),
-                  'whiten': kwargs.get('whiten', False),
-                  'svd_solver': kwargs.get('svd_solver', 'auto'),
-                  'tol': kwargs.get('tol', 0.0),
-                  'iterated_power':  kwargs.get('iterated_power', 'auto'),
-                  'random_state': kwargs.get('random_state', None)}
+        params = {
+            "n_components": kwargs.get("n_components", 2),
+            "copy": kwargs.get("copy", True),
+            "whiten": kwargs.get("whiten", False),
+            "svd_solver": kwargs.get("svd_solver", "auto"),
+            "tol": kwargs.get("tol", 0.0),
+            "iterated_power": kwargs.get("iterated_power", "auto"),
+            "random_state": kwargs.get("random_state", None),
+        }
         pca = PCA(**params)
-        X = np.array([molecule.get_descriptor_val()
-                      for molecule in self.molecule_database])
+        X = np.array(
+            [molecule.get_descriptor_val() for molecule in self.molecule_database]
+        )
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
         X = pca.fit_transform(X)
@@ -565,23 +570,24 @@ class MoleculeSet:
                 29: p. 1-27.
 
         """
-        params = {'n_components': kwargs.get('n_components', 2),
-                  'metric': kwargs.get('metric', True),
-                  'n_init': kwargs.get('n_init', 4),
-                  'max_iter': kwargs.get('max_iter', 3000),
-                  'verbose': kwargs.get('verbose', 0),
-                  'eps': kwargs.get('eps', 1e-3),
-                  'random_state': kwargs.get('random_state', 42),
-                  }
-        embedding = MDS(dissimilarity='precomputed', **params)
+        params = {
+            "n_components": kwargs.get("n_components", 2),
+            "metric": kwargs.get("metric", True),
+            "n_init": kwargs.get("n_init", 4),
+            "max_iter": kwargs.get("max_iter", 3000),
+            "verbose": kwargs.get("verbose", 0),
+            "eps": kwargs.get("eps", 1e-3),
+            "random_state": kwargs.get("random_state", 42),
+        }
+        embedding = MDS(dissimilarity="precomputed", **params)
         dissimilarity_matrix = self.get_distance_matrix()
         X = embedding.fit_transform(dissimilarity_matrix)
         if not get_component_info:
             return X
         else:
             component_info = {
-                'stress_': embedding.stress_,
-                'n_iter_': embedding.n_iter_
+                "stress_": embedding.stress_,
+                "n_iter_": embedding.n_iter_,
             }
             return X, component_info
 
@@ -611,29 +617,29 @@ class MoleculeSet:
                 Journal of Machine Learning Research, 2008. 9: p. 2579-2605.
 
         """
-        params = {'n_components': kwargs.get('n_components', 2),
-                  'perplexity': kwargs.get('perplexity', 30),
-                  'early_exaggeration': kwargs.get('early_exaggeration', 12),
-                  'learning_rate': kwargs.get('learning_rate', 200),
-                  'n_iter': kwargs.get('n_iter', 1000),
-                  'n_iter_without_progress': kwargs.get(
-                      'n_iter_without_progress', 300),
-                  'min_grad_norm': kwargs.get('min_grad_norm', 1e-7),
-                  'init': kwargs.get('init', 'random'),
-                  'verbose': kwargs.get('verbose', 0),
-                  'method': kwargs.get('method', 'barnes_hut'),
-                  'angle': kwargs.get('angle', 0.5),
-                  'n_jobs': kwargs.get('n_jobs', None),
-                  }
-        embedding = TSNE(metric='precomputed', **params)
+        params = {
+            "n_components": kwargs.get("n_components", 2),
+            "perplexity": kwargs.get("perplexity", 30),
+            "early_exaggeration": kwargs.get("early_exaggeration", 12),
+            "learning_rate": kwargs.get("learning_rate", 200),
+            "n_iter": kwargs.get("n_iter", 1000),
+            "n_iter_without_progress": kwargs.get("n_iter_without_progress", 300),
+            "min_grad_norm": kwargs.get("min_grad_norm", 1e-7),
+            "init": kwargs.get("init", "random"),
+            "verbose": kwargs.get("verbose", 0),
+            "method": kwargs.get("method", "barnes_hut"),
+            "angle": kwargs.get("angle", 0.5),
+            "n_jobs": kwargs.get("n_jobs", None),
+        }
+        embedding = TSNE(metric="precomputed", **params)
         dissimilarity_matrix = self.get_distance_matrix()
         X = embedding.fit_transform(dissimilarity_matrix)
         if not get_component_info:
             return X
         else:
             component_info = {
-                'kl_divergence': embedding.kl_divergence_,
-                'n_iter_': embedding.n_iter_
+                "kl_divergence": embedding.kl_divergence_,
+                "n_iter_": embedding.n_iter_,
             }
             return X, component_info
 
@@ -664,26 +670,26 @@ class MoleculeSet:
                 Reduction. Science, 2000. 290(5500): p. 2319-2323.
 
         """
-        params = {'n_neighbors': kwargs.get('n_neighbors', 5),
-                  'n_components': kwargs.get('n_components', 2),
-                  'eigen_solver': kwargs.get('eigen_solver', 'auto'),
-                  'tol': kwargs.get('tol', 0),
-                  'max_iter': kwargs.get('max_iter', None),
-                  'path_method': kwargs.get('path_method', 'auto'),
-                  'neighbors_algorithm': kwargs.get('neighbors_algorithm',
-                                                    'auto'),
-                  'n_jobs': kwargs.get('n_jobs', None),
-                  'p': kwargs.get('p', 2),
-                  }
-        embedding = Isomap(metric='precomputed', **params)
+        params = {
+            "n_neighbors": kwargs.get("n_neighbors", 5),
+            "n_components": kwargs.get("n_components", 2),
+            "eigen_solver": kwargs.get("eigen_solver", "auto"),
+            "tol": kwargs.get("tol", 0),
+            "max_iter": kwargs.get("max_iter", None),
+            "path_method": kwargs.get("path_method", "auto"),
+            "neighbors_algorithm": kwargs.get("neighbors_algorithm", "auto"),
+            "n_jobs": kwargs.get("n_jobs", None),
+            "p": kwargs.get("p", 2),
+        }
+        embedding = Isomap(metric="precomputed", **params)
         dissimilarity_matrix = self.get_distance_matrix()
         X = embedding.fit_transform(dissimilarity_matrix)
         if not get_component_info:
             return X
         else:
             component_info = {
-                'kernel_pca_': embedding.kernel_pca_,
-                'nbrs_': embedding.nbrs_
+                "kernel_pca_": embedding.kernel_pca_,
+                "nbrs_": embedding.nbrs_,
             }
             return X, component_info
 
@@ -713,21 +719,21 @@ class MoleculeSet:
                 Analysis and an algorithm. 2001. MIT Press.
 
         """
-        params = {'n_components': kwargs.get('n_components', 2),
-                  'gamma': kwargs.get('gamma', None),
-                  'random_state': kwargs.get('random_state', None),
-                  'eigen_solver': kwargs.get('eigen_solver', None),
-                  'n_neighbors': kwargs.get('n_neighbors', None),
-                  'n_jobs': kwargs.get('n_jobs', None)}
-        embedding = SpectralEmbedding(affinity='precomputed', **params)
+        params = {
+            "n_components": kwargs.get("n_components", 2),
+            "gamma": kwargs.get("gamma", None),
+            "random_state": kwargs.get("random_state", None),
+            "eigen_solver": kwargs.get("eigen_solver", None),
+            "n_neighbors": kwargs.get("n_neighbors", None),
+            "n_jobs": kwargs.get("n_jobs", None),
+        }
+        embedding = SpectralEmbedding(affinity="precomputed", **params)
         similarity_matrix = self.get_similarity_matrix()
         X = embedding.fit_transform(similarity_matrix)
         if not get_component_info:
             return X
         else:
-            component_info = {
-                'n_neighbors_': embedding.n_neighbors_
-            }
+            component_info = {"n_neighbors_": embedding.n_neighbors_}
             return X, component_info
 
     def is_present(self, target_molecule):
@@ -798,8 +804,7 @@ class MoleculeSet:
                 if index < n_samples - 1
                 else -1
             )
-            pre_diag_closest_index = np.argmax(
-                row[:index]) if index > 0 else -1
+            pre_diag_closest_index = np.argmax(row[:index]) if index > 0 else -1
             # if either (pre_) post_diag_closest_index not set, the
             # closest_index is set to the (post_) pre_diag_closest_index
             if pre_diag_closest_index == -1:
@@ -816,8 +821,7 @@ class MoleculeSet:
                     else pre_diag_closest_index
                 )
             out_list.append(
-                (self.molecule_database[index],
-                 self.molecule_database[closest_index])
+                (self.molecule_database[index], self.molecule_database[closest_index])
             )
         return out_list
 
@@ -843,8 +847,7 @@ class MoleculeSet:
         for index, row in enumerate(self.similarity_matrix):
             furthest_index = np.argmin(row)
             out_list.append(
-                (self.molecule_database[index],
-                 self.molecule_database[furthest_index])
+                (self.molecule_database[index], self.molecule_database[furthest_index])
             )
         return out_list
 
@@ -915,10 +918,12 @@ class MoleculeSet:
                 Shape (n_samples, n_samples).
 
         """
-        if not hasattr(self.similarity_measure, 'to_distance'):
-            raise InvalidConfigurationError(f'{self.similarity_measure.metric} '
-                                            f'does not have an equivalent '
-                                            f'distance')
+        if not hasattr(self.similarity_measure, "to_distance"):
+            raise InvalidConfigurationError(
+                f"{self.similarity_measure.metric} "
+                f"does not have an equivalent "
+                f"distance"
+            )
         return self.similarity_measure.to_distance(self.similarity_matrix)
 
     def get_pairwise_similarities(self):
@@ -958,9 +963,9 @@ class MoleculeSet:
 
     def get_mol_properties(self):
         """Get properties of all the molecules in the dataset.
-            If all molecules don't have properties, None is returned.
-         Returns:
-            np.ndarray or None: Array with molecules properties or None.
+           If all molecules don't have properties, None is returned.
+        Returns:
+           np.ndarray or None: Array with molecules properties or None.
 
         """
         mol_properties = []
@@ -978,8 +983,7 @@ class MoleculeSet:
             np.ndarray: (n_molecules, feature_dimensionality) array.
 
         """
-        mol_features = [mol.get_descriptor_val()
-                        for mol in self.molecule_database]
+        mol_features = [mol.get_descriptor_val() for mol in self.molecule_database]
         return np.array(mol_features)
 
     def cluster(self, n_clusters=8, clustering_method=None, **kwargs):
@@ -1029,9 +1033,9 @@ class MoleculeSet:
                 "Clustering will not yield "
                 "meaningful results."
             )
-        if ((clustering_method == "kmedoids"
-                or clustering_method == 'ward')
-                and self.similarity_measure.type_ == "discrete"):
+        if (
+            clustering_method == "kmedoids" or clustering_method == "ward"
+        ) and self.similarity_measure.type_ == "discrete":
             print(
                 f"{clustering_method} cannot be used with "
                 f"{self.similarity_measure.type_} "
@@ -1043,9 +1047,9 @@ class MoleculeSet:
                 clustering_method = "kmedoids"
             else:
                 clustering_method = "complete_linkage"
-        self.clusters_ = Cluster(n_clusters=n_clusters,
-                                 clustering_method=clustering_method,
-                                 **kwargs).fit(self.get_distance_matrix())
+        self.clusters_ = Cluster(
+            n_clusters=n_clusters, clustering_method=clustering_method, **kwargs
+        ).fit(self.get_distance_matrix())
 
     def get_cluster_labels(self):
         """
@@ -1105,16 +1109,17 @@ class MoleculeSet:
                 Analysis and an algorithm. 2001. MIT Press.
 
         """
-        if method_.lower() == 'pca':
+        if method_.lower() == "pca":
             return self._do_pca(**kwargs)
-        elif method_.lower() == 'mds':
+        elif method_.lower() == "mds":
             return self._do_mds(**kwargs)
-        elif method_.lower() == 'tsne':
+        elif method_.lower() == "tsne":
             return self._do_tsne(**kwargs)
-        elif method_.lower() == 'isomap':
+        elif method_.lower() == "isomap":
             return self._do_isomap(**kwargs)
-        elif method_.lower() == 'spectral_embedding':
+        elif method_.lower() == "spectral_embedding":
             return self._do_spectral_embedding(**kwargs)
         else:
-            raise InvalidConfigurationError(f'Embedding method {method_} '
-                                            f'not implemented')
+            raise InvalidConfigurationError(
+                f"Embedding method {method_} " f"not implemented"
+            )

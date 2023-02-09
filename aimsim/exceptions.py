@@ -14,6 +14,14 @@ class MordredCalculatorError(RuntimeError):
         super().__init__(message)
 
 
+class MordredNotInstalledWarning(RuntimeWarning):
+    """Used in descriptor.py when the Mordred property calculator is not present."""
+
+    def __init__(self, message=None):
+        self.message = message
+        super().__init__(message)
+
+
 class InvalidConfigurationError(IOError):
     """Used when a configuration parameter is invalid."""
 

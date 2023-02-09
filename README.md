@@ -50,6 +50,8 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 `pip install aimsim`
 This command also installs the required dependencies. It is recommended to install `AIMSim` in a separate virtual environment.
 
+_Optional:_ AIMSim can also use descriptors provided in the `mordred` package, but because it is an older package it is only compatible with Python 3.8. To install with `mordred` support, use `pip install aimsim[mordred]`
+
 ## Running AIMSim
 `AIMSim` is compatible with Python 3.7 to 3.9.
 Start `AIMSim` with a graphical user interface:
@@ -66,7 +68,7 @@ Start `AIMSim` with a prepared configuration YAML file (`config.yaml`):
 2. RDKit Topological Fingerprint
 3. RDKit Daylight Fingerprint
 4. All fingerprints available from the [ccbmlib](https://github.com/vogt-m/ccbmlib) package (_specify 'ccbmlib:descriptorname' for command line input_).
-5. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._).
+5. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._). To enable this option, you must install with `pip install aimsim['mordred']`.
 6. All descriptors and fingerprints available from [PaDELPy](https://github.com/ecrl/padelpy), an interface to PaDEL-Descriptor. (_specify 'padelpy:desciptorname' for command line input._).
 
 ### Currently Implemented Similarity Scores

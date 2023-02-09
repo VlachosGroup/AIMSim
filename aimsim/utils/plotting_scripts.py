@@ -52,7 +52,7 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
     shade = kwargs.pop("shade", False)
 
     if n_densities == 1:
-        valid_number_types = (np.float, np.int64, int, float)
+        valid_number_types = (float, np.int64, int, float)
         for density in densities:
             is_number = isinstance(density, valid_number_types)
             if not is_number:
