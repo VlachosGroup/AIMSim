@@ -9,6 +9,7 @@
   <img alt="commits since" src="https://img.shields.io/github/commits-since/VlachosGroup/AIMSim/latest.svg">
   <img alt="PyPI" src="https://img.shields.io/pypi/v/aimsim">
   <img alt="PyPI - License" src="https://img.shields.io/github/license/VlachosGroup/AIMSim">
+  <img alt="Test Status" src="https://github.com/VlachosGroup/AIMSim/actions/workflows/run_tests.yml/badge.svg?branch=master&event=schedule">
 </p>
 
 ## Documentation and Tutorial
