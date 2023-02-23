@@ -41,6 +41,7 @@ setup(
         "mordred": [
             "mordred==1.2.0",
             "networkx==2.*",
+            "openpyxl",
         ],
     },
     packages=find_packages(),
