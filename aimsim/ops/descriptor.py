@@ -12,6 +12,11 @@ from aimsim.utils.ccbmlib_fingerprints import generate_fingerprints
 from padelpy import from_smiles
 from aimsim.utils.extras import requires_mordred
 
+try:
+    from mordred import Calculator, descriptors
+except ImportError:
+    NO_MORDRED = True
+
 
 from ..exceptions import (
     InvalidConfigurationError,

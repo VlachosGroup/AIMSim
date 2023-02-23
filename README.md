@@ -51,7 +51,9 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 `pip install aimsim`
 This command also installs the required dependencies. It is recommended to install `AIMSim` in a separate virtual environment.
 
-_Optional:_ AIMSim can also use descriptors provided in the `mordred` package, but because it is an older package it is only compatible with Python 3.8. To install with `mordred` support, use `pip install aimsim[mordred]`
+_Optional:_ Previous versions of AIMSim provided direct support for the descriptors provided in the `mordred` package. Unforunately, `mordred` is no longer recieving updates and causes significant depdendency conflicts. Because of this, it is an _optional_ add-on to `AIMSim` that is only compatible with Python 3.8. To install with `mordred` support, use `pip install 'aimsim[mordred]'` (note the single quotes, necessary in `zsh`).
+
+Unit tests from previous versions of `AIMSim` have been kept but are not actively maintained due to the limitations above. Use `mordred` at your own risk.
 
 ## Running AIMSim
 `AIMSim` is compatible with Python 3.7 to 3.9.
@@ -68,9 +70,12 @@ Start `AIMSim` with a prepared configuration YAML file (`config.yaml`):
 1. Morgan Fingerprint (Equivalent to the ECFP fingerprints)
 2. RDKit Topological Fingerprint
 3. RDKit Daylight Fingerprint
+
+_The following are available via command line use (config.yaml) only:_
+
 4. All fingerprints available from the [ccbmlib](https://github.com/vogt-m/ccbmlib) package (_specify 'ccbmlib:descriptorname' for command line input_).
-5. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._). To enable this option, you must install with `pip install aimsim['mordred']`.
-6. All descriptors and fingerprints available from [PaDELPy](https://github.com/ecrl/padelpy), an interface to PaDEL-Descriptor. (_specify 'padelpy:desciptorname' for command line input._).
+5. All descriptors and fingerprints available from [PaDELPy](https://github.com/ecrl/padelpy), an interface to PaDEL-Descriptor. (_specify 'padelpy:desciptorname' for command line input._).
+6. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._). To enable this option, you must install with `pip install 'aimsim[mordred]'` (see disclaimer in the Installation section above).
 
 ### Currently Implemented Similarity Scores
 
