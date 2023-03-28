@@ -1,6 +1,7 @@
 """Abstraction of a data set comprising multiple Molecule objects."""
 from glob import glob
 import psutil
+import warnings
 import os.path
 import multiprocess
 import numpy as np
@@ -106,6 +107,8 @@ class MoleculeSet:
 
         """
         self.is_verbose = is_verbose
+        if type(self.is_verbose) is int and self.is_verbose > 1:
+            warnings.warn("You have enabled debug-level logging (is_verbose>=2).")
         self.molecule_database = None
         self.descriptor = Descriptor()
         self.molecule_database, descriptors = self._get_molecule_database(
@@ -198,7 +201,7 @@ class MoleculeSet:
                 mol_property_val = None
                 if len(line_fields) > 1:
                     mol_property_val = float(line_fields[1])
-                if self.is_verbose:
+                if type(self.is_verbose) is int and self.is_verbose > 1:
                     print(
                         f"Processing {smile} " f"({count + 1}/" f"{len(smiles_data)})"
                     )
@@ -252,7 +255,7 @@ class MoleculeSet:
                 # currently handles one response
                 responses = database_df[response_col].values.flatten()
             for mol_id in database_descriptor_df.index:
-                if self.is_verbose:
+                if type(self.is_verbose) is int and self.is_verbose > 1:
                     print(
                         f"Processing "
                         f"({mol_id + 1}/"
@@ -362,7 +365,7 @@ class MoleculeSet:
             ):  # pragma: no cover
                 # make a local copy of the overall similarity matrix
                 local_similarity_matrix = np.zeros(shape=(n_mols, n_mols))
-                if self.is_verbose:
+                if type(self.is_verbose) is int and self.is_verbose > 1:
                     print(
                         "thread",
                         thread_idx,
@@ -379,7 +382,7 @@ class MoleculeSet:
                 for source_mol_id, molecule in enumerate(self.molecule_database):
                     if source_mol_id >= start_idx and source_mol_id < end_idx:
                         for target_mol_id in range(0, n_mols):
-                            if self.is_verbose:
+                            if type(self.is_verbose) is int and self.is_verbose > 1:
                                 print(
                                     f"thread {thread_idx} computing similarity "
                                     f"of molecule num "
@@ -453,7 +456,7 @@ class MoleculeSet:
             # serial implementation
             for source_mol_id, molecule in enumerate(self.molecule_database):
                 for target_mol_id in range(n_mols):
-                    if self.is_verbose:
+                    if type(self.is_verbose) is int and self.is_verbose > 1:
                         print(
                             "Computing similarity of molecule num "
                             f"{target_mol_id + 1} against {source_mol_id + 1}"
