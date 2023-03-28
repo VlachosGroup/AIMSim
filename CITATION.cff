@@ -1,0 +1,56 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: AIMSim
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - family-names: Burns
+    given-names: Jackson
+    email: jburnsky@udel.edu
+    affiliation: >-
+      University of Delaware Department of Chemical and
+      Biomolecular Engineering
+    orcid: 'https://orcid.org/0000-0002-0657-9426'
+  - family-names: Bhattacharjee
+    given-names: Himaghna
+    email: himaghna@udel.edu
+    affiliation: >-
+      University of Delaware Department of Chemical and
+      Biomolecular Engineering
+    orcid: 'https://orcid.org/0000-0002-6598-3939'
+  - family-names: Vlachos
+    given-names: Dionisios
+    email: vlachos@udel.edu
+    affiliation: >-
+      University of Delaware Department of Chemical and
+      Biomolecular Engineering
+    orcid: 'https://orcid.org/0000-0002-6795-8403'
+identifiers:
+  - type: doi
+    value: 10.1016/j.cpc.2022.108579
+    description: Computer Physics Communications
+  - type: url
+    value: >-
+      https://www.sciencedirect.com/science/article/pii/S0010465522002983
+repository-code: 'https://github.com/VlachosGroup/AIMSim'
+url: 'https://vlachosgroup.github.io/AIMSim/README.html'
+repository: 'https://doi.org/10.17632/ydbmr9v3g3.1'
+abstract: >-
+  Calculating and visualizing structural similarity between
+  chemical entities is challenging and has a wide variety of
+  approaches based on niche applications. An accessible tool
+  which unifies these cheminformatics operations is lacking.
+  Solution method: Python package with a modular, flexible,
+  and interactive approach to molecular fingerprinting,
+  clustering, and more advanced cheminformatics operations.
+  Includes a Graphic User Interface (GUI) for completely
+  code-free utilization.
+keywords:
+  - >-
+    Cheminformatics, Molecular fingerprints, Similarity,
+    Data visualization, Open-source software
+license: MIT
