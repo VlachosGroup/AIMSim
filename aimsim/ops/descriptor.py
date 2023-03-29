@@ -265,7 +265,7 @@ class Descriptor:
         self.label_ = descriptor
         self.params_ = {}
 
-    def _set_minhash_fprint(self, molecule_graph, **kwargs):
+    def _set_minhash_fingerprint(self, molecule_graph, **kwargs):
         """Set the descriptor to the minhash fingerprint.
 
         Args:
@@ -273,7 +273,7 @@ class Descriptor:
 
         """
         mhfp_encoder = MHFPEncoder(
-            n_permutations=kwargs["n_premutations"],
+            n_permutations=kwargs["n_permutations"],
             seed=kwargs["seed"],
         )
         fp = mhfp_encoder.encode_mol(
@@ -307,7 +307,7 @@ class Descriptor:
             morgan_params = {"radius": 3, "n_bits": 1024}
             morgan_params.update(fingerprint_params)
             self._set_morgan_fingerprint(molecule_graph=molecule_graph, **morgan_params)
-        if fingerprint_type == "minhash_fingerprint":
+        elif fingerprint_type == "minhash_fingerprint":
             minhash_params = {
                 "n_permutations": 2048,
                 "seed": 42,
@@ -499,7 +499,6 @@ class Descriptor:
             "morgan_fingerprint",
             "topological_fingerprint",
             "daylight_fingerprint",
-            "minhash_fingerprint",
         ]
 
     @staticmethod
@@ -515,6 +514,7 @@ class Descriptor:
             "morgan_fingerprint",
             "topological_fingerprint",
             "daylight_fingerprint",
+            "minhash_fingerprint",
             "maccs_keys",
             "atom-pair_fingerprint",
             "torsion_fingerprint",
