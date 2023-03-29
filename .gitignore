@@ -8,7 +8,7 @@
 *.pyc
 
 # build and distribution files
-AIMSim.egg-info/*
+aimsim.egg-info/*
 build/*
 dist/*
 
