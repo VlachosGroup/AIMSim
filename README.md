@@ -70,12 +70,13 @@ Start `AIMSim` with a prepared configuration YAML file (`config.yaml`):
 1. Morgan Fingerprint (Equivalent to the ECFP fingerprints)
 2. RDKit Topological Fingerprint
 3. RDKit Daylight Fingerprint
+4. MinHash Fingerprint (see [MHFP](https://github.com/reymond-group/mhfp))
 
 _The following are available via command line use (config.yaml) only:_
 
-4. All fingerprints available from the [ccbmlib](https://github.com/vogt-m/ccbmlib) package (_specify 'ccbmlib:descriptorname' for command line input_).
-5. All descriptors and fingerprints available from [PaDELPy](https://github.com/ecrl/padelpy), an interface to PaDEL-Descriptor. (_specify 'padelpy:desciptorname' for command line input._).
-6. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._). To enable this option, you must install with `pip install 'aimsim[mordred]'` (see disclaimer in the Installation section above).
+5. All fingerprints available from the [ccbmlib](https://github.com/vogt-m/ccbmlib) package (_specify 'ccbmlib:descriptorname' for command line input_).
+6. All descriptors and fingerprints available from [PaDELPy](https://github.com/ecrl/padelpy), an interface to PaDEL-Descriptor. (_specify 'padelpy:desciptorname' for command line input._).
+7. All descriptors available through the [Mordred](https://github.com/mordred-descriptor/mordred) library (_specify 'mordred:desciptorname' for command line input._). To enable this option, you must install with `pip install 'aimsim[mordred]'` (see disclaimer in the Installation section above).
 
 ### Currently Implemented Similarity Scores
 

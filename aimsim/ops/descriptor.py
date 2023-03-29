@@ -11,6 +11,7 @@ from rdkit.DataStructs import cDataStructs
 from aimsim.utils.ccbmlib_fingerprints import generate_fingerprints
 from padelpy import from_smiles
 from aimsim.utils.extras import requires_mordred
+from mhfp.encoder import MHFPEncoder
 
 try:
     from mordred import Calculator, descriptors
@@ -264,6 +265,27 @@ class Descriptor:
         self.label_ = descriptor
         self.params_ = {}
 
+    def _set_minhash_fprint(self, molecule_graph, **kwargs):
+        """Set the descriptor to the minhash fingerprint.
+
+        Args:
+        molecule_graph (RDKIT object): Graph of molecule to be fingerprinted.
+
+        """
+        mhfp_encoder = MHFPEncoder(
+            n_permutations=kwargs["n_premutations"],
+            seed=kwargs["seed"],
+        )
+        fp = mhfp_encoder.encode_mol(
+            molecule_graph,
+            radius=kwargs["radius"],
+            rings=kwargs["rings"],
+            kekulize=kwargs["kekulize"],
+        )
+        self.numpy_ = fp
+        self.label_ = "minhash_fingerprint"
+        self.params_ = kwargs
+
     def make_fingerprint(
         self, molecule_graph, fingerprint_type, fingerprint_params=None
     ):
@@ -285,6 +307,18 @@ class Descriptor:
             morgan_params = {"radius": 3, "n_bits": 1024}
             morgan_params.update(fingerprint_params)
             self._set_morgan_fingerprint(molecule_graph=molecule_graph, **morgan_params)
+        if fingerprint_type == "minhash_fingerprint":
+            minhash_params = {
+                "n_permutations": 2048,
+                "seed": 42,
+                "radius": 3,
+                "rings": True,
+                "kekulize": True,
+            }
+            minhash_params.update(fingerprint_params)
+            self._set_minhash_fingerprint(
+                molecule_graph=molecule_graph, **minhash_params
+            )
         elif fingerprint_type == "topological_fingerprint":
             topological_params = {"min_path": 1, "max_path": 7}
             topological_params.update(fingerprint_params)
@@ -465,6 +499,7 @@ class Descriptor:
             "morgan_fingerprint",
             "topological_fingerprint",
             "daylight_fingerprint",
+            "minhash_fingerprint",
         ]
 
     @staticmethod
