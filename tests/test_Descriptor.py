@@ -273,6 +273,31 @@ class TestDescriptor(unittest.TestCase):
             with self.assertRaises(ValueError):
                 descriptor.to_rdkit()
 
+    def test_minhash_fingerprint(self):
+        """Test creation of minhash fingerprint"""
+        mol_graph = MolFromSmiles("CCOCC")
+        descriptor = Descriptor()
+        descriptor.make_fingerprint(
+            molecule_graph=mol_graph, fingerprint_type="minhash_fingerprint"
+        )
+        self.assertTrue(
+            descriptor.check_init(),
+            "Expected Descriptor object to be initialized",
+        )
+        self.assertEqual(
+            descriptor.label_,
+            "minhash_fingerprint",
+            "Expected label of descriptor initialized with "
+            "{} to match the fingerprint".format("minhash_fingerprint"),
+        )
+        self.assertIsInstance(
+            descriptor.to_numpy(),
+            np.ndarray,
+            "Expected numpy.ndarray from to_numpy()",
+        )
+        with self.assertRaises(ValueError):
+            descriptor.to_rdkit()
+
     def test_ccbmlib_descriptors(self):
         """Test ability to passthrough descriptors to ccbmlib."""
         mol_graph = MolFromSmiles("CCOCC")
@@ -310,6 +335,7 @@ class TestDescriptor(unittest.TestCase):
             "maccs_keys",
             "atom-pair_fingerprint",
             "torsion_fingerprint",
+            "minhash_fingerprint",
         ]
         for desc in fprint_list:
             descriptor = Descriptor()
