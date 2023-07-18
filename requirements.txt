@@ -6,7 +6,7 @@ numpy
 multiprocess>=0.70
 scikit_learn_extra
 pandas
-PyYAML==5.*
+PyYAML>=5
 scikit_learn
 rdkit
 psutil
