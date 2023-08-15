@@ -44,7 +44,7 @@ setup(
             "openpyxl",
         ],
     },
-    packages=find_packages(),
+    packages=find_packages(exclude=["docs", "test"]),
     include_package_data=True,
     entry_points={
         "console_scripts": [
