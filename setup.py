@@ -39,8 +39,7 @@ setup(
     install_requires=read("requirements.txt").split("\n"),
     extras_require={
         "mordred": [
-            "mordred==1.2.0",
-            "networkx==2.*",
+            "mordredcommunity",
             "openpyxl",
         ],
     },

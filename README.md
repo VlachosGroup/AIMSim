@@ -52,9 +52,10 @@ Many of the substrates appear similar to one another and thereby redundant, but 
 This command also installs the required dependencies.
 It is recommended to install `AIMSim` in a virtual environment with [`conda`](https://docs.conda.io/en/latest/) or Python's [`venv`](https://docs.python.org/3/library/venv.html).
 
-_Optional:_ Previous versions of AIMSim provided direct support for the descriptors provided in the `mordred` package. Unfortunately, `mordred` is no longer receiving updates and causes significant dependency conflicts. Because of this, it is an _optional_ add-on to `AIMSim` that is only compatible with Python 3.8. To install with `mordred` support, use `pip install 'aimsim[mordred]'` (note the single quotes, necessary in `zsh` and `powershell`).
-
-Unit tests from previous versions of `AIMSim` have been kept but are not actively maintained due to the limitations above. Use `mordred` at your own risk.
+### Note for mordred-descriptor
+AIMSim v1 provided direct support for the descriptors provided in the `mordred` package but unfortunately the original `mordred` is now abandonware.
+The unofficial `mordredcommunity` package can be used instead to deliver the same features but with support for modern Python.
+To install with `mordred` support, use `pip install 'aimsim[mordred]'` (note the single quotes, necessary in `zsh` and `powershell`).
 
 ## Running AIMSim
 `AIMSim` is compatible with Python 3.7 to 3.11.
