@@ -1,3 +1,4 @@
+# see AIMSim-demo.ipynb for a comprehensive list of all possible configuration options
 is_verbose: True
 molecule_database: 'tests\small.smi'
 molecule_database_source_type: text
