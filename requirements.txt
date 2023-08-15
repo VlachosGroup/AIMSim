@@ -12,6 +12,5 @@ rdkit
 psutil
 padelpy
 plotly
-customtkinter<5.0.0
-tkinter-tooltip
 mhfp
+darkdetect

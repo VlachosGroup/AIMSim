@@ -17,13 +17,12 @@ import yaml
 import os
 import tkinter as tk
 from tkinter import messagebox, filedialog
-import tkinter.ttk as ttk
 import webbrowser
 import pkg_resources
 
 
-import customtkinter as ctk
-from tktooltip import ToolTip
+from .libraries import customtkinter as ctk
+from .libraries.tktooltip.tooltip import ToolTip
 
 ctk.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -31,12 +30,12 @@ ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
 class AIMSimUiApp(ctk.CTk):
     """User interface to access key functionalities of AIMSim."""
+
     WIDTH = 600
     HEIGHT = 400
 
     def __init__(self):
-        """Constructor for AIMSim UI.
-        """
+        """Constructor for AIMSim UI."""
         super().__init__()
         # build ui
         self.title("AIMSim")
@@ -211,9 +210,7 @@ class AIMSimUiApp(ctk.CTk):
             values=SimilarityMeasure.get_uniq_metrics(),
             hover=False,
         )
-        self.similarityMeasureCombobox.set(
-            self.similarityMeasureCombobox.values[0]
-        )
+        self.similarityMeasureCombobox.set(self.similarityMeasureCombobox.values[0])
         self.similarityMeasureCombobox.grid(
             row=4,
             column=1,
@@ -266,10 +263,12 @@ class AIMSimUiApp(ctk.CTk):
             self.similarityMeasureCombobox.configure(
                 True,
                 values=[
-                    metric for metric in SimilarityMeasure.get_compatible_metrics().get(
+                    metric
+                    for metric in SimilarityMeasure.get_compatible_metrics().get(
                         self.molecularDescriptor.get(), "Error"
-                    ) if (metric in SimilarityMeasure.get_uniq_metrics())
-                ]
+                    )
+                    if (metric in SimilarityMeasure.get_uniq_metrics())
+                ],
             )
             self.similarityMeasureCombobox.current(
                 self.similarityMeasureCombobox.values[0]
@@ -288,9 +287,7 @@ class AIMSimUiApp(ctk.CTk):
             pady=(0, 0),
             sticky="we",
         )
-        self.molecularDescriptorCombobox.set(
-            self.molecularDescriptorCombobox.values[0]
-        )
+        self.molecularDescriptorCombobox.set(self.molecularDescriptorCombobox.values[0])
         # checkbox to show all descriptors in AIMSim
         self.showAllDescriptorsButton = ctk.CTkCheckBox(
             master=self,
@@ -453,10 +450,10 @@ class AIMSimUiApp(ctk.CTk):
             initialdir=".",
             title="Select Molecule Database File",
             filetypes=[
-                ('SMILES', '.smi .txt .SMILES'),
-                ('Protein Data Bank', '.pdb'),
-                ('Comma-Separated Values', '.csv .tsv'),
-                ('Excel Workbook', '.xlsx'),
+                ("SMILES", ".smi .txt .SMILES"),
+                ("Protein Data Bank", ".pdb"),
+                ("Comma-Separated Values", ".csv .tsv"),
+                ("Excel Workbook", ".xlsx"),
             ],
         )
         if out:
@@ -477,7 +474,10 @@ class AIMSimUiApp(ctk.CTk):
                 values=Descriptor.get_supported_fprints(),
             )
             # switch off unsupported descriptor
-            if self.molecularDescriptorCombobox.current_value not in Descriptor.get_supported_fprints():
+            if (
+                self.molecularDescriptorCombobox.current_value
+                not in Descriptor.get_supported_fprints()
+            ):
                 self.molecularDescriptorCombobox.set(
                     self.molecularDescriptorCombobox.values[0]
                 )
@@ -486,13 +486,9 @@ class AIMSimUiApp(ctk.CTk):
     def useMeasureSearchCallback(self):
         """measure search dropdown disable/enable"""
         if self.useMeasureSearchCheckbox.get():
-            self.similarityMeasureCombobox.configure(
-                state='disabled'
-            )
+            self.similarityMeasureCombobox.configure(state="disabled")
         else:
-            self.similarityMeasureCombobox.configure(
-                state='normal'
-            )
+            self.similarityMeasureCombobox.configure(state="normal")
         return
 
     def openConfigCallback(self):
@@ -528,8 +524,12 @@ class AIMSimUiApp(ctk.CTk):
             tasks_dict["identify_outliers"] = {"output": "terminal"}
         if self.targetMolecule.get() not in ("", "optional"):
             tasks_dict["compare_target_molecule"] = {
-                "target_molecule_smiles": self.targetMolecule.get() if not os.path.exists(self.targetMolecule.get()) else None,
-                "target_molecule_src": self.targetMolecule.get() if os.path.exists(self.targetMolecule.get()) else None,
+                "target_molecule_smiles": self.targetMolecule.get()
+                if not os.path.exists(self.targetMolecule.get())
+                else None,
+                "target_molecule_src": self.targetMolecule.get()
+                if os.path.exists(self.targetMolecule.get())
+                else None,
                 "similarity_plot_settings": {
                     "plot_color": "orange",
                     "plot_title": "Molecule Database Compared to Target Molecule",
@@ -545,7 +545,7 @@ class AIMSimUiApp(ctk.CTk):
 
         verboseChecked = self.verboseCheckbutton.get()
         if self.multiprocessingCheckbutton.get():
-            n_workers = 'auto'
+            n_workers = "auto"
         else:
             n_workers = 1
 
@@ -564,7 +564,9 @@ class AIMSimUiApp(ctk.CTk):
             "n_workers": n_workers,
             "molecule_database": self.databaseFile.get(),
             "molecule_database_source_type": molecule_database_source_type,
-            "similarity_measure": 'determine' if self.useMeasureSearchCheckbox.get() else self.similarityMeasure.get(),
+            "similarity_measure": "determine"
+            if self.useMeasureSearchCheckbox.get()
+            else self.similarityMeasure.get(),
             "fingerprint_type": self.molecularDescriptor.get(),
             "tasks": tasks_dict,
         }
