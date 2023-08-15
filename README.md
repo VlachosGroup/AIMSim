@@ -54,8 +54,9 @@ It is recommended to install `AIMSim` in a virtual environment with [`conda`](ht
 
 ### Note for mordred-descriptor
 AIMSim v1 provided direct support for the descriptors provided in the `mordred` package but unfortunately the original `mordred` is now abandonware.
-The unofficial `mordredcommunity` package can be used instead to deliver the same features but with support for modern Python.
+The **unofficial** `mordredcommunity` package can be used instead to deliver the same features but with support for modern Python.
 To install with `mordred` support, use `pip install 'aimsim[mordred]'` (note the single quotes, necessary in `zsh` and `powershell`).
+Note that `mordredcommunity` only supports Python version 3.8 through 3.11 (`AIMSim` supports 3.7 also).
 
 ## Running AIMSim
 `AIMSim` is compatible with Python 3.7 to 3.11.
