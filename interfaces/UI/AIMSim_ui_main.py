@@ -31,7 +31,7 @@ ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 class AIMSimUiApp(ctk.CTk):
     """User interface to access key functionalities of AIMSim."""
 
-    WIDTH = 600
+    WIDTH = 800
     HEIGHT = 400
 
     def __init__(self):
@@ -382,6 +382,22 @@ class AIMSimUiApp(ctk.CTk):
             sticky="w",
         )
 
+        # extended similarity indices
+        self.extendedSimilarityCheckbutton = ctk.CTkCheckBox(
+            master=self,
+            cursor="arrow",
+            state=tk.NORMAL,
+            text="Get Extended Similarity",
+        )
+        self.extendedSimilarityCheckbutton.grid(
+            row=7,
+            column=4,
+            columnspan=3,
+            padx=0,
+            pady=(0, 0),
+            sticky="w",
+        )
+
         # add ToolTips
         ToolTip(
             self.openConfigButton,
@@ -522,6 +538,8 @@ class AIMSimUiApp(ctk.CTk):
             tasks_dict["visualize_dataset"] = inner_dict
         if self.identifyOutliersCheckbutton.get():
             tasks_dict["identify_outliers"] = {"output": "terminal"}
+        if self.extendedSimilarityCheckbutton.get():
+            tasks_dict["get_extended_similarity_indices"] = {}
         if self.targetMolecule.get() not in ("", "optional"):
             tasks_dict["compare_target_molecule"] = {
                 "target_molecule_smiles": self.targetMolecule.get()

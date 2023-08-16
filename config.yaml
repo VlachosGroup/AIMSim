@@ -15,6 +15,7 @@ fingerprint_type: 'topological_fingerprint'
 # The lines beginning with '#!' can be directly uncommented to implement them.
 
 tasks:
+  get_extended_similarity_indices:
   visualize_dataset:
       heatmap_plot_settings:
           plot_color: 'green' # Set a color recognized by matplotlib.

@@ -29,11 +29,12 @@ class TaskManager:
             try:
                 if task == "compare_target_molecule":
                     loaded_task = CompareTargetMolecule(task_configs)
+                elif task == "get_extended_similarity_indices":
+                    loaded_task = ExtendedSimilarityIndices(task_configs)
                 elif task == "visualize_dataset":
                     loaded_task = VisualizeDataset(task_configs)
                 elif task == "see_property_variation_w_similarity":
-                    loaded_task = SeePropertyVariationWithSimilarity(
-                        task_configs)
+                    loaded_task = SeePropertyVariationWithSimilarity(task_configs)
                 elif task == "identify_outliers":
                     loaded_task = IdentifyOutliers(task_configs)
                 elif task == "cluster":
@@ -72,31 +73,27 @@ class TaskManager:
             raise InvalidConfigurationError
         is_verbose = molecule_set_configs.get("is_verbose", False)
         n_threads = molecule_set_configs.get("n_workers", 1)
-        similarity_measure = molecule_set_configs.get("similarity_measure",
-                                                      'determine')
-        fingerprint_type = molecule_set_configs.get('fingerprint_type',
-                                                    'determine')
-        fingerprint_params = molecule_set_configs.get('fingerprint_params', {})
-        if similarity_measure == 'determine' or fingerprint_type == 'determine':
+        similarity_measure = molecule_set_configs.get("similarity_measure", "determine")
+        fingerprint_type = molecule_set_configs.get("fingerprint_type", "determine")
+        fingerprint_params = molecule_set_configs.get("fingerprint_params", {})
+        if similarity_measure == "determine" or fingerprint_type == "determine":
             subsample_subset_size = molecule_set_configs.get(
-                'measure_id_subsample',
-                0.05)
-            only_valid_dist = molecule_set_configs.get(
-                    'only_valid_dist',
-                    True)
+                "measure_id_subsample", 0.05
+            )
+            only_valid_dist = molecule_set_configs.get("only_valid_dist", True)
             if is_verbose:
-                print('Determining best fingerprint_type / similarity_measure')
-            measure_search = MeasureSearch(correlation_type='pearson')
-            if similarity_measure == 'determine':
+                print("Determining best fingerprint_type / similarity_measure")
+            measure_search = MeasureSearch(correlation_type="pearson")
+            if similarity_measure == "determine":
                 similarity_measure = None
-            if fingerprint_type == 'determine':
+            if fingerprint_type == "determine":
                 fingerprint_type = None
                 fingerprint_params = {}
             measure_search_molset_configs = {
-                'molecule_database_src': molecule_database_src,
-                'molecule_database_src_type': database_src_type,
-                'is_verbose': is_verbose,
-                'n_threads': n_threads,
+                "molecule_database_src": molecule_database_src,
+                "molecule_database_src_type": database_src_type,
+                "is_verbose": is_verbose,
+                "n_threads": n_threads,
             }
 
             best_measure = measure_search(
@@ -106,14 +103,14 @@ class TaskManager:
                 fingerprint_params=fingerprint_params,
                 subsample_subset_size=subsample_subset_size,
                 show_top=5,
-                only_metric=only_valid_dist)
+                only_metric=only_valid_dist,
+            )
             similarity_measure = best_measure.similarity_measure
             fingerprint_type = best_measure.fingerprint_type
-            print(f'Chosen measure: {fingerprint_type} '
-                  f'and {similarity_measure}.')
+            print(f"Chosen measure: {fingerprint_type} " f"and {similarity_measure}.")
 
-        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.)
-        print(f'Choosing sampling ratio of {sampling_ratio} for tasks')
+        sampling_ratio = molecule_set_configs.get("sampling_ratio", 1.0)
+        print(f"Choosing sampling ratio of {sampling_ratio} for tasks")
         self.molecule_set = MoleculeSet(
             molecule_database_src=molecule_database_src,
             molecule_database_src_type=database_src_type,
