@@ -14,3 +14,5 @@ padelpy
 plotly
 mhfp
 darkdetect
+mordredcommunity
+openpyxl
