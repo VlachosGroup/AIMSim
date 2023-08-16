@@ -3,6 +3,9 @@ Calculates the Extended Similarity Indexes as shown in
 this table: https://jcheminf.biomedcentral.com/articles/10.1186/s13321-021-00505-3/tables/1
 and described in "Extended similarity indices: the benefits of comparing more than two objects 
 simultaneously. Part 1: Theory and characteristics"
+
+Both gen_sim_dict and calculate_counters were provided by Raymond Quintana, similar to
+that which is here: https://github.com/ramirandaq/MultipleComparisons
 """
 import json
 from math import log, ceil
