@@ -47,16 +47,17 @@ When proposing a novel reaction it is essential for the practicing chemist to ev
 Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
 
 ## Installing AIMSim
-`AIMSim` can be installed with a single command:
+`AIMSim` can be installed with a single command using Python's package manager `pip`:
 `pip install aimsim`
-This command also installs the required dependencies. It is recommended to install `AIMSim` in a separate virtual environment.
+This command also installs the required dependencies.
+It is recommended to install `AIMSim` in a virtual environment with [`conda`](https://docs.conda.io/en/latest/) or Python's [`venv`](https://docs.python.org/3/library/venv.html).
 
-_Optional:_ Previous versions of AIMSim provided direct support for the descriptors provided in the `mordred` package. Unforunately, `mordred` is no longer recieving updates and causes significant depdendency conflicts. Because of this, it is an _optional_ add-on to `AIMSim` that is only compatible with Python 3.8. To install with `mordred` support, use `pip install 'aimsim[mordred]'` (note the single quotes, necessary in `zsh`).
-
-Unit tests from previous versions of `AIMSim` have been kept but are not actively maintained due to the limitations above. Use `mordred` at your own risk.
+### Note for mordred-descriptor
+AIMSim v1 provided direct support for the descriptors provided in the `mordred` package but unfortunately the original `mordred` is now abandonware.
+The **unofficial** [`mordredcommunity`](https://github.com/JacksonBurns/mordred-community) is now used in version 2.1 and newer to deliver the same features but with support for modern Python.
 
 ## Running AIMSim
-`AIMSim` is compatible with Python 3.7 to 3.9.
+`AIMSim` is compatible with Python 3.8 to 3.11.
 Start `AIMSim` with a graphical user interface:
 
 `aimsim`
@@ -117,6 +118,10 @@ Developer: Himaghna Bhattacharjee, Vlachos Research Lab. ([LinkedIn](www.linkedi
 
 Developer: Jackson Burns, Don Watson Lab. ([Personal Site](https://www.jacksonwarnerburns.com/))
 
+## `AIMSim` in the Literature
+ - [Applications of Artificial Intelligence and Machine Learning Algorithms to Crystallization](https://doi.org/10.1021/acs.chemrev.2c00141)
+ - [Recent Advances in Machine-Learning-Based Chemoinformatics: A Comprehensive Review](https://doi.org/10.3390/ijms241411488)
+
 ## Developer Notes
 Issues and Pull Requests are welcomed! To propose an addition to `AIMSim` open an issue and the developers will tag it as an _enhancement_ and start discussion.
 
@@ -141,12 +146,12 @@ Be sure to bump the version in `__init__.py`.
 ## Citation
 If you use this code for scientific publications, please cite the following paper.
 
-Bhattacharjee, H.҂; Burns, J.҂; Vlachos, D.G. (2021): AIMSim: An Accessible Cheminformatics Platform for Similarity Operations on Chemicals Datasets. ChemRxiv. Preprint. https://doi.org/10.26434/chemrxiv-2022-nw6f5
+Himaghna Bhattacharjee, Jackson Burns, Dionisios G. Vlachos, AIMSim: An accessible cheminformatics platform for similarity operations on chemicals datasets, Computer Physics Communications, Volume 283, 2023, 108579, ISSN 0010-4655, https://doi.org/10.1016/j.cpc.2022.108579.
 
 ## License
 This code is made available under the terms of the _MIT Open License_:
 
-Copyright (c) 2020 Himaghna Bhattacharjee & Jackson Burns
+Copyright (c) 2020-2027 Himaghna Bhattacharjee & Jackson Burns
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

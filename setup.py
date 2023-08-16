@@ -27,7 +27,7 @@ def get_version(rel_path):
 
 setup(
     name="aimsim",
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     version=get_version("aimsim/__init__.py"),
     description=desc,
     long_description=README,
@@ -37,14 +37,7 @@ setup(
     license="MIT",
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=read("requirements.txt").split("\n"),
-    extras_require={
-        "mordred": [
-            "mordred==1.2.0",
-            "networkx==2.*",
-            "openpyxl",
-        ],
-    },
-    packages=find_packages(),
+    packages=find_packages(exclude=["docs", "test"]),
     include_package_data=True,
     entry_points={
         "console_scripts": [

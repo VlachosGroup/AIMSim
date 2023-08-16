@@ -76,10 +76,18 @@ class VisualizeDataset(Task):
         2. PDF of the similarity distribution of the molecules in the database.
 
         """
+        if len(molecule_set.molecule_database) > 1_000:
+            warn(
+                "Similarity heatmap and embedding plot may take significant time on large datasets "
+                f"(detected size {len(molecule_set.molecule_database):d}).",
+                RuntimeWarning,
+            )
+
         similarity_matrix = molecule_set.get_similarity_matrix()
         if molecule_set.is_verbose:
             print("Plotting similarity heatmap")
         plot_heatmap(similarity_matrix, **self.plot_settings["heatmap_plot"])
+
         if molecule_set.is_verbose:
             print("Generating pairwise similarities")
         pairwise_similarity_vector = molecule_set.get_pairwise_similarities()

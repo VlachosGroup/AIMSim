@@ -10,9 +10,8 @@ def requires_mordred(function):
         return function
     except ImportError:
         return MordredNotInstalledWarning(
-            """Attempting to call this function ({:s}) requires mordred to be installed.
-            Please use 'pip install aimsim[mordred]' in an environment with the appropriate version of Python.
-        """.format(
+            "Attempting to call this function ({:s}) requires mordred to be installed from the mordredcommunity package. "
+            "Run 'pip install mordredcommunity' or 'conda install -c conda-forge mordredcommunity.".format(
                 function.__name__
             )
         )

@@ -61,7 +61,7 @@ This command also installs the required dependencies. It is recommended to insta
 Running AIMSim
 --------------
 
-``AIMSim`` is compatible with Python 3.7+.
+``AIMSim`` is compatible with Python 3.8+.
 Start ``AIMSim`` with a graphical user interface:
 
 ``aimsim``

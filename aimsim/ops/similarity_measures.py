@@ -2,7 +2,6 @@
 from functools import lru_cache
 import numpy as np
 from rdkit import DataStructs
-from scipy.spatial.distance import cosine as scipy_cosine
 
 from aimsim.ops import Descriptor
 from aimsim.exceptions import InvalidConfigurationError
@@ -10,238 +9,78 @@ from aimsim.exceptions import InvalidConfigurationError
 SMALL_NUMBER = 1e-10
 
 
-class SimilarityMeasure:
+# to aggregate all of the different similarity metrics, we use a `register` decorator
+# and metaclass to keep track of all of them.
+#
+# When a new similarity measure is added, it should be decorated with all of the supported
+# aliases, the type (if not discrete) and the formula required to convert it to a distance
+# metric (i.e. 1 is furthest and o is closest).
+#
+# The metaclass will then automatically call the method properly when SimilarityMeasure
+# is called, as well as export the method name to the global variables imported elsewhere.
+registry = {}
+
+ALL_METRICS = []
+BINARY_METRICS = []
+UNIQUE_METRICS = []
+ALIAS_TO_FUNC = {}
+ALIAS_TO_DISTANCE = {}
+ALIAS_TO_TYPE = {}
+
+
+def register(*args, type="discrete", to_distance=None):
+    def wrapper(func):
+        # first arg should be 'preferred' alias
+        func._register = (func, type, to_distance, *args)
+        return func
+
+    return wrapper
+
+
+class RegisteringType(type):
+    def __init__(cls, name, bases, attrs):
+        for key, val in attrs.items():
+            registry_data = getattr(val, "_register", None)
+            if registry_data is None:
+                continue
+
+            # iterate through all the accepted names for each metric
+            for alias in registry_data[3:]:
+                # save the alias to func mapping
+                ALIAS_TO_FUNC[alias] = registry_data[0]
+                # save the metric types
+                ALIAS_TO_TYPE[alias] = registry_data[1]
+                # save the distance conversion functions, where provided
+                if registry_data[2] is not None:
+                    ALIAS_TO_DISTANCE[alias] = registry_data[2]
+
+            # save only the first metric to the unique metrics list
+            UNIQUE_METRICS.append(registry_data[3])
+
+            # add all of the aliases to the metric list
+            ALL_METRICS.extend(registry_data[3:])
+
+            # add binary metrics to the appropriate list
+            if registry_data[1] == "discrete":
+                BINARY_METRICS.extend(registry_data[3:])
+
+
+class SimilarityMeasure(object, metaclass=RegisteringType):
     def __init__(self, metric):
-        if metric.lower() in ["l0_similarity"]:
-            self.metric = "l0_similarity"
-            self.type_ = "continuous"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in [
-            "l1_similarity",
-            "manhattan_similarity",
-            "taxicab_similarity",
-            "city_block_similarity",
-            "snake_similarity",
-        ]:
-            self.metric = "l1_similarity"
-            self.type_ = "continuous"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["l2_similarity", "euclidean_similarity"]:
-            self.metric = "l2_similarity"
-            self.type_ = "continuous"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["cosine", "driver-kroeber", "ochiai"]:
-            self.metric = "cosine"
-            self.type_ = "discrete"
-            # angular distance
-            self.to_distance = lambda x: np.arccos(x) / np.pi
-
-        elif metric.lower() in ["dice", "sorenson", "gleason"]:
-            self.metric = "dice"
-            self.type_ = "discrete"
-            # convert to jaccard for distance
-            self.to_distance = lambda x: 1 - x / (2 - x)
-
-        elif metric.lower() in ["dice_2"]:
-            self.metric = "dice_2"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["dice_3"]:
-            self.metric = "dice_3"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["tanimoto", "jaccard-tanimoto"]:
-            self.metric = "tanimoto"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["simple_matching", "sokal-michener", "rand"]:
-            self.metric = "simple_matching"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["rogers-tanimoto"]:
-            self.metric = "rogers_tanimoto"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["russel-rao"]:
-            self.metric = "russel_rao"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["forbes"]:
-            self.metric = "forbes"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["simpson"]:
-            self.metric = "simpson"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["braun-blanquet"]:
-            self.metric = "braun_blanquet"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["baroni-urbani-buser"]:
-            self.metric = "baroni_urbani_buser"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["kulczynski"]:
-            self.metric = "kulczynski"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["sokal-sneath", "sokal-sneath_1"]:
-            self.metric = "sokal_sneath"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in [
-            "sokal-sneath_2",
-            "sokal-sneath-2",
-            "symmetric_sokal_sneath",
-            "symmetric-sokal-sneath",
-        ]:
-            self.metric = "symmetric_sokal_sneath"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["sokal-sneath-3", "sokal-sneath_3"]:
-            self.metric = "sokal_sneath_3"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["sokal-sneath-4", "sokal-sneath_4"]:
-            self.metric = "sokal_sneath_4"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["jaccard"]:
-            self.metric = "jaccard"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["faith"]:
-            self.metric = "faith"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["michael"]:
-            self.metric = "michael"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["mountford"]:
-            self.metric = "mountford"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["rogot-goldberg"]:
-            self.metric = "rogot_goldberg"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["hawkins-dotson"]:
-            self.metric = "hawkins_dotson"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["maxwell-pilliner"]:
-            self.metric = "maxwell_pilliner"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["harris-lahey"]:
-            self.metric = "harris_lahey"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["consonni-todeschini-1", "consonni-todeschini_1"]:
-            self.metric = "consonni_todeschini_1"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["consonni-todeschini-2", "consonni-todeschini_2"]:
-            self.metric = "consonni_todeschini_2"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["consonni-todeschini-3", "consonni-todeschini_3"]:
-            self.metric = "consonni_todeschini_3"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["consonni-todeschini-4", "consonni-todeschini_4"]:
-            self.metric = "consonni_todeschini_4"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["consonni-todeschini-5", "consonni-todeschini_5"]:
-            self.metric = "consonni_todeschini_5"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["austin-colwell"]:
-            self.metric = "austin_colwell"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["yule-1", "yule_1"]:
-            self.metric = "yule_1"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["yule-2", "yule_2"]:
-            self.metric = "yule_2"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["fossum", "holiday-fossum", "holiday_fossum"]:
-            self.metric = "fossum"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["dennis", "holiday-dennis", "holiday_dennis"]:
-            self.metric = "dennis"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["cole-1", "cole_1"]:
-            self.metric = "cole_1"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["cole-2", "cole_2"]:
-            self.metric = "cole_2"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["dispersion", "choi"]:
-            self.metric = "dispersion"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["goodman-kruskal", "goodman_kruskal"]:
-            self.metric = "goodman_kruskal"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["pearson-heron", "pearson_heron"]:
-            self.metric = "pearson_heron"
-            self.type_ = "discrete"
-            self.to_distance = lambda x: 1 - x
-
-        elif metric.lower() in ["sorgenfrei"]:
-            self.metric = "sorgenfrei"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["cohen"]:
-            self.metric = "cohen"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["peirce_1", "peirce-1"]:
-            self.metric = "peirce_1"
-            self.type_ = "discrete"
-
-        elif metric.lower() in ["peirce_2", "peirce-2"]:
-            self.metric = "peirce_2"
-            self.type_ = "discrete"
-
-        else:
+        lowercase_metric = metric.lower()
+        if lowercase_metric not in ALL_METRICS:
             raise ValueError(f"Similarity metric: {metric} is not implemented")
+
+        # check if the chosen metric is a distance metric
+        self._is_distance = metric in ALIAS_TO_DISTANCE.keys()
+        # assign a function to convert to distance if it is not, otherwise
+        # pass through the value
+        self.to_distance = ALIAS_TO_DISTANCE.get(metric, lambda x: x)
+
+        # check the registry dictionaries to get the remaining info
+        self.metric = lowercase_metric
+        self.type_ = ALIAS_TO_TYPE[lowercase_metric]
+
         self.normalize_fn = {"shift_": 0.0, "scale_": 1.0}
         self.label_ = metric
 
@@ -261,327 +100,63 @@ class SimilarityMeasure:
             raise ValueError(
                 f"Molecule descriptor ({mol1_descriptor.label_}) has no active bits."
             )
+
+        value = None
+        func = ALIAS_TO_FUNC[self.metric]
+        try:
+            value = func(self, mol1_descriptor, mol2_descriptor)
+        except ValueError as e:
+            raise ValueError(
+                f"Unexpected error ocurred when calculating {self.metric:s} distance."
+                " Original Exception: " + str(e)
+            )
+
+        return value
+
+    @register(
+        "tanimoto",
+        "jaccard-tanimoto",
+        to_distance=lambda x: 1 - x,
+    )
+    def _get_tanimoto(self, mol1_descriptor, mol2_descriptor):
         similarity_ = None
-        if self.metric == "l0_similarity":
-            try:
-                similarity_ = self._get_vector_norm_similarity(
-                    mol1_descriptor, mol2_descriptor, ord=0
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "l1_similarity":
-            try:
-                similarity_ = self._get_vector_norm_similarity(
-                    mol1_descriptor, mol2_descriptor, ord=1
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "l2_similarity":
-            try:
-                similarity_ = self._get_vector_norm_similarity(
-                    mol1_descriptor, mol2_descriptor, ord=2
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "austin_colwell":
-            try:
-                similarity_ = self._get_austin_colwell(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "baroni_urbani_buser":
-            try:
-                similarity_ = self._get_baroni_urbani_buser(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "braun_blanquet":
-            try:
-                similarity_ = self._get_braun_blanquet(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "cohen":
-            try:
-                similarity_ = self._get_cohen(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "cole_1":
-            try:
-                similarity_ = self._get_cole_1(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "cole_2":
-            try:
-                similarity_ = self._get_cole_2(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "consonni_todeschini_1":
-            try:
-                similarity_ = self._get_consonni_todeschini_1(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "consonni_todeschini_2":
-            try:
-                similarity_ = self._get_consonni_todeschini_2(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "consonni_todeschini_3":
-            try:
-                similarity_ = self._get_consonni_todeschini_3(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "consonni_todeschini_4":
-            try:
-                similarity_ = self._get_consonni_todeschini_4(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "consonni_todeschini_5":
-            try:
-                similarity_ = self._get_consonni_todeschini_5(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "cosine":
-            try:
-                similarity_ = self._get_cosine_similarity(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "dennis":
-            try:
-                similarity_ = self._get_dennis(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "dice":
-            try:
-                similarity_ = self._get_dice(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "dice_2":
-            try:
-                similarity_ = self._get_dice_2(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "dice_3":
-            try:
-                similarity_ = self._get_dice_3(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "dispersion":
-            try:
-                similarity_ = self._get_dispersion(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "faith":
-            try:
-                similarity_ = self._get_faith(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "forbes":
-            try:
-                similarity_ = self._get_forbes(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "fossum":
-            try:
-                similarity_ = self._get_fossum(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "goodman_kruskal":
-            try:
-                similarity_ = self._get_goodman_kruskal(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "harris_lahey":
-            try:
-                similarity_ = self._get_harris_lahey(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "hawkins_dotson":
-            try:
-                similarity_ = self._get_hawkins_dotson(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "jaccard":
-            try:
-                similarity_ = self._get_jaccard(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "kulczynski":
-            try:
-                similarity_ = self._get_kulczynski(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-        elif self.metric == "maxwell_pilliner":
-            try:
-                similarity_ = self._get_maxwell_pilliner(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "michael":
-            try:
-                similarity_ = self._get_michael(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "mountford":
-            try:
-                similarity_ = self._get_mountford(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "pearson_heron":
-            try:
-                similarity_ = self._get_pearson_heron(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "peirce_1":
-            try:
-                similarity_ = self._get_peirce_1(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "peirce_2":
-            try:
-                similarity_ = self._get_peirce_2(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "rogers_tanimoto":
-            try:
-                similarity_ = self._get_rogers_tanimoto(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "rogot_goldberg":
-            try:
-                similarity_ = self._get_rogot_goldberg(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "russel_rao":
-            try:
-                similarity_ = self._get_russel_rao(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "simple_matching":
-            try:
-                similarity_ = self._get_simple_matching(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "simpson":
-            try:
-                similarity_ = self._get_simpson(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "sokal_sneath":
-            try:
-                similarity_ = self._get_sokal_sneath(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "symmetric_sokal_sneath":
-            try:
-                similarity_ = self._get_symmetric_sokal_sneath(
-                    mol1_descriptor, mol2_descriptor
-                )
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "sokal_sneath_3":
-            try:
-                similarity_ = self._get_sokal_sneath_3(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "sokal_sneath_4":
-            try:
-                similarity_ = self._get_sokal_sneath_4(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "sorgenfrei":
-            try:
-                similarity_ = self._get_sorgenfrei(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "tanimoto":
-            try:
-                similarity_ = DataStructs.TanimotoSimilarity(
-                    mol1_descriptor.to_rdkit(), mol2_descriptor.to_rdkit()
-                )
-            except ValueError as e:
-                raise ValueError(
-                    "Tanimoto similarity is only useful for bit strings "
-                    "generated from fingerprints. Consider using "
-                    "other similarity measures for arbitrary vectors."
-                )
-        elif self.metric == "yule_1":
-            try:
-                similarity_ = self._get_yule_1(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        elif self.metric == "yule_2":
-            try:
-                similarity_ = self._get_yule_2(mol1_descriptor, mol2_descriptor)
-            except ValueError as e:
-                raise e
-
-        else:
-            raise ValueError(f"{self.metric} could not be implemented")
-
+        try:
+            similarity_ = DataStructs.TanimotoSimilarity(
+                mol1_descriptor.to_rdkit(), mol2_descriptor.to_rdkit()
+            )
+        except ValueError as e:
+            raise ValueError(
+                "Tanimoto similarity is only useful for bit strings "
+                "generated from fingerprints. Consider using "
+                "other similarity measures for arbitrary vectors."
+                " Original Exception: " + str(e)
+            )
         return similarity_
+
+    @register("l0_similarity", type="continuous", to_distance=lambda x: 1 - x)
+    def _get_l0_similarity(self, mol1_descriptor, mol2_descriptor):
+        return self._get_vector_norm_similarity(mol1_descriptor, mol2_descriptor, 0)
+
+    @register(
+        "l1_similarity",
+        "manhattan_similarity",
+        "taxicab_similarity",
+        "city_block_similarity",
+        "snake_similarity",
+        type="continuous",
+        to_distance=lambda x: 1 - x,
+    )
+    def _get_l1_similarity(self, mol1_descriptor, mol2_descriptor):
+        return self._get_vector_norm_similarity(mol1_descriptor, mol2_descriptor, 1)
+
+    @register(
+        "l2_similarity",
+        "euclidean_similarity",
+        type="continuous",
+        to_distance=lambda x: 1 - x,
+    )
+    def _get_l2_similarity(self, mol1_descriptor, mol2_descriptor):
+        return self._get_vector_norm_similarity(mol1_descriptor, mol2_descriptor, 2)
 
     def _get_vector_norm_similarity(self, mol1_descriptor, mol2_descriptor, ord):
         """Calculate the norm based similarity between two molecules.
@@ -608,7 +183,8 @@ class SimilarityMeasure:
             except ValueError as e:
                 raise ValueError(
                     "Fingerprints are of unequal length and cannot be folded."
-                ) from e
+                    " Original Exception: " + str(e)
+                )
 
         norm_ = np.linalg.norm(arr1 - arr2, ord=ord)
         similarity_ = 1 / (1 + norm_)
@@ -616,6 +192,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("austin_colwell", "austin-colwell", to_distance=lambda x: 1 - x)
     def _get_austin_colwell(self, mol1_descriptor, mol2_descriptor):
         """Calculate Austin-Colwell similarity between two molecules.
         This is defined for two binary arrays as:
@@ -641,6 +218,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("baroni-urbani-buser", to_distance=lambda x: 1 - x)
     def _get_baroni_urbani_buser(self, mol1_descriptor, mol2_descriptor):
         """Calculate Baroni-Urbani-Buser similarity between two molecules.
         This is defined for two binary arrays as:
@@ -669,6 +247,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("braun-blanquet", to_distance=lambda x: 1 - x)
     def _get_braun_blanquet(self, mol1_descriptor, mol2_descriptor):
         """Calculate braun-blanquet similarity between two molecules.
         This is defined for two binary arrays as:
@@ -695,6 +274,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("cohen")
     def _get_cohen(self, mol1_descriptor, mol2_descriptor):
         """Calculate Cohen similarity between two molecules.
         This is defined for two binary arrays as:
@@ -726,6 +306,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("cole_1", "cole-1")
     def _get_cole_1(self, mol1_descriptor, mol2_descriptor):
         """Calculate Cole(1) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -756,6 +337,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = p
         return self._normalize(similarity_)
 
+    @register("cole_2", "cole-2")
     def _get_cole_2(self, mol1_descriptor, mol2_descriptor):
         """Calculate Cole(2) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -786,6 +368,12 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = p
         return self._normalize(similarity_)
 
+    @register(
+        "consonni_todeschini_1",
+        "consonni-todeschini-1",
+        "consonni-todeschini_1",
+        to_distance=lambda x: 1 - x,
+    )
     def _get_consonni_todeschini_1(self, mol1_descriptor, mol2_descriptor):
         """Calculate Consonni-Todeschini(1) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -811,6 +399,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("consonni_todeschini_2", "consonni-todeschini-2", "consonni-todeschini_2")
     def _get_consonni_todeschini_2(self, mol1_descriptor, mol2_descriptor):
         """Calculate Consonni-Todeschini(2) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -837,6 +426,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("consonni_todeschini_3", "consonni-todeschini-3", "consonni-todeschini_3")
     def _get_consonni_todeschini_3(self, mol1_descriptor, mol2_descriptor):
         """Calculate Consonni-Todeschini(3) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -862,6 +452,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("consonni_todeschini_4", "consonni-todeschini-4", "consonni-todeschini_4")
     def _get_consonni_todeschini_4(self, mol1_descriptor, mol2_descriptor):
         """Calculate Consonni-Todeschini(4) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -888,6 +479,12 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register(
+        "consonni_todeschini_5",
+        "consonni-todeschini-5",
+        "consonni-todeschini_5",
+        to_distance=lambda x: 1 - x,
+    )
     def _get_consonni_todeschini_5(self, mol1_descriptor, mol2_descriptor):
         """Calculate Consonni-Todeschini(5) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -914,6 +511,12 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register(
+        "cosine",
+        "driver-kroeber",
+        "ochiai",
+        to_distance=lambda x: np.arccos(x) / np.pi,
+    )
     def _get_cosine_similarity(self, mol1_descriptor, mol2_descriptor):
         a, b, c, _ = self._get_abcd(mol1_descriptor, mol2_descriptor)
         denominator = np.sqrt((a + b) * (a + c))
@@ -924,6 +527,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("dennis", "holiday-dennis", "holiday_dennis", to_distance=lambda x: 1 - x)
     def _get_dennis(self, mol1_descriptor, mol2_descriptor):
         """Calculate Dennis similarity between two molecules.
         This is defined for two binary arrays as:
@@ -954,6 +558,12 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 3 * np.sqrt(p) / 2
         return self._normalize(similarity_)
 
+    @register(
+        "dice",
+        "sorenson",
+        "gleason",
+        to_distance=lambda x: 1 - x / (2 - x),
+    )
     def _get_dice(self, mol1_descriptor, mol2_descriptor):
         """Calculate Dice similarity between two molecules.
         This is defined for two binary arrays as:
@@ -982,6 +592,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("dice_2")
     def _get_dice_2(self, mol1_descriptor, mol2_descriptor):
         """Calculate Dice(2) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1010,6 +621,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("dice_3")
     def _get_dice_3(self, mol1_descriptor, mol2_descriptor):
         """Calculate Dice(3) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1037,6 +649,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("dispersion", "choi")
     def _get_dispersion(self, mol1_descriptor, mol2_descriptor):
         """Calculate dispersion similarity in Choi et al (2012)
          between two molecules. This is defined for two binary arrays as:
@@ -1064,6 +677,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1 / 2
         return self._normalize(similarity_)
 
+    @register("faith", to_distance=lambda x: 1 - x)
     def _get_faith(self, mol1_descriptor, mol2_descriptor):
         """Calculate faith similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1089,6 +703,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("forbes", to_distance=lambda x: 1 - x)
     def _get_forbes(self, mol1_descriptor, mol2_descriptor):
         """Calculate forbes similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1119,6 +734,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = p / a
         return self._normalize(similarity_)
 
+    @register("fossum", "holiday-fossum", "holiday_fossum", to_distance=lambda x: 1 - x)
     def _get_fossum(self, mol1_descriptor, mol2_descriptor):
         """Calculate Fossum similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1150,6 +766,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = (p - 0.5) ** 2 / p
         return self._normalize(similarity_)
 
+    @register("goodman_kruskal", "goodman-kruskal")
     def _get_goodman_kruskal(self, mol1_descriptor, mol2_descriptor):
         """Calculate Goodman-Kruskal similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1178,6 +795,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("harris_lahey")
     def _get_harris_lahey(self, mol1_descriptor, mol2_descriptor):
         """Calculate Harris-Lahey similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1212,6 +830,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = p
         return self._normalize(similarity_)
 
+    @register("hawkins_dotson", to_distance=lambda x: 1 - x)
     def _get_hawkins_dotson(self, mol1_descriptor, mol2_descriptor):
         """Calculate Hawkins-Dotson similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1242,6 +861,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("jaccard")
     def _get_jaccard(self, mol1_descriptor, mol2_descriptor):
         """Calculate jaccard similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1268,6 +888,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("kulczynski")
     def _get_kulczynski(self, mol1_descriptor, mol2_descriptor):
         """Calculate kulczynski similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1294,6 +915,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("michael")
     def _get_michael(self, mol1_descriptor, mol2_descriptor):
         """Calculate michael similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1321,6 +943,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("maxwell_pilliner", to_distance=lambda x: 1 - x)
     def _get_maxwell_pilliner(self, mol1_descriptor, mol2_descriptor):
         """Calculate Maxwell-Pilliner similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1353,6 +976,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("mountford", to_distance=lambda x: 1 - x)
     def _get_mountford(self, mol1_descriptor, mol2_descriptor):
         """Calculate mountford similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1381,6 +1005,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("pearson_heron", "pearson-heron")
     def _get_pearson_heron(self, mol1_descriptor, mol2_descriptor):
         """Calculate Pearson-Heron similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1416,6 +1041,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("peirce_1", "peirce-1")
     def _get_peirce_1(self, mol1_descriptor, mol2_descriptor):
         """Calculate Peirce(1) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1445,6 +1071,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("peirce_2", "peirce-2")
     def _get_peirce_2(self, mol1_descriptor, mol2_descriptor):
         """Calculate Peirce(2) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1474,6 +1101,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("rogers-tanimoto", to_distance=lambda x: 1 - x)
     def _get_rogers_tanimoto(self, mol1_descriptor, mol2_descriptor):
         """Calculate rogers-tanimoto similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1499,6 +1127,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("rogot_goldberg", to_distance=lambda x: 1 - x)
     def _get_rogot_goldberg(self, mol1_descriptor, mol2_descriptor):
         """Calculate Rogot-Goldberg similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1513,7 +1142,7 @@ class SimilarityMeasure:
         """
         if not (mol1_descriptor.is_fingerprint() and mol2_descriptor.is_fingerprint()):
             raise ValueError(
-                "Rogot-Goldberg  similarity is only useful for bit strings "
+                "Rogot-Goldberg similarity is only useful for bit strings "
                 "generated from fingerprints. Consider using "
                 "other similarity measures for arbitrary vectors."
             )
@@ -1526,6 +1155,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("russel-rao", to_distance=lambda x: 1 - x)
     def _get_russel_rao(self, mol1_descriptor, mol2_descriptor):
         """Calculate russel-rao similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1551,6 +1181,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("simple_matching", "sokal-michener", "rand", to_distance=lambda x: 1 - x)
     def _get_simple_matching(self, mol1_descriptor, mol2_descriptor):
         """Calculate simple matching similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1576,6 +1207,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("simpson")
     def _get_simpson(self, mol1_descriptor, mol2_descriptor):
         """Calculate simpson similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1602,6 +1234,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("sokal-sneath", "sokal-sneath_1", to_distance=lambda x: 1 - x)
     def _get_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
         """Calculate Sokal-Sneath similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1628,6 +1261,12 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register(
+        "symmetric_sokal_sneath",
+        "sokal-sneath_2",
+        "sokal-sneath-2",
+        "symmetric-sokal-sneath",
+    )
     def _get_symmetric_sokal_sneath(self, mol1_descriptor, mol2_descriptor):
         """Calculate Symmetric Sokal-Sneath similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1653,6 +1292,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("sokal-sneath-3", "sokal-sneath_3", to_distance=lambda x: 1 - x)
     def _get_sokal_sneath_3(self, mol1_descriptor, mol2_descriptor):
         """Calculate Sokal-Sneath(3) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1688,6 +1328,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("sokal-sneath-4", "sokal-sneath_4", to_distance=lambda x: 1 - x)
     def _get_sokal_sneath_4(self, mol1_descriptor, mol2_descriptor):
         """Calculate Sokal-Sneath(4) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1724,6 +1365,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("sorgenfrei")
     def _get_sorgenfrei(self, mol1_descriptor, mol2_descriptor):
         """Calculate Sorgenfrei similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1750,6 +1392,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 1.0
         return self._normalize(similarity_)
 
+    @register("yule_1", "yule-1")
     def _get_yule_1(self, mol1_descriptor, mol2_descriptor):
         """Calculate Yule(1) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1778,6 +1421,7 @@ class SimilarityMeasure:
         self.normalize_fn["scale_"] = 2.0
         return self._normalize(similarity_)
 
+    @register("yule_2", "yule-2", to_distance=lambda x: 1 - x)
     def _get_yule_2(self, mol1_descriptor, mol2_descriptor):
         """Calculate Yule(2) similarity between two molecules.
         This is defined for two binary arrays as:
@@ -1846,7 +1490,7 @@ class SimilarityMeasure:
         Returns:
             bool: True if it is a distance metric.
         """
-        return hasattr(self, "to_distance")
+        return self._is_distance
 
     @staticmethod
     @lru_cache(maxsize=None)
@@ -1908,71 +1552,7 @@ class SimilarityMeasure:
         Returns:
             List: List of strings.
         """
-        return [
-            "tanimoto",
-            "dice",
-            "austin-colwell",
-            "sorenson",
-            "gleason",
-            "dice_2",
-            "dice_3",
-            "jaccard",
-            "cosine",
-            "driver-kroeber",
-            "ochiai",
-            "simple_matching",
-            "sokal-michener",
-            "rand",
-            "rogers-tanimoto",
-            "russel-rao",
-            "forbes",
-            "simpson",
-            "braun-blanquet",
-            "baroni-urbani-buser",
-            "kulczynski",
-            "sokal-sneath",
-            "sokal-sneath-2",
-            "symmetric_sokal_sneath",
-            "symmetric-sokal-sneath",
-            "sokal-sneath-3",
-            "sokal-sneath_3",
-            "sokal-sneath-4",
-            "sokal-sneath_4",
-            "faith",
-            "mountford",
-            "michael",
-            "rogot-goldberg",
-            "hawkins-dotson",
-            "maxwell-pilliner",
-            "harris-lahey",
-            "consonni-todeschini-1",
-            "consonni-todeschini-2",
-            "consonni-todeschini-3",
-            "consonni-todeschini-4",
-            "consonni-todeschini-5",
-            "yule-1",
-            "yule_1",
-            "yule_2",
-            "yule_2",
-            "fossum",
-            "holiday-fossum",
-            "holiday_fossum",
-            "dennis",
-            "holiday-dennis",
-            "holiday_dennis",
-            "cole-1",
-            "cole_1",
-            "cole-2",
-            "cole_2",
-            "dispersion",
-            "choi",
-            "goodman-kruskal",
-            "pearson-heron",
-            "sorgenfrei",
-            "cohen",
-            "peirce_1",
-            "peirce_2",
-        ]
+        return BINARY_METRICS
 
     @staticmethod
     def get_supported_metrics():
@@ -1982,85 +1562,7 @@ class SimilarityMeasure:
         Returns:
             List: List of strings.
         """
-        return [
-            "tanimoto",
-            "jaccard-tanimoto",
-            "l0_similarity",
-            "l1_similarity",
-            "manhattan_similarity",
-            "l2_similarity",
-            "euclidean_similarity",
-            "dice",
-            "sorenson",
-            "gleason",
-            "dice_2",
-            "dice_3",
-            "cosine",
-            "driver-kroeber",
-            "ochiai",
-            "simple_matching",
-            "sokal-michener",
-            "rand",
-            "rogers-tanimoto",
-            "russel-rao",
-            "forbes",
-            "simpson",
-            "braun-blanquet",
-            "baroni-urbani-buser",
-            "kulczynski",
-            "sokal-sneath",
-            "sokal-sneath_1",
-            "sokal-sneath-2",
-            "symmetric_sokal_sneath",
-            "symmetric-sokal-sneath",
-            "sokal-sneath-3",
-            "sokal-sneath_3",
-            "sokal-sneath-4",
-            "sokal-sneath_4",
-            "jaccard",
-            "faith",
-            "mountford",
-            "michael",
-            "rogot-goldberg",
-            "hawkins-dotson",
-            "maxwell-pilliner",
-            "harris-lahey",
-            "consonni-todeschini-1",
-            "consonni-todeschini-2",
-            "consonni-todeschini-3",
-            "consonni-todeschini-4",
-            "consonni-todeschini-5",
-            "consonni-todeschini_1",
-            "consonni-todeschini_2",
-            "consonni-todeschini_3",
-            "consonni-todeschini_4",
-            "consonni-todeschini_5",
-            "austin-colwell",
-            "yule-1",
-            "yule_1",
-            "yule_2",
-            "yule_2",
-            "fossum",
-            "holiday-fossum",
-            "holiday_fossum",
-            "dennis",
-            "holiday-dennis",
-            "holiday_dennis",
-            "cole-1",
-            "cole_1",
-            "cole-2",
-            "cole_2",
-            "dispersion",
-            "choi",
-            "goodman-kruskal",
-            "pearson-heron",
-            "sorgenfrei",
-            "cohen",
-            "peirce_1",
-            "peirce-1",
-            "peirce_2",
-            "peirce-2",
-        ]
+        return ALL_METRICS
 
     @staticmethod
     def get_uniq_metrics():
@@ -2071,55 +1573,7 @@ class SimilarityMeasure:
         Returns:
             List: List of strings.
         """
-        return [
-            "tanimoto",
-            "l0_similarity",
-            "l1_similarity",
-            "l2_similarity",
-            "dice",
-            "dice_2",
-            "dice_3",
-            "cosine",
-            "simple_matching",
-            "rogers-tanimoto",
-            "russel-rao",
-            "forbes",
-            "simpson",
-            "braun-blanquet",
-            "baroni-urbani-buser",
-            "kulczynski",
-            "sokal-sneath",
-            "sokal-sneath-2",
-            "sokal-sneath-3",
-            "sokal-sneath-4",
-            "jaccard",
-            "faith",
-            "mountford",
-            "michael",
-            "rogot-goldberg",
-            "hawkins-dotson",
-            "maxwell-pilliner",
-            "harris-lahey",
-            "consonni-todeschini-1",
-            "consonni-todeschini-2",
-            "consonni-todeschini-3",
-            "consonni-todeschini-4",
-            "consonni-todeschini-5",
-            "austin-colwell",
-            "yule-1",
-            "yule_2",
-            "fossum",
-            "dennis",
-            "cole-1",
-            "cole-2",
-            "dispersion",
-            "goodman-kruskal",
-            "pearson-heron",
-            "sorgenfrei",
-            "cohen",
-            "peirce-1",
-            "peirce-2",
-        ]
+        return UNIQUE_METRICS
 
     def __str__(self):
         return self.label_
