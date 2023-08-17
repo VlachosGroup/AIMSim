@@ -47,10 +47,15 @@ When proposing a novel reaction it is essential for the practicing chemist to ev
 Many of the substrates appear similar to one another and thereby redundant, but in reality the core sulfone moiety and the use of the same coupling partner when evaluating functional group tolerance accounts for this apparent shortcoming. Also of note is the region of high similarity along the diagonal where the substrates often differ by a single halide heteratom or substitution pattern.
 
 ## Installing AIMSim
+It is recommended to install `AIMSim` in a virtual environment with [`conda`](https://docs.conda.io/en/latest/) or Python's [`venv`](https://docs.python.org/3/library/venv.html).
+### `pip`
 `AIMSim` can be installed with a single command using Python's package manager `pip`:
 `pip install aimsim`
 This command also installs the required dependencies.
-It is recommended to install `AIMSim` in a virtual environment with [`conda`](https://docs.conda.io/en/latest/) or Python's [`venv`](https://docs.python.org/3/library/venv.html).
+### `conda`
+`AIMSim` is also available with the `conda` package manager via:
+`conda install -c conda-forge aimsim`
+This will install all dependencies from `conda-forge`.
 
 ### Note for mordred-descriptor
 AIMSim v1 provided direct support for the descriptors provided in the `mordred` package but unfortunately the original `mordred` is now abandonware.
