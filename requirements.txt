@@ -6,7 +6,8 @@ numpy
 multiprocess>=0.70
 scikit_learn_extra
 pandas
-PyYAML>=5
+# force pyyaml away from specific versions: https://github.com/yaml/pyyaml/issues/724
+pyyaml!=6.0.0,!=5.4.0,!=5.4.1,<7
 scikit_learn
 rdkit
 psutil
