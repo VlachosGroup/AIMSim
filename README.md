@@ -13,7 +13,10 @@
 </p>
 
 ## Documentation and Tutorial
-[View our Online Documentation](https://vlachosgroup.github.io/AIMSim/) or try the [_AIMSim_ comprehensive tutorial in your browser](https://mybinder.org/v2/gh/VlachosGroup/AIMSim/master?labpath=AIMSim-demo.ipynb).
+[View our Online Documentation](https://vlachosgroup.github.io/AIMSim/) or try the _AIMSim_ comprehensive tutorial in your browser:
+<a target="_blank" href="https://colab.research.google.com/github/VlachosGroup/AIMSim/blob/master/AIMSim-demo.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
 
 ## Purpose
 
@@ -62,7 +65,7 @@ AIMSim v1 provided direct support for the descriptors provided in the `mordred` 
 The **unofficial** [`mordredcommunity`](https://github.com/JacksonBurns/mordred-community) is now used in version 2.1 and newer to deliver the same features but with support for modern Python.
 
 ## Running AIMSim
-`AIMSim` is compatible with Python 3.8 to 3.11.
+`AIMSim` is compatible with Python 3.8 to 3.12.
 Start `AIMSim` with a graphical user interface:
 
 `aimsim`
