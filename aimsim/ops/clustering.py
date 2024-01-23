@@ -130,7 +130,6 @@ class Cluster:
                 linkage=linkage_method,
                 **kwargs
             )
-            
 
     def fit(self, X):
         """Fit the estimator.
