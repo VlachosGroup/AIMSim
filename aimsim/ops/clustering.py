@@ -115,12 +115,21 @@ class Cluster:
 
     def _get_linkage_model(self, linkage_method, **kwargs):
         _ = kwargs.pop('affinity', None)
-        return AgglomerativeClustering(
-            n_clusters=self.n_clusters,
-            affinity="precomputed",
-            linkage=linkage_method,
-            **kwargs
-        )
+        try:
+            return AgglomerativeClustering(
+                n_clusters=self.n_clusters,
+                affinity="precomputed",
+                linkage=linkage_method,
+                **kwargs
+            )
+        except TypeError:
+            # different kwargs in sklearn versions
+            return AgglomerativeClustering(
+                n_clusters=self.n_clusters,
+                metric="precomputed",
+                linkage=linkage_method,
+                **kwargs
+            )
 
     def fit(self, X):
         """Fit the estimator.
