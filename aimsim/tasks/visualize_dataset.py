@@ -10,6 +10,7 @@ from aimsim.utils.plotting_scripts import (
 )
 from warnings import warn
 
+
 class VisualizeDataset(Task):
     def __init__(self, configs=None, **kwargs):
         """
