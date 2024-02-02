@@ -8,6 +8,7 @@ from aimsim.utils.plotting_scripts import (
     plot_scatter,
     plot_scatter_interactive,
 )
+from warnings import warn
 
 
 class VisualizeDataset(Task):
