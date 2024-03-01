@@ -1,11 +1,11 @@
 """Tests for the Descriptor class"""
+
 import unittest
 import numpy as np
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import MolFromSmiles
 from aimsim.ops import Descriptor
 from aimsim.exceptions import MordredCalculatorError, InvalidConfigurationError
-from aimsim.utils.extras import requires_mordred
 
 SUPPORTED_FPRINTS = Descriptor.get_supported_fprints()
 
@@ -43,8 +43,7 @@ class TestDescriptor(unittest.TestCase):
         self.assertEqual(
             descriptor.label_,
             "arbitrary",
-            "Expected label of descriptor initialized with "
-            'arbitrary vector to be "arbitrary"',
+            "Expected label of descriptor initialized with " 'arbitrary vector to be "arbitrary"',
         )
         self.assertIsInstance(
             descriptor.to_numpy(),
@@ -74,12 +73,9 @@ class TestDescriptor(unittest.TestCase):
         self.assertEqual(
             descriptor.label_,
             "arbitrary",
-            "Expected label of descriptor initialized with "
-            'arbitrary vector to be "arbitrary"',
+            "Expected label of descriptor initialized with " 'arbitrary vector to be "arbitrary"',
         )
-        self.assertIsInstance(
-            descriptor.to_numpy(), np.ndarray, "Expected numpy.ndarray from to_numpy()"
-        )
+        self.assertIsInstance(descriptor.to_numpy(), np.ndarray, "Expected numpy.ndarray from to_numpy()")
         self.assertTrue(
             (descriptor.to_numpy() == descriptor_value).all(),
             "Expected descriptor value to match init value",
@@ -90,9 +86,7 @@ class TestDescriptor(unittest.TestCase):
     def test_topological_fprint_min_path_lesser_than_atoms(self):
         atomic_mols = [MolFromSmiles(smiles) for smiles in ["C", "O", "N", "P"]]
         diatomic_mols = [MolFromSmiles(smiles) for smiles in ["CC", "CO", "CN", "CP"]]
-        triatomic_mols = [
-            MolFromSmiles(smiles) for smiles in ["CCC", "COO", "CCN", "CCP"]
-        ]
+        triatomic_mols = [MolFromSmiles(smiles) for smiles in ["CCC", "COO", "CCN", "CCP"]]
         min_path = 1
         for mol in atomic_mols:
             with self.assertRaises(InvalidConfigurationError):
@@ -111,9 +105,7 @@ class TestDescriptor(unittest.TestCase):
                     fingerprint_params={"min_path": min_path},
                 )
             except InvalidConfigurationError:
-                self.fail(
-                    "Did not expect Descriptor to raise " "InvalidConfigurationError"
-                )
+                self.fail("Did not expect Descriptor to raise " "InvalidConfigurationError")
         for triatomic_mol in triatomic_mols:
             descriptor = Descriptor()
             try:
@@ -123,9 +115,7 @@ class TestDescriptor(unittest.TestCase):
                     fingerprint_params={"min_path": min_path},
                 )
             except InvalidConfigurationError:
-                self.fail(
-                    "Did not expect Descriptor to raise " "InvalidConfigurationError"
-                )
+                self.fail("Did not expect Descriptor to raise " "InvalidConfigurationError")
 
         min_path = 2
         for mol in atomic_mols:
@@ -153,9 +143,7 @@ class TestDescriptor(unittest.TestCase):
                     fingerprint_params={"min_path": min_path},
                 )
             except InvalidConfigurationError:
-                self.fail(
-                    "Did not expect Descriptor to raise " "InvalidConfigurationError"
-                )
+                self.fail("Did not expect Descriptor to raise " "InvalidConfigurationError")
 
         min_path = 3
         for mol in atomic_mols:
@@ -192,9 +180,7 @@ class TestDescriptor(unittest.TestCase):
         mol_graph = MolFromSmiles("CCC")
         for fprint in SUPPORTED_FPRINTS:
             descriptor = Descriptor()
-            descriptor.make_fingerprint(
-                molecule_graph=mol_graph, fingerprint_type=fprint
-            )
+            descriptor.make_fingerprint(molecule_graph=mol_graph, fingerprint_type=fprint)
             self.assertTrue(
                 descriptor.check_init(),
                 "Expected Descriptor object to be initialized",
@@ -202,8 +188,7 @@ class TestDescriptor(unittest.TestCase):
             self.assertEqual(
                 descriptor.label_,
                 fprint,
-                "Expected label of descriptor initialized with "
-                "fingerprint to match the fingerprint",
+                "Expected label of descriptor initialized with " "fingerprint to match the fingerprint",
             )
             self.assertIsInstance(
                 descriptor.to_numpy(),
@@ -213,22 +198,15 @@ class TestDescriptor(unittest.TestCase):
             self.assertIsInstance(
                 descriptor.to_rdkit(),
                 ExplicitBitVect,
-                "Expected to_rdkit() to return "
-                "ExplicitBitVect representation "
-                f"of {fprint} fingerprint",
+                "Expected to_rdkit() to return " "ExplicitBitVect representation " f"of {fprint} fingerprint",
             )
 
-    @requires_mordred
     def test_mordred_descriptors(self):
         """Test ability to passthrough descriptors to Mordred."""
-        mol_graph = MolFromSmiles(
-            "CC(C)C1=CC(=C(C(=C1)C(C)C)C2=CC=CC=C2P(C3CCCCC3)C4CCCCC4)C(C)C"
-        )
+        mol_graph = MolFromSmiles("CC(C)C1=CC(=C(C(=C1)C(C)C)C2=CC=CC=C2P(C3CCCCC3)C4CCCCC4)C(C)C")
         for desc in ["MW", "LogEE_Dt", "BalabanJ"]:
             descriptor = Descriptor()
-            descriptor.make_fingerprint(
-                molecule_graph=mol_graph, fingerprint_type="mordred:" + desc
-            )
+            descriptor.make_fingerprint(molecule_graph=mol_graph, fingerprint_type="mordred:" + desc)
             self.assertTrue(
                 descriptor.check_init(),
                 "Expected Descriptor object to be initialized",
@@ -236,8 +214,7 @@ class TestDescriptor(unittest.TestCase):
             self.assertEqual(
                 descriptor.label_,
                 desc,
-                "Expected label of descriptor initialized with "
-                "{} to match the fingerprint".format(desc),
+                "Expected label of descriptor initialized with " "{} to match the fingerprint".format(desc),
             )
             self.assertIsInstance(
                 descriptor.to_numpy(),
@@ -252,9 +229,7 @@ class TestDescriptor(unittest.TestCase):
         mol_graph = MolFromSmiles("CCOCC")
         for desc in ["MATS7e", "Ti", "ATSC6p"]:
             descriptor = Descriptor()
-            descriptor.make_fingerprint(
-                molecule_graph=mol_graph, fingerprint_type="padelpy:" + desc
-            )
+            descriptor.make_fingerprint(molecule_graph=mol_graph, fingerprint_type="padelpy:" + desc)
             self.assertTrue(
                 descriptor.check_init(),
                 "Expected Descriptor object to be initialized",
@@ -262,8 +237,7 @@ class TestDescriptor(unittest.TestCase):
             self.assertEqual(
                 descriptor.label_,
                 desc,
-                "Expected label of descriptor initialized with "
-                "{} to match the fingerprint".format(desc),
+                "Expected label of descriptor initialized with " "{} to match the fingerprint".format(desc),
             )
             self.assertIsInstance(
                 descriptor.to_numpy(),
@@ -277,9 +251,7 @@ class TestDescriptor(unittest.TestCase):
         """Test creation of minhash fingerprint"""
         mol_graph = MolFromSmiles("CCOCC")
         descriptor = Descriptor()
-        descriptor.make_fingerprint(
-            molecule_graph=mol_graph, fingerprint_type="minhash_fingerprint"
-        )
+        descriptor.make_fingerprint(molecule_graph=mol_graph, fingerprint_type="minhash_fingerprint")
         self.assertTrue(
             descriptor.check_init(),
             "Expected Descriptor object to be initialized",
@@ -287,8 +259,7 @@ class TestDescriptor(unittest.TestCase):
         self.assertEqual(
             descriptor.label_,
             "minhash_fingerprint",
-            "Expected label of descriptor initialized with "
-            "{} to match the fingerprint".format("minhash_fingerprint"),
+            "Expected label of descriptor initialized with " "{} to match the fingerprint".format("minhash_fingerprint"),
         )
         self.assertIsInstance(
             descriptor.to_numpy(),
@@ -314,9 +285,7 @@ class TestDescriptor(unittest.TestCase):
         ]
         for desc in fprint_list:
             descriptor = Descriptor()
-            descriptor.make_fingerprint(
-                molecule_graph=mol_graph, fingerprint_type="ccbmlib:" + desc
-            )
+            descriptor.make_fingerprint(molecule_graph=mol_graph, fingerprint_type="ccbmlib:" + desc)
             self.assertTrue(
                 descriptor.check_init(),
                 "Expected Descriptor object to be initialized",
@@ -324,8 +293,7 @@ class TestDescriptor(unittest.TestCase):
             self.assertEqual(
                 descriptor.label_,
                 desc,
-                "Expected label of descriptor initialized with "
-                "{} to match the fingerprint".format(desc),
+                "Expected label of descriptor initialized with " "{} to match the fingerprint".format(desc),
             )
 
     def test_exptl_descriptors(self):
@@ -347,11 +315,9 @@ class TestDescriptor(unittest.TestCase):
             self.assertEqual(
                 descriptor.label_,
                 desc,
-                "Expected label of descriptor initialized with "
-                "{} to match the fingerprint".format(desc),
+                "Expected label of descriptor initialized with " "{} to match the fingerprint".format(desc),
             )
 
-    @requires_mordred
     def test_nonexistent_mordred_descriptors(self):
         """Test ability to pass through descriptors to Mordred."""
         mol_graph = MolFromSmiles("C")
@@ -397,9 +363,7 @@ class TestDescriptor(unittest.TestCase):
             desc.get_folded_fprint(fold_to_length=4)
         with self.assertRaises(InvalidConfigurationError):
             desc.get_folded_fprint(fold_to_length=10)
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=3) == folded_vector).all())
-        )
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=3) == folded_vector).all()))
 
         # Case 3
         arbit_vector = np.array([1, 0, 1, 0, 0, 0, 0, 0])
@@ -413,12 +377,8 @@ class TestDescriptor(unittest.TestCase):
             desc.get_folded_fprint(fold_to_length=3)
         with self.assertRaises(InvalidConfigurationError):
             desc.get_folded_fprint(fold_to_length=10)
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=4) == folded_once_vector).all())
-        )
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=2) == folded_twice_vector).all())
-        )
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4) == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2) == folded_twice_vector).all()))
 
         # Case 3
         arbit_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0])
@@ -432,12 +392,8 @@ class TestDescriptor(unittest.TestCase):
             desc.get_folded_fprint(fold_to_length=3)
         with self.assertRaises(InvalidConfigurationError):
             desc.get_folded_fprint(fold_to_length=10)
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=4) == folded_once_vector).all())
-        )
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=2) == folded_twice_vector).all())
-        )
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4) == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2) == folded_twice_vector).all()))
 
         # Case 4
         arbit_vector = np.array([1, 1, 1, 1, 1, 1, 1, 1])
@@ -451,12 +407,8 @@ class TestDescriptor(unittest.TestCase):
             desc.get_folded_fprint(fold_to_length=3)
         with self.assertRaises(InvalidConfigurationError):
             desc.get_folded_fprint(fold_to_length=10)
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=4) == folded_once_vector).all())
-        )
-        self.assertTrue(
-            ((desc.get_folded_fprint(fold_to_length=2) == folded_twice_vector).all())
-        )
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=4) == folded_once_vector).all()))
+        self.assertTrue(((desc.get_folded_fprint(fold_to_length=2) == folded_twice_vector).all()))
 
 
 if __name__ == "__main__":

@@ -1,15 +1,30 @@
 """Plotting functions"""
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-import numpy as np
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from seaborn import kdeplot, heatmap
 
-from aimsim.exceptions import InvalidConfigurationError
+NO_PLOT = False
+try:
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker
+    import numpy as np
+    import pandas as pd
+    import plotly.express as px
+    import plotly.graph_objects as go
+    from seaborn import heatmap, kdeplot
+except ImportError:
+    NO_PLOT = True
+
+from aimsim.exceptions import InvalidConfigurationError  # noqa: E402
 
 
+def check_plot(func):
+    def wrapper(*args, **kwargs):
+        if NO_PLOT:
+            raise RuntimeError("Missing plotting dependencies.")
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+@check_plot
 def plot_density(densities, n_densities=1, legends=None, **kwargs):
     """Plot the similarity density.
 
@@ -56,10 +71,7 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
         for density in densities:
             is_number = isinstance(density, valid_number_types)
             if not is_number:
-                raise InvalidConfigurationError(f'Element of type '
-                                                f'{type(density)} passed when '
-                                                f'expecting types '
-                                                f'{valid_number_types}')
+                raise InvalidConfigurationError(f"Element of type " f"{type(density)} passed when " f"expecting types " f"{valid_number_types}")
         # converting to 2D array for uniform processing
         densities = [densities]
     if color is None or isinstance(color, str):
@@ -67,22 +79,14 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
     if legends is None:
         legends = [None] * n_densities
     if len(color) < n_densities:
-        raise InvalidConfigurationError(f'{len(color)} colors supplied '
-                                        f'for {n_densities} '
-                                        f'densities')
+        raise InvalidConfigurationError(f"{len(color)} colors supplied " f"for {n_densities} " f"densities")
     if len(legends) < n_densities:
-        raise InvalidConfigurationError(f'{len(legends)} colors supplied '
-                                        f'for {n_densities} '
-                                        f'densities')
+        raise InvalidConfigurationError(f"{len(legends)} colors supplied " f"for {n_densities} " f"densities")
 
     plt.figure()
     plt.rcParams["svg.fonttype"] = "none"
     for density_id, density in enumerate(densities):
-        kdeplot(density,
-                color=color[density_id],
-                label=legends[density_id],
-                shade=shade,
-                **kwargs)
+        kdeplot(density, color=color[density_id], label=legends[density_id], shade=shade, **kwargs)
     plt.xlabel(xlabel, fontsize=xlabel_fontsize)
     plt.ylabel(ylabel, fontsize=ylabel_fontsize)
     if not legends == [None] * n_densities:
@@ -91,6 +95,7 @@ def plot_density(densities, n_densities=1, legends=None, **kwargs):
         plt.title(plot_title, fontsize=plot_title_fontsize)
 
 
+@check_plot
 def plot_heatmap(input_matrix, **kwargs):
     """Plot a heatmap representing the input matrix.
 
@@ -142,6 +147,7 @@ def plot_heatmap(input_matrix, **kwargs):
     plt.title(parameters["plot_title"], fontsize=24)
 
 
+@check_plot
 def plot_parity(x, y, **kwargs):
     """Plot parity plot of x vs y.
 
@@ -179,18 +185,9 @@ def plot_parity(x, y, **kwargs):
         [min_entry, max_entry],
         color=plot_params.get("linecolor", "black"),
     )
-    plt.title(
-        plot_params.get("title", ""),
-        fontsize=plot_params.get("title_fontsize", 24)
-    )
-    plt.xlabel(
-        plot_params.get("xlabel", ""),
-        fontsize=plot_params.get("xlabel_fontsize", 20)
-    )
-    plt.ylabel(
-        plot_params.get("ylabel", ""),
-        fontsize=plot_params.get("ylabel_fontsize", 20)
-    )
+    plt.title(plot_params.get("title", ""), fontsize=plot_params.get("title_fontsize", 24))
+    plt.xlabel(plot_params.get("xlabel", ""), fontsize=plot_params.get("xlabel_fontsize", 20))
+    plt.ylabel(plot_params.get("ylabel", ""), fontsize=plot_params.get("ylabel_fontsize", 20))
     plt.xticks(fontsize=plot_params.get("xticksize", 24))
     plt.yticks(fontsize=plot_params.get("yticksize", 24))
     start, end = axes.get_xlim()
@@ -215,6 +212,7 @@ def plot_parity(x, y, **kwargs):
         return axes
 
 
+@check_plot
 def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     """Plot a bar chart
 
@@ -248,12 +246,8 @@ def plot_barchart(x, heights, colors, xtick_labels=None, **kwargs):
     plt.yticks(fontsize=plot_params["yticksize"])
 
 
-def plot_multiple_barchart(x,
-                           heights,
-                           colors,
-                           legend_labels=None,
-                           xtick_labels=None,
-                           **kwargs):
+@check_plot
+def plot_multiple_barchart(x, heights, colors, legend_labels=None, xtick_labels=None, **kwargs):
     """Plot a bar chart with multiplears per category.
 
     Args:
@@ -285,14 +279,12 @@ def plot_multiple_barchart(x,
     }
     x = np.array(x)
     heights = np.array(heights)
-    bar_width = kwargs.pop('bar_width', 0.2)
+    bar_width = kwargs.pop("bar_width", 0.2)
     n_bars_per_xtick = heights.shape[0]
     if isinstance(colors, str):
         colors = [colors] * n_bars_per_xtick
     if len(colors) < n_bars_per_xtick:
-        raise InvalidConfigurationError(f'{len(colors)} colors supplied '
-                                        f'insufficient for '
-                                        f'{n_bars_per_xtick} bars')
+        raise InvalidConfigurationError(f"{len(colors)} colors supplied " f"insufficient for " f"{n_bars_per_xtick} bars")
     plt.figure()
     plt.tight_layout()
     plt.rcParams["svg.fonttype"] = "none"
@@ -300,27 +292,20 @@ def plot_multiple_barchart(x,
         xtick_labels = x
     bars = []
     for bar_id in range(n_bars_per_xtick):
-        bars.append(plt.bar(x + bar_id*bar_width,
-                            heights[bar_id],
-                            bar_width,
-                            color=colors[bar_id],
-                            **kwargs))
+        bars.append(plt.bar(x + bar_id * bar_width, heights[bar_id], bar_width, color=colors[bar_id], **kwargs))
 
     plt.title(plot_params["title"], fontsize=plot_params["title_fontsize"])
     plt.xlabel(plot_params["xlabel"], fontsize=plot_params["xlabel_fontsize"])
     plt.ylabel(plot_params["ylabel"], fontsize=plot_params["ylabel_fontsize"])
-    plt.xticks(x + bar_width * ((n_bars_per_xtick-1)/2),
-               xtick_labels,
-               fontsize=plot_params["xticksize"])
+    plt.xticks(x + bar_width * ((n_bars_per_xtick - 1) / 2), xtick_labels, fontsize=plot_params["xticksize"])
     plt.yticks(fontsize=plot_params["yticksize"])
     if legend_labels is not None:
         if len(legend_labels) != n_bars_per_xtick:
-            raise InvalidConfigurationError(f'{len(legend_labels)} legend '
-                                            f'labels not sufficient for '
-                                            f'{n_bars_per_xtick} bars')
+            raise InvalidConfigurationError(f"{len(legend_labels)} legend " f"labels not sufficient for " f"{n_bars_per_xtick} bars")
         plt.legend(bars, legend_labels)
 
 
+@check_plot
 def plot_scatter(x, y, outlier_idxs=None, **kwargs):
     """Plot scatter plot of x vs y.
 
@@ -361,15 +346,9 @@ def plot_scatter(x, y, outlier_idxs=None, **kwargs):
     axes = plt.gca()
     axes.set_xlim([min_entry, max_entry])
     axes.set_ylim([min_entry, max_entry])
-    plt.title(
-        plot_params.get("title", ""), fontsize=plot_params.get("title_fontsize", 24)
-    )
-    plt.xlabel(
-        plot_params.get("xlabel", ""), fontsize=plot_params.get("xlabel_fontsize", 20)
-    )
-    plt.ylabel(
-        plot_params.get("ylabel", ""), fontsize=plot_params.get("ylabel_fontsize", 20)
-    )
+    plt.title(plot_params.get("title", ""), fontsize=plot_params.get("title_fontsize", 24))
+    plt.xlabel(plot_params.get("xlabel", ""), fontsize=plot_params.get("xlabel_fontsize", 20))
+    plt.ylabel(plot_params.get("ylabel", ""), fontsize=plot_params.get("ylabel_fontsize", 20))
     plt.xticks(fontsize=plot_params.get("xticksize", 24))
     plt.yticks(fontsize=plot_params.get("yticksize", 24))
     start, end = axes.get_xlim()
@@ -387,14 +366,8 @@ def plot_scatter(x, y, outlier_idxs=None, **kwargs):
         return axes
 
 
-def plot_scatter_interactive(
-    x,
-    y,
-    hover_names=None,
-    outlier_idxs=None,
-    cluster_memberships=None,
-    **kwargs
-):
+@check_plot
+def plot_scatter_interactive(x, y, hover_names=None, outlier_idxs=None, cluster_memberships=None, **kwargs):
     """Plot interactive scatter plot of x vs y.
 
     Args:
@@ -410,92 +383,83 @@ def plot_scatter_interactive(
             Should be the same shape as x or y.
 
     """
-    opacity = kwargs.get('alpha', 0.7)
-    marker_size = kwargs.get('s', 20)
-    plot_color = kwargs.get('plot_color', 'green')
-    outlier_color = kwargs.get('outlier_color', 'red')
-    cluster_colors = kwargs.get('cluster_colors', None)
-    title = kwargs.get('title', None)
-    xlabel = kwargs.get('xlabel', 'Dimension 1')
-    ylabel = kwargs.get('ylabel', 'Dimension 2')
+    opacity = kwargs.get("alpha", 0.7)
+    marker_size = kwargs.get("s", 20)
+    plot_color = kwargs.get("plot_color", "green")
+    outlier_color = kwargs.get("outlier_color", "red")
+    cluster_colors = kwargs.get("cluster_colors", None)
+    title = kwargs.get("title", None)
+    xlabel = kwargs.get("xlabel", "Dimension 1")
+    ylabel = kwargs.get("ylabel", "Dimension 2")
 
     if cluster_memberships is not None:
-        df = pd.DataFrame({
-            'x': x,
-            'y': y,
-            'cluster_memberships': cluster_memberships,
-            'hover_names': hover_names
-        })
+        df = pd.DataFrame({"x": x, "y": y, "cluster_memberships": cluster_memberships, "hover_names": hover_names})
         fig = go.Figure()
         all_cluster_idx = np.unique(cluster_memberships)
-        if cluster_colors is None \
-                or len(cluster_colors) < len(all_cluster_idx):
+        if cluster_colors is None or len(cluster_colors) < len(all_cluster_idx):
             cluster_colors = [None] * len(all_cluster_idx)
 
         for idx, cluster_id in enumerate(all_cluster_idx):
-            cluster_df = df.loc[df['cluster_memberships'] == cluster_id]
-            fig.add_trace(go.Scatter(x=cluster_df['x'].values,
-                                     y=cluster_df['y'].values,
-                                     name=f'cluster {cluster_id}',
-                                     text=cluster_df['hover_names'].values,
-                                     mode='markers',
-                                     marker_size=marker_size,
-                                     marker_color=cluster_colors[idx],
-                                     opacity=opacity,
-                                     marker_symbol='circle',
-                                     marker_line_width=0))
+            cluster_df = df.loc[df["cluster_memberships"] == cluster_id]
+            fig.add_trace(
+                go.Scatter(
+                    x=cluster_df["x"].values,
+                    y=cluster_df["y"].values,
+                    name=f"cluster {cluster_id}",
+                    text=cluster_df["hover_names"].values,
+                    mode="markers",
+                    marker_size=marker_size,
+                    marker_color=cluster_colors[idx],
+                    opacity=opacity,
+                    marker_symbol="circle",
+                    marker_line_width=0,
+                )
+            )
 
     else:
         is_outlier = [0] * len(x)
         if outlier_idxs is not None:
             for id in outlier_idxs:
                 is_outlier[id] = 1
-        df = pd.DataFrame({
-            'x': x,
-            'y': y,
-            'is_outlier': is_outlier,
-            'hover_names': hover_names
-        })
+        df = pd.DataFrame({"x": x, "y": y, "is_outlier": is_outlier, "hover_names": hover_names})
 
         fig = go.Figure()
-        non_outliers = df.loc[df['is_outlier'] == 0]
-        fig.add_trace(go.Scatter(x=non_outliers['x'].values,
-                                 y=non_outliers['y'].values,
-                                 name='molecule',
-                                 text=non_outliers['hover_names'].values,
-                                 mode='markers',
-                                 marker_size=marker_size,
-                                 opacity=opacity,
-                                 marker_color=plot_color,
-                                 marker_symbol='circle',
-                                 marker_line_width=0))
+        non_outliers = df.loc[df["is_outlier"] == 0]
+        fig.add_trace(
+            go.Scatter(
+                x=non_outliers["x"].values,
+                y=non_outliers["y"].values,
+                name="molecule",
+                text=non_outliers["hover_names"].values,
+                mode="markers",
+                marker_size=marker_size,
+                opacity=opacity,
+                marker_color=plot_color,
+                marker_symbol="circle",
+                marker_line_width=0,
+            )
+        )
         if outlier_idxs is not None:
-            outliers = df.loc[df['is_outlier'] == 1]
-            fig.add_trace(go.Scatter(x=outliers['x'].values,
-                                     y=outliers['y'].values,
-                                     name='outlier',
-                                     text=outliers['hover_names'].values,
-                                     mode='markers',
-                                     marker_size=marker_size,
-                                     opacity=opacity,
-                                     marker_color=outlier_color,
-                                     marker_symbol='x',
-                                     marker_line_width=int(marker_size/10),
-                                     marker_line_color='black'))
-    fig.update_layout(
-        xaxis_title=xlabel,
-        yaxis_title=ylabel,
-        font=dict(
-            family="Courier New, monospace",
-            size=40))
+            outliers = df.loc[df["is_outlier"] == 1]
+            fig.add_trace(
+                go.Scatter(
+                    x=outliers["x"].values,
+                    y=outliers["y"].values,
+                    name="outlier",
+                    text=outliers["hover_names"].values,
+                    mode="markers",
+                    marker_size=marker_size,
+                    opacity=opacity,
+                    marker_color=outlier_color,
+                    marker_symbol="x",
+                    marker_line_width=int(marker_size / 10),
+                    marker_line_color="black",
+                )
+            )
+    fig.update_layout(xaxis_title=xlabel, yaxis_title=ylabel, font=dict(family="Courier New, monospace", size=40))
 
     if title is not None:
-        fig.update_layout(title={'text': title,
-                                 'y': 0.9,
-                                 'x': 0.5,
-                                 'xanchor': 'center',
-                                 'yanchor': 'top',
-                                 'font_size': 40})
+        fig.update_layout(title={"text": title, "y": 0.9, "x": 0.5, "xanchor": "center", "yanchor": "top", "font_size": 40})
 
     if hover_names is not None:
         fig.update_traces(hovertemplate="<b>%{text}</b><br><br>")
