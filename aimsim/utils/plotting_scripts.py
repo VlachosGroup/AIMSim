@@ -8,11 +8,11 @@ try:
     import pandas as pd
     import plotly.express as px
     import plotly.graph_objects as go
-    from seaborn import kdeplot, heatmap
+    from seaborn import heatmap, kdeplot
 except ImportError:
     NO_PLOT = True
 
-from aimsim.exceptions import InvalidConfigurationError
+from aimsim.exceptions import InvalidConfigurationError  # noqa: E402
 
 
 def check_plot(func):
