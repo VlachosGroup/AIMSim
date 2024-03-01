@@ -1,0 +1,10 @@
+psutil
+scikit_learn
+scikit_learn_extra
+rdkit
+numpy
+pandas
+padelpy
+mhfp
+mordredcommunity
+multiprocess>=0.70
