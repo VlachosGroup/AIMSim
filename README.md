@@ -55,6 +55,10 @@ It is recommended to install `AIMSim` in a virtual environment with [`conda`](ht
 `AIMSim` can be installed with a single command using Python's package manager `pip`:
 `pip install aimsim`
 This command also installs the required dependencies.
+
+> [!NOTE]
+> Looking to use AIMSim for descriptor calculation or extend its functionality? `AIMSim`'s core modules for creating molecules, calculating descriptors, and comparing the results are available without support for plotting or visualization in the PyPI package `aimsim_core`.
+
 ### `conda`
 `AIMSim` is also available with the `conda` package manager via:
 `conda install -c conda-forge aimsim`
