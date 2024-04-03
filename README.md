@@ -4,13 +4,15 @@
 ![AIMSim Logo](interfaces/UI/AIMSim-logo.png)
 <p align="center">
   <img alt="GitHub Repo Stars" src="https://img.shields.io/github/stars/VlachosGroup/AIMSim?style=social">
-  <img alt="Total Downloads" src="https://static.pepy.tech/personalized-badge/aimsim?period=total&units=none&left_color=grey&right_color=blue&left_text=Lifetime%20Downloads">
-  <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/aimsim">
   <img alt="commits since" src="https://img.shields.io/github/commits-since/VlachosGroup/AIMSim/latest.svg">
   <img alt="PyPI" src="https://img.shields.io/pypi/v/aimsim">
   <img alt="PyPI - License" src="https://img.shields.io/github/license/VlachosGroup/AIMSim">
-  <img alt="Test Status" src="https://github.com/VlachosGroup/AIMSim/actions/workflows/run_tests.yml/badge.svg?branch=master&event=schedule">
+  <img alt="Test Status" src="https://github.com/VlachosGroup/AIMSim/actions/workflows/ci.yml/badge.svg?event=schedule">
 </p>
+
+Downloads Stats:
+ - `aimsim`: [![Downloads](https://static.pepy.tech/badge/aimsim)](https://static.pepy.tech/personalized-badge/aimsim?period=total&units=none&left_color=grey&right_color=blue&left_text=Lifetime%20Downloads)
+ - `aimsim_core`: [![Downloads](https://static.pepy.tech/badge/aimsim_core)](https://pepy.tech/project/aimsim_core?period=total&units=none&left_color=grey&right_color=blue&left_text=Lifetime%20Downloads)
 
 ## Documentation and Tutorial
 [View our Online Documentation](https://vlachosgroup.github.io/AIMSim/) or try the _AIMSim_ comprehensive tutorial in your browser:
