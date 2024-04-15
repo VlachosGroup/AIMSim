@@ -1261,6 +1261,7 @@ class TestMoleculeSet(unittest.TestCase):
             )
         remove(csv_fpath)
 
+    @unittest.skip(reason="kmedoids was removed, obsoleting this test")
     def test_clustering_fingerprints(self):
         """
         Test the clustering of molecules featurized by their fingerprints.
