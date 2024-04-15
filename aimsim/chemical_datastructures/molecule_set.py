@@ -65,7 +65,6 @@ class MoleculeSet:
             in the dataset.
         cluster(n_clusters=8, clustering_method=None, **kwargs): Cluster
             the molecules of the MoleculeSet. Implemented methods.
-                'kmedoids': for the K-Medoids algorithm.
                 'complete_linkage', 'complete':
                     Complete linkage agglomerative hierarchical
                     clustering.
@@ -997,10 +996,6 @@ class MoleculeSet:
             clustering_method (str): Clustering algorithm to use. Default is
                 None in which case the algorithm is chosen from the
                 similarity measure in use. Implemented clustering_methods are:
-                'kmedoids': for the K-Medoids algorithm [1].
-                    This method is useful
-                    when the molecular descriptors are continuous / Euclidean
-                    since it relies on the existence of a sensible medoid.
                 'complete_linkage', 'complete':
                     Complete linkage agglomerative hierarchical clustering [2].
                 'average_linkage', 'average':
@@ -1036,7 +1031,7 @@ class MoleculeSet:
                 "meaningful results."
             )
         if (
-            clustering_method == "kmedoids" or clustering_method == "ward"
+            clustering_method == "ward"
         ) and self.similarity_measure.type_ == "discrete":
             print(
                 f"{clustering_method} cannot be used with "
@@ -1046,7 +1041,7 @@ class MoleculeSet:
             clustering_method = None
         if clustering_method is None:
             if self.similarity_measure.type_ == "continuous":
-                clustering_method = "kmedoids"
+                clustering_method = "ward"
             else:
                 clustering_method = "complete_linkage"
         self.clusters_ = Cluster(

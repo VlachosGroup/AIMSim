@@ -55,7 +55,7 @@ tasks:
       plot_color: '#FD6F96'
   cluster:
     n_clusters: 2
-    clustering_method: kmedoids
+    clustering_method: ward
     log_file_path: '/Users/himaghnabhattacharjee/Documents/Research/AIMSim_project/AIMSim/examples/Wang-et-al-log-partition-coefficients/log/cluster_log.txt'
     cluster_file_path: 'log/clusters.yml'
     cluster_plot_settings:

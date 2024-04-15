@@ -1290,8 +1290,8 @@ class TestMoleculeSet(unittest.TestCase):
                     if molecule_set.similarity_measure.type_ == "continuous":
                         self.assertEqual(
                             str(molecule_set.clusters_),
-                            "kmedoids",
-                            f"Expected kmedoids clustering for "
+                            "ward",
+                            f"Expected ward clustering for "
                             f"similarity: {similarity_measure}",
                         )
                     else:

@@ -9,10 +9,6 @@ class Cluster:
     Attributes:
         clustering_method (str):
             Label for the specific algorithm used.
-            'kmedoids':
-                for the K-Medoids algorithm [1]. This method is useful
-                when the molecular descriptors are continuous / Euclidean
-                since it relies on the existence of a sensible medoid.
             'complete_linkage', 'complete':
                 Complete linkage agglomerative hierarchical clustering [2].
             'average_linkage', 'average':
@@ -49,11 +45,6 @@ class Cluster:
         Args:
             n_clusters (int): Number of clusters.
             clustering_method(str): Label for the specific algorithm used.
-                Supported methods are:
-                'kmedoids' for the K-Medoids algorithm [1]. This method is
-                    useful when the molecular descriptors are continuous
-                    / Euclidean since it relies on the existence of a
-                    sensible medoid.
                 'complete_linkage', 'complete' for complete linkage
                     agglomerative hierarchical clustering [2].
                 'average_linkage', 'average' for average linkage agglomerative
@@ -76,9 +67,7 @@ class Cluster:
         """
         self.clustering_method = clustering_method
         self.n_clusters = n_clusters
-        if self.clustering_method == "kmedoids":
-            self.model_ = self._get_kmedoids_model_(**kwargs)
-        elif clustering_method in ["complete_linkage", "complete"]:
+        if clustering_method in ["complete_linkage", "complete"]:
             self.model_ = self._get_linkage_model(linkage_method="complete",
                                                   **kwargs)
         elif clustering_method in ["average", "average_linkage"]:
