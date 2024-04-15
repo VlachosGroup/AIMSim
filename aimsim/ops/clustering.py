@@ -1,7 +1,6 @@
 """Operation for clustering molecules"""
 import sklearn.exceptions
 from sklearn.cluster import AgglomerativeClustering
-from sklearn_extra.cluster import KMedoids as SklearnExtraKMedoids
 
 
 class Cluster:
@@ -10,10 +9,6 @@ class Cluster:
     Attributes:
         clustering_method (str):
             Label for the specific algorithm used.
-            'kmedoids':
-                for the K-Medoids algorithm [1]. This method is useful
-                when the molecular descriptors are continuous / Euclidean
-                since it relies on the existence of a sensible medoid.
             'complete_linkage', 'complete':
                 Complete linkage agglomerative hierarchical clustering [2].
             'average_linkage', 'average':
@@ -25,7 +20,7 @@ class Cluster:
                 Euclidean descriptors.
         n_clusters (int):
             Number of clusters.
-        model_ (sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids):
+        model_ (sklearn.cluster.AgglomerativeClustering):
             The clustering estimator.
         labels_ (np.ndarray of shape (n_samples,)):
             cluster labels of the training set samples.
@@ -50,11 +45,6 @@ class Cluster:
         Args:
             n_clusters (int): Number of clusters.
             clustering_method(str): Label for the specific algorithm used.
-                Supported methods are:
-                'kmedoids' for the K-Medoids algorithm [1]. This method is
-                    useful when the molecular descriptors are continuous
-                    / Euclidean since it relies on the existence of a
-                    sensible medoid.
                 'complete_linkage', 'complete' for complete linkage
                     agglomerative hierarchical clustering [2].
                 'average_linkage', 'average' for average linkage agglomerative
@@ -65,7 +55,6 @@ class Cluster:
                     Euclidean descriptors.
             kwargs (dict): Keyword arguments. These are passed to the
                 estimators. Refer to the following documentation page for
-                kmedoids: https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html
                 agglomerative hierarchical clustering: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
 
         References:
@@ -78,9 +67,7 @@ class Cluster:
         """
         self.clustering_method = clustering_method
         self.n_clusters = n_clusters
-        if self.clustering_method == "kmedoids":
-            self.model_ = self._get_kmedoids_model_(**kwargs)
-        elif clustering_method in ["complete_linkage", "complete"]:
+        if clustering_method in ["complete_linkage", "complete"]:
             self.model_ = self._get_linkage_model(linkage_method="complete",
                                                   **kwargs)
         elif clustering_method in ["average", "average_linkage"]:
@@ -94,24 +81,6 @@ class Cluster:
                                                   **kwargs)
         else:
             raise ValueError(f"{clustering_method} not implemented")
-
-    def _get_kmedoids_model_(self, **kwargs):
-        """
-        Initialize a k-medoids model.
-
-        Args:
-        kwargs (dict): Keyword arguments. These are passed to the
-                estimators. Refer to the following documentation page for
-                kmedoids:
-                [https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html]
-
-        """
-        _ = kwargs.pop('metric', None)
-        return SklearnExtraKMedoids(
-            n_clusters=self.n_clusters,
-            metric="precomputed",
-            **kwargs
-        )
 
     def _get_linkage_model(self, linkage_method, **kwargs):
         _ = kwargs.pop('affinity', None)

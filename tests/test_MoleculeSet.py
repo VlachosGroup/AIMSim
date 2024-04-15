@@ -1261,6 +1261,7 @@ class TestMoleculeSet(unittest.TestCase):
             )
         remove(csv_fpath)
 
+    @unittest.skip(reason="kmedoids was removed, obsoleting this test")
     def test_clustering_fingerprints(self):
         """
         Test the clustering of molecules featurized by their fingerprints.
@@ -1290,8 +1291,8 @@ class TestMoleculeSet(unittest.TestCase):
                     if molecule_set.similarity_measure.type_ == "continuous":
                         self.assertEqual(
                             str(molecule_set.clusters_),
-                            "kmedoids",
-                            f"Expected kmedoids clustering for "
+                            "ward",
+                            f"Expected ward clustering for "
                             f"similarity: {similarity_measure}",
                         )
                     else:

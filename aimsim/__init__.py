@@ -7,4 +7,4 @@ try:
 except ImportError:
     pass  # aimsim_core does not include this
 
-__version__ = "2.1.3"
+__version__ = "2.2.0"
