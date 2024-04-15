@@ -1,7 +1,6 @@
 """Operation for clustering molecules"""
 import sklearn.exceptions
 from sklearn.cluster import AgglomerativeClustering
-from sklearn_extra.cluster import KMedoids as SklearnExtraKMedoids
 
 
 class Cluster:
@@ -25,7 +24,7 @@ class Cluster:
                 Euclidean descriptors.
         n_clusters (int):
             Number of clusters.
-        model_ (sklearn.cluster.AgglomerativeClustering or sklearn_extra.cluster.KMedoids):
+        model_ (sklearn.cluster.AgglomerativeClustering):
             The clustering estimator.
         labels_ (np.ndarray of shape (n_samples,)):
             cluster labels of the training set samples.
@@ -65,7 +64,6 @@ class Cluster:
                     Euclidean descriptors.
             kwargs (dict): Keyword arguments. These are passed to the
                 estimators. Refer to the following documentation page for
-                kmedoids: https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html
                 agglomerative hierarchical clustering: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
 
         References:
@@ -94,24 +92,6 @@ class Cluster:
                                                   **kwargs)
         else:
             raise ValueError(f"{clustering_method} not implemented")
-
-    def _get_kmedoids_model_(self, **kwargs):
-        """
-        Initialize a k-medoids model.
-
-        Args:
-        kwargs (dict): Keyword arguments. These are passed to the
-                estimators. Refer to the following documentation page for
-                kmedoids:
-                [https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html]
-
-        """
-        _ = kwargs.pop('metric', None)
-        return SklearnExtraKMedoids(
-            n_clusters=self.n_clusters,
-            metric="precomputed",
-            **kwargs
-        )
 
     def _get_linkage_model(self, linkage_method, **kwargs):
         _ = kwargs.pop('affinity', None)

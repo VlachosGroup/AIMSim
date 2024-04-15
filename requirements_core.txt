@@ -1,6 +1,5 @@
 psutil
 scikit_learn
-scikit_learn_extra
 rdkit
 numpy
 pandas

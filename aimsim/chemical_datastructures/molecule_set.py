@@ -1013,7 +1013,6 @@ class MoleculeSet:
             kwargs (keyword args): Key word arguments to supply to clustering
                 algorithm. See the documentation pages
                 listed below for these arguments:
-                'kmedoids': https://scikit-learn-extra.readthedocs.io/en/stable/generated/sklearn_extra.cluster.KMedoids.html
                 'complete_linkage', 'average_linkage', 'single_linkage', 'ward'
                     : https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
 
