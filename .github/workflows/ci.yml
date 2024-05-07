@@ -53,7 +53,7 @@ jobs:
     name: ${{ matrix.os }} Python ${{ matrix.python-version }} Subtest
     steps:
       - uses: actions/checkout@v3
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}
