@@ -3,7 +3,10 @@ from os import makedirs
 from os.path import dirname
 
 import matplotlib.pyplot as plt
-import matplotlib.cm as colormaps
+try:
+    import matplotlib.cm import get_cmap
+except:
+    from matplotlib.pyplot import get_cmap
 from matplotlib.colors import rgb2hex
 import yaml
 
