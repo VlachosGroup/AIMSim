@@ -5,7 +5,7 @@ from os.path import dirname
 import matplotlib.pyplot as plt
 try:
     from matplotlib.cm import get_cmap
-except:
+except:  # noqa: E722
     from matplotlib.pyplot import get_cmap
 from matplotlib.colors import rgb2hex
 import yaml
