@@ -4,7 +4,7 @@ from os.path import dirname
 
 import matplotlib.pyplot as plt
 try:
-    import matplotlib.cm import get_cmap
+    from matplotlib.cm import get_cmap
 except:
     from matplotlib.pyplot import get_cmap
 from matplotlib.colors import rgb2hex
