@@ -10,6 +10,10 @@
   <img alt="Test Status" src="https://github.com/VlachosGroup/AIMSim/actions/workflows/ci.yml/badge.svg?event=schedule">
 </p>
 
+Repository Status: [![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
+
+AIMSim has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.
+
 Downloads Stats:
  - `aimsim`: [![Downloads](https://static.pepy.tech/badge/aimsim)](https://static.pepy.tech/personalized-badge/aimsim?period=total&units=none&left_color=grey&right_color=blue&left_text=Lifetime%20Downloads)
  - `aimsim_core`: [![Downloads](https://static.pepy.tech/badge/aimsim_core)](https://pepy.tech/project/aimsim_core?period=total&units=none&left_color=grey&right_color=blue&left_text=Lifetime%20Downloads)
