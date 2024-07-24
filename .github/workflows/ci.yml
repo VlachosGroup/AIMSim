@@ -62,7 +62,7 @@ jobs:
       - name: Avoid SciPy 1.14 on MacOS 13
         if: matrix.os == 'macos-13'
         run: |
-          python -m pip install --force-reinstall scipy<1.14
+          python -m pip install --force-reinstall 'scipy<1.14'
       - name: Run Tests
         run: |
           coverage run --source=. --omit=interfaces/*,aimsim/__main__.py,aimsim/tasks/__init__.py,aimsim/ops/__init__.py,aimsim/chemical_datastructures/__init__.py,aimsim/utils/__init__.py,setup.py,tests/*,aimsim/__init__.py,aimsim/utils/plotting_scripts.py -m unittest discover -v
