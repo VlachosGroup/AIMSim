@@ -102,7 +102,7 @@ class Descriptor:
 
         """
         fpg = rdFingerprintGenerator.GetMorganGenerator(radius=radius, fpSize=n_bits, **kwargs)
-        self.rdkit_ = fpg.GetFingerprintAsNumPy(molecule_graph)
+        self.rdkit_ = fpg.GetFingerprint(molecule_graph)
         self.label_ = "morgan_fingerprint"
         self.params_ = {"radius": radius, "n_bits": n_bits}
 
@@ -129,7 +129,7 @@ class Descriptor:
                 f"used for fingerprint."
             )
         fpg = rdFingerprintGenerator.GetRDKitFPGenerator(minPath=min_path, maxPath=max_path, **kwargs)
-        self.rdkit_ = fpg.GetFingerprintAsNumPy(molecule_graph)
+        self.rdkit_ = fpg.GetFingerprint(molecule_graph)
         self.label_ = "topological_fingerprint"
         self.params_ = {"min_path": min_path, "max_path": max_path}
 
