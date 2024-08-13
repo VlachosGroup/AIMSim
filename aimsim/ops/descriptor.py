@@ -4,7 +4,7 @@ import numpy as np
 from rdkit.Chem import rdmolops
 from rdkit import Chem
 from rdkit import DataStructs
-from rdkit.Chem import AllChem
+from rdkit.Chem import rdFingerprintGenerator
 from rdkit.Chem.Fingerprints import FingerprintMols
 from rdkit.Chem import MACCSkeys
 from rdkit.Chem.AtomPairs import Pairs, Torsions
@@ -101,7 +101,8 @@ class Descriptor:
                 as count.
 
         """
-        self.rdkit_ = AllChem.GetMorganFingerprintAsBitVect(molecule_graph, radius, nBits=n_bits, **kwargs)
+        fpg = rdFingerprintGenerator.GetMorganGenerator(radius=radius, fpSize=n_bits, **kwargs)
+        self.rdkit_ = fpg.GetFingerprintAsNumPy(molecule_graph)
         self.label_ = "morgan_fingerprint"
         self.params_ = {"radius": radius, "n_bits": n_bits}
 
@@ -127,7 +128,8 @@ class Descriptor:
                 f"greater than the minimum path "
                 f"used for fingerprint."
             )
-        self.rdkit_ = rdmolops.RDKFingerprint(molecule_graph, minPath=min_path, maxPath=max_path)
+        fpg = rdFingerprintGenerator.GetRDKitFPGenerator(minPath=min_path, maxPath=max_path, **kwargs)
+        self.rdkit_ = fpg.GetFingerprintAsNumPy(molecule_graph)
         self.label_ = "topological_fingerprint"
         self.params_ = {"min_path": min_path, "max_path": max_path}
 
