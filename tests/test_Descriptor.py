@@ -247,7 +247,7 @@ class TestDescriptor(unittest.TestCase):
             with self.assertRaises(ValueError):
                 descriptor.to_rdkit()
 
-    @unittest.skipIf(np.__version__ >= 2, "MHFP fails on numpy >2 see https://github.com/reymond-group/mhfp/issues/6")
+    @unittest.skipIf(int(np.__version__[0]) >= 2, "MHFP fails on numpy >2 see https://github.com/reymond-group/mhfp/issues/6")
     def test_minhash_fingerprint(self):
         """Test creation of minhash fingerprint"""
         mol_graph = MolFromSmiles("CCOCC")
