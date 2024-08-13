@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
-        os: [ubuntu-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         exclude:
           - os: macos-13
             python-version: '3.8'
@@ -59,10 +59,6 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -e .
           python -m pip install coverage
-      - name: Avoid Problematic Packages on MacOS 13
-        if: matrix.os == 'macos-13'
-        run: |
-          python -m pip install --force-reinstall 'numpy<2' 'scipy<1.14'
       - name: Run Tests
         run: |
           coverage run --source=. --omit=interfaces/*,aimsim/__main__.py,aimsim/tasks/__init__.py,aimsim/ops/__init__.py,aimsim/chemical_datastructures/__init__.py,aimsim/utils/__init__.py,setup.py,tests/*,aimsim/__init__.py,aimsim/utils/plotting_scripts.py -m unittest discover -v
