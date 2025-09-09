@@ -624,7 +624,7 @@ class MoleculeSet:
             "perplexity": kwargs.get("perplexity", 30),
             "early_exaggeration": kwargs.get("early_exaggeration", 12),
             "learning_rate": kwargs.get("learning_rate", 200),
-            "n_iter": kwargs.get("n_iter", 1000),
+            "max_iter": kwargs.get("max_iter", 1000),
             "n_iter_without_progress": kwargs.get("n_iter_without_progress", 300),
             "min_grad_norm": kwargs.get("min_grad_norm", 1e-7),
             "init": kwargs.get("init", "random"),
@@ -633,7 +633,12 @@ class MoleculeSet:
             "angle": kwargs.get("angle", 0.5),
             "n_jobs": kwargs.get("n_jobs", None),
         }
-        embedding = TSNE(metric="precomputed", **params)
+        try:
+            embedding = TSNE(metric="precomputed", **params)
+        except TypeError:
+            params.pop("max_iter")
+            params["n_iter"] = kwargs.get("n_iter", 1000)
+            embedding = TSNE(metric="precomputed", **params)
         dissimilarity_matrix = self.get_distance_matrix()
         X = embedding.fit_transform(dissimilarity_matrix)
         if not get_component_info:
