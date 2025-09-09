@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supported Similarity Metrics &mdash; AIMSim 2.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AIMSim" href="modules.html" />
+    <link rel="prev" title="Documentation and Tutorial" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIMSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Documentation and Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#purpose">Purpose</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#installing-aimsim">Installing AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#running-aimsim">Running AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#contributors">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#aimsim-in-the-literature"><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> in the Literature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#developer-notes">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#citation">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#works-cited">Works Cited</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Supported Similarity Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">AIMSim</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIMSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Supported Similarity Metrics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/implemented_metrics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="supported-similarity-metrics">
+<h1>Supported Similarity Metrics<a class="headerlink" href="#supported-similarity-metrics" title="Permalink to this heading"></a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Input Aliases</p></th>
+<th class="head"><p>Distance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>l0_similarity</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>l1_similarity</p></td>
+<td><p>manhattan_similarity, taxicab_similarity, city_block_similarity, snake_similarity</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>l2_similarity</p></td>
+<td><p>euclidean_similarity</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>cosine</p></td>
+<td><p>driver-kroeber, ochiai</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>dice</p></td>
+<td><p>sorenson, gleason</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>dice_2</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>dice_3</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>tanimoto</p></td>
+<td><p>jaccard-tanimoto</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>simple_matching</p></td>
+<td><p>sokal-michener, rand</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>rogers-tanimoto</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>russel-rao</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>forbes</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>simpson</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td><p>braun-blanquet</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p>baroni-urbani-buser</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>16</p></td>
+<td><p>kulczynski</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>17</p></td>
+<td><p>sokal-sneath</p></td>
+<td><p>sokal-sneath_1</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>18</p></td>
+<td><p>sokal-sneath_2</p></td>
+<td><p>sokal-sneath-2, symmetric_sokal_sneath, symmetric-sokal-sneath,</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>19</p></td>
+<td><p>sokal-sneath_3</p></td>
+<td><p>sokal-sneath-3</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p>sokal-sneath_4</p></td>
+<td><p>sokal-sneath-4</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>21</p></td>
+<td><p>jaccard</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>22</p></td>
+<td><p>faith</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>23</p></td>
+<td><p>michael</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>24</p></td>
+<td><p>mountford</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>25</p></td>
+<td><p>rogot-goldberg</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>26</p></td>
+<td><p>hawkins-dotson</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>27</p></td>
+<td><p>maxwell-pilliner</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>28</p></td>
+<td><p>harris-lahey</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>29</p></td>
+<td><p>consonni-todeschini_1</p></td>
+<td><p>consonni-todeschini-1</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>30</p></td>
+<td><p>consonni-todeschini_2</p></td>
+<td><p>consonni-todeschini-2</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>31</p></td>
+<td><p>consonni-todeschini_3</p></td>
+<td><p>consonni-todeschini-3</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>32</p></td>
+<td><p>consonni-todeschini_4</p></td>
+<td><p>consonni-todeschini-4</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>33</p></td>
+<td><p>consonni-todeschini_5</p></td>
+<td><p>consonni-todeschini-5</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>34</p></td>
+<td><p>austin-colwell</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>35</p></td>
+<td><p>yule_1</p></td>
+<td><p>yule-1</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>36</p></td>
+<td><p>yule_2</p></td>
+<td><p>yule-2</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>37</p></td>
+<td><p>holiday-fossum</p></td>
+<td><p>fossum, holiday_fossum</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>38</p></td>
+<td><p>holiday-dennis</p></td>
+<td><p>dennis, holiday_dennis</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>39</p></td>
+<td><p>cole_1</p></td>
+<td><p>cole-1</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>40</p></td>
+<td><p>cole_2</p></td>
+<td><p>cole-2</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>41</p></td>
+<td><p>dispersion</p></td>
+<td><p>choi</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>42</p></td>
+<td><p>goodman-kruskal</p></td>
+<td><p>goodman_kruskal</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>43</p></td>
+<td><p>pearson-heron</p></td>
+<td><p>pearson_heron</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>44</p></td>
+<td><p>sorgenfrei</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>45</p></td>
+<td><p>cohen</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>46</p></td>
+<td><p>peirce_1</p></td>
+<td><p>peirce-1</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>47</p></td>
+<td><p>peirce_2</p></td>
+<td><p>peirce-2</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="Documentation and Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="AIMSim" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jackson Burns, Himaghna Bhattacharjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

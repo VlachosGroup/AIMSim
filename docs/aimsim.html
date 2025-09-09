@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aimsim package &mdash; AIMSim 2.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="aimsim.chemical_datastructures package" href="aimsim.chemical_datastructures.html" />
+    <link rel="prev" title="AIMSim" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIMSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Documentation and Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#purpose">Purpose</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#installing-aimsim">Installing AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#running-aimsim">Running AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#contributors">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#aimsim-in-the-literature"><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> in the Literature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#developer-notes">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#citation">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#works-cited">Works Cited</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implemented_metrics.html">Supported Similarity Metrics</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AIMSim</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">aimsim package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html">aimsim.chemical_datastructures package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html">aimsim.ops package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html">aimsim.tasks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.utils.html">aimsim.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-aimsim.exceptions">aimsim.exceptions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#aimsim.exceptions.InvalidConfigurationError"><code class="docutils literal notranslate"><span class="pre">InvalidConfigurationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aimsim.exceptions.LoadingError"><code class="docutils literal notranslate"><span class="pre">LoadingError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aimsim.exceptions.MordredCalculatorError"><code class="docutils literal notranslate"><span class="pre">MordredCalculatorError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aimsim.exceptions.MordredNotInstalledWarning"><code class="docutils literal notranslate"><span class="pre">MordredNotInstalledWarning</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aimsim.exceptions.NotInitializedError"><code class="docutils literal notranslate"><span class="pre">NotInitializedError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-aimsim">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">interfaces package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIMSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">AIMSim</a></li>
+      <li class="breadcrumb-item active">aimsim package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/aimsim.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aimsim-package">
+<h1>aimsim package<a class="headerlink" href="#aimsim-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="aimsim.chemical_datastructures.html">aimsim.chemical_datastructures package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.chemical_datastructures.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.chemical_datastructures.html#module-aimsim.chemical_datastructures.molecule">aimsim.chemical_datastructures.molecule module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule"><code class="docutils literal notranslate"><span class="pre">Molecule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.mol_graph"><code class="docutils literal notranslate"><span class="pre">Molecule.mol_graph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.mol_text"><code class="docutils literal notranslate"><span class="pre">Molecule.mol_text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.mol_property_val"><code class="docutils literal notranslate"><span class="pre">Molecule.mol_property_val</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.descriptor"><code class="docutils literal notranslate"><span class="pre">Molecule.descriptor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.get_descriptor_val"><code class="docutils literal notranslate"><span class="pre">Molecule.get_descriptor_val()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.match_fingerprint_from"><code class="docutils literal notranslate"><span class="pre">Molecule.match_fingerprint_from()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.get_similarity_to"><code class="docutils literal notranslate"><span class="pre">Molecule.get_similarity_to()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.get_name"><code class="docutils literal notranslate"><span class="pre">Molecule.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.get_mol_property_val"><code class="docutils literal notranslate"><span class="pre">Molecule.get_mol_property_val()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.draw"><code class="docutils literal notranslate"><span class="pre">Molecule.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.is_same"><code class="docutils literal notranslate"><span class="pre">Molecule.is_same()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.__init__"><code class="docutils literal notranslate"><span class="pre">Molecule.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id0"><code class="docutils literal notranslate"><span class="pre">Molecule.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id1"><code class="docutils literal notranslate"><span class="pre">Molecule.get_descriptor_val()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id2"><code class="docutils literal notranslate"><span class="pre">Molecule.get_mol_property_val()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id3"><code class="docutils literal notranslate"><span class="pre">Molecule.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id4"><code class="docutils literal notranslate"><span class="pre">Molecule.get_similarity_to()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id5"><code class="docutils literal notranslate"><span class="pre">Molecule.is_same()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id6"><code class="docutils literal notranslate"><span class="pre">Molecule.match_fingerprint_from()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule.Molecule.set_descriptor"><code class="docutils literal notranslate"><span class="pre">Molecule.set_descriptor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.chemical_datastructures.html#module-aimsim.chemical_datastructures.molecule_set">aimsim.chemical_datastructures.molecule_set module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet"><code class="docutils literal notranslate"><span class="pre">MoleculeSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.is_verbose"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.is_verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.molecule_database"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.molecule_database</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.descriptor"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.descriptor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.similarity_measure"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.similarity_measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.similarity_matrix"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.similarity_matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.sampling_ratio"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.sampling_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.n_threads"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.n_threads</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.is_present"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.is_present()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.compare_against_molecule"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.compare_against_molecule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_most_similar_pairs"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_most_similar_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_most_dissimilar_pairs"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_most_dissimilar_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_property_of_most_similar"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_property_of_most_similar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_property_of_most_dissimilar"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_property_of_most_dissimilar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_similarity_matrix"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_similarity_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_distance_matrix"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_distance_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_pairwise_similarities"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_pairwise_similarities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_mol_names"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_mol_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_mol_properties"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_mol_properties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.cluster"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.cluster()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_cluster_labels"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_cluster_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_transformed_descriptors"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_transformed_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.__init__"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id7"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.cluster()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id8"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.compare_against_molecule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id9"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_cluster_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id10"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_distance_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#aimsim.chemical_datastructures.molecule_set.MoleculeSet.get_mol_features"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_mol_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id11"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_mol_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id12"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_mol_properties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id13"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_most_dissimilar_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id14"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_most_similar_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id15"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_pairwise_similarities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id16"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_property_of_most_dissimilar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id17"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_property_of_most_similar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id18"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_similarity_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id19"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.get_transformed_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#id20"><code class="docutils literal notranslate"><span class="pre">MoleculeSet.is_present()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.chemical_datastructures.html#module-aimsim.chemical_datastructures">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aimsim.ops.html">aimsim.ops package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.ops.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops.clustering">aimsim.ops.clustering module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.n_clusters"><code class="docutils literal notranslate"><span class="pre">Cluster.n_clusters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.model_"><code class="docutils literal notranslate"><span class="pre">Cluster.model_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.labels_"><code class="docutils literal notranslate"><span class="pre">Cluster.labels_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.fit"><code class="docutils literal notranslate"><span class="pre">Cluster.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.predict"><code class="docutils literal notranslate"><span class="pre">Cluster.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.get_labels"><code class="docutils literal notranslate"><span class="pre">Cluster.get_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.clustering.Cluster.__init__"><code class="docutils literal notranslate"><span class="pre">Cluster.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#id0"><code class="docutils literal notranslate"><span class="pre">Cluster.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#id1"><code class="docutils literal notranslate"><span class="pre">Cluster.get_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#id2"><code class="docutils literal notranslate"><span class="pre">Cluster.predict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops.descriptor">aimsim.ops.descriptor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor"><code class="docutils literal notranslate"><span class="pre">Descriptor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.label_"><code class="docutils literal notranslate"><span class="pre">Descriptor.label_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.numpy_"><code class="docutils literal notranslate"><span class="pre">Descriptor.numpy_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.rdkit_"><code class="docutils literal notranslate"><span class="pre">Descriptor.rdkit_</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.to_numpy"><code class="docutils literal notranslate"><span class="pre">Descriptor.to_numpy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.to_rdkit"><code class="docutils literal notranslate"><span class="pre">Descriptor.to_rdkit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.check_init"><code class="docutils literal notranslate"><span class="pre">Descriptor.check_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.__init__"><code class="docutils literal notranslate"><span class="pre">Descriptor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#id3"><code class="docutils literal notranslate"><span class="pre">Descriptor.check_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.fold_to_equal_length"><code class="docutils literal notranslate"><span class="pre">Descriptor.fold_to_equal_length()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.get_all_supported_descriptors"><code class="docutils literal notranslate"><span class="pre">Descriptor.get_all_supported_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.get_folded_fprint"><code class="docutils literal notranslate"><span class="pre">Descriptor.get_folded_fprint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.get_label"><code class="docutils literal notranslate"><span class="pre">Descriptor.get_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.get_params"><code class="docutils literal notranslate"><span class="pre">Descriptor.get_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.get_supported_fprints"><code class="docutils literal notranslate"><span class="pre">Descriptor.get_supported_fprints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.is_fingerprint"><code class="docutils literal notranslate"><span class="pre">Descriptor.is_fingerprint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.make_fingerprint"><code class="docutils literal notranslate"><span class="pre">Descriptor.make_fingerprint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.set_manually"><code class="docutils literal notranslate"><span class="pre">Descriptor.set_manually()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.descriptor.Descriptor.shorten_label"><code class="docutils literal notranslate"><span class="pre">Descriptor.shorten_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#id4"><code class="docutils literal notranslate"><span class="pre">Descriptor.to_numpy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#id5"><code class="docutils literal notranslate"><span class="pre">Descriptor.to_rdkit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops.similarity_measures">aimsim.ops.similarity_measures module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.RegisteringType"><code class="docutils literal notranslate"><span class="pre">RegisteringType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.RegisteringType.__init__"><code class="docutils literal notranslate"><span class="pre">RegisteringType.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.__init__"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.get_compatible_metrics"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.get_compatible_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.get_supported_binary_metrics"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.get_supported_binary_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.get_supported_general_metrics"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.get_supported_general_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.get_supported_metrics"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.get_supported_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.get_uniq_metrics"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.get_uniq_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.SimilarityMeasure.is_distance_metric"><code class="docutils literal notranslate"><span class="pre">SimilarityMeasure.is_distance_metric()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.ops.html#aimsim.ops.similarity_measures.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aimsim.tasks.html">aimsim.tasks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.cluster_data">aimsim.tasks.cluster_data module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.cluster_data.ClusterData"><code class="docutils literal notranslate"><span class="pre">ClusterData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.cluster_data.ClusterData.__init__"><code class="docutils literal notranslate"><span class="pre">ClusterData.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.compare_target_molecule">aimsim.tasks.compare_target_molecule module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.compare_target_molecule.CompareTargetMolecule"><code class="docutils literal notranslate"><span class="pre">CompareTargetMolecule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.compare_target_molecule.CompareTargetMolecule.__init__"><code class="docutils literal notranslate"><span class="pre">CompareTargetMolecule.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.compare_target_molecule.CompareTargetMolecule.get_hits_dissimilar_to"><code class="docutils literal notranslate"><span class="pre">CompareTargetMolecule.get_hits_dissimilar_to()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.compare_target_molecule.CompareTargetMolecule.get_hits_similar_to"><code class="docutils literal notranslate"><span class="pre">CompareTargetMolecule.get_hits_similar_to()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.extended_similarity_indices">aimsim.tasks.extended_similarity_indices module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.extended_similarity_indices.ExtendedSimilarityIndices"><code class="docutils literal notranslate"><span class="pre">ExtendedSimilarityIndices</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.extended_similarity_indices.ExtendedSimilarityIndices.calculate_counters"><code class="docutils literal notranslate"><span class="pre">ExtendedSimilarityIndices.calculate_counters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.extended_similarity_indices.ExtendedSimilarityIndices.gen_sim_dict"><code class="docutils literal notranslate"><span class="pre">ExtendedSimilarityIndices.gen_sim_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.identify_outliers">aimsim.tasks.identify_outliers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.identify_outliers.IdentifyOutliers"><code class="docutils literal notranslate"><span class="pre">IdentifyOutliers</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.identify_outliers.IdentifyOutliers.__init__"><code class="docutils literal notranslate"><span class="pre">IdentifyOutliers.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.measure_search">aimsim.tasks.measure_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.measure_search.MeasureSearch"><code class="docutils literal notranslate"><span class="pre">MeasureSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.measure_search.MeasureSearch.__init__"><code class="docutils literal notranslate"><span class="pre">MeasureSearch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.measure_search.MeasureSearch.get_best_measure"><code class="docutils literal notranslate"><span class="pre">MeasureSearch.get_best_measure()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.see_property_variation_with_similarity">aimsim.tasks.see_property_variation_with_similarity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity"><code class="docutils literal notranslate"><span class="pre">SeePropertyVariationWithSimilarity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.__init__"><code class="docutils literal notranslate"><span class="pre">SeePropertyVariationWithSimilarity.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.get_property_correlations_in_most_dissimilar"><code class="docutils literal notranslate"><span class="pre">SeePropertyVariationWithSimilarity.get_property_correlations_in_most_dissimilar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.see_property_variation_with_similarity.SeePropertyVariationWithSimilarity.get_property_correlations_in_most_similar"><code class="docutils literal notranslate"><span class="pre">SeePropertyVariationWithSimilarity.get_property_correlations_in_most_similar()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.task">aimsim.tasks.task module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.task.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.task.Task.__init__"><code class="docutils literal notranslate"><span class="pre">Task.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.task_manager">aimsim.tasks.task_manager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.task_manager.TaskManager"><code class="docutils literal notranslate"><span class="pre">TaskManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.task_manager.TaskManager.__init__"><code class="docutils literal notranslate"><span class="pre">TaskManager.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.visualize_dataset">aimsim.tasks.visualize_dataset module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.visualize_dataset.VisualizeDataset"><code class="docutils literal notranslate"><span class="pre">VisualizeDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#aimsim.tasks.visualize_dataset.VisualizeDataset.__init__"><code class="docutils literal notranslate"><span class="pre">VisualizeDataset.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aimsim.utils.html">aimsim.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.utils.html#module-aimsim.utils.ccbmlib_fingerprints">aimsim.utils.ccbmlib_fingerprints module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.atom_pairs"><code class="docutils literal notranslate"><span class="pre">atom_pairs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.avalon"><code class="docutils literal notranslate"><span class="pre">avalon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.generate_fingerprints"><code class="docutils literal notranslate"><span class="pre">generate_fingerprints()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.hash_parameter_set"><code class="docutils literal notranslate"><span class="pre">hash_parameter_set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.hashed_atom_pairs"><code class="docutils literal notranslate"><span class="pre">hashed_atom_pairs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.hashed_morgan"><code class="docutils literal notranslate"><span class="pre">hashed_morgan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.hashed_torsions"><code class="docutils literal notranslate"><span class="pre">hashed_torsions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.maccs_keys"><code class="docutils literal notranslate"><span class="pre">maccs_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.morgan"><code class="docutils literal notranslate"><span class="pre">morgan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.rdkit_fingerprint"><code class="docutils literal notranslate"><span class="pre">rdkit_fingerprint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.to_key_val_string"><code class="docutils literal notranslate"><span class="pre">to_key_val_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.ccbmlib_fingerprints.torsions"><code class="docutils literal notranslate"><span class="pre">torsions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.utils.html#module-aimsim.utils.plotting_scripts">aimsim.utils.plotting_scripts module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.check_plot"><code class="docutils literal notranslate"><span class="pre">check_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_barchart"><code class="docutils literal notranslate"><span class="pre">plot_barchart()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_density"><code class="docutils literal notranslate"><span class="pre">plot_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_heatmap"><code class="docutils literal notranslate"><span class="pre">plot_heatmap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_multiple_barchart"><code class="docutils literal notranslate"><span class="pre">plot_multiple_barchart()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_parity"><code class="docutils literal notranslate"><span class="pre">plot_parity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_scatter"><code class="docutils literal notranslate"><span class="pre">plot_scatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html#aimsim.utils.plotting_scripts.plot_scatter_interactive"><code class="docutils literal notranslate"><span class="pre">plot_scatter_interactive()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.utils.html#module-aimsim.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-aimsim.exceptions">
+<span id="aimsim-exceptions-module"></span><h2>aimsim.exceptions module<a class="headerlink" href="#module-aimsim.exceptions" title="Permalink to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="aimsim.exceptions.InvalidConfigurationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidConfigurationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.InvalidConfigurationError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">OSError</span></code></p>
+<p>Used when a configuration parameter is invalid.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="aimsim.exceptions.InvalidConfigurationError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.InvalidConfigurationError.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="aimsim.exceptions.LoadingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.exceptions.</span></span><span class="sig-name descname"><span class="pre">LoadingError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.LoadingError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
+<p>Used when an object cannot be loaded</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="aimsim.exceptions.LoadingError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.LoadingError.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="aimsim.exceptions.MordredCalculatorError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.exceptions.</span></span><span class="sig-name descname"><span class="pre">MordredCalculatorError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.MordredCalculatorError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Used in descriptor.py when the Mordred property calculator fails.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="aimsim.exceptions.MordredCalculatorError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.MordredCalculatorError.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="aimsim.exceptions.MordredNotInstalledWarning">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.exceptions.</span></span><span class="sig-name descname"><span class="pre">MordredNotInstalledWarning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.MordredNotInstalledWarning" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeWarning</span></code></p>
+<p>Used in descriptor.py when the Mordred property calculator is not present.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="aimsim.exceptions.MordredNotInstalledWarning.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.MordredNotInstalledWarning.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="aimsim.exceptions.NotInitializedError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aimsim.exceptions.</span></span><span class="sig-name descname"><span class="pre">NotInitializedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.NotInitializedError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AttributeError</span></code></p>
+<p>Used when a class is called without proper initialization.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="aimsim.exceptions.NotInitializedError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aimsim.exceptions.NotInitializedError.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-aimsim">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aimsim" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="AIMSim" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aimsim.chemical_datastructures.html" class="btn btn-neutral float-right" title="aimsim.chemical_datastructures package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jackson Burns, Himaghna Bhattacharjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

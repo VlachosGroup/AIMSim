@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>interfaces package &mdash; AIMSim 2.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="interfaces.UI package" href="interfaces.UI.html" />
+    <link rel="prev" title="aimsim.utils package" href="aimsim.utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIMSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Documentation and Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#purpose">Purpose</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#installing-aimsim">Installing AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#running-aimsim">Running AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#contributors">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#aimsim-in-the-literature"><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> in the Literature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#developer-notes">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#citation">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#works-cited">Works Cited</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implemented_metrics.html">Supported Similarity Metrics</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AIMSim</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aimsim.html">aimsim package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">interfaces package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html">interfaces.UI package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-interfaces.config_reader">interfaces.config_reader module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#interfaces.config_reader.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-interfaces">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIMSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">AIMSim</a></li>
+      <li class="breadcrumb-item active">interfaces package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/interfaces.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="interfaces-package">
+<h1>interfaces package<a class="headerlink" href="#interfaces-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="interfaces.UI.html">interfaces.UI package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.UI.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.UI.html#module-interfaces.UI.AIMSim_ui_main">interfaces.UI.AIMSim_ui_main module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.HEIGHT"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.HEIGHT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.WIDTH"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.WIDTH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.__init__"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.browseCallback"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.browseCallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.openConfigCallback"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.openConfigCallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.run"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.runCallback"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.runCallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.showAllDescriptorsCallback"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.showAllDescriptorsCallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.AIMSimUiApp.useMeasureSearchCallback"><code class="docutils literal notranslate"><span class="pre">AIMSimUiApp.useMeasureSearchCallback()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="interfaces.UI.html#interfaces.UI.AIMSim_ui_main.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.UI.html#module-interfaces.UI">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-interfaces.config_reader">
+<span id="interfaces-config-reader-module"></span><h2>interfaces.config_reader module<a class="headerlink" href="#module-interfaces.config_reader" title="Permalink to this heading"></a></h2>
+<p>Reads a configuration file from the command line input and calls AIMSim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">raises IOError</dt>
+<dd class="field-odd"><p>If the tasks field is empty in the input file,</p>
+</dd>
+<dt class="field-even">raises an IOError will be raised.</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="interfaces.config_reader.main">
+<span class="sig-prename descclassname"><span class="pre">interfaces.config_reader.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#interfaces.config_reader.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-interfaces">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-interfaces" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aimsim.utils.html" class="btn btn-neutral float-left" title="aimsim.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interfaces.UI.html" class="btn btn-neutral float-right" title="interfaces.UI package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jackson Burns, Himaghna Bhattacharjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIMSim &mdash; AIMSim 2.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="aimsim package" href="aimsim.html" />
+    <link rel="prev" title="Supported Similarity Metrics" href="implemented_metrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AIMSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Documentation and Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#purpose">Purpose</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#installing-aimsim">Installing AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#running-aimsim">Running AIMSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#contributors">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#aimsim-in-the-literature"><code class="docutils literal notranslate"><span class="pre">AIMSim</span></code> in the Literature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#developer-notes">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#citation">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#works-cited">Works Cited</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implemented_metrics.html">Supported Similarity Metrics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AIMSim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.html">aimsim package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">interfaces package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AIMSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AIMSim</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aimsim">
+<h1>AIMSim<a class="headerlink" href="#aimsim" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="aimsim.html">aimsim package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.chemical_datastructures.html">aimsim.chemical_datastructures package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#module-aimsim.chemical_datastructures.molecule">aimsim.chemical_datastructures.molecule module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#module-aimsim.chemical_datastructures.molecule_set">aimsim.chemical_datastructures.molecule_set module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.chemical_datastructures.html#module-aimsim.chemical_datastructures">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.ops.html">aimsim.ops package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops.clustering">aimsim.ops.clustering module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops.descriptor">aimsim.ops.descriptor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops.similarity_measures">aimsim.ops.similarity_measures module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.ops.html#module-aimsim.ops">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.tasks.html">aimsim.tasks package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.cluster_data">aimsim.tasks.cluster_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.compare_target_molecule">aimsim.tasks.compare_target_molecule module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.extended_similarity_indices">aimsim.tasks.extended_similarity_indices module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.identify_outliers">aimsim.tasks.identify_outliers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.measure_search">aimsim.tasks.measure_search module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.see_property_variation_with_similarity">aimsim.tasks.see_property_variation_with_similarity module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.task">aimsim.tasks.task module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.task_manager">aimsim.tasks.task_manager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks.visualize_dataset">aimsim.tasks.visualize_dataset module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.tasks.html#module-aimsim.tasks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.utils.html">aimsim.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.utils.html#module-aimsim.utils.ccbmlib_fingerprints">aimsim.utils.ccbmlib_fingerprints module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.utils.html#module-aimsim.utils.plotting_scripts">aimsim.utils.plotting_scripts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.utils.html#module-aimsim.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.html#module-aimsim.exceptions">aimsim.exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.html#aimsim.exceptions.InvalidConfigurationError"><code class="docutils literal notranslate"><span class="pre">InvalidConfigurationError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.html#aimsim.exceptions.InvalidConfigurationError.__init__"><code class="docutils literal notranslate"><span class="pre">InvalidConfigurationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.html#aimsim.exceptions.LoadingError"><code class="docutils literal notranslate"><span class="pre">LoadingError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.html#aimsim.exceptions.LoadingError.__init__"><code class="docutils literal notranslate"><span class="pre">LoadingError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.html#aimsim.exceptions.MordredCalculatorError"><code class="docutils literal notranslate"><span class="pre">MordredCalculatorError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.html#aimsim.exceptions.MordredCalculatorError.__init__"><code class="docutils literal notranslate"><span class="pre">MordredCalculatorError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.html#aimsim.exceptions.MordredNotInstalledWarning"><code class="docutils literal notranslate"><span class="pre">MordredNotInstalledWarning</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.html#aimsim.exceptions.MordredNotInstalledWarning.__init__"><code class="docutils literal notranslate"><span class="pre">MordredNotInstalledWarning.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aimsim.html#aimsim.exceptions.NotInitializedError"><code class="docutils literal notranslate"><span class="pre">NotInitializedError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aimsim.html#aimsim.exceptions.NotInitializedError.__init__"><code class="docutils literal notranslate"><span class="pre">NotInitializedError.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aimsim.html#module-aimsim">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces.html">interfaces package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interfaces.UI.html">interfaces.UI package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#module-interfaces.UI.AIMSim_ui_main">interfaces.UI.AIMSim_ui_main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interfaces.UI.html#module-interfaces.UI">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#module-interfaces.config_reader">interfaces.config_reader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interfaces.html#interfaces.config_reader.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#module-interfaces">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_CompareTargetMolecule">tests.test_CompareTargetMolecule module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_CompareTargetMolecule.TestCompareTargetMolecule"><code class="docutils literal notranslate"><span class="pre">TestCompareTargetMolecule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.smiles_seq_to_xl_or_csv"><code class="docutils literal notranslate"><span class="pre">TestCompareTargetMolecule.smiles_seq_to_xl_or_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.tearDownClass"><code class="docutils literal notranslate"><span class="pre">TestCompareTargetMolecule.tearDownClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.test_get_molecule_least_similar_to"><code class="docutils literal notranslate"><span class="pre">TestCompareTargetMolecule.test_get_molecule_least_similar_to()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_CompareTargetMolecule.TestCompareTargetMolecule.test_get_molecule_most_similar_to"><code class="docutils literal notranslate"><span class="pre">TestCompareTargetMolecule.test_get_molecule_most_similar_to()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_Descriptor">tests.test_Descriptor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor"><code class="docutils literal notranslate"><span class="pre">TestDescriptor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_bad_descriptors_padelpy_descriptors"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_bad_descriptors_padelpy_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_ccbmlib_descriptors"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_ccbmlib_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_descriptor_arbitrary_list_init"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_descriptor_arbitrary_list_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_descriptor_arbitrary_numpy_init"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_descriptor_arbitrary_numpy_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_descriptor_empty_init"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_descriptor_empty_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_descriptor_make_fingerprint"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_descriptor_make_fingerprint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_exptl_descriptors"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_exptl_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_fingerprint_folding"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_fingerprint_folding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_minhash_fingerprint"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_minhash_fingerprint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_mordred_descriptors"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_mordred_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_nonexistent_mordred_descriptors"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_nonexistent_mordred_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_padelpy_descriptors"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_padelpy_descriptors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Descriptor.TestDescriptor.test_topological_fprint_min_path_lesser_than_atoms"><code class="docutils literal notranslate"><span class="pre">TestDescriptor.test_topological_fprint_min_path_lesser_than_atoms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_LoadingErrorException">tests.test_LoadingErrorException module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_LoadingErrorException.TestLoadingERrorException"><code class="docutils literal notranslate"><span class="pre">TestLoadingERrorException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_pdb"><code class="docutils literal notranslate"><span class="pre">TestLoadingERrorException.test_invalid_pdb()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_LoadingErrorException.TestLoadingERrorException.test_invalid_smiles"><code class="docutils literal notranslate"><span class="pre">TestLoadingERrorException.test_invalid_smiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_LoadingErrorException.TestLoadingERrorException.test_missing_pdb"><code class="docutils literal notranslate"><span class="pre">TestLoadingERrorException.test_missing_pdb()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_LoadingErrorException.TestLoadingERrorException.test_missing_smiles"><code class="docutils literal notranslate"><span class="pre">TestLoadingERrorException.test_missing_smiles()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_MeasureSearch">tests.test_MeasureSearch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.smiles_seq_to_textfile"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.smiles_seq_to_textfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_error_optim_algo"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_error_optim_algo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_fixed_SimilarityMeasure"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_fixed_SimilarityMeasure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_fixed_fprint"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_fixed_fprint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_logfile_generation"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_logfile_generation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_max_optim_algo"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_max_optim_algo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_min_optim_algo"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_min_optim_algo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_msearch_completion"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_msearch_completion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_msearch_init"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_msearch_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_msearch_init_error"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_msearch_init_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_only_metric_fixed_fprint_search"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_only_metric_fixed_fprint_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_only_metric_fixed_measure_search"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_only_metric_fixed_measure_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_only_metric_search"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_only_metric_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_smiles"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_smiles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MeasureSearch.TestMeasureSearch.test_verbose_output"><code class="docutils literal notranslate"><span class="pre">TestMeasureSearch.test_verbose_output()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_Molecule">tests.test_Molecule module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule"><code class="docutils literal notranslate"><span class="pre">TestMolecule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_get_name"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_get_property_value"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_get_property_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_is_same"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_is_same()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_match_fprint_error"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_match_fprint_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_mol_mol_similarity_w_morgan_tanimoto"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_mol_mol_similarity_w_morgan_tanimoto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_mol_smiles_loadingerror"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_mol_smiles_loadingerror()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_mol_src_pdb_loadingerror"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_mol_src_pdb_loadingerror()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_mol_src_txt_loadingerror"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_mol_src_txt_loadingerror()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_molecule_created_w_attributes"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_molecule_created_w_attributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_molecule_created_with_no_attributes"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_molecule_created_with_no_attributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_molecule_draw"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_molecule_draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_molecule_graph_similar_to_itself_morgan_dice"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_molecule_graph_similar_to_itself_morgan_dice()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_molecule_graph_similar_to_itself_morgan_l0"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_molecule_graph_similar_to_itself_morgan_l0()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_molecule_graph_similar_to_itself_morgan_tanimoto"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_molecule_graph_similar_to_itself_morgan_tanimoto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_set_molecule_from_file"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_set_molecule_from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_Molecule.TestMolecule.test_set_molecule_from_smiles"><code class="docutils literal notranslate"><span class="pre">TestMolecule.test_set_molecule_from_smiles()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_MoleculeSet">tests.test_MoleculeSet module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.get_feature_set"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.get_feature_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.smarts_seq_to_smiles_file"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.smarts_seq_to_smiles_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_pdb_dir"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.smiles_seq_to_pdb_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smi_file"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.smiles_seq_to_smi_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_smiles_file"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.smiles_seq_to_smiles_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_textfile"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.smiles_seq_to_textfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.smiles_seq_to_xl_or_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.smiles_seq_to_xl_or_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_clustering_fingerprints"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_clustering_fingerprints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_get_most_dissimilar_pairs"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_get_most_dissimilar_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_get_most_similar_pairs"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_get_most_similar_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_invalid_transform_error"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_invalid_transform_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_isomap_transform"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_isomap_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_mds_transform"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_mds_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_molecule_set_getters"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_molecule_set_getters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_molecule_set_sim_getters"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_molecule_set_sim_getters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_pca_transform"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_pca_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_fingerprint_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_fingerprint_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_excel"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_excel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_excel_without_smiles_name"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_excel_without_smiles_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_pdb_dir"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_pdb_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_smarts_file"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_smarts_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_smi_file"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_smi_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_smiles_file"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_smiles_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_from_textfile"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_from_textfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_descriptor_property_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_descriptor_property_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_descriptor_property_from_excel"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_descriptor_property_from_excel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_fingerprint_similarity_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_fingerprint_similarity_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_property_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_property_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_property_from_excel"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_property_from_excel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_property_from_textfile"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_property_from_textfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_set_molecule_database_w_similarity_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_set_molecule_database_w_similarity_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_smarts"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_smarts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_smiles"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_smiles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_spectral_embedding_transform"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_spectral_embedding_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_subsample_molecule_database_from_csv"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_subsample_molecule_database_from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_subsample_molecule_database_from_excel"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_subsample_molecule_database_from_excel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_subsample_molecule_database_from_pdb_dir"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_subsample_molecule_database_from_pdb_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_subsample_molecule_database_from_textfile"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_subsample_molecule_database_from_textfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_MoleculeSet.TestMoleculeSet.test_tsne_transform"><code class="docutils literal notranslate"><span class="pre">TestMoleculeSet.test_tsne_transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_SimilarityMeasure">tests.test_SimilarityMeasure module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasure.TestSimilarityMeasure"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasure</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasure.TestSimilarityMeasure.smiles_seq_to_xl_or_csv"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasure.smiles_seq_to_xl_or_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasure.TestSimilarityMeasure.test_all_supported_measures"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasure.test_all_supported_measures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasure.TestSimilarityMeasure.test_get_abcd"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasure.test_get_abcd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasure.TestSimilarityMeasure.test_similarity_measure_limits"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasure.test_similarity_measure_limits()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_SimilarityMeasureValueErrors">tests.test_SimilarityMeasureValueErrors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasureValueError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_binary_only_metrics"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasureValueError.test_binary_only_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_compatible_metrics"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasureValueError.test_compatible_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_empty_fprints"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasureValueError.test_empty_fprints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_invalid_metric"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasureValueError.test_invalid_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_SimilarityMeasureValueErrors.TestSimilarityMeasureValueError.test_vectornorm_length_errors"><code class="docutils literal notranslate"><span class="pre">TestSimilarityMeasureValueError.test_vectornorm_length_errors()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_TaskManager">tests.test_TaskManager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_TaskManager.TestTaskManager"><code class="docutils literal notranslate"><span class="pre">TestTaskManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_TaskManager.TestTaskManager.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestTaskManager.setUpClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_TaskManager.TestTaskManager.test_no_tasks_task_manager"><code class="docutils literal notranslate"><span class="pre">TestTaskManager.test_no_tasks_task_manager()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_TaskManager.TestTaskManager.test_task_manager"><code class="docutils literal notranslate"><span class="pre">TestTaskManager.test_task_manager()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_ToolTip">tests.test_ToolTip module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_ToolTip.TestToolTip"><code class="docutils literal notranslate"><span class="pre">TestToolTip</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_ToolTip.TestToolTip.test_import"><code class="docutils literal notranslate"><span class="pre">TestToolTip.test_import()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_multithreading">tests.test_multithreading module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading"><code class="docutils literal notranslate"><span class="pre">TestMultithreading</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.setUpClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.tearDownClass"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.tearDownClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_autoconfig"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_autoconfig()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_10_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_10_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_2_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_2_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_3_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_3_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_4_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_4_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_5_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_5_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_6_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_6_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_multithreading_consistency_7_threads"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_multithreading_consistency_7_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_speedup_efficiency_cosine"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_speedup_efficiency_cosine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.html#tests.test_multithreading.TestMultithreading.test_speedup_efficiency_tanimoto"><code class="docutils literal notranslate"><span class="pre">TestMultithreading.test_speedup_efficiency_tanimoto()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="implemented_metrics.html" class="btn btn-neutral float-left" title="Supported Similarity Metrics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aimsim.html" class="btn btn-neutral float-right" title="aimsim package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jackson Burns, Himaghna Bhattacharjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
