@@ -183,7 +183,7 @@ class Descriptor:
 
         """
         # returns an ExplicitBitVect
-        self.rdkit_ = FingerprintMols.FingerprintMol(molecule_graph)
+        self.rdkit_ = FingerprintMols.FingerprintMol(molecule_graph, **kwargs)
         self.label_ = "daylight_fingerprint"
         self.params_ = {}
 
